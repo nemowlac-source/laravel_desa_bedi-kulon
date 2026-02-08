@@ -24,11 +24,26 @@ class AuthenticatedSessionController extends Controller
      */
     public function store(LoginRequest $request): RedirectResponse
     {
+        // 1. Validasi email & password (bawaan Laravel)
         $request->authenticate();
 
+        // 2. Buat ulang session (keamanan)
         $request->session()->regenerate();
 
-        return redirect()->intended(route('dashboard', absolute: false));
+        // 3. LOGIKA BARU: Cek Role & Arahkan
+        // Ambil role user yang sedang login
+        $role = $request->user()->role;
+
+        if ($role === 'admin') {
+            // Jika Admin, kirim ke dashboard admin
+            return redirect()->intended(route('admin.dashboard'));
+        } elseif ($role === 'anggota') {
+            // Jika Anggota, kirim ke halaman anggota (misal: daftar buku)
+            return redirect()->intended(route('anggota.dashboard'));
+        }
+
+        // 4. Default: Jika Pengunjung biasa, kirim ke halaman utama/dashboard umum
+        return redirect()->intended(route('dashboard'));
     }
 
     /**
