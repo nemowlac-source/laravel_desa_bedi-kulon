@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Galeri; // <--- 1. JANGAN LUPA IMPORT MODEL INI
+use App\Models\Umkm;
 
 class HomeController extends Controller
 {
@@ -11,9 +12,11 @@ class HomeController extends Controller
     {
         // 2. Ambil 6 foto terbaru dari database
         $galeri_terbaru = Galeri::latest()->take(6)->get();
+        // 2. AMBIL 4 PRODUK UMKM TERBARU
+        $produk_umkm = Umkm::latest()->take(4)->get();
 
         // 3. Kirim data ke view (welcome / home)
-        return view('frontend.dashboard', compact('galeri_terbaru'));
+        return view('frontend.dashboard', compact('galeri_terbaru', 'produk_umkm'));
     }
 
     public function galeri()
@@ -22,5 +25,14 @@ class HomeController extends Controller
         $galeris = Galeri::latest()->paginate(9);
 
         return view('frontend.galeri', compact('galeris'));
+    }
+
+    public function belanja()
+    {
+        // Mengambil data UMKM dengan pagination, misalnya 9 produk per halaman
+        $products = Umkm::latest()->paginate(9);
+
+        // Mengirim data $products ke view frontend.belanja
+        return view('frontend.belanja', compact('products'));
     }
 }

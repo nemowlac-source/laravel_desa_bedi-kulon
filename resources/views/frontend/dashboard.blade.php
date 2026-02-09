@@ -378,58 +378,44 @@
                     </p>
                 </div>
                 <a href="{{ route('frontend.belanja') }}" class="view-more-link">
-
                     <i class="icon-grid"></i> LIHAT PRODUK LEBIH BANYAK
                 </a>
             </div>
 
             <div class="product-grid">
-                <div class="product-card">
-                    <div class="product-img">
-                        <img src="https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&w=500&q=80" alt="Roti Tawar" />
-                    </div>
-                    <div class="product-info">
-                        <h3>Roti tawar</h3>
-                        <div class="rating">⭐⭐⭐⭐⭐</div>
-                        <p class="price">Rp10.000</p>
-                    </div>
-                </div>
 
+                @forelse($produk_umkm as $produk)
                 <div class="product-card">
                     <div class="product-img">
-                        <img src="link_foto_konektor.jpg" alt="Konektor Masker" />
+                        <img src="{{ asset('storage/' . $produk->gambar) }}" alt="{{ $produk->nama_produk }}" style="width: 100%; height: 200px; object-fit: cover;" onerror="this.src='https://placehold.co/400x300?text=No+Image'" />
                     </div>
-                    <div class="product-info">
-                        <h3>Konektor masker</h3>
-                        <div class="rating">⭐⭐⭐⭐⭐</div>
-                        <p class="price">Rp10.000</p>
-                    </div>
-                </div>
 
-                <div class="product-card">
-                    <div class="product-img">
-                        <img src="link_foto_snack.jpg" alt="Snack Box" />
-                    </div>
                     <div class="product-info">
-                        <h3>Untuk snack box</h3>
-                        <div class="rating">⭐⭐⭐⭐⭐</div>
-                        <p class="price">Rp123</p>
-                    </div>
-                </div>
+                        <h3 style="margin-bottom: 5px;">{{ $produk->nama_produk }}</h3>
 
-                <div class="product-card">
-                    <div class="product-img">
-                        <img src="link_foto_talam.jpg" alt="Talam Susu" />
-                    </div>
-                    <div class="product-info">
-                        <h3>Talam susu</h3>
-                        <div class="rating">⭐⭐⭐⭐⭐</div>
-                        <p class="price">Rp123</p>
+                        <div style="font-size: 0.8rem; color: #888; margin-bottom: 5px;">
+                            <i class="icon-user"></i> {{ $produk->penjual }}
+                        </div>
+
+                        <p class="price" style="color: #28a745; font-weight: bold;">
+                            Rp{{ number_format($produk->harga, 0, ',', '.') }}
+                        </p>
+
+                        <a href="https://wa.me/{{ $produk->no_hp }}?text=Halo, saya tertarik dengan produk {{ $produk->nama_produk }} yang ada di Website Desa." target="_blank" style="display: block; text-align: center; background: #25D366; color: white; padding: 8px; border-radius: 5px; text-decoration: none; margin-top: 10px; font-weight: bold; font-size: 0.9rem;">
+                            <i class="icon-phone"></i> Beli Sekarang
+                        </a>
                     </div>
                 </div>
+                @empty
+                <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #888;">
+                    <p>Belum ada produk UMKM yang ditawarkan saat ini.</p>
+                </div>
+                @endforelse
+
             </div>
         </div>
     </section>
+
     <section class="gallery-section">
         <div class="gallery-container">
             <div class="gallery-header">

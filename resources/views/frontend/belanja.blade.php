@@ -4,8 +4,9 @@
         .belanja-section {
             padding: 50px 0 80px;
             background-color: #f9f9f9;
-            /* Background abu-abu muda sesuai gambar */
             font-family: 'Poppins', sans-serif;
+            min-height: 80vh;
+            /* Agar footer tidak naik jika produk sedikit */
         }
 
         .container-custom {
@@ -16,138 +17,165 @@
 
         /* Header Styles */
         .belanja-header {
-            margin-bottom: 30px;
+            margin-bottom: 40px;
+            text-align: center;
+            /* Center header agar lebih rapi */
         }
 
         .belanja-title {
             color: #72c02c;
-            /* Hijau Terang */
-            font-size: 2.2rem;
+            font-size: 2.5rem;
             font-weight: 800;
             margin-bottom: 10px;
+            text-transform: uppercase;
+        }
+
+        /* Garis bawah judul */
+        .title-underline {
+            width: 80px;
+            height: 4px;
+            background-color: #72c02c;
+            margin: 0 auto 15px auto;
+            border-radius: 2px;
         }
 
         .belanja-subtitle {
-            font-size: 0.95rem;
-            color: #444;
-            line-height: 1.5;
-            font-weight: 500;
+            font-size: 1rem;
+            color: #555;
+            line-height: 1.6;
+            max-width: 700px;
+            margin: 0 auto;
         }
 
         /* Grid System */
         .product-grid {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            /* 3 Kolom */
             gap: 30px;
-            margin-bottom: 40px;
+            margin-bottom: 50px;
         }
 
         /* Card Style */
         .product-card {
             background: #fff;
-            border-radius: 6px;
+            border-radius: 8px;
             overflow: hidden;
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
-            /* Shadow halus */
-            transition: transform 0.3s ease;
-            border: 1px solid #f0f0f0;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            border: 1px solid #eee;
+            display: flex;
+            flex-direction: column;
+            height: 100%;
         }
 
         .product-card:hover {
             transform: translateY(-5px);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.1);
         }
 
         .product-thumb {
-            height: 220px;
-            /* Tinggi gambar tetap agar rapi */
+            height: 250px;
             overflow: hidden;
-            background: #eee;
+            background: #f0f0f0;
+            position: relative;
         }
 
         .product-thumb img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            /* Memastikan gambar memenuhi kotak tanpa gepeng */
+            transition: transform 0.5s ease;
+        }
+
+        .product-card:hover .product-thumb img {
+            transform: scale(1.05);
         }
 
         /* Content Details */
         .product-content {
-            padding: 15px 20px 20px;
+            padding: 20px;
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
         }
 
         .product-name {
-            font-size: 1rem;
+            font-size: 1.1rem;
             font-weight: 700;
             color: #333;
-            margin-bottom: 25px;
-            /* Jarak antara judul dan harga cukup jauh */
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
+            margin-bottom: 5px;
+            line-height: 1.3;
         }
 
-        /* Footer Card (Bintang & Harga) */
+        .product-seller {
+            font-size: 0.85rem;
+            color: #888;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 5px;
+        }
+
+        .product-desc {
+            font-size: 0.9rem;
+            color: #666;
+            margin-bottom: 20px;
+            flex-grow: 1;
+            /* Mendorong footer ke bawah */
+        }
+
+        /* Footer Card (Harga & Tombol) */
         .product-footer {
             display: flex;
             justify-content: space-between;
             align-items: center;
-        }
-
-        .stars {
-            display: flex;
-            gap: 2px;
-        }
-
-        /* Menggunakan karakter bintang CSS atau FontAwesome */
-        .icon-star::before {
-            content: "★";
-            font-size: 14px;
-            color: #d1d5db;
-            /* Warna abu-abu (empty star) sesuai gambar */
+            border-top: 1px solid #f0f0f0;
+            padding-top: 15px;
+            margin-top: auto;
+            /* Pastikan selalu di bawah */
         }
 
         .price {
-            font-size: 0.95rem;
+            font-size: 1.1rem;
             font-weight: 700;
-            color: #555;
-            /* Abu-abu tua */
+            color: #72c02c;
+            /* Hijau Harga */
         }
 
-        /* Pagination (Center) */
+        /* Tombol Beli WA */
+        .btn-beli {
+            background-color: #25D366;
+            /* Warna WA */
+            color: white;
+            padding: 8px 15px;
+            border-radius: 5px;
+            text-decoration: none;
+            font-size: 0.85rem;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+            transition: background 0.3s;
+        }
+
+        .btn-beli:hover {
+            background-color: #128c7e;
+            color: white;
+        }
+
+        /* Pagination Styling */
         .pagination-wrapper-center {
             display: flex;
             justify-content: center;
-            gap: 5px;
-            margin-top: 20px;
+            margin-top: 30px;
         }
 
-        .page-btn {
+        /* Override gaya pagination bawaan Laravel agar sesuai desain */
+        .pagination-wrapper-center nav div {
             display: flex;
             justify-content: center;
-            align-items: center;
-            width: 35px;
-            height: 35px;
-            border: 1px solid #e5e7eb;
-            background: #fff;
-            text-decoration: none;
-            color: #666;
-            font-size: 0.9rem;
-            border-radius: 4px;
-            transition: 0.3s;
-        }
-
-        .page-btn:hover {
-            background-color: #f9f9f9;
-        }
-
-        .page-btn.active {
-            background-color: #72c02c;
-            /* Hijau aktif */
-            color: #fff;
-            border-color: #72c02c;
+            flex-wrap: wrap;
+            gap: 5px;
         }
 
         /* Responsive Mobile */
@@ -161,7 +189,12 @@
             .product-grid {
                 grid-template-columns: 1fr;
             }
+
+            .belanja-title {
+                font-size: 2rem;
+            }
         }
+
     </style>
 
     <section class="belanja-section">
@@ -169,110 +202,54 @@
 
             <div class="belanja-header">
                 <h1 class="belanja-title">Beli Dari Desa</h1>
-                <p class="belanja-subtitle">Layanan yang disediakan promosi produk UMKM desa sehingga mampu meningkatkan perekonomian masyarakat desa</p>
+                <div class="title-underline"></div>
+                <p class="belanja-subtitle">
+                    Dukung perekonomian lokal dengan membeli produk asli buatan warga desa kami.
+                    Kualitas terjamin, harga bersahabat.
+                </p>
             </div>
 
             <div class="product-grid">
 
+                @forelse($products as $item)
                 <div class="product-card">
-                    <div class="product-thumb">
-                        <img src="assets/img/produk/roti-tawar.jpg" alt="Roti tawar">
-                    </div>
-                    <div class="product-content">
-                        <h3 class="product-name">Roti tawar</h3>
-                        <div class="product-footer">
-                            <div class="stars">
-                                <i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i>
-                            </div>
-                            <span class="price">Rp10.000</span>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="product-card">
                     <div class="product-thumb">
-                        <img src="assets/img/produk/konektor.jpg" alt="Konektor Masker">
+                        <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->nama_produk }}" onerror="this.src='https://placehold.co/400x300?text=No+Image'">
                     </div>
-                    <div class="product-content">
-                        <h3 class="product-name">konektor masker</h3>
-                        <div class="product-footer">
-                            <div class="stars">
-                                <i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i>
-                            </div>
-                            <span class="price">Rp10.000</span>
-                        </div>
-                    </div>
-                </div>
 
-                <div class="product-card">
-                    <div class="product-thumb">
-                        <img src="assets/img/produk/snack-box.jpg" alt="Snack Box">
-                    </div>
                     <div class="product-content">
-                        <h3 class="product-name">Untuk snack box</h3>
-                        <div class="product-footer">
-                            <div class="stars">
-                                <i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i>
-                            </div>
-                            <span class="price">Rp123</span>
-                        </div>
-                    </div>
-                </div>
+                        <h3 class="product-name">{{ $item->nama_produk }}</h3>
 
-                <div class="product-card">
-                    <div class="product-thumb">
-                        <img src="assets/img/produk/talam-susu.jpg" alt="Talam Susu">
-                    </div>
-                    <div class="product-content">
-                        <h3 class="product-name">Talam susu</h3>
-                        <div class="product-footer">
-                            <div class="stars">
-                                <i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i>
-                            </div>
-                            <span class="price">Rp123</span>
+                        <div class="product-seller">
+                            <i class="icon-user"></i> {{ $item->penjual }}
                         </div>
-                    </div>
-                </div>
 
-                <div class="product-card">
-                    <div class="product-thumb">
-                        <img src="assets/img/produk/souvenir.jpg" alt="Souvenir">
-                    </div>
-                    <div class="product-content">
-                        <h3 class="product-name">Souvenir</h3>
-                        <div class="product-footer">
-                            <div class="stars">
-                                <i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i>
-                            </div>
-                            <span class="price">Rp150.000</span>
-                        </div>
-                    </div>
-                </div>
+                        <p class="product-desc">
+                            {{ Str::limit($item->deskripsi, 80) ?? 'Tidak ada deskripsi.' }}
+                        </p>
 
-                <div class="product-card">
-                    <div class="product-thumb">
-                        <img src="assets/img/produk/micropay.jpg" alt="MICROPAY">
-                    </div>
-                    <div class="product-content">
-                        <h3 class="product-name">MICROPAY</h3>
                         <div class="product-footer">
-                            <div class="stars">
-                                <i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i><i class="icon-star"></i>
-                            </div>
-                            <span class="price">Rp123</span>
+                            <span class="price">Rp{{ number_format($item->harga, 0, ',', '.') }}</span>
+
+                            <a href="https://wa.me/{{ $item->no_hp }}?text=Halo, saya tertarik membeli {{ $item->nama_produk }} yang ada di website Desa." class="btn-beli" target="_blank">
+                                <i class="icon-phone"></i> Beli
+                            </a>
                         </div>
                     </div>
                 </div>
+                @empty
+                <div style="grid-column: 1 / -1; text-align: center; padding: 60px 20px;">
+                    <img src="https://placehold.co/100x100?text=Empty" style="margin: 0 auto 20px; opacity: 0.5; border-radius: 50%;">
+                    <h3 style="color: #888; font-weight: 600;">Belum ada produk yang ditawarkan.</h3>
+                    <p style="color: #aaa;">Silakan hubungi admin desa untuk mendaftarkan produk UMKM Anda.</p>
+                </div>
+                @endforelse
 
             </div>
 
             <div class="pagination-wrapper-center">
-                <a href="#" class="page-btn prev">
-                    << /a>
-                        <a href="#" class="page-btn active">1</a>
-                        <a href="#" class="page-btn">2</a>
-                        <a href="#" class="page-btn">3</a>
-                        <a href="#" class="page-btn next">></a>
+                {{ $products->links() }}
             </div>
 
         </div>

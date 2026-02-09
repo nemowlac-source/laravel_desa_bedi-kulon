@@ -239,6 +239,7 @@
                 <li><a href="{{ route('frontend.sdgs') }}">IDM</a></li>
                 <li><a href="{{ route('frontend.berita') }}">Berita</a></li>
                 <li><a href="{{ route('frontend.belanja') }}">Belanja</a></li>
+
                 <li><a href="{{ route('frontend.ppid') }}">PPID</a></li>
 
             </ul>

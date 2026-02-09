@@ -4,6 +4,7 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\GaleriController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\Admin\UmkmController;
 
 Route::get('/', [HomeController::class, 'index'])->name('frontend.dashboard');
 Route::get('/profile-desa', function () {
@@ -15,9 +16,8 @@ Route::get('/apbdes', function () {
 Route::get('/bansos', function () {
     return view('frontend.bansos');
 })->name('frontend.bansos');
-Route::get('/belanja', function () {
-    return view('frontend.belanja');
-})->name('frontend.belanja');
+Route::get('/belanja', [HomeController::class, 'index'])->name('frontend.belanja');
+Route::get('/belanja', [HomeController::class, 'belanja'])->name('frontend.belanja');
 Route::get('/berita', function () {
     return view('frontend.berita');
 })->name('frontend.berita');
@@ -57,6 +57,7 @@ Route::middleware('auth')->group(function () {
 
         // Tambahkan route lain khusus admin di sini (misal: kelola penduduk)
         Route::resource('galeri', GaleriController::class);
+        Route::resource('umkm', UmkmController::class);
     });
 
     // 2. AREA ANGGOTA (Bisa diakses 'admin' DAN 'anggota')

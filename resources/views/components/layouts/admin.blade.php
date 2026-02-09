@@ -77,6 +77,13 @@
                     </a>
                 </li>
 
+                <li class="mb-1">
+                    <a href="{{ route('umkm.index') }}" class="{{ request()->routeIs('admin.umkm.*') ? 'active bg-blue-600' : 'hover:bg-gray-700' }}">
+                        <i class="ph ph-storefront text-xl"></i> UMKM / Pasar
+                    </a>
+                </li>
+
+
                 <li class="menu-title text-gray-500 mt-4 mb-2 uppercase text-xs font-bold">Pengaturan</li>
 
                 <li class="mt-auto">
