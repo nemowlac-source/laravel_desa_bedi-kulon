@@ -4,8 +4,8 @@
         .pemerintahan-section {
             padding: 60px 0;
             background-color: #f9f9f9;
-            /* Abu-abu muda */
             font-family: 'Poppins', sans-serif;
+            min-height: 80vh;
         }
 
         .container-custom {
@@ -18,7 +18,6 @@
         .page-header {
             margin-bottom: 50px;
             text-align: center;
-            /* Judul Tengah */
         }
 
         .page-title {
@@ -29,12 +28,10 @@
             text-transform: uppercase;
         }
 
-        /* Garis biru di bawah judul */
         .title-underline {
             width: 80px;
             height: 4px;
             background-color: #38bdf8;
-            /* Biru Pemerintahan */
             margin: 0 auto 20px auto;
         }
 
@@ -45,7 +42,7 @@
             margin: 0 auto;
         }
 
-        /* --- SOTK SECTION --- */
+        /* --- SOTK SECTION (BAGAN) --- */
         .sotk-wrapper {
             background: #fff;
             padding: 20px;
@@ -64,7 +61,6 @@
         /* --- GRID SYSTEM (APARAT) --- */
         .aparat-grid {
             display: grid;
-            /* Desktop: 4 Kolom sesuai foto referensi */
             grid-template-columns: repeat(4, 1fr);
             gap: 30px;
             margin-bottom: 50px;
@@ -90,24 +86,22 @@
         /* Foto Aparat */
         .aparat-thumb {
             height: 320px;
-            /* Tinggi foto fixed agar rapi */
             overflow: hidden;
             background-color: #eee;
+            position: relative;
         }
 
         .aparat-thumb img {
             width: 100%;
             height: 100%;
             object-fit: cover;
-            /* Agar foto tidak gepeng */
             object-position: top center;
-            /* Fokus ke wajah */
         }
 
-        /* Kotak Nama (Biru) */
+        /* Kotak Info */
         .aparat-info {
             background-color: #38bdf8;
-            /* WARNA BIRU (Sesuai Request) */
+            /* Biru Langit */
             padding: 15px;
             text-align: center;
             color: #fff;
@@ -129,16 +123,14 @@
         .aparat-job {
             font-size: 0.8rem;
             font-weight: 400;
-            opacity: 0.9;
+            opacity: 0.95;
             text-transform: uppercase;
             border-top: 1px solid rgba(255, 255, 255, 0.3);
             padding-top: 5px;
             display: inline-block;
         }
 
-        /* --- RESPONSIVE MEDIA QUERIES --- */
-
-        /* Tablet (2 Kolom) */
+        /* Responsive */
         @media (max-width: 992px) {
             .aparat-grid {
                 grid-template-columns: repeat(2, 1fr);
@@ -149,7 +141,6 @@
             }
         }
 
-        /* Mobile (1 Kolom) */
         @media (max-width: 600px) {
             .aparat-grid {
                 grid-template-columns: 1fr;
@@ -157,7 +148,6 @@
 
             .aparat-thumb {
                 height: 350px;
-                /* Foto lebih tinggi di HP */
             }
         }
 
@@ -174,43 +164,41 @@
             </div>
 
             <div class="sotk-wrapper">
-                <img src="{{ asset('img/sotk.png') }}" alt="Bagan Struktur Organisasi" class="sotk-img" onerror="this.style.display='none'; this.insertAdjacentHTML('afterend', '<p style=\'padding:50px; color:#888;\'>Gambar SOTK belum tersedia.</p>')">
+                <img src="{{ asset('img/sotk.png') }}" alt="Bagan Struktur Organisasi" class="sotk-img" onerror="this.style.display='none'; this.insertAdjacentHTML('afterend', '<p style=\'padding:40px; color:#888; font-style:italic;\'>Gambar Bagan Struktur belum diunggah.</p>')">
             </div>
 
             <div class="page-header" style="margin-top: 80px;">
                 <h1 class="page-title">Aparat Pemerintah Desa</h1>
                 <div class="title-underline"></div>
+                <p class="page-subtitle">Daftar perangkat desa yang menjabat saat ini</p>
             </div>
 
             <div class="aparat-grid">
 
-                @php
-                $aparat = [
-                ['nama' => 'Wiji Puguh Hariadi', 'jabatan' => 'Sekretaris Desa', 'foto' => 'wiji.jpg'],
-                ['nama' => 'Hari Wijathmiko', 'jabatan' => 'Kasi Pemerintahan', 'foto' => 'hari.jpg'],
-                ['nama' => 'Supardi', 'jabatan' => 'Kasi Kesejahteraan', 'foto' => 'supardi.jpg'],
-                ['nama' => 'Mujib', 'jabatan' => 'Kasi Pelayanan', 'foto' => 'mujib.jpg'],
-                ['nama' => 'Elifianti Esthu Riandi', 'jabatan' => 'Kaur Keuangan', 'foto' => 'eli.jpg'],
-                ['nama' => 'Machfud GP', 'jabatan' => 'Kaur Umum & Tata Usaha', 'foto' => 'machfud.jpg'],
-                ['nama' => 'Dewi Setyowati', 'jabatan' => 'Kaur Perencanaan', 'foto' => 'dewi.jpg'],
-                ['nama' => 'Wawan Hernowo', 'jabatan' => 'Kepala Dusun Nunu', 'foto' => 'wawan.jpg'],
-                ['nama' => 'Fajar Sotya Pratama', 'jabatan' => 'Kepala Dusun Karangtengah', 'foto' => 'fajar.jpg'],
-                ['nama' => 'Deny Afin Kurniawan', 'jabatan' => 'Kepala Dusun Baku', 'foto' => 'deny.jpg'],
-                ];
-                @endphp
-
-                @foreach($aparat as $p)
+                @forelse($perangkats as $item)
                 <div class="aparat-card">
                     <div class="aparat-thumb">
-                        <img src="{{ asset('img/aparat/' . $p['foto']) }}" alt="{{ $p['nama'] }}" onerror="this.src='https://ui-avatars.com/api/?name={{ urlencode($p['nama']) }}&size=400&background=random&color=fff'">
+                        <img src="{{ asset('storage/' . $item->foto) }}" alt="{{ $item->nama }}" onerror="this.src='https://placehold.co/400x500?text=No+Photo'">
                     </div>
 
                     <div class="aparat-info">
-                        <h3 class="aparat-name">{{ $p['nama'] }}</h3>
-                        <span class="aparat-job">{{ $p['jabatan'] }}</span>
+                        <h3 class="aparat-name">{{ $item->nama }}</h3>
+                        <span class="aparat-job">{{ $item->jabatan }}</span>
+
+                        @if($item->niap)
+                        <span style="font-size: 0.7rem; margin-top: 4px; opacity: 0.8;">
+                            NIAP: {{ $item->niap }}
+                        </span>
+                        @endif
                     </div>
                 </div>
-                @endforeach
+                @empty
+                <div style="grid-column: 1 / -1; text-align: center; padding: 50px; color: #888;">
+                    <i class="ph ph-users-three" style="font-size: 3rem; color: #ccc; margin-bottom: 10px;"></i>
+                    <h3>Belum ada data perangkat desa.</h3>
+                    <p>Silakan input data melalui halaman Admin.</p>
+                </div>
+                @endforelse
 
             </div>
         </div>

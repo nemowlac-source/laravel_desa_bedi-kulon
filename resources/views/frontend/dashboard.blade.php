@@ -157,45 +157,31 @@
             </p>
 
             <div class="sotk-grid">
-                <div class="staf-card">
-                    <div class="staf-photo">
-                        <img src="link_foto_staf1.jpg" alt="Rina Jayanti" />
-                    </div>
-                    <div class="staf-info">
-                        <h3>RINA JAYANTI</h3>
-                        <p>Kaur Keuangan</p>
-                    </div>
-                </div>
 
+                @forelse($perangkat_desa as $staf)
                 <div class="staf-card">
                     <div class="staf-photo">
-                        <img src="assets\img\Logo Ponorogo.png" alt="Marliana" />
+                        <img src="{{ asset('storage/' . $staf->foto) }}" alt="{{ $staf->nama }}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='https://placehold.co/400x400?text=No+Photo'" />
                     </div>
-                    <div class="staf-info">
-                        <h3>MARLIANA</h3>
-                        <p>Kepala Seksi Pelayanan dan Kesejahteraan</p>
-                    </div>
-                </div>
 
-                <div class="staf-card">
-                    <div class="staf-photo">
-                        <img src="link_foto_staf3.jpg" alt="Alfiah Ramadhani Ampat" />
-                    </div>
                     <div class="staf-info">
-                        <h3>ALFIAH RAMADHANI AMPAT</h3>
-                        <p>Kaur Umum dan Perencanaan</p>
-                    </div>
-                </div>
+                        <h3>{{ strtoupper($staf->nama) }}</h3>
 
-                <div class="staf-card">
-                    <div class="staf-photo">
-                        <img src="link_foto_staf4.jpg" alt="Safitriyani" />
-                    </div>
-                    <div class="staf-info">
-                        <h3>SAFITRIYANI</h3>
-                        <p>Kasi Pemerintahan</p>
+                        <p>{{ $staf->jabatan }}</p>
+
+                        @if($staf->niap)
+                        <p style="font-size: 0.8rem; color: #888; margin-top: 5px;">
+                            NIAP: {{ $staf->niap }}
+                        </p>
+                        @endif
                     </div>
                 </div>
+                @empty
+                <div style="grid-column: 1 / -1; text-align: center; color: #888; padding: 20px;">
+                    <p>Data perangkat desa belum diinput.</p>
+                </div>
+                @endforelse
+
             </div>
 
             <div class="sotk-footer">
@@ -205,6 +191,7 @@
             </div>
         </div>
     </section>
+
     <section class="admin-section">
         <div class="admin-container">
             <h2 class="title-green">Administrasi Penduduk</h2>

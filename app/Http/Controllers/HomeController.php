@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use App\Models\Galeri; // <--- 1. JANGAN LUPA IMPORT MODEL INI
 use App\Models\Umkm;
 use App\Models\Berita;
+use App\Models\PerangkatDesa;
 
 class HomeController extends Controller
 {
@@ -17,9 +18,16 @@ class HomeController extends Controller
         $produk_umkm = Umkm::latest()->take(4)->get();
         // 3. BERITA (3 artikel terbaru)
         $berita_terbaru = Berita::latest()->take(3)->get();
+        // 4. PERANGKAT DESA (Ambil 4 orang)
+        $perangkat_desa = PerangkatDesa::take(4)->get();
 
         // 3. Kirim data ke view (welcome / home)
-        return view('frontend.dashboard', compact('galeri_terbaru', 'produk_umkm', 'berita_terbaru'));
+        return view('frontend.dashboard', compact(
+            'galeri_terbaru',
+            'produk_umkm',
+            'berita_terbaru',
+            'perangkat_desa'
+        ));
     }
 
     public function galeri()
@@ -45,5 +53,13 @@ class HomeController extends Controller
         $beritas = Berita::latest()->paginate(6);
 
         return view('frontend.berita', compact('beritas'));
+    }
+
+    public function pemerintahan()
+    {
+        // Ambil semua data perangkat desa
+        $perangkats = PerangkatDesa::all();
+
+        return view('frontend.pemerintahan', compact('perangkats'));
     }
 }

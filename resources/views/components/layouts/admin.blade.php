@@ -52,7 +52,7 @@
                 </li>
 
                 <li class="mb-1">
-                    <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active bg-blue-600' : '' }}">
+                    <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active bg-blue-600' : '' }}">
                         <i class="ph ph-squares-four text-xl"></i> Dashboard
                     </a>
                 </li>
@@ -83,6 +83,13 @@
                         <i class="ph ph-storefront text-xl"></i> UMKM / Pasar
                     </a>
                 </li>
+
+                <li class="mb-1">
+                    <a href="{{ route('perangkat.index') }}" class="{{ request()->routeIs('admin.perangkat.*') ? 'active bg-blue-600' : 'hover:bg-gray-700' }}">
+                        <i class="ph ph-users-three text-xl"></i> Perangkat Desa
+                    </a>
+                </li>
+
 
 
                 <li class="menu-title text-gray-500 mt-4 mb-2 uppercase text-xs font-bold">Pengaturan</li>

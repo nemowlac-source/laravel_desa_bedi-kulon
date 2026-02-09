@@ -6,6 +6,7 @@ use App\Http\Controllers\Admin\GaleriController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\UmkmController;
 use App\Http\Controllers\Admin\BeritaController;
+use App\Http\Controllers\Admin\PerangkatDesaController;
 
 Route::get('/', [HomeController::class, 'index'])->name('frontend.dashboard');
 Route::get('/profile-desa', function () {
@@ -38,9 +39,7 @@ Route::get('/sdgs', function () {
 Route::get('/stunting', function () {
     return view('frontend.stunting');
 })->name('frontend.stunting');
-Route::get('/pemerintahan', function () {
-    return view('frontend.pemerintahan');
-})->name('frontend.pemerintahan');
+Route::get('/pemerintahan', [HomeController::class, 'pemerintahan'])->name('frontend.pemerintahan');
 Route::get('/galeri', [HomeController::class, 'galeri'])->name('frontend.galeri');
 
 Route::get('/dashboard', function () {
@@ -58,6 +57,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('galeri', GaleriController::class);
         Route::resource('umkm', UmkmController::class);
         Route::resource('berita', BeritaController::class);
+        Route::resource('perangkat', PerangkatDesaController::class);
     });
 
     // 2. AREA ANGGOTA (Bisa diakses 'admin' DAN 'anggota')
