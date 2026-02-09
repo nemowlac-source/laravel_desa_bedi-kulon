@@ -4,8 +4,41 @@ use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
 Route::get('/', function () {
-    return view('welcome');
-});
+    return view('frontend.dashboard');
+})->name('frontend.dashboard');
+Route::get('/profile-desa', function () {
+    return view('frontend.profile');
+})->name('frontend.profile');
+Route::get('/apbdes', function () {
+    return view('frontend.apbdes');
+})->name('frontend.apbdes');
+Route::get('/bansos', function () {
+    return view('frontend.bansos');
+})->name('frontend.bansos');
+Route::get('/belanja', function () {
+    return view('frontend.belanja');
+})->name('frontend.belanja');
+Route::get('/berita', function () {
+    return view('frontend.berita');
+})->name('frontend.berita');
+Route::get('/idm', function () {
+    return view('frontend.idm');
+})->name('frontend.idm');
+Route::get('/infografis', function () {
+    return view('frontend.infografis');
+})->name('frontend.infografis');
+Route::get('/listing', function () {
+    return view('frontend.listing');
+})->name('frontend.listing');
+Route::get('/ppid', function () {
+    return view('frontend.ppid');
+})->name('frontend.ppid');
+Route::get('/sdgs', function () {
+    return view('frontend.sdgs');
+})->name('frontend.sdgs');
+Route::get('/stunting', function () {
+    return view('frontend.stunting');
+})->name('frontend.stunting');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
