@@ -7,7 +7,7 @@
 
 /* Navigasi Hijau Sesuai Gambar */
 nav {
-    background-color: #4caf50; /* Warna Hijau Desa */
+    background-color: #2ac0b4; /* Warna Hijau Desa */
     color: white;
     padding: 10px 5%;
     position: sticky;
@@ -133,7 +133,7 @@ nav {
 }
 
 .title-green {
-    color: #72c02c; /* Warna hijau cerah sesuai gambar */
+    color: #2ac0b4; /* Warna hijau cerah sesuai gambar */
     font-size: 2.5rem;
     font-weight: 800;
     margin-bottom: 20px;
@@ -174,7 +174,7 @@ nav {
     width: 60px; /* Ukuran ikon */
     height: auto;
     margin-bottom: 15px;
-    filter: sepia(100%) hue-rotate(60deg) saturate(300%); /* Membuat ikon jadi kehijauan jika gambar aslinya hitam */
+    filter: none; /* Membuat ikon jadi kehijauan jika gambar aslinya hitam */
 }
 
 .explore-card h3 {
@@ -381,7 +381,7 @@ nav {
 
 /* Label Hijau di Bawah Foto */
 .staf-info {
-    background-color: #72c02c; /* Warna hijau sesuai tema */
+    background-color: #2ac0b4; /* Warna hijau sesuai tema */
     color: white;
     padding: 15px;
     text-align: center;
@@ -420,7 +420,7 @@ nav {
 }
 
 .view-more:hover {
-    color: #72c02c;
+    color: #2ac0b4;
 }
 
 /* Responsif Mobile */
@@ -563,7 +563,7 @@ nav {
 }
 
 .date-tag {
-    background-color: #72c02c; /* Hijau tema */
+    background-color: #2ac0b4; /* Hijau tema */
     color: white;
     padding: 5px 10px;
     border-radius: 4px;
@@ -686,7 +686,7 @@ nav {
 }
 
 .nav-btn:hover {
-    color: #72c02c;
+    color: #2ac0b4;
 }
 
 /* Penyesuaian Mobile */
@@ -956,7 +956,7 @@ nav {
 
 /* Styling Footer Desa */
 .footer-desa {
-    background-color: #4caf50; /* Warna hijau sesuai gambar */
+    background-color: #2ac0b4; /* Warna hijau sesuai gambar */
     color: white;
     padding: 60px 10% 20px;
     font-size: 0.9rem;
@@ -1107,7 +1107,7 @@ nav {
 }
 
 .title-green-bold {
-    color: #4caf50;
+    color: #2ac0b4;
     font-size: 3rem;
     font-weight: 800;
     margin-bottom: 30px;
@@ -1257,7 +1257,7 @@ nav {
 .sejarah-text-container p:first-of-type::first-letter {
     font-size: 3.5rem;
     font-weight: 800;
-    color: #4caf50;
+    color: #2ac0b4;
     float: left;
     margin-right: 10px;
     line-height: 1;
@@ -1271,7 +1271,7 @@ nav {
 .quote-sejarah {
     background: #f1f8e9;
     padding: 30px;
-    border-left: 5px solid #4caf50;
+    border-left: 5px solid #2ac0b4;
     font-style: italic;
     font-size: 1.2rem;
     color: #2e7d32;
@@ -1321,7 +1321,7 @@ nav {
     padding: 25px;
     border-radius: 15px;
     text-align: center;
-    border-left: 5px solid #4caf50;
+    border-left: 5px solid #2ac0b4;
 }
 
 .data-label {
@@ -1353,7 +1353,7 @@ nav {
     font-size: 1.2rem;
     color: #333;
     margin-bottom: 20px;
-    border-bottom: 2px solid #4caf50;
+    border-bottom: 2px solid #2ac0b4;
     display: inline-block;
     padding-bottom: 5px;
 }
@@ -1371,7 +1371,7 @@ nav {
 
 .arah {
     font-weight: 700;
-    color: #4caf50;
+    color: #2ac0b4;
     width: 80px;
 }
 
@@ -1429,7 +1429,7 @@ nav {
     padding: 20px;
     border-radius: 12px;
     text-align: center;
-    border-bottom: 4px solid #4caf50;
+    border-bottom: 4px solid #2ac0b4;
 }
 
 .stat-box .label {
@@ -1517,7 +1517,7 @@ nav {
 }
 
 .title-green-big {
-    color: #72c02c;
+    color: #2ac0b4;
     font-size: 3rem;
     font-weight: 800;
     line-height: 1.1;
@@ -1554,7 +1554,7 @@ nav {
 
 .nav-item:hover,
 .nav-item.active {
-    border-bottom: 3px solid #72c02c;
+    border-bottom: 3px solid #2ac0b4;
     color: #333;
 }
 
@@ -1614,7 +1614,7 @@ nav {
 }
 
 .title-green-sub {
-    color: #72c02c;
+    color: #2ac0b4;
     font-size: 1.8rem;
     font-weight: 700;
     margin-bottom: 30px;
@@ -1681,7 +1681,7 @@ nav {
 
 /* Warna spesifik sesuai gambar */
 .color-green {
-    color: #4caf50;
+    color: #2ac0b4;
 }
 .color-light-green {
     color: #8bc34a;
@@ -2156,7 +2156,7 @@ nav {
 
 .progress {
     height: 100%;
-    background: #72c02c; /* Hijau tema Desa Kersik */
+    background: #2ac0b4; /* Hijau tema Desa Kersik */
     border-radius: 10px;
 }
 
@@ -2192,7 +2192,7 @@ nav {
 }
 
 .idm-brand {
-    color: #72c02c;
+    color: #2ac0b4;
     font-size: 2.5rem;
     font-weight: 800;
 }
@@ -2266,7 +2266,7 @@ nav {
 }
 
 .chart-title-green {
-    color: #72c02c;
+    color: #2ac0b4;
     font-size: 1.8rem;
     font-weight: 700;
     margin-bottom: 25px;
@@ -2301,7 +2301,7 @@ nav {
 }
 
 .table-title {
-    color: #72c02c;
+    color: #2ac0b4;
     font-size: 1.5rem;
     margin-bottom: 20px;
     font-weight: 800;

@@ -199,7 +199,7 @@
             </div>
 
             <div class="sotk-footer">
-                <a href="#" class="view-more">
+                <a href="{{ route('frontend.pemerintahan') }}" class="view-more">
                     <i class="icon-list"></i> LIHAT STRUKTUR LEBIH LENGKAP
                 </a>
             </div>
@@ -289,7 +289,7 @@
             </div>
 
             <div class="news-more">
-                <a href="#" class="view-more-link">
+                <a href="{{ route('frontend.berita') }}" class="view-more-link">
                     <i class="icon-file"></i> LIHAT BERITA LEBIH BANYAK
                 </a>
             </div>
@@ -377,7 +377,8 @@
                         mampu meningkatkan perekonomian masyarakat desa
                     </p>
                 </div>
-                <a href="#" class="view-more-link">
+                <a href="{{ route('frontend.belanja') }}" class="view-more-link">
+
                     <i class="icon-grid"></i> LIHAT PRODUK LEBIH BANYAK
                 </a>
             </div>
@@ -438,30 +439,27 @@
                         Menampilkan kegiatan-kegiatan yang berlangsung di desa
                     </p>
                 </div>
-                <a href="#" class="view-more-link">
+                <a href="{{ route('frontend.galeri') }}" class="view-more-link">
                     <i class="icon-images"></i> LIHAT FOTO LEBIH BANYAK
                 </a>
             </div>
 
             <div class="gallery-grid">
+
+                @forelse($galeri_terbaru as $foto)
                 <div class="gallery-item">
-                    <img src="foto_kegiatan1.jpg" alt="Kegiatan Desa 1" />
+                    <img src="{{ asset('storage/' . $foto->gambar) }}" alt="{{ $foto->judul }}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='https://placehold.co/600x400?text=Foto+Tidak+Ditemukan'" />
+
+                    <div class="gallery-overlay">
+                        <span>{{ $foto->judul }}</span>
+                    </div>
                 </div>
-                <div class="gallery-item">
-                    <img src="foto_kegiatan2.jpg" alt="Kegiatan Desa 2" />
+                @empty
+                <div class="col-span-full text-center p-10 text-gray-500">
+                    <p>Belum ada foto kegiatan yang diunggah.</p>
                 </div>
-                <div class="gallery-item">
-                    <img src="foto_kegiatan3.jpg" alt="Kegiatan Desa 3" />
-                </div>
-                <div class="gallery-item">
-                    <img src="foto_kegiatan4.jpg" alt="Kegiatan Desa 4" />
-                </div>
-                <div class="gallery-item">
-                    <img src="foto_kegiatan5.jpg" alt="Kegiatan Desa 5" />
-                </div>
-                <div class="gallery-item">
-                    <img src="foto_kegiatan6.jpg" alt="Kegiatan Desa 6" />
-                </div>
+                @endforelse
+
             </div>
         </div>
     </section>

@@ -177,7 +177,8 @@
             }
 
             .nav-links li a.active::after {
-                background-color: #388E3C;
+                background-color: #2ac0b4;
+
             }
 
             .close-menu {
@@ -186,7 +187,8 @@
                 top: 25px;
                 right: 25px;
                 font-size: 2.2rem;
-                color: #388E3C;
+                color: #2ac0b4;
+
                 cursor: pointer;
             }
 
@@ -294,7 +296,8 @@
     <style>
         /* Styling Footer Desa */
         .footer-desa {
-            background-color: #388E3C;
+            background-color: #2ac0b4;
+
             /* Hijau sesuai gambar */
             color: #ffffff;
             padding: 50px 0 20px 0;

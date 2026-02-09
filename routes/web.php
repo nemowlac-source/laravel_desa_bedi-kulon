@@ -2,10 +2,10 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\GaleriController;
+use App\Http\Controllers\HomeController;
 
-Route::get('/', function () {
-    return view('frontend.dashboard');
-})->name('frontend.dashboard');
+Route::get('/', [HomeController::class, 'index'])->name('frontend.dashboard');
 Route::get('/profile-desa', function () {
     return view('frontend.profile');
 })->name('frontend.profile');
@@ -39,6 +39,10 @@ Route::get('/sdgs', function () {
 Route::get('/stunting', function () {
     return view('frontend.stunting');
 })->name('frontend.stunting');
+Route::get('/pemerintahan', function () {
+    return view('frontend.pemerintahan');
+})->name('frontend.pemerintahan');
+Route::get('/galeri', [HomeController::class, 'galeri'])->name('frontend.galeri');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -52,6 +56,7 @@ Route::middleware('auth')->group(function () {
         })->name('admin.dashboard');
 
         // Tambahkan route lain khusus admin di sini (misal: kelola penduduk)
+        Route::resource('galeri', GaleriController::class);
     });
 
     // 2. AREA ANGGOTA (Bisa diakses 'admin' DAN 'anggota')
