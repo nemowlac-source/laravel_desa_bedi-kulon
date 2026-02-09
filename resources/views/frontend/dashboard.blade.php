@@ -253,39 +253,37 @@
             </p>
 
             <div class="news-grid">
-                <div class="news-card">
-                    <div class="news-img">
-                        <img src="link_gambar_berita1.jpg" alt="Berita 1" />
-                    </div>
-                    <div class="news-content">
-                        <h3>POKDARWIS PANTAI BIRU Bedi Kulon TERIMA BANTUAN GAZEBO...</h3>
-                        <p>
-                            Bedi Kulon - Kelompok Sadar Wisata (POKDARWIS) Pantai Biru Bedi Kulon
-                            menerima bantuan 10 unit gazebo...
-                        </p>
-                        <div class="news-footer">
-                            <span><i class="user-icon"></i> Administrator</span>
-                            <span class="date-tag">18 Dec 2025</span>
-                        </div>
-                    </div>
-                </div>
 
+                @forelse($berita_terbaru as $berita)
                 <div class="news-card">
                     <div class="news-img">
-                        <img src="link_gambar_berita2.jpg" alt="Berita 2" />
+                        <img src="{{ asset('storage/' . $berita->gambar) }}" alt="{{ $berita->judul }}" style="width: 100%; height: 200px; object-fit: cover;" onerror="this.src='https://placehold.co/600x400?text=Berita'" />
                     </div>
+
                     <div class="news-content">
-                        <h3>KEGIATAN GOTONG ROYONG WARGA RT.002 DESA Bedi Kulon...</h3>
+                        <h3>
+                            <a href="#" style="text-decoration: none; color: inherit;">
+                                {{ Str::limit($berita->judul, 50) }}
+                            </a>
+                        </h3>
+
                         <p>
-                            Bedi Kulon - Warga RT.002 Desa Bedi Kulon melaksanakan kegiatan gotong
-                            royong melalui bantuan keuangan...
+                            {{ Str::limit(strip_tags($berita->isi), 100) }}
                         </p>
+
                         <div class="news-footer">
-                            <span><i class="user-icon"></i> Administrator</span>
-                            <span class="date-tag">18 Dec 2025</span>
+                            <span><i class="user-icon"></i> {{ $berita->penulis ?? 'Admin' }}</span>
+
+                            <span class="date-tag">{{ $berita->created_at->format('d M Y') }}</span>
                         </div>
                     </div>
                 </div>
+                @empty
+                <div style="grid-column: 1 / -1; text-align: center; color: #888; padding: 40px;">
+                    <p>Belum ada berita terbaru.</p>
+                </div>
+                @endforelse
+
             </div>
 
             <div class="news-more">
@@ -415,7 +413,6 @@
             </div>
         </div>
     </section>
-
     <section class="gallery-section">
         <div class="gallery-container">
             <div class="gallery-header">

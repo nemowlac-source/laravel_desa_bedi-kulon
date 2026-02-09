@@ -65,10 +65,11 @@
                     </a>
                 </li>
                 <li class="mb-1">
-                    <a href="#" class="hover:bg-gray-700">
-                        <i class="ph ph-newspaper text-xl"></i> Berita / Artikel
+                    <a href="{{ route('berita.index') }}" class="{{ request()->routeIs('admin.berita.*') ? 'active bg-blue-600' : 'hover:bg-gray-700' }}">
+                        <i class="ph ph-newspaper-clipping text-xl"></i> Berita Desa
                     </a>
                 </li>
+
                 <li class="mb-1">
                     <a href="{{ route('galeri.index') }}" class="hover:bg-gray-700">
 
