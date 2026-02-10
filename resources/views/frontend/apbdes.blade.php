@@ -535,6 +535,7 @@
                 width: 100%;
             }
         }
+
     </style>
     <style>
         /* Import Font mirip dengan gambar (Poppins/Sans-serif modern) */
@@ -665,6 +666,7 @@
                 /* Lebar minimum agar ikon tidak berdempetan */
             }
         }
+
     </style>
     <section class="apbdes-section">
         <div class="infografis-container">
@@ -675,48 +677,54 @@
                     </div>
 
                     <div class="nav-menu">
-                        <a href="#" class="nav-item active">
+                        <a href="{{ route('frontend.infografis') }}" class="nav-item active">
                             <div class="icon-box">
                                 <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="Penduduk">
                             </div>
                             <span class="nav-text">Penduduk</span>
                         </a>
 
-                        <a href="#" class="nav-item">
+                        <a href="{{ route('frontend.apbdes') }}" class="nav-item">
+
                             <div class="icon-box">
                                 <img src="https://cdn-icons-png.flaticon.com/512/2382/2382461.png" alt="APBDes">
                             </div>
                             <span class="nav-text">APBDes</span>
                         </a>
 
-                        <a href="#" class="nav-item">
+                        <a href="{{ route('frontend.stunting') }}" class="nav-item">
+
                             <div class="icon-box">
                                 <img src="https://cdn-icons-png.flaticon.com/512/2560/2560157.png" alt="Stunting">
                             </div>
                             <span class="nav-text">Stunting</span>
                         </a>
 
-                        <a href="#" class="nav-item">
+                        <a href="{{ route('frontend.bansos') }}" class="nav-item">
+
                             <div class="icon-box">
                                 <img src="https://cdn-icons-png.flaticon.com/512/679/679720.png" alt="Bansos">
                             </div>
                             <span class="nav-text">Bansos</span>
                         </a>
 
-                        <a href="#" class="nav-item">
+                        <a href="{{ route('frontend.idm') }}" class="nav-item">
+
                             <div class="icon-box">
                                 <img src="https://cdn-icons-png.flaticon.com/512/2544/2544339.png" alt="IDM">
                             </div>
                             <span class="nav-text">IDM</span>
                         </a>
 
-                        <a href="#" class="nav-item">
+                        <a href="{{ route('frontend.sdgs') }}" class="nav-item">
+
                             <div class="icon-box">
                                 <img src="https://cdn-icons-png.flaticon.com/512/5695/5695663.png" alt="SDGs">
                             </div>
                             <span class="nav-text">SDGs</span>
                         </a>
                     </div>
+
                 </div>
             </div>
             <div class="apbdes-layout">
@@ -785,52 +793,52 @@
             const apbCtx = document.getElementById('apbdesTrendChart').getContext('2d');
 
             new Chart(apbCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['2021', '2022', '2023', '2024', '2025'],
-                    datasets: [{
-                            label: 'Pendapatan',
-                            data: [1164117188.75, 1336738788.75, 4613002200.00, 4802205805.00, 4254715300.00],
-                            backgroundColor: '#438e0d', // Hijau Tua
-                            borderRadius: 5,
-                            barPercentage: 0.8,
-                            categoryPercentage: 0.6
-                        },
-                        {
-                            label: 'Belanja',
-                            data: [0, 0, 4796206868.75, 4888222678.75, 4235654388.75],
-                            backgroundColor: '#98e07a', // Hijau Muda
-                            borderRadius: 5,
-                            barPercentage: 0.8,
-                            categoryPercentage: 0.6
+                type: 'bar'
+                , data: {
+                    labels: ['2021', '2022', '2023', '2024', '2025']
+                    , datasets: [{
+                            label: 'Pendapatan'
+                            , data: [1164117188.75, 1336738788.75, 4613002200.00, 4802205805.00, 4254715300.00]
+                            , backgroundColor: '#438e0d', // Hijau Tua
+                            borderRadius: 5
+                            , barPercentage: 0.8
+                            , categoryPercentage: 0.6
+                        }
+                        , {
+                            label: 'Belanja'
+                            , data: [0, 0, 4796206868.75, 4888222678.75, 4235654388.75]
+                            , backgroundColor: '#98e07a', // Hijau Muda
+                            borderRadius: 5
+                            , barPercentage: 0.8
+                            , categoryPercentage: 0.6
                         }
                     ]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
+                }
+                , options: {
+                    responsive: true
+                    , maintainAspectRatio: false
+                    , scales: {
                         y: {
-                            beginAtZero: true,
-                            max: 5000000000,
-                            ticks: {
-                                stepSize: 1000000000,
-                                callback: function(value) {
+                            beginAtZero: true
+                            , max: 5000000000
+                            , ticks: {
+                                stepSize: 1000000000
+                                , callback: function(value) {
                                     return value.toLocaleString('id-ID');
                                 }
                             }
-                        },
-                        x: {
+                        }
+                        , x: {
                             grid: {
                                 display: false
                             }
                         }
-                    },
-                    plugins: {
+                    }
+                    , plugins: {
                         legend: {
                             position: 'bottom'
-                        },
-                        tooltip: {
+                        }
+                        , tooltip: {
                             callbacks: {
                                 label: function(context) {
                                     return context.dataset.label + ': Rp' + context.raw.toLocaleString('id-ID');
@@ -841,6 +849,7 @@
                 }
             });
         });
+
     </script>
 
     <section class="pendapatan-detail-section">
@@ -882,39 +891,39 @@
             const catCtx = document.getElementById('pendapatanCategoryChart').getContext('2d');
 
             new Chart(catCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['Pendapatan Asli Desa', 'Pendapatan Transfer', 'Pendapatan Lain-lain'],
-                    datasets: [{
-                        label: 'Anggaran',
-                        data: [0, 4254715300, 0], // Data sesuai gambar
-                        backgroundColor: '#438e0d',
-                        borderRadius: 5,
-                        barThickness: 60
+                type: 'bar'
+                , data: {
+                    labels: ['Pendapatan Asli Desa', 'Pendapatan Transfer', 'Pendapatan Lain-lain']
+                    , datasets: [{
+                        label: 'Anggaran'
+                        , data: [0, 4254715300, 0], // Data sesuai gambar
+                        backgroundColor: '#438e0d'
+                        , borderRadius: 5
+                        , barThickness: 60
                     }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
+                }
+                , options: {
+                    responsive: true
+                    , maintainAspectRatio: false
+                    , scales: {
                         y: {
-                            beginAtZero: true,
-                            max: 5000000000,
-                            ticks: {
+                            beginAtZero: true
+                            , max: 5000000000
+                            , ticks: {
                                 callback: value => value.toLocaleString('id-ID')
                             }
-                        },
-                        x: {
+                        }
+                        , x: {
                             grid: {
                                 display: false
                             }
                         }
-                    },
-                    plugins: {
+                    }
+                    , plugins: {
                         legend: {
                             display: false
-                        },
-                        tooltip: {
+                        }
+                        , tooltip: {
                             callbacks: {
                                 label: context => 'Rp' + context.raw.toLocaleString('id-ID')
                             }
@@ -928,6 +937,7 @@
             const content = document.getElementById(id);
             content.classList.toggle('active');
         }
+
     </script>
 
     <div class="accordion-item">
@@ -1068,39 +1078,39 @@
             const belCtx = document.getElementById('belanjaCategoryChart').getContext('2d');
 
             new Chart(belCtx, {
-                type: 'bar',
-                data: {
+                type: 'bar'
+                , data: {
                     labels: [
-                        'Penyelenggaraan Pemerintahan Desa',
-                        'Pelaksanaan Pembangunan Desa',
-                        'Pembinaan Kemasyarakatan Desa',
-                        'Pemberdayaan Masyarakat Desa',
-                        'Penanggulangan Bencana, Darurat Dan Mendesak Desa'
-                    ],
-                    datasets: [{
-                        label: 'Anggaran',
-                        data: [1933401432, 1525181190.75, 602530766, 66541000, 108000000],
-                        backgroundColor: '#98e07a', // Hijau muda belanja
-                        borderRadius: 5,
-                        barThickness: 50
+                        'Penyelenggaraan Pemerintahan Desa'
+                        , 'Pelaksanaan Pembangunan Desa'
+                        , 'Pembinaan Kemasyarakatan Desa'
+                        , 'Pemberdayaan Masyarakat Desa'
+                        , 'Penanggulangan Bencana, Darurat Dan Mendesak Desa'
+                    ]
+                    , datasets: [{
+                        label: 'Anggaran'
+                        , data: [1933401432, 1525181190.75, 602530766, 66541000, 108000000]
+                        , backgroundColor: '#98e07a', // Hijau muda belanja
+                        borderRadius: 5
+                        , barThickness: 50
                     }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
+                }
+                , options: {
+                    responsive: true
+                    , maintainAspectRatio: false
+                    , scales: {
                         y: {
-                            beginAtZero: true,
-                            max: 2100000000,
-                            ticks: {
+                            beginAtZero: true
+                            , max: 2100000000
+                            , ticks: {
                                 callback: value => value.toLocaleString('id-ID')
                             }
-                        },
-                        x: {
+                        }
+                        , x: {
                             grid: {
                                 display: false
-                            },
-                            ticks: {
+                            }
+                            , ticks: {
                                 callback: function(val, index) {
                                     // Potong label panjang agar rapi
                                     const label = this.getLabelForValue(val);
@@ -1108,12 +1118,12 @@
                                 }
                             }
                         }
-                    },
-                    plugins: {
+                    }
+                    , plugins: {
                         legend: {
                             display: false
-                        },
-                        tooltip: {
+                        }
+                        , tooltip: {
                             callbacks: {
                                 label: context => 'Rp' + context.raw.toLocaleString('id-ID')
                             }
@@ -1122,6 +1132,7 @@
                 }
             });
         });
+
     </script>
 
     <div class="accordion-item">
@@ -1199,43 +1210,43 @@
             const finCtx = document.getElementById('pembiayaanChart').getContext('2d');
 
             new Chart(finCtx, {
-                type: 'bar',
-                data: {
-                    labels: ['Penerimaan', 'Pengeluaran'],
-                    datasets: [{
-                        label: 'Anggaran',
-                        data: [125939088.75, 145000000],
-                        backgroundColor: '#438e0d', // Hijau Tua sesuai gambar
-                        borderRadius: 4,
-                        barThickness: 80
+                type: 'bar'
+                , data: {
+                    labels: ['Penerimaan', 'Pengeluaran']
+                    , datasets: [{
+                        label: 'Anggaran'
+                        , data: [125939088.75, 145000000]
+                        , backgroundColor: '#438e0d', // Hijau Tua sesuai gambar
+                        borderRadius: 4
+                        , barThickness: 80
                     }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
+                }
+                , options: {
+                    responsive: true
+                    , maintainAspectRatio: false
+                    , scales: {
                         y: {
-                            beginAtZero: true,
-                            max: 150000000,
-                            ticks: {
-                                stepSize: 30000000,
-                                callback: value => value.toLocaleString('id-ID')
-                            },
-                            grid: {
+                            beginAtZero: true
+                            , max: 150000000
+                            , ticks: {
+                                stepSize: 30000000
+                                , callback: value => value.toLocaleString('id-ID')
+                            }
+                            , grid: {
                                 borderDash: [5, 5]
                             }
-                        },
-                        x: {
+                        }
+                        , x: {
                             grid: {
                                 display: false
                             }
                         }
-                    },
-                    plugins: {
+                    }
+                    , plugins: {
                         legend: {
                             display: false
-                        },
-                        tooltip: {
+                        }
+                        , tooltip: {
                             callbacks: {
                                 label: context => 'Rp' + context.raw.toLocaleString('id-ID')
                             }
@@ -1244,6 +1255,7 @@
                 }
             });
         });
+
     </script>
 
 </x-frontend>

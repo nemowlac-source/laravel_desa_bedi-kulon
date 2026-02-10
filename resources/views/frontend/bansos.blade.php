@@ -129,6 +129,7 @@
                 /* Lebar minimum agar ikon tidak berdempetan */
             }
         }
+
     </style>
 
     <style>
@@ -273,6 +274,7 @@
             border-color: #72c02c;
             box-shadow: 0 0 0 3px rgba(114, 192, 44, 0.1);
         }
+
     </style>
     <section class="bansos-section">
         <div class="infografis-container">
@@ -283,48 +285,54 @@
                     </div>
 
                     <div class="nav-menu">
-                        <a href="#" class="nav-item active">
+                        <a href="{{ route('frontend.infografis') }}" class="nav-item active">
                             <div class="icon-box">
                                 <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="Penduduk">
                             </div>
                             <span class="nav-text">Penduduk</span>
                         </a>
 
-                        <a href="#" class="nav-item">
+                        <a href="{{ route('frontend.apbdes') }}" class="nav-item">
+
                             <div class="icon-box">
                                 <img src="https://cdn-icons-png.flaticon.com/512/2382/2382461.png" alt="APBDes">
                             </div>
                             <span class="nav-text">APBDes</span>
                         </a>
 
-                        <a href="#" class="nav-item">
+                        <a href="{{ route('frontend.stunting') }}" class="nav-item">
+
                             <div class="icon-box">
                                 <img src="https://cdn-icons-png.flaticon.com/512/2560/2560157.png" alt="Stunting">
                             </div>
                             <span class="nav-text">Stunting</span>
                         </a>
 
-                        <a href="#" class="nav-item">
+                        <a href="{{ route('frontend.bansos') }}" class="nav-item">
+
                             <div class="icon-box">
                                 <img src="https://cdn-icons-png.flaticon.com/512/679/679720.png" alt="Bansos">
                             </div>
                             <span class="nav-text">Bansos</span>
                         </a>
 
-                        <a href="#" class="nav-item">
+                        <a href="{{ route('frontend.idm') }}" class="nav-item">
+
                             <div class="icon-box">
                                 <img src="https://cdn-icons-png.flaticon.com/512/2544/2544339.png" alt="IDM">
                             </div>
                             <span class="nav-text">IDM</span>
                         </a>
 
-                        <a href="#" class="nav-item">
+                        <a href="{{ route('frontend.sdgs') }}" class="nav-item">
+
                             <div class="icon-box">
                                 <img src="https://cdn-icons-png.flaticon.com/512/5695/5695663.png" alt="SDGs">
                             </div>
                             <span class="nav-text">SDGs</span>
                         </a>
                     </div>
+
                 </div>
             </div>
             <h2 class="title-green">Jumlah Penerima Bansos</h2>

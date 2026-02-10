@@ -9,6 +9,8 @@ use App\Http\Controllers\Admin\BeritaController;
 use App\Http\Controllers\Admin\PerangkatDesaController;
 use App\Http\Controllers\Admin\PotensiController;
 use App\Http\Controllers\Admin\WisataController;
+use App\Http\Controllers\Admin\PendudukController;
+use App\Http\Controllers\Admin\ApbdController;
 
 Route::get('/', [HomeController::class, 'index'])->name('frontend.dashboard');
 Route::get('/profile-desa', function () {
@@ -63,6 +65,8 @@ Route::middleware('auth')->group(function () {
         Route::resource('perangkat', PerangkatDesaController::class);
         Route::resource('potensi', PotensiController::class);
         Route::resource('wisata', WisataController::class);
+        Route::resource('penduduk', PendudukController::class);
+        Route::resource('apbd', ApbdController::class);
     });
 
     // 2. AREA ANGGOTA (Bisa diakses 'admin' DAN 'anggota')

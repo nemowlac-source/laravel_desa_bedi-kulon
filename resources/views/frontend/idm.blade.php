@@ -6,48 +6,54 @@
             </div>
 
             <div class="nav-menu">
-                <a href="#" class="nav-item active">
+                <a href="{{ route('frontend.infografis') }}" class="nav-item active">
                     <div class="icon-box">
                         <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="Penduduk">
                     </div>
                     <span class="nav-text">Penduduk</span>
                 </a>
 
-                <a href="#" class="nav-item">
+                <a href="{{ route('frontend.apbdes') }}" class="nav-item">
+
                     <div class="icon-box">
                         <img src="https://cdn-icons-png.flaticon.com/512/2382/2382461.png" alt="APBDes">
                     </div>
                     <span class="nav-text">APBDes</span>
                 </a>
 
-                <a href="#" class="nav-item">
+                <a href="{{ route('frontend.stunting') }}" class="nav-item">
+
                     <div class="icon-box">
                         <img src="https://cdn-icons-png.flaticon.com/512/2560/2560157.png" alt="Stunting">
                     </div>
                     <span class="nav-text">Stunting</span>
                 </a>
 
-                <a href="#" class="nav-item">
+                <a href="{{ route('frontend.bansos') }}" class="nav-item">
+
                     <div class="icon-box">
                         <img src="https://cdn-icons-png.flaticon.com/512/679/679720.png" alt="Bansos">
                     </div>
                     <span class="nav-text">Bansos</span>
                 </a>
 
-                <a href="#" class="nav-item">
+                <a href="{{ route('frontend.idm') }}" class="nav-item">
+
                     <div class="icon-box">
                         <img src="https://cdn-icons-png.flaticon.com/512/2544/2544339.png" alt="IDM">
                     </div>
                     <span class="nav-text">IDM</span>
                 </a>
 
-                <a href="#" class="nav-item">
+                <a href="{{ route('frontend.sdgs') }}" class="nav-item">
+
                     <div class="icon-box">
                         <img src="https://cdn-icons-png.flaticon.com/512/5695/5695663.png" alt="SDGs">
                     </div>
                     <span class="nav-text">SDGs</span>
                 </a>
             </div>
+
         </div>
     </div>
     <style>
@@ -179,6 +185,7 @@
                 /* Lebar minimum agar ikon tidak berdempetan */
             }
         }
+
     </style>
     <style>
         /* Warna khusus untuk baris pemisah IKS/IKE/IKL */
@@ -328,6 +335,7 @@
                 font-size: 2.2rem;
             }
         }
+
     </style>
 
     <div class="idm-main-wrapper">
@@ -1285,43 +1293,43 @@
             const lineCtx = document.getElementById('idmTrendChart').getContext('2d');
 
             new Chart(lineCtx, {
-                type: 'line',
-                data: {
-                    labels: ['2021', '2022', '2023', '2024'],
-                    datasets: [{
-                        label: 'Skor IDM',
-                        data: [0.63, 0.73, 0.81, 0.82], // Data perkiraan berdasarkan gambar
+                type: 'line'
+                , data: {
+                    labels: ['2021', '2022', '2023', '2024']
+                    , datasets: [{
+                        label: 'Skor IDM'
+                        , data: [0.63, 0.73, 0.81, 0.82], // Data perkiraan berdasarkan gambar
                         borderColor: '#ff9f89', // Warna oranye muda sesuai gambar
-                        backgroundColor: 'transparent',
-                        borderWidth: 3,
-                        pointBackgroundColor: '#fff',
-                        pointBorderColor: '#ff9f89',
-                        pointRadius: 6,
-                        pointHoverRadius: 8,
-                        tension: 0 // Membuat garis lurus, bukan melengkung
+                        backgroundColor: 'transparent'
+                        , borderWidth: 3
+                        , pointBackgroundColor: '#fff'
+                        , pointBorderColor: '#ff9f89'
+                        , pointRadius: 6
+                        , pointHoverRadius: 8
+                        , tension: 0 // Membuat garis lurus, bukan melengkung
                     }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    scales: {
+                }
+                , options: {
+                    responsive: true
+                    , maintainAspectRatio: false
+                    , scales: {
                         y: {
-                            beginAtZero: true,
-                            max: 1,
-                            ticks: {
+                            beginAtZero: true
+                            , max: 1
+                            , ticks: {
                                 stepSize: 0.1
-                            },
-                            grid: {
+                            }
+                            , grid: {
                                 borderDash: [5, 5] // Membuat garis grid putus-putus
                             }
-                        },
-                        x: {
+                        }
+                        , x: {
                             grid: {
                                 display: false
                             }
                         }
-                    },
-                    plugins: {
+                    }
+                    , plugins: {
                         legend: {
                             display: false
                         }
@@ -1329,6 +1337,7 @@
                 }
             });
         });
+
     </script>
 
 </x-frontend>

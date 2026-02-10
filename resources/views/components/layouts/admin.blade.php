@@ -99,8 +99,16 @@
                         <i class="ph ph-island text-xl"></i> Destinasi Wisata
                     </a>
                 </li>
-
-
+                <li class="mb-1">
+                    <a href="{{ route('penduduk.index') }}" class="{{ request()->routeIs('admin.penduduk.*') ? 'active bg-blue-600' : 'hover:bg-gray-700' }}">
+                        <i class="ph ph-users-four text-xl"></i> Administrasi Penduduk
+                    </a>
+                </li>
+                <li class="mb-1">
+                    <a href="{{ route('apbd.index') }}" class="{{ request()->routeIs('admin.apbd.*') ? 'active bg-blue-600' : 'hover:bg-gray-700' }}">
+                        <i class="ph ph-chart-bar text-xl"></i> APBD Desa
+                    </a>
+                </li>
 
 
                 <li class="menu-title text-gray-500 mt-4 mb-2 uppercase text-xs font-bold">Pengaturan</li>

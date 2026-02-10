@@ -1684,7 +1684,7 @@ nav {
     color: #2ac0b4;
 }
 .color-light-green {
-    color: #8bc34a;
+    color: #2ac0b4;
 }
 
 /* Responsif Mobile */
@@ -2331,7 +2331,7 @@ nav {
 }
 
 .idm-table-final thead th.col-pelaksana {
-    background-color: #8bc34a; /* Warna hijau sedikit lebih gelap untuk header grup */
+    background-color: #2ac0b4; /* Warna hijau sedikit lebih gelap untuk header grup */
     color: white;
 }
 
@@ -2378,4 +2378,157 @@ nav {
 }
 .col-nilai {
     width: 70px;
+}
+
+/* --- CSS BASE --- */
+.apb-section {
+    padding: 80px 0;
+    background-color: #ffffff; /* Latar belakang putih bersih */
+    font-family: "Outfit", sans-serif;
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* --- LAYOUT WRAPPER --- */
+.apb-wrapper {
+    display: flex;
+    align-items: center; /* Vertikal tengah */
+    justify-content: space-between;
+    gap: 60px; /* Jarak antara gambar dan konten */
+}
+
+/* --- KOLOM GAMBAR (KIRI) --- */
+.apb-image-col {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+}
+
+.apb-image-col img {
+    width: 100%;
+    max-width: 500px; /* Batasi ukuran maksimal agar tidak terlalu besar */
+    height: auto;
+    object-fit: contain;
+    /* Animasi halus (opsional) */
+    animation: float 6s ease-in-out infinite;
+}
+
+@keyframes float {
+    0% {
+        transform: translateY(0px);
+    }
+    50% {
+        transform: translateY(-15px);
+    }
+    100% {
+        transform: translateY(0px);
+    }
+}
+
+/* --- KOLOM KONTEN (KANAN) --- */
+.apb-content-col {
+    flex: 1;
+}
+
+/* Judul Section */
+.apb-title {
+    color: #2ac0b4; /* Hijau terang (Lime Green) sesuai gambar */
+    font-size: 2.5rem;
+    font-weight: 800;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    line-height: 1.2;
+}
+
+.apb-desc {
+    font-size: 1rem;
+    color: #333;
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+
+/* --- KARTU DATA KEUANGAN --- */
+.apb-card {
+    background: #ffffff;
+    border: 1px solid #eeeeee; /* Border tipis */
+    border-radius: 8px;
+    padding: 25px 30px;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.03); /* Bayangan sangat halus */
+    transition: transform 0.3s ease;
+}
+
+.apb-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.08);
+}
+
+.apb-label {
+    font-size: 0.95rem;
+    color: #666;
+    font-weight: 600;
+    margin-bottom: 5px;
+    display: block;
+}
+
+.apb-value {
+    font-size: 2.2rem; /* Ukuran angka besar */
+    font-weight: 900; /* Sangat tebal */
+    color: #555; /* Abu-abu tua */
+    letter-spacing: -1px; /* Rapatkan sedikit antar angka */
+}
+
+/* --- LINK FOOTER --- */
+.apb-footer {
+    text-align: right;
+    margin-top: 20px;
+}
+
+.view-data-link {
+    text-decoration: none;
+    color: #000;
+    font-weight: 800;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    transition: color 0.3s;
+}
+
+.view-data-link:hover {
+    color: #2ac0b4;
+}
+
+.view-data-link i {
+    font-size: 1.1rem;
+}
+
+/* --- RESPONSIVE --- */
+@media (max-width: 968px) {
+    .apb-wrapper {
+        flex-direction: column; /* Stack ke bawah di mobile */
+        gap: 40px;
+    }
+
+    .apb-image-col {
+        order: -1; /* Gambar tetap di atas */
+    }
+
+    .apb-title {
+        font-size: 2rem;
+        text-align: center;
+    }
+
+    .apb-desc {
+        text-align: center;
+    }
+
+    .apb-value {
+        font-size: 1.8rem;
+    }
 }

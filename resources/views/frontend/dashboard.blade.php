@@ -191,7 +191,6 @@
             </div>
         </div>
     </section>
-
     <section class="admin-section">
         <div class="admin-container">
             <h2 class="title-green">Administrasi Penduduk</h2>
@@ -202,32 +201,93 @@
             </p>
 
             <div class="admin-grid">
+
                 <div class="stat-item">
-                    <div class="stat-number">1.162</div>
+                    <div class="stat-number">
+                        {{ number_format($total_penduduk, 0, ',', '.') }}
+                    </div>
                     <div class="stat-label">Penduduk</div>
                 </div>
+
                 <div class="stat-item">
-                    <div class="stat-number">608</div>
+                    <div class="stat-number">
+                        {{ number_format($total_laki, 0, ',', '.') }}
+                    </div>
                     <div class="stat-label">Laki-Laki</div>
                 </div>
 
                 <div class="stat-item">
-                    <div class="stat-number">310</div>
+                    <div class="stat-number">
+                        {{ number_format($total_kk, 0, ',', '.') }}
+                    </div>
                     <div class="stat-label">Kepala Keluarga</div>
                 </div>
+
                 <div class="stat-item">
-                    <div class="stat-number">554</div>
+                    <div class="stat-number">
+                        {{ number_format($total_perempuan, 0, ',', '.') }}
+                    </div>
                     <div class="stat-label">Perempuan</div>
                 </div>
 
                 <div class="stat-item">
-                    <div class="stat-number">99</div>
+                    <div class="stat-number">
+                        {{ number_format($total_sementara, 0, ',', '.') }}
+                    </div>
                     <div class="stat-label">Penduduk Sementara</div>
                 </div>
+
                 <div class="stat-item">
-                    <div class="stat-number">44</div>
+                    <div class="stat-number">
+                        {{ number_format($total_mutasi, 0, ',', '.') }}
+                    </div>
                     <div class="stat-label">Mutasi Penduduk</div>
                 </div>
+
+            </div>
+
+            <div style="text-align: center; margin-top: 20px; font-size: 0.8rem; color: #888;">
+                *Data diperbarui per tanggal {{ date('d M Y') }}
+            </div>
+        </div>
+    </section>
+    <section class="apb-section">
+        <div class="container">
+            <div class="apb-wrapper">
+
+                <div class="apb-image-col">
+                    <img src="{{ asset('assets/img/asset-dashboard-apbd.png') }}" alt="Ilustrasi APB Desa" onerror="this.src='https://placehold.co/600x400?text=Grafik+APBD'">
+                </div>
+
+                <div class="apb-content-col">
+                    <h2 class="apb-title">APB DESA {{ $tahun_ini }}</h2>
+                    <p class="apb-desc">
+                        Akses cepat dan transparan terhadap Anggaran Pendapatan dan Belanja Desa
+                        serta proyek pembangunan tahun anggaran {{ $tahun_ini }}.
+                    </p>
+
+                    <div class="apb-card">
+                        <span class="apb-label">Pendapatan Desa</span>
+                        <div class="apb-value" style="color: #28a745;">
+                            Rp{{ number_format($apbd_pendapatan, 2, ',', '.') }}
+                        </div>
+                    </div>
+
+                    <div class="apb-card">
+                        <span class="apb-label">Belanja Desa</span>
+                        <div class="apb-value" style="color: #dc3545;">
+                            Rp{{ number_format($apbd_belanja, 2, ',', '.') }}
+
+                        </div>
+                    </div>
+
+                    <div class="apb-footer">
+                        <a href="#" class="view-data-link">
+                            <i class="fa-regular fa-file-lines"></i> LIHAT DATA LEBIH LENGKAP
+                        </a>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
@@ -334,7 +394,6 @@
 
         </div>
     </section>
-
     <section class="wisata-section">
         <div class="wisata-container">
             <div class="wisata-header">
@@ -384,7 +443,6 @@
             </div>
         </div>
     </section>
-
     <script>
         let slideIndex = 1;
         showSlides(slideIndex);
@@ -415,7 +473,6 @@
         }
 
     </script>
-
     <section class="shop-section">
         <div class="shop-container">
             <div class="shop-header">

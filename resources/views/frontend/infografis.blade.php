@@ -128,6 +128,7 @@
                 /* Lebar minimum agar ikon tidak berdempetan */
             }
         }
+
     </style>
     <section class="infografis-page">
         <div class="infografis-container">
@@ -138,42 +139,47 @@
                     </div>
 
                     <div class="nav-menu">
-                        <a href="#" class="nav-item active">
+                        <a href="{{ route('frontend.infografis') }}" class="nav-item active">
                             <div class="icon-box">
                                 <img src="https://cdn-icons-png.flaticon.com/512/1077/1077114.png" alt="Penduduk">
                             </div>
                             <span class="nav-text">Penduduk</span>
                         </a>
 
-                        <a href="#" class="nav-item">
+                        <a href="{{ route('frontend.apbdes') }}" class="nav-item">
+
                             <div class="icon-box">
                                 <img src="https://cdn-icons-png.flaticon.com/512/2382/2382461.png" alt="APBDes">
                             </div>
                             <span class="nav-text">APBDes</span>
                         </a>
 
-                        <a href="#" class="nav-item">
+                        <a href="{{ route('frontend.stunting') }}" class="nav-item">
+
                             <div class="icon-box">
                                 <img src="https://cdn-icons-png.flaticon.com/512/2560/2560157.png" alt="Stunting">
                             </div>
                             <span class="nav-text">Stunting</span>
                         </a>
 
-                        <a href="#" class="nav-item">
+                        <a href="{{ route('frontend.bansos') }}" class="nav-item">
+
                             <div class="icon-box">
                                 <img src="https://cdn-icons-png.flaticon.com/512/679/679720.png" alt="Bansos">
                             </div>
                             <span class="nav-text">Bansos</span>
                         </a>
 
-                        <a href="#" class="nav-item">
+                        <a href="{{ route('frontend.idm') }}" class="nav-item">
+
                             <div class="icon-box">
                                 <img src="https://cdn-icons-png.flaticon.com/512/2544/2544339.png" alt="IDM">
                             </div>
                             <span class="nav-text">IDM</span>
                         </a>
 
-                        <a href="#" class="nav-item">
+                        <a href="{{ route('frontend.sdgs') }}" class="nav-item">
+
                             <div class="icon-box">
                                 <img src="https://cdn-icons-png.flaticon.com/512/5695/5695663.png" alt="SDGs">
                             </div>
@@ -498,34 +504,34 @@
         const wpCtx = document.getElementById('wajibPilihChart').getContext('2d');
 
         new Chart(wpCtx, {
-            type: 'bar',
-            data: {
+            type: 'bar'
+            , data: {
                 labels: ['2024', '2025', '2026'], // Tahun sesuai gambar
                 datasets: [{
-                    label: 'Jumlah Wajib Pilih',
-                    data: [800, 825, 850], // Data angka sesuai label di atas batang
+                    label: 'Jumlah Wajib Pilih'
+                    , data: [800, 825, 850], // Data angka sesuai label di atas batang
                     backgroundColor: '#438e0d', // Hijau tua sesuai gambar
-                    borderRadius: 5,
-                    barThickness: 80 // Membuat batang lebih tebal seperti di gambar
+                    borderRadius: 5
+                    , barThickness: 80 // Membuat batang lebih tebal seperti di gambar
                 }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
+            }
+            , options: {
+                responsive: true
+                , maintainAspectRatio: false
+                , scales: {
                     y: {
-                        beginAtZero: true,
-                        max: 1000, // Skala maksimal sesuai gambar
+                        beginAtZero: true
+                        , max: 1000, // Skala maksimal sesuai gambar
                         ticks: {
                             stepSize: 200
                         }
                     }
-                },
-                plugins: {
+                }
+                , plugins: {
                     legend: {
                         display: false
-                    },
-                    tooltip: {
+                    }
+                    , tooltip: {
                         callbacks: {
                             label: function(context) {
                                 return context.raw + ' Jiwa';
@@ -535,58 +541,59 @@
                 }
             }
         });
+
     </script>
 
     <script>
         const eduCtx = document.getElementById('pendidikanChart').getContext('2d');
 
         new Chart(eduCtx, {
-            type: 'bar',
-            data: {
+            type: 'bar'
+            , data: {
                 labels: [
-                    'Tidak/Belum Sekolah',
-                    'Belum Tamat SD/Sederajat',
-                    'Tamat SD/Sederajat',
-                    'SLTP/Sederajat',
-                    'SLTA/Sederajat',
-                    'Diploma I/II',
-                    'Diploma III/Sarjana Muda',
-                    'Diploma IV/Strata I',
-                    'Strata II',
-                    'Strata III'
-                ],
-                datasets: [{
-                    label: 'Jumlah Penduduk',
-                    data: [181, 93, 180, 78, 132, 5, 11, 46, 0, 0], // Data sesuai gambar
+                    'Tidak/Belum Sekolah'
+                    , 'Belum Tamat SD/Sederajat'
+                    , 'Tamat SD/Sederajat'
+                    , 'SLTP/Sederajat'
+                    , 'SLTA/Sederajat'
+                    , 'Diploma I/II'
+                    , 'Diploma III/Sarjana Muda'
+                    , 'Diploma IV/Strata I'
+                    , 'Strata II'
+                    , 'Strata III'
+                ]
+                , datasets: [{
+                    label: 'Jumlah Penduduk'
+                    , data: [181, 93, 180, 78, 132, 5, 11, 46, 0, 0], // Data sesuai gambar
                     backgroundColor: '#0d2481', // Biru tua sesuai gambar
-                    borderRadius: 5,
-                    barThickness: 40
+                    borderRadius: 5
+                    , barThickness: 40
                 }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                scales: {
+            }
+            , options: {
+                responsive: true
+                , maintainAspectRatio: false
+                , scales: {
                     y: {
-                        beginAtZero: true,
-                        max: 210, // Menyesuaikan skala y sesuai gambar
+                        beginAtZero: true
+                        , max: 210, // Menyesuaikan skala y sesuai gambar
                         ticks: {
                             stepSize: 30
                         }
-                    },
-                    x: {
+                    }
+                    , x: {
                         ticks: {
                             font: {
                                 size: 10
                             }
                         }
                     }
-                },
-                plugins: {
+                }
+                , plugins: {
                     legend: {
                         display: false // Sembunyikan legenda karena sudah jelas dari judul
-                    },
-                    tooltip: {
+                    }
+                    , tooltip: {
                         callbacks: {
                             label: function(context) {
                                 return context.raw + ' Orang';
@@ -596,32 +603,33 @@
                 }
             }
         });
+
     </script>
 
     <script>
         const pieCtx = document.getElementById('dusunChart').getContext('2d');
 
         new Chart(pieCtx, {
-            type: 'pie',
-            data: {
-                labels: ['Piasan', 'Mubur Kecil'],
-                datasets: [{
+            type: 'pie'
+            , data: {
+                labels: ['Piasan', 'Mubur Kecil']
+                , datasets: [{
                     data: [470, 256], // Data jiwa sesuai gambar
                     backgroundColor: [
                         '#5b73c7', // Biru untuk Piasan
                         '#90cd76' // Hijau untuk Mubur Kecil
-                    ],
-                    borderWidth: 1
+                    ]
+                    , borderWidth: 1
                 }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
+            }
+            , options: {
+                responsive: true
+                , maintainAspectRatio: false
+                , plugins: {
                     legend: {
                         display: false // Kita gunakan keterangan custom di samping
-                    },
-                    tooltip: {
+                    }
+                    , tooltip: {
                         callbacks: {
                             label: function(context) {
                                 let total = 470 + 256;
@@ -634,32 +642,33 @@
                 }
             }
         });
+
     </script>
 
     <script>
         const pieCtx = document.getElementById('dusunChart').getContext('2d');
 
         new Chart(pieCtx, {
-            type: 'pie',
-            data: {
-                labels: ['Piasan', 'Mubur Kecil'],
-                datasets: [{
+            type: 'pie'
+            , data: {
+                labels: ['Piasan', 'Mubur Kecil']
+                , datasets: [{
                     data: [470, 256], // Data jiwa sesuai gambar
                     backgroundColor: [
                         '#5b73c7', // Biru untuk Piasan
                         '#90cd76' // Hijau untuk Mubur Kecil
-                    ],
-                    borderWidth: 1
+                    ]
+                    , borderWidth: 1
                 }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
+            }
+            , options: {
+                responsive: true
+                , maintainAspectRatio: false
+                , plugins: {
                     legend: {
                         display: false // Kita gunakan keterangan custom di samping
-                    },
-                    tooltip: {
+                    }
+                    , tooltip: {
                         callbacks: {
                             label: function(context) {
                                 let total = 470 + 256;
@@ -672,6 +681,7 @@
                 }
             }
         });
+
     </script>
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -684,40 +694,40 @@
             const labels = ['0-4', '5-9', '10-14', '15-19', '20-24', '25-29', '30-34', '35-39', '40-44', '45-49', '50-54', '55-59', '60-64', '65-69', '70-74', '75-79', '80-84', '85+'];
 
             new Chart(ctx, {
-                type: 'bar',
-                data: {
-                    labels: labels,
-                    datasets: [{
-                            label: 'Laki-Laki',
-                            data: dataLaki,
-                            backgroundColor: '#689f84',
-                            borderRadius: 5,
-                        },
-                        {
-                            label: 'Perempuan',
-                            data: dataPerempuan,
-                            backgroundColor: '#f5a691',
-                            borderRadius: 5,
-                        }
+                type: 'bar'
+                , data: {
+                    labels: labels
+                    , datasets: [{
+                            label: 'Laki-Laki'
+                            , data: dataLaki
+                            , backgroundColor: '#689f84'
+                            , borderRadius: 5
+                        , }
+                        , {
+                            label: 'Perempuan'
+                            , data: dataPerempuan
+                            , backgroundColor: '#f5a691'
+                            , borderRadius: 5
+                        , }
                     ]
-                },
-                options: {
-                    indexAxis: 'y',
-                    responsive: true,
-                    scales: {
+                }
+                , options: {
+                    indexAxis: 'y'
+                    , responsive: true
+                    , scales: {
                         x: {
-                            stacked: true,
-                            ticks: {
+                            stacked: true
+                            , ticks: {
                                 callback: (value) => Math.abs(value)
                             }
-                        },
-                        y: {
-                            beginAtZero: true,
-                            stacked: true,
-                            position: 'center'
                         }
-                    },
-                    plugins: {
+                        , y: {
+                            beginAtZero: true
+                            , stacked: true
+                            , position: 'center'
+                        }
+                    }
+                    , plugins: {
                         tooltip: {
                             callbacks: {
                                 label: (context) => {
@@ -730,6 +740,7 @@
                 }
             });
         });
+
     </script>
 
 

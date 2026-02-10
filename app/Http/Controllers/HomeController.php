@@ -9,6 +9,8 @@ use App\Models\Berita;
 use App\Models\PerangkatDesa;
 use App\Models\Potensi;
 use App\Models\Wisata;
+use App\Models\Penduduk;
+use App\Models\Apbd;
 
 
 class HomeController extends Controller
@@ -27,6 +29,37 @@ class HomeController extends Controller
         $potensi_desa = Potensi::latest()->take(6)->get();
         // 6. AMBIL DATA WISATA (Ambil 5 untuk slider)
         $wisata_desa = Wisata::latest()->take(5)->get();
+        // 7. HITUNG STATISTIK PENDUDUK
+        // Menghitung total Laki-laki & Perempuan
+        $total_laki = Penduduk::sum('laki_laki');
+        $total_perempuan = Penduduk::sum('perempuan');
+        $total_penduduk = $total_laki + $total_perempuan;
+
+        // Menghitung Kepala Keluarga
+        $total_kk = Penduduk::sum('kk');
+
+        // Menghitung Penduduk Sementara
+        $total_sementara = Penduduk::sum('penduduk_sementara');
+
+        // Menghitung Total Mutasi (Lahir + Mati + Masuk + Keluar)
+        // Ini menggambarkan total aktivitas administrasi bulan ini
+        $total_mutasi = Penduduk::sum('kelahiran') +
+            Penduduk::sum('kematian') +
+            Penduduk::sum('mutasi_masuk') +
+            Penduduk::sum('mutasi_keluar');
+
+        // 8. DATA APBD (Tahun Ini)
+        $tahun_ini = date('Y'); // Mengambil tahun otomatis (2025/2026 dst)
+
+        // Hitung Total Pendapatan Tahun Ini
+        $apbd_pendapatan = Apbd::where('tahun', $tahun_ini)
+            ->where('jenis', 'Pendapatan')
+            ->sum('anggaran');
+
+        // Hitung Total Belanja Tahun Ini
+        $apbd_belanja = Apbd::where('tahun', $tahun_ini)
+            ->where('jenis', 'Belanja')
+            ->sum('anggaran');
 
         // 3. Kirim data ke view (welcome / home)
         return view('frontend.dashboard', compact(
@@ -35,7 +68,16 @@ class HomeController extends Controller
             'berita_terbaru',
             'perangkat_desa',
             'potensi_desa',
-            'wisata_desa'
+            'wisata_desa',
+            'total_penduduk',
+            'total_laki',
+            'total_perempuan',
+            'total_kk',
+            'total_sementara',
+            'total_mutasi',
+            'apbd_pendapatan',
+            'apbd_belanja',
+            'tahun_ini'
         ));
     }
 
