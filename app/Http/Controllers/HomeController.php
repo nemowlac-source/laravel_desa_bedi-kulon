@@ -8,6 +8,7 @@ use App\Models\Umkm;
 use App\Models\Berita;
 use App\Models\PerangkatDesa;
 use App\Models\Potensi;
+use App\Models\Wisata;
 
 
 class HomeController extends Controller
@@ -24,6 +25,8 @@ class HomeController extends Controller
         $perangkat_desa = PerangkatDesa::take(4)->get();
         // 5. AMBIL DATA POTENSI (Ambil 6 terbaru)
         $potensi_desa = Potensi::latest()->take(6)->get();
+        // 6. AMBIL DATA WISATA (Ambil 5 untuk slider)
+        $wisata_desa = Wisata::latest()->take(5)->get();
 
         // 3. Kirim data ke view (welcome / home)
         return view('frontend.dashboard', compact(
@@ -32,6 +35,7 @@ class HomeController extends Controller
             'berita_terbaru',
             'perangkat_desa',
             'potensi_desa',
+            'wisata_desa'
         ));
     }
 
@@ -74,5 +78,13 @@ class HomeController extends Controller
         $potensis = Potensi::latest()->paginate(6);
 
         return view('frontend.potensi', compact('potensis'));
+    }
+
+    public function wisata()
+    {
+        // Ambil data wisata, 9 item per halaman
+        $wisatas = Wisata::latest()->paginate(9);
+
+        return view('frontend.wisata', compact('wisatas'));
     }
 }

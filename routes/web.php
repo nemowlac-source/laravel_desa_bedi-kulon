@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\UmkmController;
 use App\Http\Controllers\Admin\BeritaController;
 use App\Http\Controllers\Admin\PerangkatDesaController;
 use App\Http\Controllers\Admin\PotensiController;
+use App\Http\Controllers\Admin\WisataController;
 
 Route::get('/', [HomeController::class, 'index'])->name('frontend.dashboard');
 Route::get('/profile-desa', function () {
@@ -39,9 +40,7 @@ Route::get('/sdgs', function () {
 Route::get('/stunting', function () {
     return view('frontend.stunting');
 })->name('frontend.stunting');
-Route::get('/wisata', function () {
-    return view('frontend.wisata');
-})->name('frontend.wisata');
+Route::get('/wisata', [HomeController::class, 'wisata'])->name('frontend.wisata');
 Route::get('/potensi', [HomeController::class, 'potensi'])->name('frontend.potensi');
 Route::get('/pemerintahan', [HomeController::class, 'pemerintahan'])->name('frontend.pemerintahan');
 Route::get('/galeri', [HomeController::class, 'galeri'])->name('frontend.galeri');
@@ -63,6 +62,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('berita', BeritaController::class);
         Route::resource('perangkat', PerangkatDesaController::class);
         Route::resource('potensi', PotensiController::class);
+        Route::resource('wisata', WisataController::class);
     });
 
     // 2. AREA ANGGOTA (Bisa diakses 'admin' DAN 'anggota')

@@ -345,28 +345,77 @@
                 </p>
             </div>
 
-            <div class="wisata-hero-card">
-                <div class="wisata-overlay">
-                    <div class="wisata-content">
-                        <h1>Pantai Biru Bedi Kulon</h1>
-                        <p>
-                            Pantai ini terbuka untuk umum dan siapa saja boleh
-                            mengunjunginya, pengunjung atau wisatawan akan disambut baik
-                            oleh penduduk lokal daerah wisata...
+            <div class="wisata-slider-wrapper" style="position: relative; overflow: hidden; border-radius: 15px;">
+
+                @forelse($wisata_desa as $key => $item)
+                <div class="wisata-hero-card myslides fade" style="display: {{ $key == 0 ? 'flex' : 'none' }}; background-image: url('{{ asset('storage/' . $item->gambar) }}'); background-size: cover; background-position: center; height: 400px; position: relative; align-items: flex-end; padding: 30px;">
+
+                    <div class="wisata-overlay" style="background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;"></div>
+
+                    <div class="wisata-content" style="position: relative; z-index: 2; color: white; max-width: 600px;">
+                        <h1 style="font-size: 2rem; font-weight: bold; margin-bottom: 10px;">{{ $item->nama_wisata }}</h1>
+
+                        <div style="margin-bottom: 10px; font-size: 0.9rem; color: #ddd;">
+                            <span style="margin-right: 15px;"><i class="icon-clock"></i> {{ $item->jam_buka ?? '24 Jam' }}</span>
+                            <span><i class="icon-ticket"></i> {{ $item->harga_tiket ?? 'Gratis' }}</span>
+                        </div>
+
+                        <p style="font-size: 1rem; line-height: 1.5; opacity: 0.9;">
+                            {{ Str::limit($item->deskripsi, 150) }}
                         </p>
                     </div>
                 </div>
-                <button class="slider-arrow left">❮</button>
-                <button class="slider-arrow right">❯</button>
+                @empty
+                <div class="wisata-hero-card" style="background-color: #333; height: 300px; display: flex; align-items: center; justify-content: center; color: white;">
+                    <p>Belum ada data wisata.</p>
+                </div>
+                @endforelse
+
+                @if($wisata_desa->count() > 1)
+                <button class="slider-arrow left" onclick="plusSlides(-1)" style="position: absolute; top: 50%; left: 20px; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: white; border: none; font-size: 24px; padding: 10px 15px; cursor: pointer; z-index: 10; border-radius: 50%;">❮</button>
+                <button class="slider-arrow right" onclick="plusSlides(1)" style="position: absolute; top: 50%; right: 20px; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: white; border: none; font-size: 24px; padding: 10px 15px; cursor: pointer; z-index: 10; border-radius: 50%;">❯</button>
+                @endif
             </div>
 
-            <div class="wisata-footer">
-                <a href="{{ route('frontend.wisata') }}" class="view-more-white">
+            <div class="wisata-footer" style="margin-top: 30px; text-align: center;">
+                <a href="{{ route('frontend.wisata') }}" class="view-more-white" style="color: white; text-decoration: none; font-weight: bold; border: 1px solid white; padding: 10px 20px; border-radius: 5px; transition: 0.3s;">
                     <i class="icon-list"></i> LIHAT WISATA LEBIH BANYAK
                 </a>
             </div>
         </div>
     </section>
+
+    <script>
+        let slideIndex = 1;
+        showSlides(slideIndex);
+
+        // Fungsi Tombol Next/Prev
+        function plusSlides(n) {
+            showSlides(slideIndex += n);
+        }
+
+        // Fungsi Utama Slider
+        function showSlides(n) {
+            let i;
+            let slides = document.getElementsByClassName("myslides");
+            if (slides.length === 0) return; // Cegah error jika tidak ada slide
+
+            if (n > slides.length) {
+                slideIndex = 1
+            }
+            if (n < 1) {
+                slideIndex = slides.length
+            }
+
+            for (i = 0; i < slides.length; i++) {
+                slides[i].style.display = "none";
+            }
+
+            slides[slideIndex - 1].style.display = "flex";
+        }
+
+    </script>
+
     <section class="shop-section">
         <div class="shop-container">
             <div class="shop-header">

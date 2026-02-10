@@ -94,6 +94,12 @@
                         <i class="ph ph-plant text-xl"></i> Potensi Desa
                     </a>
                 </li>
+                <li class="mb-1">
+                    <a href="{{ route('wisata.index') }}" class="{{ request()->routeIs('admin.wisata.*') ? 'active bg-blue-600' : 'hover:bg-gray-700' }}">
+                        <i class="ph ph-island text-xl"></i> Destinasi Wisata
+                    </a>
+                </li>
+
 
 
 
