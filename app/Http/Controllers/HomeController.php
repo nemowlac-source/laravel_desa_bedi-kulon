@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Galeri; // <--- 1. JANGAN LUPA IMPORT MODEL INI
+use App\Models\Galeri;
 use App\Models\Umkm;
 use App\Models\Berita;
 use App\Models\PerangkatDesa;
+use App\Models\Potensi;
+
 
 class HomeController extends Controller
 {
@@ -20,13 +22,16 @@ class HomeController extends Controller
         $berita_terbaru = Berita::latest()->take(3)->get();
         // 4. PERANGKAT DESA (Ambil 4 orang)
         $perangkat_desa = PerangkatDesa::take(4)->get();
+        // 5. AMBIL DATA POTENSI (Ambil 6 terbaru)
+        $potensi_desa = Potensi::latest()->take(6)->get();
 
         // 3. Kirim data ke view (welcome / home)
         return view('frontend.dashboard', compact(
             'galeri_terbaru',
             'produk_umkm',
             'berita_terbaru',
-            'perangkat_desa'
+            'perangkat_desa',
+            'potensi_desa',
         ));
     }
 
@@ -61,5 +66,13 @@ class HomeController extends Controller
         $perangkats = PerangkatDesa::all();
 
         return view('frontend.pemerintahan', compact('perangkats'));
+    }
+
+    public function potensi()
+    {
+        // Ambil data potensi, 6 per halaman
+        $potensis = Potensi::latest()->paginate(6);
+
+        return view('frontend.potensi', compact('potensis'));
     }
 }

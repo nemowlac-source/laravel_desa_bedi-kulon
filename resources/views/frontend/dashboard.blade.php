@@ -291,35 +291,50 @@
                         kelestarian lingkungan
                     </p>
                 </div>
-                <a href="#" class="view-more-link">
+                <a href="{{ route('frontend.potensi') }}" class="view-more-link">
                     <i class="icon-list"></i> LIHAT POTENSI LEBIH BANYAK
                 </a>
             </div>
 
-            <div class="potensi-slider">
-                <div class="potensi-item">
-                    <div class="circle-potensi">
-                        <img src="link_gambar_wisata.jpg" alt="Pariwisata" />
-                        <div class="accent-red"></div>
+            <div class="potensi-slider" style="display: flex; gap: 30px; flex-wrap: wrap; justify-content: center;">
+
+                @forelse($potensi_desa as $item)
+
+                @php
+                $colors = ['red', 'orange', 'green', 'blue'];
+                $color = $colors[$loop->index % 4];
+                // Jika urutan ke-0 pakai merah, ke-1 orange, dst.
+                @endphp
+
+                <div class="potensi-item" style="text-align: center; max-width: 200px;">
+                    <div class="circle-potensi" style="position: relative; width: 180px; height: 180px; margin: 0 auto 20px;">
+
+                        <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->judul }}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; border: 5px solid #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.1);" onerror="this.src='https://placehold.co/200x200?text=Potensi'" />
+
+                        <div class="accent-{{ $color }}" style="position: absolute; bottom: 0; right: 0; width: 40px; height: 40px; border-radius: 50%;">
+                        </div>
                     </div>
-                    <h3>PARIWISATA</h3>
+
+                    <h3 style="font-size: 1.1rem; font-weight: bold; text-transform: uppercase;">
+                        {{ $item->judul }}
+                    </h3>
+
+                    @if($item->lokasi)
+                    <p style="font-size: 0.8rem; color: #888;">{{ $item->lokasi }}</p>
+                    @endif
                 </div>
 
-                <div class="potensi-item">
-                    <div class="circle-potensi">
-                        <img src="link_gambar_ikan.jpg" alt="Potensi Perikanan" />
-                        <div class="accent-orange"></div>
-                    </div>
-                    <h3>POTENSI PERIKANAN</h3>
+                @empty
+                <div style="width: 100%; text-align: center; padding: 40px; color: #888;">
+                    <p>Data potensi desa belum ditambahkan.</p>
                 </div>
+                @endforelse
+
             </div>
 
-            <div class="slider-nav">
-                <button class="nav-btn">←</button>
-                <button class="nav-btn">→</button>
-            </div>
         </div>
     </section>
+
     <section class="wisata-section">
         <div class="wisata-container">
             <div class="wisata-header">
@@ -346,7 +361,7 @@
             </div>
 
             <div class="wisata-footer">
-                <a href="#" class="view-more-white">
+                <a href="{{ route('frontend.wisata') }}" class="view-more-white">
                     <i class="icon-list"></i> LIHAT WISATA LEBIH BANYAK
                 </a>
             </div>
