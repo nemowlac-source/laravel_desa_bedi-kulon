@@ -11,6 +11,12 @@ use App\Http\Controllers\Admin\PotensiController;
 use App\Http\Controllers\Admin\WisataController;
 use App\Http\Controllers\Admin\PendudukController;
 use App\Http\Controllers\Admin\ApbdController;
+use App\Http\Controllers\InfografisController;
+use App\Http\Controllers\Admin\PendudukAgamaController;
+use App\Http\Controllers\Admin\PendudukKawinController;
+use App\Http\Controllers\Admin\PendudukPekerjaanController;
+use App\Http\Controllers\Admin\PendudukPendidikanController;
+use App\Http\Controllers\Admin\PendudukUsiaController;
 
 Route::get('/', [HomeController::class, 'index'])->name('frontend.dashboard');
 Route::get('/profile-desa', function () {
@@ -46,6 +52,7 @@ Route::get('/wisata', [HomeController::class, 'wisata'])->name('frontend.wisata'
 Route::get('/potensi', [HomeController::class, 'potensi'])->name('frontend.potensi');
 Route::get('/pemerintahan', [HomeController::class, 'pemerintahan'])->name('frontend.pemerintahan');
 Route::get('/galeri', [HomeController::class, 'galeri'])->name('frontend.galeri');
+Route::get('/infografis', [InfografisController::class, 'index'])->name('frontend.infografis');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -67,6 +74,12 @@ Route::middleware('auth')->group(function () {
         Route::resource('wisata', WisataController::class);
         Route::resource('penduduk', PendudukController::class);
         Route::resource('apbd', ApbdController::class);
+        Route::resource('agama', PendudukAgamaController::class);
+        Route::resource('kawin', controller: PendudukKawinController::class);
+        Route::resource('pekerjaan', PendudukPekerjaanController::class);
+        Route::resource('pendidikan', PendudukPendidikanController::class);
+        Route::resource('usia', PendudukUsiaController::class);
+        Route::resource('wajibpilih', \App\Http\Controllers\Admin\PendudukWajibPilihController::class);
     });
 
     // 2. AREA ANGGOTA (Bisa diakses 'admin' DAN 'anggota')

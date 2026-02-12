@@ -1568,6 +1568,7 @@ nav {
     align-items: center;
     gap: 50px;
     flex-wrap: wrap;
+    padding: 10rem;
 }
 
 .demografi-text {

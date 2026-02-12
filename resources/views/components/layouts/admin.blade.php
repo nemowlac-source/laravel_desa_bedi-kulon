@@ -109,6 +109,41 @@
                         <i class="ph ph-chart-bar text-xl"></i> APBD Desa
                     </a>
                 </li>
+                <li class="mb-1">
+                    <a href="{{ route('agama.index') }}" class="{{ request()->routeIs('admin.agama.*') ? 'active bg-blue-600' : 'hover:bg-gray-700' }}">
+                        <i class="ph ph-hands-praying text-xl"></i> Data Agama
+                    </a>
+                </li>
+                <li class="mb-1">
+                    <a href="{{ route('kawin.index') }}" class="{{ request()->routeIs('admin.kawin.*') ? 'active bg-blue-600' : 'hover:bg-gray-700' }}">
+                        <i class="ph ph-heart text-xl"></i> Status Perkawinan
+                    </a>
+                </li>
+                <li class="mb-1">
+                    <a href="{{ route('pekerjaan.index') }}" class="{{ request()->routeIs('admin.pekerjaan.*') ? 'active bg-blue-600' : 'hover:bg-gray-700' }}">
+                        <i class="ph ph-briefcase text-xl"></i> Data Pekerjaan
+                    </a>
+                </li>
+                <li class="mb-1">
+                    <a href="{{ route('pendidikan.index') }}" class="{{ request()->routeIs('admin.pendidikan.*') ? 'active bg-blue-600' : 'hover:bg-gray-700' }}">
+                        <i class="ph ph-graduation-cap text-xl"></i> Data Pendidikan
+                    </a>
+                </li>
+                <li class="mb-1">
+                    <a href="{{ route('usia.index') }}" class="{{ request()->routeIs('admin.usia.*') ? 'active bg-blue-600' : 'hover:bg-gray-700' }}">
+                        <i class="ph ph-chart-bar-horizontal text-xl"></i> Data Umur (Piramida)
+                    </a>
+                </li>
+                <li class="mb-1">
+                    <a href="{{ route('wajibpilih.index') }}" class="{{ request()->routeIs('admin.wajibpilih.*') ? 'active bg-blue-600' : 'hover:bg-gray-700' }}">
+                        <i class="ph ph-check-square-offset text-xl"></i> Wajib Pilih
+                    </a>
+                </li>
+
+
+
+
+
 
 
                 <li class="menu-title text-gray-500 mt-4 mb-2 uppercase text-xs font-bold">Pengaturan</li>
