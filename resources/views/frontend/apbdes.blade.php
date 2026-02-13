@@ -735,22 +735,33 @@
                 </div>
 
                 <div class="apbdes-stats">
+
                     <div class="year-selector">
-                        <select class="form-select">
-                            <option selected>2025</option>
-                            <option>2024</option>
-                            <option>2023</option>
-                        </select>
+                        <form action="{{ url()->current() }}" method="GET" id="formTahunStats">
+                            <select class="form-select" name="tahun" onchange="document.getElementById('formTahunStats').submit()">
+                                @forelse($list_tahun as $thn)
+                                <option value="{{ $thn }}" {{ $tahun_pilih == $thn ? 'selected' : '' }}>
+                                    {{ $thn }}
+                                </option>
+                                @empty
+                                <option value="{{ date('Y') }}">{{ date('Y') }}</option>
+                                @endforelse
+                            </select>
+                        </form>
                     </div>
 
                     <div class="stats-row-top">
                         <div class="stat-card">
                             <span class="stat-label"><i class="arrow-up">▲</i> Pendapatan</span>
-                            <span class="stat-value color-green-money">Rp4.254.715.300,00</span>
+                            <span class="stat-value color-green-money">
+                                Rp{{ number_format($pendapatan, 2, ',', '.') }}
+                            </span>
                         </div>
                         <div class="stat-card">
                             <span class="stat-label"><i class="heart-icon">♥</i> Belanja</span>
-                            <span class="stat-value color-red-money">Rp4.235.654.388,75</span>
+                            <span class="stat-value color-red-money">
+                                Rp{{ number_format($belanja, 2, ',', '.') }}
+                            </span>
                         </div>
                     </div>
 
@@ -759,20 +770,28 @@
                         <div class="stats-row-inner">
                             <div class="stat-card-inner">
                                 <span class="stat-label"><i class="arrow-up">▲</i> Penerimaan</span>
-                                <span class="stat-value color-green-money">Rp125.939.088,75</span>
+                                <span class="stat-value color-green-money">
+                                    Rp{{ number_format($pembiayaan_penerimaan, 2, ',', '.') }}
+                                </span>
                             </div>
                             <div class="stat-card-inner">
                                 <span class="stat-label"><i class="heart-icon">♥</i> Pengeluaran</span>
-                                <span class="stat-value color-red-money">Rp145.000.000,00</span>
+                                <span class="stat-value color-red-money">
+                                    Rp{{ number_format($pembiayaan_pengeluaran, 2, ',', '.') }}
+                                </span>
                             </div>
                         </div>
                     </div>
 
                     <div class="stat-card-total">
                         <span class="stat-label-total">Surplus/Defisit</span>
-                        <span class="stat-value-total">Rp0,00</span>
+
+                        <span class="stat-value-total" style="{{ $surplus_defisit < 0 ? 'color: #dc2626;' : '' }}">
+                            Rp{{ number_format($surplus_defisit, 2, ',', '.') }}
+                        </span>
                     </div>
                 </div>
+
 
             </div>
         </div>
@@ -781,50 +800,58 @@
     <section class="apbdes-trend-section">
         <div class="infografis-container">
             <h2 class="chart-title-green">Pendapatan dan Belanja Desa dari Tahun ke Tahun</h2>
-
             <div class="apbdes-chart-wrapper">
                 <canvas id="apbdesTrendChart"></canvas>
             </div>
         </div>
     </section>
 
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const apbCtx = document.getElementById('apbdesTrendChart').getContext('2d');
 
+            // Terima data dari Controller
+            const labels = @json($chart_labels);
+            const dataPendapatan = @json($chart_pendapatan);
+            const dataBelanja = @json($chart_belanja);
+
             new Chart(apbCtx, {
                 type: 'bar'
                 , data: {
-                    labels: ['2021', '2022', '2023', '2024', '2025']
-                    , datasets: [{
-                            label: 'Pendapatan'
-                            , data: [1164117188.75, 1336738788.75, 4613002200.00, 4802205805.00, 4254715300.00]
-                            , backgroundColor: '#438e0d', // Hijau Tua
-                            borderRadius: 5
-                            , barPercentage: 0.8
-                            , categoryPercentage: 0.6
-                        }
-                        , {
-                            label: 'Belanja'
-                            , data: [0, 0, 4796206868.75, 4888222678.75, 4235654388.75]
-                            , backgroundColor: '#98e07a', // Hijau Muda
-                            borderRadius: 5
-                            , barPercentage: 0.8
-                            , categoryPercentage: 0.6
-                        }
-                    ]
+                    labels: labels, // Tahun Dinamis (2021, 2022, dst)
+                    datasets: [{
+                        label: 'Pendapatan'
+                        , data: dataPendapatan, // Data Dinamis
+                        backgroundColor: '#438e0d', // Hijau Tua
+                        borderRadius: 5
+                        , barPercentage: 0.8
+                        , categoryPercentage: 0.6
+                    , }, {
+                        label: 'Belanja'
+                        , data: dataBelanja, // Data Dinamis
+                        backgroundColor: '#98e07a', // Hijau Muda
+                        borderRadius: 5
+                        , barPercentage: 0.8
+                        , categoryPercentage: 0.6
+                    , }]
                 }
                 , options: {
                     responsive: true
                     , maintainAspectRatio: false
                     , scales: {
                         y: {
-                            beginAtZero: true
-                            , max: 5000000000
-                            , ticks: {
-                                stepSize: 1000000000
-                                , callback: function(value) {
-                                    return value.toLocaleString('id-ID');
+                            beginAtZero: true,
+                            // 'max' saya hapus agar grafik otomatis menyesuaikan jika angka makin besar
+                            ticks: {
+                                callback: function(value) {
+                                    // Format Rupiah Singkat (Juta/Miliar) agar tidak kepanjangan
+                                    if (value >= 1000000000) {
+                                        return 'Rp' + (value / 1000000000).toFixed(1) + ' M';
+                                    } else if (value >= 1000000) {
+                                        return 'Rp' + (value / 1000000).toFixed(0) + ' Jt';
+                                    }
+                                    return value;
                                 }
                             }
                         }
@@ -841,7 +868,12 @@
                         , tooltip: {
                             callbacks: {
                                 label: function(context) {
-                                    return context.dataset.label + ': Rp' + context.raw.toLocaleString('id-ID');
+                                    // Format Rupiah lengkap di Tooltip
+                                    let value = context.raw;
+                                    return context.dataset.label + ': ' + new Intl.NumberFormat('id-ID', {
+                                        style: 'currency'
+                                        , currency: 'IDR'
+                                    }).format(value);
                                 }
                             }
                         }
@@ -854,34 +886,108 @@
 
     <section class="pendapatan-detail-section">
         <div class="infografis-container">
-            <h2 class="chart-title-green">Pendapatan Desa 2025</h2>
+            <h2 class="chart-title-green">Pendapatan Desa {{ $tahun_pilih }}</h2>
 
             <div class="chart-box-white">
                 <canvas id="pendapatanCategoryChart"></canvas>
             </div>
 
             <div class="income-accordion-wrapper">
+
                 <div class="accordion-item">
                     <button class="accordion-header" onclick="toggleAccordion('pad-detail')">
                         <span>Pendapatan Asli Desa</span>
-                        <span class="total-val">Rp0,00 <i class="arrow-icon">^</i></span>
+                        <span class="total-val">
+                            Rp{{ number_format($total_pad, 2, ',', '.') }}
+                            <i class="arrow-icon">^</i>
+                        </span>
                     </button>
                     <div id="pad-detail" class="accordion-content">
                         <table class="detail-table">
                             <thead>
                                 <tr>
                                     <th>Uraian</th>
-                                    <th>Anggaran</th>
+                                    <th class="text-right">Anggaran</th>
                                 </tr>
                             </thead>
                             <tbody>
+                                @forelse($pad_items as $item)
                                 <tr>
-                                    <td colspan="2" class="text-center">Tidak ada data rincian</td>
+                                    <td>{{ $item->kategori }}</td>
+                                    <td class="text-right">Rp{{ number_format($item->anggaran, 2, ',', '.') }}</td>
                                 </tr>
+                                @empty
+                                <tr>
+                                    <td colspan="2" class="text-center text-gray-500">Tidak ada data rincian</td>
+                                </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>
                 </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header active" onclick="toggleAccordion('transfer-detail')">
+                        <span>Pendapatan Transfer</span>
+                        <span class="total-val">
+                            Rp{{ number_format($total_transfer, 2, ',', '.') }}
+                            <i class="arrow-icon">^</i>
+                        </span>
+                    </button>
+                    <div id="transfer-detail" class="accordion-content active">
+                        <div class="progress-container">
+                            <div class="progress-bar-fill" style="width: 100%;">100%</div>
+                        </div>
+
+                        <table class="detail-table">
+                            <thead>
+                                <tr>
+                                    <th>Uraian</th>
+                                    <th class="text-right">Anggaran</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @forelse($transfer_items as $item)
+                                <tr>
+                                    <td>{{ $item->kategori }}</td>
+                                    <td class="text-right">Rp{{ number_format($item->anggaran, 2, ',', '.') }}</td>
+                                </tr>
+                                @empty
+                                <tr>
+                                    <td colspan="2" class="text-center text-gray-500">Tidak ada data rincian</td>
+                                </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header" onclick="toggleAccordion('lain-detail')">
+                        <span>Pendapatan Lain-lain</span>
+                        <span class="total-val">
+                            Rp{{ number_format($total_lain, 2, ',', '.') }}
+                            <i class="arrow-icon">^</i>
+                        </span>
+                    </button>
+                    <div id="lain-detail" class="accordion-content">
+                        <table class="detail-table">
+                            <tbody>
+                                @forelse($lain_items as $item)
+                                <tr>
+                                    <td>{{ $item->kategori }}</td>
+                                    <td class="text-right">Rp{{ number_format($item->anggaran, 2, ',', '.') }}</td>
+                                </tr>
+                                @empty
+                                <tr>
+                                    <td colspan="2" class="text-center text-gray-500">Tidak ada data rincian</td>
+                                </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
             </div>
         </div>
     </section>
@@ -890,15 +996,32 @@
         document.addEventListener('DOMContentLoaded', function() {
             const catCtx = document.getElementById('pendapatanCategoryChart').getContext('2d');
 
+            // Data Dinamis dari Controller
+            const valPAD = {
+                {
+                    $total_pad
+                }
+            };
+            const valTransfer = {
+                {
+                    $total_transfer
+                }
+            };
+            const valLain = {
+                {
+                    $total_lain
+                }
+            };
+
             new Chart(catCtx, {
                 type: 'bar'
                 , data: {
                     labels: ['Pendapatan Asli Desa', 'Pendapatan Transfer', 'Pendapatan Lain-lain']
                     , datasets: [{
                         label: 'Anggaran'
-                        , data: [0, 4254715300, 0], // Data sesuai gambar
-                        backgroundColor: '#438e0d'
-                        , borderRadius: 5
+                        , data: [valPAD, valTransfer, valLain], // Masukkan variabel di sini
+                        backgroundColor: ['#eab308', '#438e0d', '#3b82f6'], // Variasi Warna (Kuning, Hijau, Biru)
+                        borderRadius: 5
                         , barThickness: 60
                     }]
                 }
@@ -908,9 +1031,8 @@
                     , scales: {
                         y: {
                             beginAtZero: true
-                            , max: 5000000000
                             , ticks: {
-                                callback: value => value.toLocaleString('id-ID')
+                                callback: value => 'Rp' + (value / 1000000).toFixed(0) + ' Jt' // Format sumbu Y ringkas
                             }
                         }
                         , x: {
@@ -925,7 +1047,7 @@
                         }
                         , tooltip: {
                             callbacks: {
-                                label: context => 'Rp' + context.raw.toLocaleString('id-ID')
+                                label: context => 'Rp' + new Intl.NumberFormat('id-ID').format(context.raw)
                             }
                         }
                     }
@@ -935,76 +1057,18 @@
 
         function toggleAccordion(id) {
             const content = document.getElementById(id);
+            const header = content.previousElementSibling; // Ambil tombol header sebelum content
+
             content.classList.toggle('active');
+            header.classList.toggle('active'); // Agar panah icon bisa diputar lewat CSS
         }
 
     </script>
 
-    <div class="accordion-item">
-        <button class="accordion-header active" onclick="toggleAccordion('transfer-detail')">
-            <span>Pendapatan Transfer</span>
-            <span class="total-val">Rp4.254.715.300,00 <i class="arrow-icon">^</i></span>
-        </button>
-        <div id="transfer-detail" class="accordion-content active">
-            <div class="progress-container">
-                <div class="progress-bar-fill" style="width: 100%;">100.00%</div>
-            </div>
-
-            <table class="detail-table">
-                <thead>
-                    <tr>
-                        <th>Uraian</th>
-                        <th class="text-right">Anggaran</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>DANA DESA</td>
-                        <td class="text-right">Rp723.068.000,00</td>
-                    </tr>
-                    <tr>
-                        <td>BAGI HASIL PAJAK DAN RETRIBUSI DAERAH KABUPATEN/KOTA</td>
-                        <td class="text-right">Rp130.421.800,00</td>
-                    </tr>
-                    <tr>
-                        <td>ALOKASI DANA DESA</td>
-                        <td class="text-right">Rp2.999.405.900,00</td>
-                    </tr>
-                    <tr>
-                        <td>BANTUAN KEUANGAN DARI APBD PROVINSI</td>
-                        <td class="text-right">Rp75.000.000,00</td>
-                    </tr>
-                    <tr>
-                        <td>BANTUAN KEUANGAN DARI APBD KABUPATEN/KOTA</td>
-                        <td class="text-right">Rp326.819.600,00</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
-
-    <div class="accordion-item">
-        <button class="accordion-header" onclick="toggleAccordion('lain-detail')">
-            <span>Pendapatan Lain-lain</span>
-            <span class="total-val">Rp0,00 <i class="arrow-icon">^</i></span>
-        </button>
-        <div id="lain-detail" class="accordion-content">
-            <div class="progress-container empty">
-                <div class="progress-bar-fill" style="width: 0%;"></div>
-            </div>
-            <table class="detail-table">
-                <tbody>
-                    <tr>
-                        <td class="text-center">Tidak ada data rincian</td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-    </div>
 
     <section class="belanja-detail-section">
         <div class="infografis-container">
-            <h2 class="chart-title-green">Belanja Desa 2025</h2>
+            <h2 class="chart-title-green">Belanja Desa {{ $tahun_pilih }}</h2>
 
             <div class="chart-box-white">
                 <canvas id="belanjaCategoryChart"></canvas>
@@ -1015,36 +1079,28 @@
                 <div class="accordion-item">
                     <button class="accordion-header" onclick="toggleAccordion('pemerintahan-detail')">
                         <span>Penyelenggaraan Pemerintahan Desa</span>
-                        <span class="total-val">Rp1.933.401.432,00 <i class="arrow-icon">^</i></span>
+                        <span class="total-val">
+                            Rp{{ number_format($total_pemerintahan, 2, ',', '.') }}
+                            <i class="arrow-icon">^</i>
+                        </span>
                     </button>
                     <div id="pemerintahan-detail" class="accordion-content">
+                        @php $persen = ($total_pemerintahan / $grand_total_belanja) * 100; @endphp
                         <div class="progress-container">
-                            <div class="progress-bar-fill" style="width: 45.65%;">45.65%</div>
+                            <div class="progress-bar-fill" style="width: {{ $persen }}%;">{{ number_format($persen, 2) }}%</div>
                         </div>
                         <table class="detail-table">
-                            <thead>
-                                <tr>
-                                    <th>Uraian</th>
-                                    <th class="text-right">Anggaran</th>
-                                </tr>
-                            </thead>
                             <tbody>
+                                @forelse($belanja_pemerintahan as $item)
                                 <tr>
-                                    <td>Penyelenggaraan Belanja Siltap, Tunjangan dan Operasional Pemerintahan Desa</td>
-                                    <td class="text-right">Rp1.545.922.900,00</td>
+                                    <td>{{ $item->kategori }}</td>
+                                    <td class="text-right">Rp{{ number_format($item->anggaran, 2, ',', '.') }}</td>
                                 </tr>
+                                @empty
                                 <tr>
-                                    <td>Penyediaan Sarana Prasarana Pemerintahan Desa</td>
-                                    <td class="text-right">Rp215.110.432,00</td>
+                                    <td colspan="2" class="text-center text-gray-500">Tidak ada data rincian</td>
                                 </tr>
-                                <tr>
-                                    <td>Pengelolaan Administrasi Kependudukan, Pencatatan Sipil, Statistik Dan Kearsipan</td>
-                                    <td class="text-right">Rp12.600.000,00</td>
-                                </tr>
-                                <tr>
-                                    <td>Penyelenggaraan Tata Praja Pemerintahan, Perencanaan, Tata Corak Dan Keuangan Desa</td>
-                                    <td class="text-right">Rp159.768.100,00</td>
-                                </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>
@@ -1053,17 +1109,118 @@
                 <div class="accordion-item">
                     <button class="accordion-header" onclick="toggleAccordion('pembangunan-detail')">
                         <span>Pelaksanaan Pembangunan Desa</span>
-                        <span class="total-val">Rp1.525.181.190,75 <i class="arrow-icon">^</i></span>
+                        <span class="total-val">
+                            Rp{{ number_format($total_pembangunan, 2, ',', '.') }}
+                            <i class="arrow-icon">^</i>
+                        </span>
                     </button>
                     <div id="pembangunan-detail" class="accordion-content">
+                        @php $persen = ($total_pembangunan / $grand_total_belanja) * 100; @endphp
                         <div class="progress-container">
-                            <div class="progress-bar-fill" style="width: 36.01%;">36.01%</div>
+                            <div class="progress-bar-fill" style="width: {{ $persen }}%;">{{ number_format($persen, 2) }}%</div>
                         </div>
                         <table class="detail-table">
                             <tbody>
+                                @forelse($belanja_pembangunan as $item)
                                 <tr>
-                                    <td class="text-center">Klik untuk melihat rincian pembangunan...</td>
+                                    <td>{{ $item->kategori }}</td>
+                                    <td class="text-right">Rp{{ number_format($item->anggaran, 2, ',', '.') }}</td>
                                 </tr>
+                                @empty
+                                <tr>
+                                    <td colspan="2" class="text-center text-gray-500">Tidak ada data rincian</td>
+                                </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header" onclick="toggleAccordion('pembinaan-detail')">
+                        <span>Pembinaan Kemasyarakatan Desa</span>
+                        <span class="total-val">
+                            Rp{{ number_format($total_pembinaan, 2, ',', '.') }}
+                            <i class="arrow-icon">^</i>
+                        </span>
+                    </button>
+                    <div id="pembinaan-detail" class="accordion-content">
+                        @php $persen = ($total_pembinaan / $grand_total_belanja) * 100; @endphp
+                        <div class="progress-container">
+                            <div class="progress-bar-fill" style="width: {{ $persen }}%;">{{ number_format($persen, 2) }}%</div>
+                        </div>
+                        <table class="detail-table">
+                            <tbody>
+                                @forelse($belanja_pembinaan as $item)
+                                <tr>
+                                    <td>{{ $item->kategori }}</td>
+                                    <td class="text-right">Rp{{ number_format($item->anggaran, 2, ',', '.') }}</td>
+                                </tr>
+                                @empty
+                                <tr>
+                                    <td colspan="2" class="text-center text-gray-500">Tidak ada data rincian</td>
+                                </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header" onclick="toggleAccordion('pemberdayaan-detail')">
+                        <span>Pemberdayaan Masyarakat Desa</span>
+                        <span class="total-val">
+                            Rp{{ number_format($total_pemberdayaan, 2, ',', '.') }}
+                            <i class="arrow-icon">^</i>
+                        </span>
+                    </button>
+                    <div id="pemberdayaan-detail" class="accordion-content">
+                        @php $persen = ($total_pemberdayaan / $grand_total_belanja) * 100; @endphp
+                        <div class="progress-container">
+                            <div class="progress-bar-fill" style="width: {{ $persen }}%;">{{ number_format($persen, 2) }}%</div>
+                        </div>
+                        <table class="detail-table">
+                            <tbody>
+                                @forelse($belanja_pemberdayaan as $item)
+                                <tr>
+                                    <td>{{ $item->kategori }}</td>
+                                    <td class="text-right">Rp{{ number_format($item->anggaran, 2, ',', '.') }}</td>
+                                </tr>
+                                @empty
+                                <tr>
+                                    <td colspan="2" class="text-center text-gray-500">Tidak ada data rincian</td>
+                                </tr>
+                                @endforelse
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="accordion-item">
+                    <button class="accordion-header" onclick="toggleAccordion('bencana-detail')">
+                        <span>Penanggulangan Bencana, Darurat & Mendesak</span>
+                        <span class="total-val">
+                            Rp{{ number_format($total_bencana, 2, ',', '.') }}
+                            <i class="arrow-icon">^</i>
+                        </span>
+                    </button>
+                    <div id="bencana-detail" class="accordion-content">
+                        @php $persen = ($total_bencana / $grand_total_belanja) * 100; @endphp
+                        <div class="progress-container">
+                            <div class="progress-bar-fill" style="width: {{ $persen }}%;">{{ number_format($persen, 2) }}%</div>
+                        </div>
+                        <table class="detail-table">
+                            <tbody>
+                                @forelse($belanja_bencana as $item)
+                                <tr>
+                                    <td>{{ $item->kategori }}</td>
+                                    <td class="text-right">Rp{{ number_format($item->anggaran, 2, ',', '.') }}</td>
+                                </tr>
+                                @empty
+                                <tr>
+                                    <td colspan="2" class="text-center text-gray-500">Tidak ada data rincian</td>
+                                </tr>
+                                @endforelse
                             </tbody>
                         </table>
                     </div>
@@ -1077,20 +1234,48 @@
         document.addEventListener('DOMContentLoaded', function() {
             const belCtx = document.getElementById('belanjaCategoryChart').getContext('2d');
 
+            // Data Dinamis dari Controller
+            const dataBelanja = [{
+                    {
+                        $total_pemerintahan
+                    }
+                }
+                , {
+                    {
+                        $total_pembangunan
+                    }
+                }
+                , {
+                    {
+                        $total_pembinaan
+                    }
+                }
+                , {
+                    {
+                        $total_pemberdayaan
+                    }
+                }
+                , {
+                    {
+                        $total_bencana
+                    }
+                }
+            ];
+
             new Chart(belCtx, {
                 type: 'bar'
                 , data: {
                     labels: [
-                        'Penyelenggaraan Pemerintahan Desa'
-                        , 'Pelaksanaan Pembangunan Desa'
-                        , 'Pembinaan Kemasyarakatan Desa'
-                        , 'Pemberdayaan Masyarakat Desa'
-                        , 'Penanggulangan Bencana, Darurat Dan Mendesak Desa'
+                        'Pemerintahan Desa'
+                        , 'Pembangunan Desa'
+                        , 'Pembinaan Kemasyarakatan'
+                        , 'Pemberdayaan Masyarakat'
+                        , 'Penanggulangan Bencana'
                     ]
                     , datasets: [{
                         label: 'Anggaran'
-                        , data: [1933401432, 1525181190.75, 602530766, 66541000, 108000000]
-                        , backgroundColor: '#98e07a', // Hijau muda belanja
+                        , data: dataBelanja
+                        , backgroundColor: '#98e07a', // Hijau muda
                         borderRadius: 5
                         , barThickness: 50
                     }]
@@ -1101,9 +1286,8 @@
                     , scales: {
                         y: {
                             beginAtZero: true
-                            , max: 2100000000
                             , ticks: {
-                                callback: value => value.toLocaleString('id-ID')
+                                callback: value => 'Rp' + (value / 1000000).toFixed(0) + ' Jt'
                             }
                         }
                         , x: {
@@ -1112,9 +1296,9 @@
                             }
                             , ticks: {
                                 callback: function(val, index) {
-                                    // Potong label panjang agar rapi
+                                    // Potong label jika terlalu panjang
                                     const label = this.getLabelForValue(val);
-                                    return label.length > 20 ? label.substr(0, 20) + '...' : label;
+                                    return label.length > 15 ? label.substr(0, 15) + '...' : label;
                                 }
                             }
                         }
@@ -1125,7 +1309,7 @@
                         }
                         , tooltip: {
                             callbacks: {
-                                label: context => 'Rp' + context.raw.toLocaleString('id-ID')
+                                label: context => 'Rp' + new Intl.NumberFormat('id-ID').format(context.raw)
                             }
                         }
                     }
@@ -1135,60 +1319,160 @@
 
     </script>
 
+
     <div class="accordion-item">
-        <div class="accordion-header-static">
-            <span class="label-text">Pembinaan Kemasyarakatan Desa</span>
-            <div class="progress-wrapper">
-                <div class="progress-bar-bg">
-                    <div class="progress-bar-fill light-green" style="width: 100%;">100.00%</div>
-                </div>
+        <button class="accordion-header" onclick="toggleAccordion('pembinaan-detail')">
+            <span>Pembinaan Kemasyarakatan Desa</span>
+            <span class="total-val">
+                Rp{{ number_format($total_pembinaan, 2, ',', '.') }}
+                <i class="arrow-icon">^</i>
+            </span>
+        </button>
+
+        <div id="pembinaan-detail" class="accordion-content">
+            @php
+            $persen = ($grand_total_belanja > 0) ? ($total_pembinaan / $grand_total_belanja) * 100 : 0;
+            @endphp
+            <div class="progress-container">
+                <div class="progress-bar-fill" style="width: {{ $persen }}%;">{{ number_format($persen, 2) }}%</div>
             </div>
-            <span class="value-text">Rp602.530.766,00 <i class="arrow-down">⌄</i></span>
+
+            <table class="detail-table">
+                <thead>
+                    <tr>
+                        <th>Uraian</th>
+                        <th class="text-right">Anggaran</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($belanja_pembinaan as $item)
+                    <tr>
+                        <td>{{ $item->kategori }}</td>
+                        <td class="text-right">Rp{{ number_format($item->anggaran, 2, ',', '.') }}</td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="2" class="text-center text-gray-500">Tidak ada data rincian</td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
     </div>
 
     <div class="accordion-item">
-        <div class="accordion-header-static">
-            <span class="label-text">Pemberdayaan Masyarakat Desa</span>
-            <div class="progress-wrapper">
-                <div class="progress-bar-bg">
-                    <div class="progress-bar-fill light-green" style="width: 100%;">100.00%</div>
-                </div>
+        <button class="accordion-header" onclick="toggleAccordion('pemberdayaan-detail')">
+            <span>Pemberdayaan Masyarakat Desa</span>
+            <span class="total-val">
+                Rp{{ number_format($total_pemberdayaan, 2, ',', '.') }}
+                <i class="arrow-icon">^</i>
+            </span>
+        </button>
+
+        <div id="pemberdayaan-detail" class="accordion-content">
+            @php
+            $persen = ($grand_total_belanja > 0) ? ($total_pemberdayaan / $grand_total_belanja) * 100 : 0;
+            @endphp
+            <div class="progress-container">
+                <div class="progress-bar-fill" style="width: {{ $persen }}%;">{{ number_format($persen, 2) }}%</div>
             </div>
-            <span class="value-text">Rp66.541.000,00 <i class="arrow-down">⌄</i></span>
+
+            <table class="detail-table">
+                <thead>
+                    <tr>
+                        <th>Uraian</th>
+                        <th class="text-right">Anggaran</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($belanja_pemberdayaan as $item)
+                    <tr>
+                        <td>{{ $item->kategori }}</td>
+                        <td class="text-right">Rp{{ number_format($item->anggaran, 2, ',', '.') }}</td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="2" class="text-center text-gray-500">Tidak ada data rincian</td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
     </div>
 
     <div class="accordion-item">
-        <div class="accordion-header-static">
-            <span class="label-text">Penanggulangan Bencana, Keadaan Darurat, dan Keadaan Mendesak Desa</span>
-            <div class="progress-wrapper">
-                <div class="progress-bar-bg">
-                    <div class="progress-bar-fill light-green" style="width: 100%;">100.00%</div>
-                </div>
+        <button class="accordion-header" onclick="toggleAccordion('bencana-detail')">
+            <span>Penanggulangan Bencana, Darurat & Mendesak</span>
+            <span class="total-val">
+                Rp{{ number_format($total_bencana, 2, ',', '.') }}
+                <i class="arrow-icon">^</i>
+            </span>
+        </button>
+
+        <div id="bencana-detail" class="accordion-content">
+            @php
+            $persen = ($grand_total_belanja > 0) ? ($total_bencana / $grand_total_belanja) * 100 : 0;
+            @endphp
+            <div class="progress-container">
+                <div class="progress-bar-fill" style="width: {{ $persen }}%;">{{ number_format($persen, 2) }}%</div>
             </div>
-            <span class="value-text">Rp108.000.000,00 <i class="arrow-down">⌄</i></span>
+
+            <table class="detail-table">
+                <thead>
+                    <tr>
+                        <th>Uraian</th>
+                        <th class="text-right">Anggaran</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($belanja_bencana as $item)
+                    <tr>
+                        <td>{{ $item->kategori }}</td>
+                        <td class="text-right">Rp{{ number_format($item->anggaran, 2, ',', '.') }}</td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="2" class="text-center text-gray-500">Tidak ada data rincian</td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
     </div>
+
+
 
     <section class="pembiayaan-section">
         <div class="infografis-container">
             <div class="white-box-chart">
-                <h2 class="chart-title-green">Pembiayaan Desa 2025</h2>
+                <h2 class="chart-title-green">Pembiayaan Desa {{ $tahun_pilih }}</h2>
 
                 <div class="chart-container-finance">
                     <canvas id="pembiayaanChart"></canvas>
                 </div>
             </div>
 
+            @php
+            $total_biaya_all = $pembiayaan_penerimaan + $pembiayaan_pengeluaran;
+            // Hindari bagi nol
+            $total_biaya_all = $total_biaya_all == 0 ? 1 : $total_biaya_all;
+
+            $persen_terima = ($pembiayaan_penerimaan / $total_biaya_all) * 100;
+            $persen_keluar = ($pembiayaan_pengeluaran / $total_biaya_all) * 100;
+            @endphp
+
             <div class="finance-progress-list">
+
                 <div class="finance-item">
                     <div class="finance-header-row">
                         <span class="finance-label">Penerimaan</span>
                         <div class="progress-bar-bg">
-                            <div class="progress-bar-fill dark-green" style="width: 46.45%;">46.45%</div>
+                            <div class="progress-bar-fill dark-green" style="width: {{ $persen_terima }}%;">{{ number_format($persen_terima, 2) }}%</div>
                         </div>
-                        <span class="finance-value">Rp125.939.088,75 <i class="arrow-down">⌄</i></span>
+                        <span class="finance-value">
+                            Rp{{ number_format($pembiayaan_penerimaan, 2, ',', '.') }}
+                            <i class="arrow-down">⌄</i>
+                        </span>
                     </div>
                 </div>
 
@@ -1196,11 +1480,15 @@
                     <div class="finance-header-row">
                         <span class="finance-label">Pengeluaran</span>
                         <div class="progress-bar-bg">
-                            <div class="progress-bar-fill dark-green" style="width: 53.55%;">53.55%</div>
+                            <div class="progress-bar-fill dark-green" style="width: {{ $persen_keluar }}%;">{{ number_format($persen_keluar, 2) }}%</div>
                         </div>
-                        <span class="finance-value">Rp145.000.000,00 <i class="arrow-down">⌄</i></span>
+                        <span class="finance-value">
+                            Rp{{ number_format($pembiayaan_pengeluaran, 2, ',', '.') }}
+                            <i class="arrow-down">⌄</i>
+                        </span>
                     </div>
                 </div>
+
             </div>
         </div>
     </section>
@@ -1209,14 +1497,26 @@
         document.addEventListener('DOMContentLoaded', function() {
             const finCtx = document.getElementById('pembiayaanChart').getContext('2d');
 
+            // Data Dinamis
+            const valTerima = {
+                {
+                    $pembiayaan_penerimaan
+                }
+            };
+            const valKeluar = {
+                {
+                    $pembiayaan_pengeluaran
+                }
+            };
+
             new Chart(finCtx, {
                 type: 'bar'
                 , data: {
                     labels: ['Penerimaan', 'Pengeluaran']
                     , datasets: [{
                         label: 'Anggaran'
-                        , data: [125939088.75, 145000000]
-                        , backgroundColor: '#438e0d', // Hijau Tua sesuai gambar
+                        , data: [valTerima, valKeluar], // Data Variabel
+                        backgroundColor: '#438e0d', // Hijau Tua
                         borderRadius: 4
                         , barThickness: 80
                     }]
@@ -1226,11 +1526,10 @@
                     , maintainAspectRatio: false
                     , scales: {
                         y: {
-                            beginAtZero: true
-                            , max: 150000000
-                            , ticks: {
-                                stepSize: 30000000
-                                , callback: value => value.toLocaleString('id-ID')
+                            beginAtZero: true,
+                            // Max dihapus agar otomatis
+                            ticks: {
+                                callback: value => 'Rp' + (value / 1000000).toFixed(0) + ' Jt'
                             }
                             , grid: {
                                 borderDash: [5, 5]
@@ -1248,7 +1547,7 @@
                         }
                         , tooltip: {
                             callbacks: {
-                                label: context => 'Rp' + context.raw.toLocaleString('id-ID')
+                                label: context => 'Rp' + new Intl.NumberFormat('id-ID').format(context.raw)
                             }
                         }
                     }
@@ -1257,5 +1556,6 @@
         });
 
     </script>
+
 
 </x-frontend>

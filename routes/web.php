@@ -18,43 +18,35 @@ use App\Http\Controllers\Admin\PendudukPekerjaanController;
 use App\Http\Controllers\Admin\PendudukPendidikanController;
 use App\Http\Controllers\Admin\PendudukUsiaController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\ApbdesController;
+use App\Http\Controllers\StuntingController;
+use App\Http\Controllers\BansosController;
+use App\Http\Controllers\IdmController;
+use App\Http\Controllers\SdgsController;
+use App\Http\Controllers\PpidController;
 
+
+Route::get('/ppid', [PpidController::class, 'index'])->name('frontend.ppid');
+Route::get('/ppid/download/{id}', [PpidController::class, 'download'])->name('ppid.download');
+Route::get('/bansos', [BansosController::class, 'index'])->name('frontend.bansos');
+Route::get('/stunting', [StuntingController::class, 'index'])->name('frontend.stunting');
+Route::get('/apbdes', [ApbdesController::class, 'index'])->name('frontend.apbdes');
 Route::get('/', [HomeController::class, 'index'])->name('frontend.dashboard');
-Route::get('/profile-desa', function () {
-    return view('frontend.profile');
-})->name('frontend.profile');
-Route::get('/apbdes', function () {
-    return view('frontend.apbdes');
-})->name('frontend.apbdes');
-Route::get('/bansos', function () {
-    return view('frontend.bansos');
-})->name('frontend.bansos');
-Route::get('/belanja', [HomeController::class, 'belanja'])->name('frontend.belanja');
-Route::get('/berita', [HomeController::class, 'berita'])->name('frontend.berita');
-Route::get('/idm', function () {
-    return view('frontend.idm');
-})->name('frontend.idm');
-Route::get('/infografis', function () {
-    return view('frontend.infografis');
-})->name('frontend.infografis');
-Route::get('/listing', function () {
-    return view('frontend.listing');
-})->name('frontend.listing');
-Route::get('/ppid', function () {
-    return view('frontend.ppid');
-})->name('frontend.ppid');
-Route::get('/sdgs', function () {
-    return view('frontend.sdgs');
-})->name('frontend.sdgs');
-Route::get('/stunting', function () {
-    return view('frontend.stunting');
-})->name('frontend.stunting');
 Route::get('/wisata', [HomeController::class, 'wisata'])->name('frontend.wisata');
 Route::get('/potensi', [HomeController::class, 'potensi'])->name('frontend.potensi');
 Route::get('/pemerintahan', [HomeController::class, 'pemerintahan'])->name('frontend.pemerintahan');
 Route::get('/galeri', [HomeController::class, 'galeri'])->name('frontend.galeri');
 Route::get('/infografis', [InfografisController::class, 'index'])->name('frontend.infografis');
-
+Route::get('/belanja', [HomeController::class, 'belanja'])->name('frontend.belanja');
+Route::get('/berita', [HomeController::class, 'berita'])->name('frontend.berita');
+Route::get('/idm', [IdmController::class, 'index'])->name('frontend.idm');
+Route::get('/sdgs', [SdgsController::class, 'index'])->name('frontend.sdgs');
+Route::get('/profile-desa', function () {
+    return view('frontend.profile');
+})->name('frontend.profile');
+Route::get('/listing', function () {
+    return view('frontend.listing');
+})->name('frontend.listing');
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth', 'verified'])->name('dashboard');

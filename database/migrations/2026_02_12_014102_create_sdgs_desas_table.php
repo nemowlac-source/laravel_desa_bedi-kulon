@@ -13,6 +13,7 @@ return new class extends Migration
     {
         Schema::create('sdgs_desas', function (Blueprint $table) {
             $table->id();
+            $table->year('tahun')->index();
             $table->integer('goal_number');      // Urutan Goal (1-18)
             $table->string('title');             // Judul, misal: Desa Tanpa Kemiskinan
             $table->text('description')->nullable();

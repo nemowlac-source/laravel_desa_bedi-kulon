@@ -2,9 +2,7 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Penduduk; // <--- Import Model Penduduk
-use App\Models\Apbd;     // <--- Import APBD (Biasanya infografis juga butuh APBD)
 use App\Models\PendudukUsia;
 use App\Models\PendudukPendidikan;
 use App\Models\PendudukPekerjaan;

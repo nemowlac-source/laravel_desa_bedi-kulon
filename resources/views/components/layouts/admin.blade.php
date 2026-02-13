@@ -60,7 +60,8 @@
                 <li class="menu-title text-gray-500 mt-4 mb-2 uppercase text-xs font-bold">Data Desa</li>
 
                 <li class="mb-1">
-                    <a href="#" class="hover:bg-gray-700">
+                    <a href="{{ route('penduduk.index') }}" class="hover:bg-gray-700">
+
                         <i class="ph ph-users text-xl"></i> Penduduk
                     </a>
                 </li>

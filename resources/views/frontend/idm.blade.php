@@ -337,953 +337,100 @@
         }
 
     </style>
-
     <div class="idm-main-wrapper">
+
         <div class="idm-container">
 
             <div class="idm-top-section">
                 <div class="idm-info">
                     <h2 class="idm-brand">IDM</h2>
                     <p class="idm-text">
-                        Indeks Desa Membangun (IDM) merupakan indeks komposit yang dibentuk dari tiga indeks, yaitu
+                        Indeks Desa Membangun (IDM) Desa Bedi Kulon Tahun {{ $tahun_pilih }}.
+                        Indeks komposit yang dibentuk dari tiga indeks, yaitu
                         <strong>Indeks Ketahanan Sosial</strong>, <strong>Indeks Ketahanan Ekonomi</strong>, dan
                         <strong>Indeks Ketahanan Ekologi/Lingkungan</strong>.
                     </p>
+
+                    <div class="mt-4">
+                        <form action="{{ route('idm.index') }}" method="GET">
+                            <select name="tahun" onchange="this.form.submit()" class="px-4 py-2 border rounded bg-white text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                                @forelse($list_tahun as $thn)
+                                <option value="{{ $thn }}" {{ $tahun_pilih == $thn ? 'selected' : '' }}>
+                                    Tahun {{ $thn }}
+                                </option>
+                                @empty
+                                <option>{{ date('Y') }}</option>
+                                @endforelse
+                            </select>
+                        </form>
+                    </div>
                 </div>
 
+                @if($idm)
                 <div class="idm-primary-cards">
                     <div class="card-large">
-                        <span class="card-label">SKOR IDM 2024</span>
-                        <span class="card-value-bold">0.8152</span>
+                        <span class="card-label">SKOR IDM {{ $tahun_pilih }}</span>
+                        <span class="card-value-bold text-blue-600">{{ number_format($idm->skor_idm, 4) }}</span>
                     </div>
                     <div class="card-large">
-                        <span class="card-label">STATUS IDM 2024</span>
-                        <span class="card-value-bold">MAJU</span>
+                        <span class="card-label">STATUS IDM {{ $tahun_pilih }}</span>
+                        <span class="card-value-bold 
+                        {{ $idm->status == 'MANDIRI' ? 'text-green-600' : 
+                          ($idm->status == 'MAJU' ? 'text-blue-500' : 
+                          ($idm->status == 'BERKEMBANG' ? 'text-yellow-500' : 'text-red-500')) }}">
+                            {{ $idm->status }}
+                        </span>
                     </div>
                 </div>
+                @else
+                <div class="idm-primary-cards">
+                    <div class="card-large"><span class="card-value-bold text-gray-400">Belum Ada Data</span></div>
+                </div>
+                @endif
             </div>
 
+            @if($idm)
             <div class="idm-secondary-grid">
                 <div class="card-small">
                     <span class="card-label">Target Status</span>
-                    <span class="card-value-small">MANDIRI</span>
+                    <span class="card-value-small text-green-700">{{ $target_status }}</span>
                 </div>
                 <div class="card-small">
                     <span class="card-label">Skor Minimal</span>
-                    <span class="card-value-small">0.8156</span>
+                    <span class="card-value-small">{{ number_format($min_skor_target, 4) }}</span>
                 </div>
                 <div class="card-small">
                     <span class="card-label">Penambahan</span>
-                    <span class="card-value-small">0.0004</span>
+                    <span class="card-value-small {{ $penambahan > 0 ? 'text-red-500' : 'text-green-500' }}">
+                        {{ number_format($penambahan, 4) }}
+                    </span>
+                </div>
+
+                <div class="card-small">
+                    <span class="card-label">Skor IKS (Sosial)</span>
+                    <span class="card-value-small">{{ number_format($idm->skor_iks, 4) }}</span>
                 </div>
                 <div class="card-small">
-                    <span class="card-label">Skor IKS</span>
-                    <span class="card-value-small">0.8457</span>
+                    <span class="card-label">Skor IKE (Ekonomi)</span>
+                    <span class="card-value-small">{{ number_format($idm->skor_ike, 4) }}</span>
                 </div>
                 <div class="card-small">
-                    <span class="card-label">Skor IKE</span>
-                    <span class="card-value-small">0.6667</span>
-                </div>
-                <div class="card-small">
-                    <span class="card-label">Skor IKL</span>
-                    <span class="card-value-small">0.9333</span>
+                    <span class="card-label">Skor IKL (Lingkungan)</span>
+                    <span class="card-value-small">{{ number_format($idm->skor_ikl, 4) }}</span>
                 </div>
             </div>
+            @endif
+
         </div>
     </div>
 
+
     <section class="idm-chart-section">
         <div class="idm-container">
-            <h2 class="chart-title-green">Skor IDM tahun ke tahun</h2>
+            <h2 class="chart-title-green">Skor IDM Tahun ke Tahun</h2>
 
             <div class="line-chart-wrapper">
                 <canvas id="idmTrendChart"></canvas>
-            </div>
-        </div>
-    </section>
-
-    <section class="idm-table-container">
-        <div class="idm-wrapper">
-            <h2 class="table-title">Indikator Indeks Desa Membangun</h2>
-
-            <div class="table-scroll">
-                <table class="idm-table-final">
-                    <thead>
-                        <tr>
-                            <th rowspan="2" class="col-no">No</th>
-                            <th rowspan="2" class="col-indikator">Indikator IDM</th>
-                            <th rowspan="2" class="col-skor">Skor</th>
-                            <th rowspan="2" class="col-ket">Keterangan</th>
-                            <th rowspan="2" class="col-kegiatan">Kegiatan yang dapat dilakukan</th>
-                            <th rowspan="2" class="col-nilai">Nilai+</th>
-                            <th colspan="6" class="col-pelaksana">Yang dapat melaksanakan kegiatan</th>
-
-                        <tr>
-                            <th class="mini-th">Pusat</th>
-                            <th class="mini-th">Provinsi</th>
-                            <th class="mini-th">Kab.</th>
-                            <th class="mini-th">Desa</th>
-                            <th class="mini-th">CSR</th>
-                            <th class="mini-th">Lainnya</th>
-                        </tr>
-
-                        <tr>
-                            <td class="text-center">1</td>
-                            <td>Skor Akses Sarkes</td>
-                            <td class="text-center">5</td>
-                            <td>Waktu tempuh dari ≤ 30 Menit</td>
-                            <td>-</td>
-                            <td class="font-bold">0.0000</td>
-                            <td></td>
-                            <td></td>
-                            <td>Dinkes, PU</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">2</td>
-                            <td>Skor Dokter</td>
-                            <td class="text-center">0</td>
-                            <td>Jumlah Dokter Tidak ada</td>
-                            <td>Pengadaan Min 1 org Dokter</td>
-                            <td class="font-bold">0.0095</td>
-                            <td></td>
-                            <td></td>
-                            <td>DINKES</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">3</td>
-                            <td>Skor Bidan</td>
-                            <td class="text-center">5</td>
-                            <td>Jumlah bidan ≥ 1 orang</td>
-                            <td>-</td>
-                            <td class="font-bold">0.0000</td>
-                            <td></td>
-                            <td></td>
-                            <td>DINKES</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">4</td>
-                            <td>Skor Nakes Lain</td>
-                            <td class="text-center">3</td>
-                            <td>Jumlah tenaga kesehatan lainnya 2 orang</td>
-                            <td>Penambahan Nakes Min 3 Org</td>
-                            <td class="font-bold">0.0038</td>
-                            <td></td>
-                            <td></td>
-                            <td>DINKES</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">5</td>
-                            <td>Skor Tingkat Kepesertaan BPJS</td>
-                            <td class="text-center">5</td>
-                            <td>Jumlah peserta BPJS/jumlah penduduk > 0,75</td>
-                            <td>-</td>
-                            <td class="font-bold">0.0000</td>
-                            <td></td>
-                            <td></td>
-                            <td>DINKES</td>
-                            <td></td>
-                            <td>BPJS</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">12</td>
-                            <td>Skor Ketersediaan PKBM/ Paket ABC</td>
-                            <td class="text-center">1</td>
-                            <td>Jumlah PKBM atau Paket ABC Tidak ada</td>
-                            <td>Pelaksanaan Kegiatan PKBM/Kejar Paket A B C</td>
-                            <td class="font-bold">0.0076</td>
-                            <td></td>
-                            <td></td>
-                            <td>DISDIK</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">18</td>
-                            <td>Skor Kelompok OR</td>
-                            <td class="text-center">3</td>
-                            <td>Jumlah kelompok kegiatan olahraga antara 4 s.d 5</td>
-                            <td>Penambahan Min 4 Kelp Olahraga</td>
-                            <td class="font-bold">0.0038</td>
-                            <td></td>
-                            <td>DISPORA</td>
-                            <td>DISPORA</td>
-                            <td>Karang Taruna</td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">1</td>
-                            <td>Skor Akses Sarkes</td>
-                            <td class="text-center">5</td>
-                            <td>Waktu tempuh dari ≤ 30 Menit</td>
-                            <td>-</td>
-                            <td class="font-bold">0.0000</td>
-                            <td></td>
-                            <td></td>
-                            <td>Dinkes, PU</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">2</td>
-                            <td>Skor Dokter</td>
-                            <td class="text-center">0</td>
-                            <td>Jumlah Dokter Tidak ada</td>
-                            <td>Pengadaan Min 1 org Dokter</td>
-                            <td class="font-bold">0.0095</td>
-                            <td></td>
-                            <td></td>
-                            <td>DINKES</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">3</td>
-                            <td>Skor Bidan</td>
-                            <td class="text-center">5</td>
-                            <td>Jumlah bidan ≥ 1 orang</td>
-                            <td>-</td>
-                            <td class="font-bold">0.0000</td>
-                            <td></td>
-                            <td></td>
-                            <td>DINKES</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">4</td>
-                            <td>Skor Nakes Lain</td>
-                            <td class="text-center">3</td>
-                            <td>Jumlah tenaga kesehatan lainnya 2 orang</td>
-                            <td>Penambahan Nakes Min 3 Org</td>
-                            <td class="font-bold">0.0038</td>
-                            <td></td>
-                            <td></td>
-                            <td>DINKES</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">5</td>
-                            <td>Skor Tingkat Kepesertaan BPJS</td>
-                            <td class="text-center">5</td>
-                            <td>Jumlah peserta BPJS/jumlah penduduk > 0,75</td>
-                            <td>-</td>
-                            <td class="font-bold">0.0000</td>
-                            <td></td>
-                            <td></td>
-                            <td>DINKES</td>
-                            <td></td>
-                            <td>BPJS</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">12</td>
-                            <td>Skor Ketersediaan PKBM/ Paket ABC</td>
-                            <td class="text-center">1</td>
-                            <td>Jumlah PKBM atau Paket ABC Tidak ada</td>
-                            <td>Pelaksanaan Kegiatan PKBM/Kejar Paket A B C</td>
-                            <td class="font-bold">0.0076</td>
-                            <td></td>
-                            <td></td>
-                            <td>DISDIK</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">18</td>
-                            <td>Skor Kelompok OR</td>
-                            <td class="text-center">3</td>
-                            <td>Jumlah kelompok kegiatan olahraga antara 4 s.d 5</td>
-                            <td>Penambahan Min 4 Kelp Olahraga</td>
-                            <td class="font-bold">0.0038</td>
-                            <td></td>
-                            <td>DISPORA</td>
-                            <td>DISPORA</td>
-                            <td>Karang Taruna</td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">1</td>
-                            <td>Skor Akses Sarkes</td>
-                            <td class="text-center">5</td>
-                            <td>Waktu tempuh dari ≤ 30 Menit</td>
-                            <td>-</td>
-                            <td class="font-bold">0.0000</td>
-                            <td></td>
-                            <td></td>
-                            <td>Dinkes, PU</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">2</td>
-                            <td>Skor Dokter</td>
-                            <td class="text-center">0</td>
-                            <td>Jumlah Dokter Tidak ada</td>
-                            <td>Pengadaan Min 1 org Dokter</td>
-                            <td class="font-bold">0.0095</td>
-                            <td></td>
-                            <td></td>
-                            <td>DINKES</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">3</td>
-                            <td>Skor Bidan</td>
-                            <td class="text-center">5</td>
-                            <td>Jumlah bidan ≥ 1 orang</td>
-                            <td>-</td>
-                            <td class="font-bold">0.0000</td>
-                            <td></td>
-                            <td></td>
-                            <td>DINKES</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">4</td>
-                            <td>Skor Nakes Lain</td>
-                            <td class="text-center">3</td>
-                            <td>Jumlah tenaga kesehatan lainnya 2 orang</td>
-                            <td>Penambahan Nakes Min 3 Org</td>
-                            <td class="font-bold">0.0038</td>
-                            <td></td>
-                            <td></td>
-                            <td>DINKES</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">5</td>
-                            <td>Skor Tingkat Kepesertaan BPJS</td>
-                            <td class="text-center">5</td>
-                            <td>Jumlah peserta BPJS/jumlah penduduk > 0,75</td>
-                            <td>-</td>
-                            <td class="font-bold">0.0000</td>
-                            <td></td>
-                            <td></td>
-                            <td>DINKES</td>
-                            <td></td>
-                            <td>BPJS</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">12</td>
-                            <td>Skor Ketersediaan PKBM/ Paket ABC</td>
-                            <td class="text-center">1</td>
-                            <td>Jumlah PKBM atau Paket ABC Tidak ada</td>
-                            <td>Pelaksanaan Kegiatan PKBM/Kejar Paket A B C</td>
-                            <td class="font-bold">0.0076</td>
-                            <td></td>
-                            <td></td>
-                            <td>DISDIK</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">18</td>
-                            <td>Skor Kelompok OR</td>
-                            <td class="text-center">3</td>
-                            <td>Jumlah kelompok kegiatan olahraga antara 4 s.d 5</td>
-                            <td>Penambahan Min 4 Kelp Olahraga</td>
-                            <td class="font-bold">0.0038</td>
-                            <td></td>
-                            <td>DISPORA</td>
-                            <td>DISPORA</td>
-                            <td>Karang Taruna</td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">1</td>
-                            <td>Skor Akses Sarkes</td>
-                            <td class="text-center">5</td>
-                            <td>Waktu tempuh dari ≤ 30 Menit</td>
-                            <td>-</td>
-                            <td class="font-bold">0.0000</td>
-                            <td></td>
-                            <td></td>
-                            <td>Dinkes, PU</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">2</td>
-                            <td>Skor Dokter</td>
-                            <td class="text-center">0</td>
-                            <td>Jumlah Dokter Tidak ada</td>
-                            <td>Pengadaan Min 1 org Dokter</td>
-                            <td class="font-bold">0.0095</td>
-                            <td></td>
-                            <td></td>
-                            <td>DINKES</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">3</td>
-                            <td>Skor Bidan</td>
-                            <td class="text-center">5</td>
-                            <td>Jumlah bidan ≥ 1 orang</td>
-                            <td>-</td>
-                            <td class="font-bold">0.0000</td>
-                            <td></td>
-                            <td></td>
-                            <td>DINKES</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">4</td>
-                            <td>Skor Nakes Lain</td>
-                            <td class="text-center">3</td>
-                            <td>Jumlah tenaga kesehatan lainnya 2 orang</td>
-                            <td>Penambahan Nakes Min 3 Org</td>
-                            <td class="font-bold">0.0038</td>
-                            <td></td>
-                            <td></td>
-                            <td>DINKES</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">5</td>
-                            <td>Skor Tingkat Kepesertaan BPJS</td>
-                            <td class="text-center">5</td>
-                            <td>Jumlah peserta BPJS/jumlah penduduk > 0,75</td>
-                            <td>-</td>
-                            <td class="font-bold">0.0000</td>
-                            <td></td>
-                            <td></td>
-                            <td>DINKES</td>
-                            <td></td>
-                            <td>BPJS</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">12</td>
-                            <td>Skor Ketersediaan PKBM/ Paket ABC</td>
-                            <td class="text-center">1</td>
-                            <td>Jumlah PKBM atau Paket ABC Tidak ada</td>
-                            <td>Pelaksanaan Kegiatan PKBM/Kejar Paket A B C</td>
-                            <td class="font-bold">0.0076</td>
-                            <td></td>
-                            <td></td>
-                            <td>DISDIK</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">18</td>
-                            <td>Skor Kelompok OR</td>
-                            <td class="text-center">3</td>
-                            <td>Jumlah kelompok kegiatan olahraga antara 4 s.d 5</td>
-                            <td>Penambahan Min 4 Kelp Olahraga</td>
-                            <td class="font-bold">0.0038</td>
-                            <td></td>
-                            <td>DISPORA</td>
-                            <td>DISPORA</td>
-                            <td>Karang Taruna</td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        </tbody>
-                    <tbody>
-                        <tr>
-                            <td class="text-center">1</td>
-                            <td>Skor Akses Sarkes</td>
-                            <td class="text-center">5</td>
-                            <td>Waktu tempuh dari ≤ 30 Menit</td>
-                            <td>-</td>
-                            <td class="font-bold">0.0000</td>
-                            <td></td>
-                            <td></td>
-                            <td>Dinkes, PU</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">2</td>
-                            <td>Skor Dokter</td>
-                            <td class="text-center">0</td>
-                            <td>Jumlah Dokter Tidak ada</td>
-                            <td>Pengadaan Min 1 org Dokter</td>
-                            <td class="font-bold">0.0095</td>
-                            <td></td>
-                            <td></td>
-                            <td>DINKES</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">3</td>
-                            <td>Skor Bidan</td>
-                            <td class="text-center">5</td>
-                            <td>Jumlah bidan ≥ 1 orang</td>
-                            <td>-</td>
-                            <td class="font-bold">0.0000</td>
-                            <td></td>
-                            <td></td>
-                            <td>DINKES</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">4</td>
-                            <td>Skor Nakes Lain</td>
-                            <td class="text-center">3</td>
-                            <td>Jumlah tenaga kesehatan lainnya 2 orang</td>
-                            <td>Penambahan Nakes Min 3 Org</td>
-                            <td class="font-bold">0.0038</td>
-                            <td></td>
-                            <td></td>
-                            <td>DINKES</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">5</td>
-                            <td>Skor Tingkat Kepesertaan BPJS</td>
-                            <td class="text-center">5</td>
-                            <td>Jumlah peserta BPJS/jumlah penduduk > 0,75</td>
-                            <td>-</td>
-                            <td class="font-bold">0.0000</td>
-                            <td></td>
-                            <td></td>
-                            <td>DINKES</td>
-                            <td></td>
-                            <td>BPJS</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">12</td>
-                            <td>Skor Ketersediaan PKBM/ Paket ABC</td>
-                            <td class="text-center">1</td>
-                            <td>Jumlah PKBM atau Paket ABC Tidak ada</td>
-                            <td>Pelaksanaan Kegiatan PKBM/Kejar Paket A B C</td>
-                            <td class="font-bold">0.0076</td>
-                            <td></td>
-                            <td></td>
-                            <td>DISDIK</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">18</td>
-                            <td>Skor Kelompok OR</td>
-                            <td class="text-center">3</td>
-                            <td>Jumlah kelompok kegiatan olahraga antara 4 s.d 5</td>
-                            <td>Penambahan Min 4 Kelp Olahraga</td>
-                            <td class="font-bold">0.0038</td>
-                            <td></td>
-                            <td>DISPORA</td>
-                            <td>DISPORA</td>
-                            <td>Karang Taruna</td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">1</td>
-                            <td>Skor Akses Sarkes</td>
-                            <td class="text-center">5</td>
-                            <td>Waktu tempuh dari ≤ 30 Menit</td>
-                            <td>-</td>
-                            <td class="font-bold">0.0000</td>
-                            <td></td>
-                            <td></td>
-                            <td>Dinkes, PU</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">2</td>
-                            <td>Skor Dokter</td>
-                            <td class="text-center">0</td>
-                            <td>Jumlah Dokter Tidak ada</td>
-                            <td>Pengadaan Min 1 org Dokter</td>
-                            <td class="font-bold">0.0095</td>
-                            <td></td>
-                            <td></td>
-                            <td>DINKES</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">3</td>
-                            <td>Skor Bidan</td>
-                            <td class="text-center">5</td>
-                            <td>Jumlah bidan ≥ 1 orang</td>
-                            <td>-</td>
-                            <td class="font-bold">0.0000</td>
-                            <td></td>
-                            <td></td>
-                            <td>DINKES</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">4</td>
-                            <td>Skor Nakes Lain</td>
-                            <td class="text-center">3</td>
-                            <td>Jumlah tenaga kesehatan lainnya 2 orang</td>
-                            <td>Penambahan Nakes Min 3 Org</td>
-                            <td class="font-bold">0.0038</td>
-                            <td></td>
-                            <td></td>
-                            <td>DINKES</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">5</td>
-                            <td>Skor Tingkat Kepesertaan BPJS</td>
-                            <td class="text-center">5</td>
-                            <td>Jumlah peserta BPJS/jumlah penduduk > 0,75</td>
-                            <td>-</td>
-                            <td class="font-bold">0.0000</td>
-                            <td></td>
-                            <td></td>
-                            <td>DINKES</td>
-                            <td></td>
-                            <td>BPJS</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">12</td>
-                            <td>Skor Ketersediaan PKBM/ Paket ABC</td>
-                            <td class="text-center">1</td>
-                            <td>Jumlah PKBM atau Paket ABC Tidak ada</td>
-                            <td>Pelaksanaan Kegiatan PKBM/Kejar Paket A B C</td>
-                            <td class="font-bold">0.0076</td>
-                            <td></td>
-                            <td></td>
-                            <td>DISDIK</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">18</td>
-                            <td>Skor Kelompok OR</td>
-                            <td class="text-center">3</td>
-                            <td>Jumlah kelompok kegiatan olahraga antara 4 s.d 5</td>
-                            <td>Penambahan Min 4 Kelp Olahraga</td>
-                            <td class="font-bold">0.0038</td>
-                            <td></td>
-                            <td>DISPORA</td>
-                            <td>DISPORA</td>
-                            <td>Karang Taruna</td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">1</td>
-                            <td>Skor Akses Sarkes</td>
-                            <td class="text-center">5</td>
-                            <td>Waktu tempuh dari ≤ 30 Menit</td>
-                            <td>-</td>
-                            <td class="font-bold">0.0000</td>
-                            <td></td>
-                            <td></td>
-                            <td>Dinkes, PU</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">2</td>
-                            <td>Skor Dokter</td>
-                            <td class="text-center">0</td>
-                            <td>Jumlah Dokter Tidak ada</td>
-                            <td>Pengadaan Min 1 org Dokter</td>
-                            <td class="font-bold">0.0095</td>
-                            <td></td>
-                            <td></td>
-                            <td>DINKES</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">3</td>
-                            <td>Skor Bidan</td>
-                            <td class="text-center">5</td>
-                            <td>Jumlah bidan ≥ 1 orang</td>
-                            <td>-</td>
-                            <td class="font-bold">0.0000</td>
-                            <td></td>
-                            <td></td>
-                            <td>DINKES</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">4</td>
-                            <td>Skor Nakes Lain</td>
-                            <td class="text-center">3</td>
-                            <td>Jumlah tenaga kesehatan lainnya 2 orang</td>
-                            <td>Penambahan Nakes Min 3 Org</td>
-                            <td class="font-bold">0.0038</td>
-                            <td></td>
-                            <td></td>
-                            <td>DINKES</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">5</td>
-                            <td>Skor Tingkat Kepesertaan BPJS</td>
-                            <td class="text-center">5</td>
-                            <td>Jumlah peserta BPJS/jumlah penduduk > 0,75</td>
-                            <td>-</td>
-                            <td class="font-bold">0.0000</td>
-                            <td></td>
-                            <td></td>
-                            <td>DINKES</td>
-                            <td></td>
-                            <td>BPJS</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">12</td>
-                            <td>Skor Ketersediaan PKBM/ Paket ABC</td>
-                            <td class="text-center">1</td>
-                            <td>Jumlah PKBM atau Paket ABC Tidak ada</td>
-                            <td>Pelaksanaan Kegiatan PKBM/Kejar Paket A B C</td>
-                            <td class="font-bold">0.0076</td>
-                            <td></td>
-                            <td></td>
-                            <td>DISDIK</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">18</td>
-                            <td>Skor Kelompok OR</td>
-                            <td class="text-center">3</td>
-                            <td>Jumlah kelompok kegiatan olahraga antara 4 s.d 5</td>
-                            <td>Penambahan Min 4 Kelp Olahraga</td>
-                            <td class="font-bold">0.0038</td>
-                            <td></td>
-                            <td>DISPORA</td>
-                            <td>DISPORA</td>
-                            <td>Karang Taruna</td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">1</td>
-                            <td>Skor Akses Sarkes</td>
-                            <td class="text-center">5</td>
-                            <td>Waktu tempuh dari ≤ 30 Menit</td>
-                            <td>-</td>
-                            <td class="font-bold">0.0000</td>
-                            <td></td>
-                            <td></td>
-                            <td>Dinkes, PU</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">2</td>
-                            <td>Skor Dokter</td>
-                            <td class="text-center">0</td>
-                            <td>Jumlah Dokter Tidak ada</td>
-                            <td>Pengadaan Min 1 org Dokter</td>
-                            <td class="font-bold">0.0095</td>
-                            <td></td>
-                            <td></td>
-                            <td>DINKES</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">3</td>
-                            <td>Skor Bidan</td>
-                            <td class="text-center">5</td>
-                            <td>Jumlah bidan ≥ 1 orang</td>
-                            <td>-</td>
-                            <td class="font-bold">0.0000</td>
-                            <td></td>
-                            <td></td>
-                            <td>DINKES</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">4</td>
-                            <td>Skor Nakes Lain</td>
-                            <td class="text-center">3</td>
-                            <td>Jumlah tenaga kesehatan lainnya 2 orang</td>
-                            <td>Penambahan Nakes Min 3 Org</td>
-                            <td class="font-bold">0.0038</td>
-                            <td></td>
-                            <td></td>
-                            <td>DINKES</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">5</td>
-                            <td>Skor Tingkat Kepesertaan BPJS</td>
-                            <td class="text-center">5</td>
-                            <td>Jumlah peserta BPJS/jumlah penduduk > 0,75</td>
-                            <td>-</td>
-                            <td class="font-bold">0.0000</td>
-                            <td></td>
-                            <td></td>
-                            <td>DINKES</td>
-                            <td></td>
-                            <td>BPJS</td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">12</td>
-                            <td>Skor Ketersediaan PKBM/ Paket ABC</td>
-                            <td class="text-center">1</td>
-                            <td>Jumlah PKBM atau Paket ABC Tidak ada</td>
-                            <td>Pelaksanaan Kegiatan PKBM/Kejar Paket A B C</td>
-                            <td class="font-bold">0.0076</td>
-                            <td></td>
-                            <td></td>
-                            <td>DISDIK</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">18</td>
-                            <td>Skor Kelompok OR</td>
-                            <td class="text-center">3</td>
-                            <td>Jumlah kelompok kegiatan olahraga antara 4 s.d 5</td>
-                            <td>Penambahan Min 4 Kelp Olahraga</td>
-                            <td class="font-bold">0.0038</td>
-                            <td></td>
-                            <td>DISPORA</td>
-                            <td>DISPORA</td>
-                            <td>Karang Taruna</td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr class="row-separator">
-                            <td colspan="5" class="text-right font-bold">IKS 2024</td>
-                            <td class="font-bold">0.8457</td>
-                            <td colspan="6"></td>
-                        </tr>
-
-                        <tr>
-                            <td class="text-center">1</td>
-                            <td>Skor Keragaman Produksi</td>
-                            <td class="text-center">1</td>
-                            <td>Jumlah Industri Mikro/Jumlah KK < 0,001</td>
-                            <td>Peningkatan Jumlah Industri Mikro/UKM hingga >= 0,4% jumlah KK di Desa</td>
-                            <td class="font-bold">0.0222</td>
-                            <td>DISPERINDAKOP UKM</td>
-                            <td>DISPERINDAKOP UKM</td>
-                            <td>DISPERINDAKOP UKM</td>
-                            <td>DD</td>
-                            <td>CSR</td>
-                            <td>Perorangan</td>
-                        </tr>
-                        <tr>
-                            <td class="text-center">2</td>
-                            <td>Skor Pertokoan</td>
-                            <td class="text-center">5</td>
-                            <td>Jarak ke kelompok pertokoan terdekat <= 7 KM</td>
-                            <td>-</td>
-                            <td class="font-bold">0.0000</td>
-                            <td></td>
-                            <td></td>
-                            <td>DISPERINDAKOP UKM</td>
-                            <td></td>
-                            <td></td>
-                            <td>Perorangan, Swasta</td>
-                        </tr>
-                        <tr class="row-separator">
-                            <td colspan="5" class="text-right font-bold">IKE 2024</td>
-                            <td class="font-bold">0.6667</td>
-                            <td colspan="6"></td>
-                        </tr>
-
-                        <tr>
-                            <td class="text-center">1</td>
-                            <td>Skor Kualitas Lingkungan</td>
-                            <td class="text-center">5</td>
-                            <td>Pencemaran (air, udara, tanah, limbah disungai) di desa (jumlah pencemaran/4) = 0</td>
-                            <td>-</td>
-                            <td class="font-bold">0.0000</td>
-                            <td></td>
-                            <td>DLH</td>
-                            <td>DLH, DINKES</td>
-                            <td></td>
-                            <td></td>
-                            <td></td>
-                        </tr>
-                        <tr class="row-footer-idm">
-                            <td colspan="5" class="text-right font-bold">IKL 2024</td>
-                            <td class="font-bold">0.9333</td>
-                            <td colspan="6"></td>
-                        </tr>
-                        <tr class="row-footer-idm">
-                            <td colspan="5" class="text-right font-bold">IDM 2024</td>
-                            <td class="font-bold">0.8152</td>
-                            <td colspan="6"></td>
-                        </tr>
-                        <tr class="row-footer-idm">
-                            <td colspan="5" class="text-right font-bold">SKOR STATUS IDM 2024</td>
-                            <td class="font-bold text-uppercase">MAJU</td>
-                            <td colspan="6"></td>
-                        </tr>
-                    </tbody>
-                </table>
             </div>
         </div>
     </section>
@@ -1292,21 +439,25 @@
         document.addEventListener('DOMContentLoaded', function() {
             const lineCtx = document.getElementById('idmTrendChart').getContext('2d');
 
+            // Mengambil data dari Controller
+            const labels = @json($chart_labels);
+            const scores = @json($chart_data);
+
             new Chart(lineCtx, {
                 type: 'line'
                 , data: {
-                    labels: ['2021', '2022', '2023', '2024']
-                    , datasets: [{
+                    labels: labels, // Tahun Dinamis
+                    datasets: [{
                         label: 'Skor IDM'
-                        , data: [0.63, 0.73, 0.81, 0.82], // Data perkiraan berdasarkan gambar
-                        borderColor: '#ff9f89', // Warna oranye muda sesuai gambar
+                        , data: scores, // Skor Dinamis
+                        borderColor: '#ff9f89', // Warna oranye muda
                         backgroundColor: 'transparent'
                         , borderWidth: 3
                         , pointBackgroundColor: '#fff'
                         , pointBorderColor: '#ff9f89'
                         , pointRadius: 6
                         , pointHoverRadius: 8
-                        , tension: 0 // Membuat garis lurus, bukan melengkung
+                        , tension: 0 // Garis lurus (bukan melengkung)
                     }]
                 }
                 , options: {
@@ -1314,13 +465,14 @@
                     , maintainAspectRatio: false
                     , scales: {
                         y: {
-                            beginAtZero: true
-                            , max: 1
-                            , ticks: {
+                            beginAtZero: false, // Ubah ke false agar grafik fokus di range skor (0.4 - 1.0)
+                            min: 0.4, // Batas bawah agar grafik tidak terlalu "gepeng"
+                            max: 1.0, // Skor maksimal IDM adalah 1.0
+                            ticks: {
                                 stepSize: 0.1
                             }
                             , grid: {
-                                borderDash: [5, 5] // Membuat garis grid putus-putus
+                                borderDash: [5, 5] // Garis putus-putus
                             }
                         }
                         , x: {
@@ -1333,11 +485,173 @@
                         legend: {
                             display: false
                         }
+                        , tooltip: {
+                            callbacks: {
+                                label: function(context) {
+                                    return 'Skor: ' + context.raw;
+                                }
+                            }
+                        }
                     }
                 }
             });
         });
 
     </script>
+    <section class="idm-table-container">
+        <div class="idm-wrapper">
+            <h2 class="table-title">Indikator Indeks Desa Membangun {{ $tahun_pilih }}</h2>
+
+            <div class="table-scroll">
+                <table class="idm-table-final">
+
+                    <thead>
+                        <tr>
+                            <th rowspan="2" class="col-no">No</th>
+                            <th rowspan="2" class="col-indikator">Indikator IDM</th>
+                            <th rowspan="2" class="col-skor">Skor</th>
+                            <th rowspan="2" class="col-ket">Keterangan</th>
+                            <th rowspan="2" class="col-kegiatan">Kegiatan yang dapat dilakukan</th>
+                            <th rowspan="2" class="col-nilai">Nilai+</th>
+                            <th colspan="6" class="col-pelaksana">Yang dapat melaksanakan kegiatan</th>
+                        </tr>
+                        <tr>
+                            <th class="mini-th">Pusat</th>
+                            <th class="mini-th">Provinsi</th>
+                            <th class="mini-th">Kab.</th>
+                            <th class="mini-th">Desa</th>
+                            <th class="mini-th">CSR</th>
+                            <th class="mini-th">Lainnya</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {{-- 1. BAGIAN IKS (KETAHANAN SOSIAL) --}}
+                        @forelse($details_iks as $item)
+                        <tr>
+                            <td class="text-center">{{ $item->no_urut }}</td>
+                            <td>{{ $item->indikator }}</td>
+                            <td class="text-center">{{ $item->skor }}</td>
+                            <td>{{ $item->keterangan }}</td>
+                            <td>{{ $item->kegiatan ?? '-' }}</td>
+                            <td class="font-bold">{{ number_format($item->nilai, 4) }}</td>
+
+                            {{-- Kolom Pelaksana --}}
+                            <td>{{ $item->pelaksana_pusat }}</td>
+                            <td>{{ $item->pelaksana_provinsi }}</td>
+                            <td>{{ $item->pelaksana_kabupaten }}</td>
+                            <td>{{ $item->pelaksana_desa }}</td>
+                            <td>{{ $item->pelaksana_csr }}</td>
+                            <td>{{ $item->pelaksana_lainnya }}</td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="12" class="text-center p-4 text-gray-500">Data rincian IKS belum diinput.</td>
+                        </tr>
+                        @endforelse
+
+                        {{-- FOOTER IKS --}}
+                        @if($idm)
+                        <tr class="row-separator" style="background-color: #f0f9ff;"> {{-- Biru Muda --}}
+                            <td colspan="5" class="text-right font-bold" style="color: #0369a1;">IKS {{ $tahun_pilih }}</td>
+                            <td class="font-bold" style="color: #0369a1;">{{ number_format($idm->skor_iks, 4) }}</td>
+                            <td colspan="6"></td>
+                        </tr>
+                        @endif
+
+
+                        {{-- 2. BAGIAN IKE (KETAHANAN EKONOMI) --}}
+                        @forelse($details_ike as $item)
+                        <tr>
+                            <td class="text-center">{{ $item->no_urut }}</td>
+                            <td>{{ $item->indikator }}</td>
+                            <td class="text-center">{{ $item->skor }}</td>
+                            <td>{{ $item->keterangan }}</td>
+                            <td>{{ $item->kegiatan ?? '-' }}</td>
+                            <td class="font-bold">{{ number_format($item->nilai, 4) }}</td>
+
+                            {{-- Kolom Pelaksana --}}
+                            <td>{{ $item->pelaksana_pusat }}</td>
+                            <td>{{ $item->pelaksana_provinsi }}</td>
+                            <td>{{ $item->pelaksana_kabupaten }}</td>
+                            <td>{{ $item->pelaksana_desa }}</td>
+                            <td>{{ $item->pelaksana_csr }}</td>
+                            <td>{{ $item->pelaksana_lainnya }}</td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="12" class="text-center p-4 text-gray-500">Data rincian IKE belum diinput.</td>
+                        </tr>
+                        @endforelse
+
+                        {{-- FOOTER IKE --}}
+                        @if($idm)
+                        <tr class="row-separator" style="background-color: #f0fdf4;"> {{-- Hijau Muda --}}
+                            <td colspan="5" class="text-right font-bold" style="color: #15803d;">IKE {{ $tahun_pilih }}</td>
+                            <td class="font-bold" style="color: #15803d;">{{ number_format($idm->skor_ike, 4) }}</td>
+                            <td colspan="6"></td>
+                        </tr>
+                        @endif
+
+
+                        {{-- 3. BAGIAN IKL (KETAHANAN LINGKUNGAN) --}}
+                        @forelse($details_ikl as $item)
+                        <tr>
+                            <td class="text-center">{{ $item->no_urut }}</td>
+                            <td>{{ $item->indikator }}</td>
+                            <td class="text-center">{{ $item->skor }}</td>
+                            <td>{{ $item->keterangan }}</td>
+                            <td>{{ $item->kegiatan ?? '-' }}</td>
+                            <td class="font-bold">{{ number_format($item->nilai, 4) }}</td>
+
+                            {{-- Kolom Pelaksana --}}
+                            <td>{{ $item->pelaksana_pusat }}</td>
+                            <td>{{ $item->pelaksana_provinsi }}</td>
+                            <td>{{ $item->pelaksana_kabupaten }}</td>
+                            <td>{{ $item->pelaksana_desa }}</td>
+                            <td>{{ $item->pelaksana_csr }}</td>
+                            <td>{{ $item->pelaksana_lainnya }}</td>
+                        </tr>
+                        @empty
+                        <tr>
+                            <td colspan="12" class="text-center p-4 text-gray-500">Data rincian IKL belum diinput.</td>
+                        </tr>
+                        @endforelse
+
+                        {{-- FOOTER IKL --}}
+                        @if($idm)
+                        <tr class="row-footer-idm" style="background-color: #fefce8;"> {{-- Kuning Muda --}}
+                            <td colspan="5" class="text-right font-bold" style="color: #a16207;">IKL {{ $tahun_pilih }}</td>
+                            <td class="font-bold" style="color: #a16207;">{{ number_format($idm->skor_ikl, 4) }}</td>
+                            <td colspan="6"></td>
+                        </tr>
+
+                        {{-- FOOTER TOTAL --}}
+                        <tr class="row-footer-idm" style="background-color: #e5e7eb;"> {{-- Abu-abu --}}
+                            <td colspan="5" class="text-right font-bold">IDM {{ $tahun_pilih }}</td>
+                            <td class="font-bold">{{ number_format($idm->skor_idm, 4) }}</td>
+                            <td colspan="6"></td>
+                        </tr>
+                        <tr class="row-footer-idm" style="background-color: #d1d5db;">
+                            <td colspan="5" class="text-right font-bold">SKOR STATUS IDM {{ $tahun_pilih }}</td>
+                            <td class="font-bold text-uppercase 
+                            {{ $idm->status == 'MANDIRI' ? 'text-green-700' : 
+                              ($idm->status == 'MAJU' ? 'text-blue-700' : 
+                              ($idm->status == 'BERKEMBANG' ? 'text-yellow-700' : 'text-red-700')) }}">
+                                {{ $idm->status }}
+                            </td>
+                            <td colspan="6"></td>
+                        </tr>
+                        @endif
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </section>
+
+
+
 
 </x-frontend>

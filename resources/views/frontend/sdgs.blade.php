@@ -480,234 +480,56 @@
 
                 </div>
             </div>
-            <div class="sdgs-main-layout">
-                <div class="sdgs-left-content">
-                    <h2 class="sdgs-title">SDGs Desa</h2>
-                    <p class="sdgs-description">
-                        SDGs desa mengacu pada upaya yang dilakukan di tingkat desa untuk mencapai Tujuan Pembangunan Berkelanjutan (Sustainable Development Goals/SDGs). SDGs merupakan agenda global yang ditetapkan oleh Perserikatan Bangsa-Bangsa (PBB) untuk mengatasi berbagai tantangan sosial, ekonomi, dan lingkungan di seluruh dunia.
-                    </p>
 
-                    <div class="sdgs-score-card-horizontal">
-                        <div class="score-text">
-                            <span class="label">Skor SDGs Desa</span>
-                            <span class="sub-label">Bedi Kulon</span>
-                        </div>
-                        <div class="score-number">44.63</div>
-                    </div>
-                </div>
-
-                <div class="sdgs-right-illustration">
-                    <img src="assets/img/sdgs-illustration.png" alt="SDGs Illustration">
-                </div>
-            </div>
         </div>
+
     </section>
-    <section class="sdgs-grid-section">
-        <div class="infografis-container">
-            <div class="sdgs-grid-wrapper">
+    <section class="sdgs-goals-grid">
+        <div class="container mx-auto px-4 py-10">
+            <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">Capaian 18 Tujuan SDGs Desa</h3>
 
-                <div class="sdgs-card">
-                    <div class="card-title">Desa Tanpa Kemiskinan</div>
-                    <div class="card-bottom">
-                        <div class="sdgs-icon icon-red"><img src="https://sdgs.un.org/sites/default/files/goals/E_SDG_goals_icons-individual-rgb-01.png" alt="Icon"></div>
-                        <div class="score-box">
-                            <span class="score-label">Nilai</span>
-                            <span class="score-value">38.47</span>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                {{-- Loop dimulai di sini, $item dibuat di sini --}}
+                @forelse($sdgs_items as $item)
+
+                <div class="card bg-white shadow-md border border-gray-100 rounded-xl overflow-hidden hover:shadow-lg transition group">
+                    <div class="p-5 flex items-start gap-4">
+
+                        {{-- Panggil fungsi Model di sini --}}
+                        <div class="flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-lg font-bold text-white text-xl" style="background-color: {{ $item->getColor() }};">
+                            {{ $item->goal_number }}
                         </div>
+
+                        <div class="flex-1">
+                            <h4 class="font-bold text-gray-800 text-lg mb-2 group-hover:text-blue-600 transition">
+                                {{ $item->title }}
+                            </h4>
+
+                            {{-- Progress Bar --}}
+                            <div class="w-full bg-gray-200 rounded-full h-2.5 mb-1">
+                                <div class="h-2.5 rounded-full" style="width: {{ $item->score }}%; 
+                                        background-color: {{ $item->score < 40 ? '#ef4444' : ($item->score < 70 ? '#eab308' : '#22c55e') }}">
+                                </div>
+                            </div>
+
+                            <div class="flex justify-between items-center mt-1">
+                                <span class="text-xs text-gray-500">Capaian</span>
+                                <span class="font-bold text-sm">{{ number_format($item->score, 2) }}</span>
+                            </div>
+                        </div>
+
                     </div>
                 </div>
 
-                <div class="sdgs-card">
-                    <div class="card-title">Desa Tanpa Kelaparan</div>
-                    <div class="card-bottom">
-                        <div class="sdgs-icon icon-mustard"><img src="https://sdgs.un.org/sites/default/files/goals/E_SDG_goals_icons-individual-rgb-02.png" alt="Icon"></div>
-                        <div class="score-box">
-                            <span class="score-label">Nilai</span>
-                            <span class="score-value">33.07</span>
-                        </div>
-                    </div>
+                @empty
+                <div class="col-span-3 text-center py-10 text-gray-500">
+                    Data SDGs tahun {{ $tahun_pilih }} belum diinput.
                 </div>
-
-                <div class="sdgs-card">
-                    <div class="card-title">Desa Sehat dan Sejahtera</div>
-                    <div class="card-bottom">
-                        <div class="sdgs-icon icon-green"><img src="https://sdgs.un.org/sites/default/files/goals/E_SDG_goals_icons-individual-rgb-03.png" alt="Icon"></div>
-                        <div class="score-box">
-                            <span class="score-label">Nilai</span>
-                            <span class="score-value">82.05</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="sdgs-card">
-                    <div class="card-title">Pendidikan Desa Berkualitas</div>
-                    <div class="card-bottom">
-                        <div class="sdgs-icon icon-darkred"><img src="https://sdgs.un.org/sites/default/files/goals/E_SDG_goals_icons-individual-rgb-04.png" alt="Icon"></div>
-                        <div class="score-box">
-                            <span class="score-label">Nilai</span>
-                            <span class="score-value">14.73</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="sdgs-card">
-                    <div class="card-title">Keterlibatan Perempuan Desa</div>
-                    <div class="card-bottom">
-                        <div class="sdgs-icon icon-orange-red"><img src="https://sdgs.un.org/sites/default/files/goals/E_SDG_goals_icons-individual-rgb-05.png" alt="Icon"></div>
-                        <div class="score-box">
-                            <span class="score-label">Nilai</span>
-                            <span class="score-value">28.57</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="sdgs-card">
-                    <div class="card-title">Desa Layak Air Bersih dan Sanitasi</div>
-                    <div class="card-bottom">
-                        <div class="sdgs-icon icon-cyan"><img src="https://sdgs.un.org/sites/default/files/goals/E_SDG_goals_icons-individual-rgb-06.png" alt="Icon"></div>
-                        <div class="score-box">
-                            <span class="score-label">Nilai</span>
-                            <span class="score-value">63.33</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="sdgs-card">
-                    <div class="card-title">Desa Berenergi Bersih dan Terbarukan</div>
-                    <div class="card-bottom">
-                        <div class="sdgs-icon icon-yellow"><img src="https://sdgs.un.org/sites/default/files/goals/E_SDG_goals_icons-individual-rgb-07.png" alt="Icon"></div>
-                        <div class="score-box">
-                            <span class="score-label">Nilai</span>
-                            <span class="score-value">99.8</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="sdgs-card">
-                    <div class="card-title">Pertumbuhan Ekonomi Desa Merata</div>
-                    <div class="card-bottom">
-                        <div class="sdgs-icon icon-maroon"><img src="https://sdgs.un.org/sites/default/files/goals/E_SDG_goals_icons-individual-rgb-08.png" alt="Icon"></div>
-                        <div class="score-box">
-                            <span class="score-label">Nilai</span>
-                            <span class="score-value">26.85</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="sdgs-card">
-                    <div class="card-title">Infrastruktur dan Inovasi Desa Sesuai Kebutuhan</div>
-                    <div class="card-bottom">
-                        <div class="sdgs-icon icon-orange"><img src="https://sdgs.un.org/sites/default/files/goals/E_SDG_goals_icons-individual-rgb-09.png" alt="Icon"></div>
-                        <div class="score-box">
-                            <span class="score-label">Nilai</span>
-                            <span class="score-value">52.33</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="sdgs-card">
-                    <div class="card-title">Desa Tanpa Kesenjangan</div>
-                    <div class="card-bottom">
-                        <div class="sdgs-icon icon-pink"><img src="https://sdgs.un.org/sites/default/files/goals/E_SDG_goals_icons-individual-rgb-10.png" alt="Icon"></div>
-                        <div class="score-box">
-                            <span class="score-label">Nilai</span>
-                            <span class="score-value">40.82</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="sdgs-card">
-                    <div class="card-title">Kawasan Pemukiman Desa Aman dan Nyaman</div>
-                    <div class="card-bottom">
-                        <div class="sdgs-icon icon-gold"><img src="https://sdgs.un.org/sites/default/files/goals/E_SDG_goals_icons-individual-rgb-11.png" alt="Icon"></div>
-                        <div class="score-box">
-                            <span class="score-label">Nilai</span>
-                            <span class="score-value">53.01</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="sdgs-card">
-                    <div class="card-title">Konsumsi dan Produksi Desa Sadar Lingkungan</div>
-                    <div class="card-bottom">
-                        <div class="sdgs-icon icon-bronze"><img src="https://sdgs.un.org/sites/default/files/goals/E_SDG_goals_icons-individual-rgb-12.png" alt="Icon"></div>
-                        <div class="score-box">
-                            <span class="score-label">Nilai</span>
-                            <span class="score-value">50</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="sdgs-card">
-                    <div class="card-title">Desa Tanggap Perubahan Iklim</div>
-                    <div class="card-bottom">
-                        <div class="sdgs-icon icon-darkgreen"><img src="https://sdgs.un.org/sites/default/files/goals/E_SDG_goals_icons-individual-rgb-13.png" alt="Icon"></div>
-                        <div class="score-box">
-                            <span class="score-label">Nilai</span>
-                            <span class="score-value">0</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="sdgs-card">
-                    <div class="card-title">Desa Peduli Lingkungan Laut</div>
-                    <div class="card-bottom">
-                        <div class="sdgs-icon icon-blue"><img src="https://sdgs.un.org/sites/default/files/goals/E_SDG_goals_icons-individual-rgb-14.png" alt="Icon"></div>
-                        <div class="score-box">
-                            <span class="score-label">Nilai</span>
-                            <span class="score-value">0</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="sdgs-card">
-                    <div class="card-title">Desa Peduli Lingkungan Darat</div>
-                    <div class="card-bottom">
-                        <div class="sdgs-icon icon-lime"><img src="https://sdgs.un.org/sites/default/files/goals/E_SDG_goals_icons-individual-rgb-15.png" alt="Icon"></div>
-                        <div class="score-box">
-                            <span class="score-label">Nilai</span>
-                            <span class="score-value">33.33</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="sdgs-card">
-                    <div class="card-title">Desa Damai Berkeadilan</div>
-                    <div class="card-bottom">
-                        <div class="sdgs-icon icon-navy"><img src="https://sdgs.un.org/sites/default/files/goals/E_SDG_goals_icons-individual-rgb-16.png" alt="Icon"></div>
-                        <div class="score-box">
-                            <span class="score-label">Nilai</span>
-                            <span class="score-value">60.99</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="sdgs-card">
-                    <div class="card-title">Kemitraan Untuk Pembangunan Desa</div>
-                    <div class="card-bottom">
-                        <div class="sdgs-icon icon-darkblue"><img src="https://sdgs.un.org/sites/default/files/goals/E_SDG_goals_icons-individual-rgb-17.png" alt="Icon"></div>
-                        <div class="score-box">
-                            <span class="score-label">Nilai</span>
-                            <span class="score-value">81.02</span>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="sdgs-card">
-                    <div class="card-title">Kelembagaan Desa Dinamis dan Budaya Desa Adaptif</div>
-                    <div class="card-bottom">
-                        <div class="sdgs-icon icon-teal"><img src="https://sdgs.un.org/sites/default/files/goals/E_SDG_goals_icons-individual-rgb-18.png" alt="Icon"></div>
-                        <div class="score-box">
-                            <span class="score-label">Nilai</span>
-                            <span class="score-value">44.95</span>
-                        </div>
-                    </div>
-                </div>
+                @endforelse
+                {{-- Loop berakhir, $item hilang (menjadi undefined) di sini --}}
 
             </div>
         </div>
     </section>
-
-
-
 </x-frontend>

@@ -293,55 +293,109 @@
 
                 </div>
             </div>
-            <h2 class="title-green">Data Stunting Desa Bedi Kulon</h2>
-
-            <div class="stunting-summary-grid">
-                <div class="summary-card card-blue">
-                    <span class="label">Total Balita</span>
-                    <span class="value">142</span>
-                    <span class="sub-label">Tahun 2025</span>
-                </div>
-                <div class="summary-card card-green">
-                    <span class="label">Status Gizi Baik</span>
-                    <span class="value">128</span>
-                    <span class="percentage">90.1%</span>
-                </div>
-                <div class="summary-card card-yellow">
-                    <span class="label">Gizi Kurang</span>
-                    <span class="value">10</span>
-                    <span class="percentage">7.0%</span>
-                </div>
-                <div class="summary-card card-red">
-                    <span class="label">Stunting (Sangat Pendek)</span>
-                    <span class="value">4</span>
-                    <span class="percentage">2.9%</span>
-                </div>
-            </div>
-
-            <div class="stunting-charts-row">
-                <div class="chart-box">
-                    <h3>Distribusi Status Gizi</h3>
-                    <canvas id="statusGiziChart"></canvas>
-                </div>
-                <div class="chart-box">
-                    <h3>Tren Stunting 3 Tahun Terakhir</h3>
-                    <canvas id="trenStuntingChart"></canvas>
-                </div>
-            </div>
         </div>
     </section>
+    <section class="bg-blue-600 py-12 text-white text-center">
+        <h1 class="text-3xl font-bold mb-2">Data Stunting & Gizi Desa</h1>
+        <p class="opacity-80">Monitoring tumbuh kembang balita Desa Bedi Kulon</p>
+    </section>
 
+    <div class="container mx-auto px-4 py-8">
+
+        <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
+            <div class="bg-white p-6 rounded-lg shadow text-center border-l-4 border-blue-500">
+                <div class="text-3xl font-bold text-gray-800">{{ $total_balita }}</div>
+                <div class="text-sm text-gray-500">Total Balita Diukur</div>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg shadow text-center border-l-4 border-green-500">
+                <div class="text-3xl font-bold text-green-600">{{ $jml_normal }}</div>
+                <div class="text-sm text-gray-500">Balita Sehat (Normal)</div>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg shadow text-center border-l-4 border-red-500">
+                <div class="text-3xl font-bold text-red-600">{{ $jml_stunting }}</div>
+                <div class="text-sm text-gray-500">Indikasi Stunting</div>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg shadow text-center border-l-4 border-yellow-500">
+                <div class="text-3xl font-bold text-yellow-600">{{ number_format($persen_stunting, 1) }}%</div>
+                <div class="text-sm text-gray-500">Angka Prevalensi</div>
+            </div>
+        </div>
+
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-8">
+
+            <div class="bg-white p-6 rounded-lg shadow md:col-span-1">
+                <h3 class="font-bold text-lg mb-4 text-center">Sebaran Status Gizi</h3>
+                <canvas id="stuntingChart"></canvas>
+            </div>
+
+            <div class="bg-white p-6 rounded-lg shadow md:col-span-2">
+                <h3 class="font-bold text-lg mb-4">Riwayat Pengukuran Terakhir</h3>
+                <div class="overflow-x-auto">
+                    <table class="table w-full">
+                        <thead class="bg-gray-100">
+                            <tr>
+                                <th class="text-left p-2">Tanggal</th>
+                                <th class="text-left p-2">Posyandu</th>
+                                <th class="text-left p-2">Inisial Anak</th>
+                                <th class="text-center p-2">Umur</th>
+                                <th class="text-center p-2">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach($data_terbaru as $item)
+                            <tr class="border-b hover:bg-gray-50">
+                                <td class="p-2 text-sm">{{ \Carbon\Carbon::parse($item->tanggal_ukur)->format('d M Y') }}</td>
+                                <td class="p-2 text-sm">{{ $item->posyandu }}</td>
+                                <td class="p-2 font-bold">
+                                    {{ \Str::limit($item->nama_anak, 1, '***') }}
+                                </td>
+                                <td class="p-2 text-center">{{ $item->umur_bulan }} Bln</td>
+                                <td class="p-2 text-center">
+                                    @if($item->status == 'Normal')
+                                    <span class="bg-green-100 text-green-800 text-xs px-2 py-1 rounded">Normal</span>
+                                    @elseif($item->status == 'Stunting' || $item->status == 'Sangat Pendek')
+                                    <span class="bg-red-100 text-red-800 text-xs px-2 py-1 rounded">Stunting</span>
+                                    @else
+                                    <span class="bg-yellow-100 text-yellow-800 text-xs px-2 py-1 rounded">{{ $item->status }}</span>
+                                    @endif
+                                </td>
+                            </tr>
+                            @endforeach
+                        </tbody>
+                    </table>
+                </div>
+                <div class="mt-4">
+                    {{ $data_terbaru->links() }}
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // 1. Grafik Pie Distribusi
-            const ctxPie = document.getElementById('statusGiziChart').getContext('2d');
-            new Chart(ctxPie, {
-                type: 'doughnut'
-                , data: {
-                    labels: ['Gizi Baik', 'Gizi Kurang', 'Stunting']
+            const ctx = document.getElementById('stuntingChart').getContext('2d');
+
+            // Data dari Controller
+            const chartData = @json($chart_data);
+
+            new Chart(ctx, {
+                type: 'doughnut', // Grafik Donat
+                data: {
+                    labels: ['Normal', 'Stunting', 'Kurang Gizi']
                     , datasets: [{
-                        data: [128, 10, 4]
-                        , backgroundColor: ['#72c02c', '#f1c40f', '#e74c3c']
+                        data: chartData
+                        , backgroundColor: [
+                            '#22c55e', // Hijau (Normal)
+                            '#ef4444', // Merah (Stunting)
+                            '#eab308' // Kuning (Kurang Gizi)
+                        ]
                         , borderWidth: 0
                     }]
                 }
@@ -350,29 +404,6 @@
                     , plugins: {
                         legend: {
                             position: 'bottom'
-                        }
-                    }
-                }
-            });
-
-            // 2. Grafik Batang Tren
-            const ctxBar = document.getElementById('trenStuntingChart').getContext('2d');
-            new Chart(ctxBar, {
-                type: 'bar'
-                , data: {
-                    labels: ['2023', '2024', '2025']
-                    , datasets: [{
-                        label: 'Jumlah Kasus Stunting'
-                        , data: [12, 8, 4]
-                        , backgroundColor: '#72c02c'
-                        , borderRadius: 5
-                    }]
-                }
-                , options: {
-                    responsive: true
-                    , scales: {
-                        y: {
-                            beginAtZero: true
                         }
                     }
                 }

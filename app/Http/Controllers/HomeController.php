@@ -2,7 +2,6 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Galeri;
 use App\Models\Umkm;
 use App\Models\Berita;
