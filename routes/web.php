@@ -17,6 +17,7 @@ use App\Http\Controllers\Admin\PendudukKawinController;
 use App\Http\Controllers\Admin\PendudukPekerjaanController;
 use App\Http\Controllers\Admin\PendudukPendidikanController;
 use App\Http\Controllers\Admin\PendudukUsiaController;
+use App\Http\Controllers\Admin\DashboardController;
 
 Route::get('/', [HomeController::class, 'index'])->name('frontend.dashboard');
 Route::get('/profile-desa', function () {
@@ -61,10 +62,32 @@ Route::get('/dashboard', function () {
 Route::middleware('auth')->group(function () {
     // 1. DASHBOARD ADMIN (Hanya untuk role 'admin')
     Route::middleware(['role:admin'])->prefix('admin')->group(function () {
-        Route::get('/dashboard', function () {
-            return view('admin.dashboard'); // Buat view ini nanti
-        })->name('admin.dashboard');
+        Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
 
+        // --- Rute IDM DETAIL (Rincian Indikator) ---
+        // 1. Menampilkan daftar indikator
+        Route::get('idm/{id}/detail', [\App\Http\Controllers\Admin\IdmDetailController::class, 'index'])
+            ->name('idm.detail.index'); // Hasil akhirnya: admin.idm.detail.index
+
+        // 2. Form Tambah Indikator
+        Route::get('idm/{id}/detail/create', [\App\Http\Controllers\Admin\IdmDetailController::class, 'create'])
+            ->name('idm.detail.create');
+
+        // 3. Simpan Indikator Baru
+        Route::post('idm/{id}/detail', [\App\Http\Controllers\Admin\IdmDetailController::class, 'store'])
+            ->name('idm.detail.store');
+
+        // 4. Edit Indikator (Pakai ID Detail)
+        Route::get('idm-detail/{id}/edit', [\App\Http\Controllers\Admin\IdmDetailController::class, 'edit'])
+            ->name('idm.detail.edit');
+
+        // 5. Update Indikator
+        Route::put('idm-detail/{id}', [\App\Http\Controllers\Admin\IdmDetailController::class, 'update'])
+            ->name('idm.detail.update');
+
+        // 6. Hapus Indikator
+        Route::delete('idm-detail/{id}', [\App\Http\Controllers\Admin\IdmDetailController::class, 'destroy'])
+            ->name('idm.detail.destroy');
         // Tambahkan route lain khusus admin di sini (misal: kelola penduduk)
         Route::resource('galeri', GaleriController::class);
         Route::resource('umkm', UmkmController::class);
@@ -80,6 +103,11 @@ Route::middleware('auth')->group(function () {
         Route::resource('pendidikan', PendudukPendidikanController::class);
         Route::resource('usia', PendudukUsiaController::class);
         Route::resource('wajibpilih', \App\Http\Controllers\Admin\PendudukWajibPilihController::class);
+        Route::resource('bansos', \App\Http\Controllers\Admin\BansosController::class);
+        Route::resource('stunting', \App\Http\Controllers\Admin\StuntingController::class);
+        Route::resource('sdgs', \App\Http\Controllers\Admin\SdgsDesaController::class);
+        Route::resource('ppid', \App\Http\Controllers\Admin\PpidController::class);
+        Route::resource('idm', \App\Http\Controllers\Admin\IdmController::class);
     });
 
     // 2. AREA ANGGOTA (Bisa diakses 'admin' DAN 'anggota')

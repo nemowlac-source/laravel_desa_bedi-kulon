@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('beritas', function (Blueprint $table) {
+        Schema::create('ppids', function (Blueprint $table) {
             $table->id();
             $table->string('judul');
-            $table->string('slug')->unique(); // Link unik (judul-berita)
-            $table->text('isi');              // Isi berita panjang
-            $table->string('gambar');
-            $table->string('penulis')->default('Admin'); // Opsional
-
+            $table->string('kategori'); // Berkala, Serta Merta, Setiap Saat, Dikecualikan
+            $table->text('deskripsi')->nullable();
+            $table->string('file');     // Path file dokumen (PDF/Doc/Xls)
+            $table->date('tanggal_upload');
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('beritas');
+        Schema::dropIfExists('ppids');
     }
 };

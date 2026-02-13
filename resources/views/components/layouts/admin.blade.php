@@ -52,7 +52,7 @@
                 </li>
 
                 <li class="mb-1">
-                    <a href="{{ route('dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active bg-blue-600' : '' }}">
+                    <a href="{{ route('admin.dashboard') }}" class="{{ request()->routeIs('admin.dashboard') ? 'active bg-blue-600' : '' }}">
                         <i class="ph ph-squares-four text-xl"></i> Dashboard
                     </a>
                 </li>
@@ -139,6 +139,36 @@
                         <i class="ph ph-check-square-offset text-xl"></i> Wajib Pilih
                     </a>
                 </li>
+                <li class="mb-1">
+                    <a href="{{ route('bansos.index') }}" class="{{ request()->routeIs('admin.bansos.*') ? 'active bg-blue-600' : 'hover:bg-gray-700' }}">
+                        <i class="ph ph-hand-heart text-xl"></i> Bantuan Sosial (Bansos)
+                    </a>
+                </li>
+                <li class="mb-1">
+                    <a href="{{ route('stunting.index') }}" class="{{ request()->routeIs('admin.stunting.*') ? 'active bg-blue-600' : 'hover:bg-gray-700' }}">
+                        <i class="ph ph-baby text-xl"></i> Data Stunting
+                    </a>
+                </li>
+                <li class="mb-1">
+                    <a href="{{ route('sdgs.index') }}" class="{{ request()->routeIs('admin.sdgs.*') ? 'active bg-blue-600' : 'hover:bg-gray-700' }}">
+                        <i class="ph ph-globe-hemisphere-east text-xl"></i> SDGs Desa
+                    </a>
+                </li>
+                <li class="mb-1">
+                    <a href="{{ route('ppid.index') }}" class="{{ request()->routeIs('admin.ppid.*') ? 'active bg-blue-600' : 'hover:bg-gray-700' }}">
+                        <i class="ph ph-file-text text-xl"></i> Dokumen PPID
+                    </a>
+                </li>
+                <li class="mb-1">
+                    <a href="{{ route('idm.index') }}" class="{{ request()->routeIs('admin.idm.*') ? 'active bg-blue-600' : 'hover:bg-gray-700' }}">
+                        <i class="ph ph-chart-line-up text-xl"></i> Status IDM
+                    </a>
+                </li>
+
+
+
+
+
 
 
 

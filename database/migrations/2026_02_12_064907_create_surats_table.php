@@ -11,14 +11,13 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('beritas', function (Blueprint $table) {
+        Schema::create('surats', function (Blueprint $table) {
             $table->id();
-            $table->string('judul');
-            $table->string('slug')->unique(); // Link unik (judul-berita)
-            $table->text('isi');              // Isi berita panjang
-            $table->string('gambar');
-            $table->string('penulis')->default('Admin'); // Opsional
-
+            $table->string('nama_pemohon');
+            $table->string('nik')->nullable();
+            $table->string('jenis_surat'); // Misal: SKTM, Domisili
+            $table->text('keperluan')->nullable();
+            $table->enum('status', ['Menunggu', 'Diproses', 'Selesai', 'Ditolak'])->default('Menunggu');
             $table->timestamps();
         });
     }
@@ -28,6 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('beritas');
+        Schema::dropIfExists('surats');
     }
 };

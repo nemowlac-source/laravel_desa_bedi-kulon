@@ -39,5 +39,17 @@ class DatabaseSeeder extends Seeder
             'role' => 'pengunjung',
             'password' => Hash::make('password'),
         ]);
+
+        // --- 2. PANGGIL SEEDER LAINNYA ---
+        // Masukkan semua Class Seeder yang sudah kita buat di sini
+        $this->call([         // Data Agregat per Dusun
+            PendudukAgamaSeeder::class,     // Statistik Agama
+            PendudukKawinSeeder::class,     // Statistik Perkawinan
+            PendudukPekerjaanSeeder::class, // Statistik Pekerjaan
+            PendudukPendidikanSeeder::class, // Statistik Pendidikan
+            PendudukUsiaSeeder::class,      // Statistik Umur (Piramida)
+            PendudukWajibPilihSeeder::class, // Statistik Wajib Pilih
+            // Tambahkan seeder lain jika ada (misal: IdmSeeder)
+        ]);
     }
 }
