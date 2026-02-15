@@ -38,6 +38,7 @@ class SdgsDesa extends Model
 
     protected $fillable = [
         'goal_number',
+        'tahun',
         'title',
         'description',
         'image',

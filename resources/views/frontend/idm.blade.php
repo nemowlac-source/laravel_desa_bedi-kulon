@@ -338,9 +338,7 @@
 
     </style>
     <div class="idm-main-wrapper">
-
         <div class="idm-container">
-
             <div class="idm-top-section">
                 <div class="idm-info">
                     <h2 class="idm-brand">IDM</h2>
@@ -370,7 +368,8 @@
                 <div class="idm-primary-cards">
                     <div class="card-large">
                         <span class="card-label">SKOR IDM {{ $tahun_pilih }}</span>
-                        <span class="card-value-bold text-blue-600">{{ number_format($idm->skor_idm, 4) }}</span>
+                        <span class="card-value-bold text-blue-600">{{ number_format($idm->nilai_idm, 4) }}</span>
+
                     </div>
                     <div class="card-large">
                         <span class="card-label">STATUS IDM {{ $tahun_pilih }}</span>
@@ -408,15 +407,21 @@
 
                 <div class="card-small">
                     <span class="card-label">Skor IKS (Sosial)</span>
-                    <span class="card-value-small">{{ number_format($idm->skor_iks, 4) }}</span>
+                    <span class="card-value-small">{{ number_format($idm->iks, 4) }}</span>
+
+
                 </div>
                 <div class="card-small">
                     <span class="card-label">Skor IKE (Ekonomi)</span>
-                    <span class="card-value-small">{{ number_format($idm->skor_ike, 4) }}</span>
+                    <span class="card-value-small">{{ number_format($idm->ike, 4) }}</span>
+
+
                 </div>
                 <div class="card-small">
                     <span class="card-label">Skor IKL (Lingkungan)</span>
-                    <span class="card-value-small">{{ number_format($idm->skor_ikl, 4) }}</span>
+                    <span class="card-value-small">{{ number_format($idm->ikl, 4) }}</span>
+
+
                 </div>
             </div>
             @endif
@@ -498,151 +503,145 @@
         });
 
     </script>
+
     <section class="idm-table-container">
         <div class="idm-wrapper">
-            <h2 class="table-title">Indikator Indeks Desa Membangun {{ $tahun_pilih }}</h2>
+            <h2 class="table-title">Rincian Indikator IDM {{ $tahun_pilih }}</h2>
 
             <div class="table-scroll">
                 <table class="idm-table-final">
-
                     <thead>
                         <tr>
                             <th rowspan="2" class="col-no">No</th>
                             <th rowspan="2" class="col-indikator">Indikator IDM</th>
                             <th rowspan="2" class="col-skor">Skor</th>
                             <th rowspan="2" class="col-ket">Keterangan</th>
-                            <th rowspan="2" class="col-kegiatan">Kegiatan yang dapat dilakukan</th>
+                            <th rowspan="2" class="col-kegiatan">Kegiatan</th>
                             <th rowspan="2" class="col-nilai">Nilai+</th>
-                            <th colspan="6" class="col-pelaksana">Yang dapat melaksanakan kegiatan</th>
+                            <th colspan="6" class="col-pelaksana">Pelaksana</th>
                         </tr>
                         <tr>
-                            <th class="mini-th">Pusat</th>
-                            <th class="mini-th">Provinsi</th>
-                            <th class="mini-th">Kab.</th>
-                            <th class="mini-th">Desa</th>
+                            <th class="mini-th">Pst</th>
+                            <th class="mini-th">Prv</th>
+                            <th class="mini-th">Kab</th>
+                            <th class="mini-th">Des</th>
                             <th class="mini-th">CSR</th>
-                            <th class="mini-th">Lainnya</th>
+                            <th class="mini-th">Lain</th>
                         </tr>
                     </thead>
-
                     <tbody>
 
-                        {{-- 1. BAGIAN IKS (KETAHANAN SOSIAL) --}}
+                        {{-- 1. IKS --}}
                         @forelse($details_iks as $item)
                         <tr>
-                            <td class="text-center">{{ $item->no_urut }}</td>
+                            <td class="text-center">{{ $loop->iteration }}</td>
                             <td>{{ $item->indikator }}</td>
                             <td class="text-center">{{ $item->skor }}</td>
                             <td>{{ $item->keterangan }}</td>
                             <td>{{ $item->kegiatan ?? '-' }}</td>
-                            <td class="font-bold">{{ number_format($item->nilai, 4) }}</td>
+                            <td class="font-bold">{{ number_format($item->nilai_plus, 4) }}</td>
 
-                            {{-- Kolom Pelaksana --}}
-                            <td>{{ $item->pelaksana_pusat }}</td>
-                            <td>{{ $item->pelaksana_provinsi }}</td>
+                            {{-- Pelaksana (Ceklis jika ada isinya) --}}
+                            <td>{{ $item->pelaksana_pusat ? '✓' : '' }}</td>
+                            <td>{{ $item->pelaksana_provinsi ? '✓' : '' }}</td>
                             <td>{{ $item->pelaksana_kabupaten }}</td>
-                            <td>{{ $item->pelaksana_desa }}</td>
-                            <td>{{ $item->pelaksana_csr }}</td>
+                            <td>{{ $item->pelaksana_desa ? '✓' : '' }}</td>
+                            <td>{{ $item->pelaksana_csr ? '✓' : '' }}</td>
                             <td>{{ $item->pelaksana_lainnya }}</td>
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="12" class="text-center p-4 text-gray-500">Data rincian IKS belum diinput.</td>
+                            <td colspan="12" class="text-center text-gray-400">Data IKS Kosong</td>
                         </tr>
                         @endforelse
 
                         {{-- FOOTER IKS --}}
                         @if($idm)
-                        <tr class="row-separator" style="background-color: #f0f9ff;"> {{-- Biru Muda --}}
-                            <td colspan="5" class="text-right font-bold" style="color: #0369a1;">IKS {{ $tahun_pilih }}</td>
-                            <td class="font-bold" style="color: #0369a1;">{{ number_format($idm->skor_iks, 4) }}</td>
+                        <tr class="bg-blue-50 font-bold text-blue-800">
+                            <td colspan="5" class="text-right">SKOR IKS</td>
+                            <td>{{ number_format($details_iks->sum('nilai_plus'), 4) }}</td>
                             <td colspan="6"></td>
                         </tr>
                         @endif
 
 
-                        {{-- 2. BAGIAN IKE (KETAHANAN EKONOMI) --}}
+                        {{-- 2. IKE --}}
                         @forelse($details_ike as $item)
                         <tr>
-                            <td class="text-center">{{ $item->no_urut }}</td>
+                            <td class="text-center">{{ $loop->iteration }}</td>
                             <td>{{ $item->indikator }}</td>
                             <td class="text-center">{{ $item->skor }}</td>
                             <td>{{ $item->keterangan }}</td>
                             <td>{{ $item->kegiatan ?? '-' }}</td>
-                            <td class="font-bold">{{ number_format($item->nilai, 4) }}</td>
+                            <td class="font-bold">{{ number_format($item->nilai_plus, 4) }}</td>
 
-                            {{-- Kolom Pelaksana --}}
-                            <td>{{ $item->pelaksana_pusat }}</td>
-                            <td>{{ $item->pelaksana_provinsi }}</td>
+                            <td>{{ $item->pelaksana_pusat ? '✓' : '' }}</td>
+                            <td>{{ $item->pelaksana_provinsi ? '✓' : '' }}</td>
                             <td>{{ $item->pelaksana_kabupaten }}</td>
-                            <td>{{ $item->pelaksana_desa }}</td>
-                            <td>{{ $item->pelaksana_csr }}</td>
+                            <td>{{ $item->pelaksana_desa ? '✓' : '' }}</td>
+                            <td>{{ $item->pelaksana_csr ? '✓' : '' }}</td>
                             <td>{{ $item->pelaksana_lainnya }}</td>
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="12" class="text-center p-4 text-gray-500">Data rincian IKE belum diinput.</td>
+                            <td colspan="12" class="text-center text-gray-400">Data IKE Kosong</td>
                         </tr>
                         @endforelse
 
                         {{-- FOOTER IKE --}}
                         @if($idm)
-                        <tr class="row-separator" style="background-color: #f0fdf4;"> {{-- Hijau Muda --}}
-                            <td colspan="5" class="text-right font-bold" style="color: #15803d;">IKE {{ $tahun_pilih }}</td>
-                            <td class="font-bold" style="color: #15803d;">{{ number_format($idm->skor_ike, 4) }}</td>
+                        <tr class="bg-green-50 font-bold text-green-800">
+                            <td colspan="5" class="text-right">SKOR IKE</td>
+                            <td>{{ number_format($idm->skor_ike, 4) }}</td>
                             <td colspan="6"></td>
                         </tr>
                         @endif
 
 
-                        {{-- 3. BAGIAN IKL (KETAHANAN LINGKUNGAN) --}}
+                        {{-- 3. IKL --}}
                         @forelse($details_ikl as $item)
                         <tr>
-                            <td class="text-center">{{ $item->no_urut }}</td>
+                            <td class="text-center">{{ $loop->iteration }}</td>
                             <td>{{ $item->indikator }}</td>
                             <td class="text-center">{{ $item->skor }}</td>
                             <td>{{ $item->keterangan }}</td>
                             <td>{{ $item->kegiatan ?? '-' }}</td>
-                            <td class="font-bold">{{ number_format($item->nilai, 4) }}</td>
+                            <td class="font-bold">{{ number_format($item->nilai_plus, 4) }}</td>
 
-                            {{-- Kolom Pelaksana --}}
-                            <td>{{ $item->pelaksana_pusat }}</td>
-                            <td>{{ $item->pelaksana_provinsi }}</td>
+                            <td>{{ $item->pelaksana_pusat ? '✓' : '' }}</td>
+                            <td>{{ $item->pelaksana_provinsi ? '✓' : '' }}</td>
                             <td>{{ $item->pelaksana_kabupaten }}</td>
-                            <td>{{ $item->pelaksana_desa }}</td>
-                            <td>{{ $item->pelaksana_csr }}</td>
+                            <td>{{ $item->pelaksana_desa ? '✓' : '' }}</td>
+                            <td>{{ $item->pelaksana_csr ? '✓' : '' }}</td>
                             <td>{{ $item->pelaksana_lainnya }}</td>
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="12" class="text-center p-4 text-gray-500">Data rincian IKL belum diinput.</td>
+                            <td colspan="12" class="text-center text-gray-400">Data IKL Kosong</td>
                         </tr>
                         @endforelse
 
                         {{-- FOOTER IKL --}}
                         @if($idm)
-                        <tr class="row-footer-idm" style="background-color: #fefce8;"> {{-- Kuning Muda --}}
-                            <td colspan="5" class="text-right font-bold" style="color: #a16207;">IKL {{ $tahun_pilih }}</td>
-                            <td class="font-bold" style="color: #a16207;">{{ number_format($idm->skor_ikl, 4) }}</td>
+                        <tr class="bg-yellow-50 font-bold text-yellow-800">
+                            <td colspan="5" class="text-right">SKOR IKL</td>
+                            <td>{{ number_format($idm->skor_ikl, 4) }}</td>
+                            <td colspan="6"></td>
+                        </tr>
+                        {{-- TOTAL IDM --}}
+                        <tr class="bg-gray-200 font-bold">
+                            <td colspan="5" class="text-right">TOTAL IDM</td>
+                            <td>{{ number_format($idm->skor_idm, 4) }}</td>
+                            <td colspan="6"></td>
+                        </tr>
+                        {{-- TOTAL IDM --}}
+                        <tr class="bg-gray-200 font-bold">
+                            <td colspan="5" class="text-right">Skor STATUS IDM 2024</td>
+                            <td>{{ ($idm->status) }}</td>
+
                             <td colspan="6"></td>
                         </tr>
 
-                        {{-- FOOTER TOTAL --}}
-                        <tr class="row-footer-idm" style="background-color: #e5e7eb;"> {{-- Abu-abu --}}
-                            <td colspan="5" class="text-right font-bold">IDM {{ $tahun_pilih }}</td>
-                            <td class="font-bold">{{ number_format($idm->skor_idm, 4) }}</td>
-                            <td colspan="6"></td>
-                        </tr>
-                        <tr class="row-footer-idm" style="background-color: #d1d5db;">
-                            <td colspan="5" class="text-right font-bold">SKOR STATUS IDM {{ $tahun_pilih }}</td>
-                            <td class="font-bold text-uppercase 
-                            {{ $idm->status == 'MANDIRI' ? 'text-green-700' : 
-                              ($idm->status == 'MAJU' ? 'text-blue-700' : 
-                              ($idm->status == 'BERKEMBANG' ? 'text-yellow-700' : 'text-red-700')) }}">
-                                {{ $idm->status }}
-                            </td>
-                            <td colspan="6"></td>
-                        </tr>
                         @endif
 
                     </tbody>
@@ -650,8 +649,4 @@
             </div>
         </div>
     </section>
-
-
-
-
 </x-frontend>

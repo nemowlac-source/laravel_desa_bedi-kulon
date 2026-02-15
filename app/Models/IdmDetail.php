@@ -8,9 +8,10 @@ use Illuminate\Database\Eloquent\Model;
 class IdmDetail extends Model
 {
     use HasFactory;
-
+    protected $guarded = ['id'];
     protected $fillable = [
         'idm_id',
+        'jenis',
         'indikator',
         'skor',
         'keterangan',

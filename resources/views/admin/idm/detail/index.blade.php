@@ -19,6 +19,7 @@
             <thead class="bg-green-100 text-green-900 text-center">
                 <tr>
                     <th rowspan="2" class="border">No</th>
+                    <th rowspan="2" class="border text-left">Jenis Indikator</th>
                     <th rowspan="2" class="border text-left">Indikator IDM</th>
                     <th rowspan="2" class="border">Skor</th>
                     <th rowspan="2" class="border text-left w-64">Keterangan</th>
@@ -40,6 +41,7 @@
                 @foreach($details as $index => $item)
                 <tr class="hover">
                     <td class="text-center border">{{ $index + 1 }}</td>
+                    <td class="font-bold border">{{ $item->jenis }}</td>
                     <td class="font-bold border">{{ $item->indikator }}</td>
                     <td class="text-center font-bold border">{{ $item->skor }}</td>
                     <td class="border">{{ $item->keterangan }}</td>

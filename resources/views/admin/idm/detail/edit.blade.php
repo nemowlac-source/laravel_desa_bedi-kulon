@@ -22,6 +22,10 @@
                     <label class="label font-bold">Nilai Plus (+)</label>
                     <input type="number" step="0.0001" name="nilai_plus" class="input input-bordered" placeholder="0.0000" required>
                 </div>
+                <option value="IKS" {{ (old('jenis') ?? $detail->jenis ?? '') == 'IKS' ? 'selected' : '' }}>IKS (Sosial)</option>
+                <option value="IKE" {{ (old('jenis') ?? $detail->jenis ?? '') == 'IKE' ? 'selected' : '' }}>IKE (Ekonomi)</option>
+                <option value="IKL" {{ (old('jenis') ?? $detail->jenis ?? '') == 'IKL' ? 'selected' : '' }}>IKL (Lingkungan)</option>
+
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">

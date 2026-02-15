@@ -27,6 +27,8 @@ class IdmDetailController extends Controller
     public function store(Request $request, $idm_id)
     {
         $request->validate([
+            // TAMBAHKAN VALIDASI INI
+            'jenis'     => 'required|in:IKS,IKE,IKL',
             'indikator' => 'required',
             'skor' => 'required|numeric',
             'keterangan' => 'required',

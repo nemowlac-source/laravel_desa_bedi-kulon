@@ -22,6 +22,16 @@
                     <label class="label font-bold">Nilai Plus (+)</label>
                     <input type="number" step="0.0001" name="nilai_plus" class="input input-bordered" placeholder="0.0000" required>
                 </div>
+                <div class="form-control mb-4">
+                    <label class="label font-bold">Jenis Indikator</label>
+                    <select name="jenis" class="select select-bordered w-full" required>
+                        <option value="" disabled selected>-- Pilih Jenis --</option>
+                        <option value="IKS">IKS (Indeks Ketahanan Sosial)</option>
+                        <option value="IKE">IKE (Indeks Ketahanan Ekonomi)</option>
+                        <option value="IKL">IKL (Indeks Ketahanan Lingkungan)</option>
+                    </select>
+                </div>
+
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
