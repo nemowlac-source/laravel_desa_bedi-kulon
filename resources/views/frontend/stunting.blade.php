@@ -1,239 +1,4 @@
 <x-frontend>
-    <style>
-        /* Import Font mirip dengan gambar (Poppins/Sans-serif modern) */
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;800&display=swap');
-
-        .header-infografis {
-            background-color: #f8f9fa;
-            /* Background abu-abu sangat muda/putih */
-            padding-top: 40px;
-            font-family: 'Poppins', sans-serif;
-            border-bottom: 1px solid #e0e0e0;
-            /* Garis abu-abu tipis di bawah seluruh header */
-        }
-
-        .header-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            /* Elemen sejajar di garis bawah */
-        }
-
-        /* Styling Judul Kiri */
-        .brand-title h1 {
-            font-size: 2.5rem;
-            font-weight: 800;
-            /* Extra Bold */
-            color: #72c02c;
-            /* Warna Hijau Cerah sesuai gambar */
-            line-height: 1.1;
-            margin: 0;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-        }
-
-        /* Styling Menu Kanan */
-        .nav-menu {
-            display: flex;
-            gap: 30px;
-            /* Jarak antar menu */
-        }
-
-        .nav-item {
-            text-decoration: none;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-bottom: 15px;
-            position: relative;
-            color: #6c757d;
-            /* Warna teks abu-abu tua */
-            transition: all 0.3s ease;
-        }
-
-        /* Styling Ikon */
-        .icon-box img {
-            width: 32px;
-            height: 32px;
-            margin-bottom: 8px;
-            /* Filter agar ikon menjadi abu-abu gelap (outline style) */
-            filter: grayscale(100%) opacity(0.7);
-        }
-
-        /* Styling Teks Menu */
-        .nav-text {
-            font-size: 0.9rem;
-            font-weight: 700;
-        }
-
-        /* Efek Hover */
-        .nav-item:hover {
-            color: #333;
-        }
-
-        .nav-item:hover .icon-box img {
-            filter: grayscale(100%) opacity(1);
-        }
-
-        /* State Active (PENDUDUK) */
-        .nav-item.active {
-            color: #343a40;
-            /* Teks lebih gelap saat aktif */
-        }
-
-        .nav-item.active .icon-box img {
-            filter: grayscale(100%) opacity(1);
-            /* Ikon lebih tegas */
-        }
-
-        /* Garis Hijau di Bawah Tab Aktif */
-        .nav-item.active::after {
-            content: '';
-            position: absolute;
-            bottom: -1px;
-            /* Menempel tepat di garis border container */
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background-color: #72c02c;
-            /* Warna Hijau */
-        }
-
-        /* Responsif untuk Mobile */
-        @media (max-width: 768px) {
-            .header-container {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .brand-title h1 {
-                text-align: center;
-                font-size: 2rem;
-                margin-bottom: 30px;
-            }
-
-            .nav-menu {
-                width: 100%;
-                justify-content: space-between;
-                overflow-x: auto;
-                /* Scroll samping jika layar kecil */
-                padding-bottom: 0;
-            }
-
-            .nav-item {
-                min-width: 70px;
-                /* Lebar minimum agar ikon tidak berdempetan */
-            }
-        }
-
-    </style>
-    <style>
-        /* Styling Section Stunting */
-        .stunting-section {
-            padding: 40px 0 80px;
-            background-color: #f8f9fa;
-        }
-
-        .stunting-summary-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 20px;
-            margin-bottom: 40px;
-        }
-
-        .summary-card {
-            background: #fff;
-            padding: 25px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            display: flex;
-            flex-direction: column;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .summary-card .label {
-            font-size: 0.85rem;
-            font-weight: 700;
-            color: #888;
-            text-transform: uppercase;
-        }
-
-        .summary-card .value {
-            font-size: 2.2rem;
-            font-weight: 800;
-            color: #333;
-            margin: 5px 0;
-        }
-
-        .summary-card .percentage {
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: #72c02c;
-        }
-
-        /* Garis warna di samping kartu */
-        .card-blue {
-            border-left: 5px solid #3498db;
-        }
-
-        .card-green {
-            border-left: 5px solid #72c02c;
-        }
-
-        .card-yellow {
-            border-left: 5px solid #f1c40f;
-        }
-
-        .card-red {
-            border-left: 5px solid #e74c3c;
-        }
-
-        /* Layout Grafik */
-        .stunting-charts-row {
-            display: grid;
-            grid-template-columns: 1fr 1.5fr;
-            gap: 30px;
-        }
-
-        .chart-box {
-            background: #fff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-        }
-
-        .chart-box h3 {
-            font-size: 1.1rem;
-            font-weight: 800;
-            color: #444;
-            margin-bottom: 25px;
-            border-left: 4px solid #72c02c;
-            padding-left: 15px;
-        }
-
-        /* Responsif Mobile */
-        @media (max-width: 992px) {
-            .stunting-summary-grid {
-                grid-template-columns: 1fr 1fr;
-            }
-
-            .stunting-charts-row {
-                grid-template-columns: 1fr;
-            }
-        }
-
-        @media (max-width: 600px) {
-            .stunting-summary-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-    </style>
-
     <section class="stunting-section">
         <div class="infografis-container">
             <div class="header-infografis">
@@ -299,7 +64,6 @@
         <h1 class="text-3xl font-bold mb-2">Data Stunting & Gizi Desa</h1>
         <p class="opacity-80">Monitoring tumbuh kembang balita Desa Bedi Kulon</p>
     </section>
-
     <div class="container mx-auto px-4 py-8">
 
         <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-8">
@@ -376,38 +140,17 @@
         </div>
 
     </div>
+    @php
+    // Menyiapkan data dari Controller atau data default jika kosong
+    $stuntingData = $chart_data ?? [70, 15, 15];
+    @endphp
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const ctx = document.getElementById('stuntingChart').getContext('2d');
+            const dataStunting = @json($stuntingData);
 
-            // Data dari Controller
-            const chartData = @json($chart_data);
-
-            new Chart(ctx, {
-                type: 'doughnut', // Grafik Donat
-                data: {
-                    labels: ['Normal', 'Stunting', 'Kurang Gizi']
-                    , datasets: [{
-                        data: chartData
-                        , backgroundColor: [
-                            '#22c55e', // Hijau (Normal)
-                            '#ef4444', // Merah (Stunting)
-                            '#eab308' // Kuning (Kurang Gizi)
-                        ]
-                        , borderWidth: 0
-                    }]
-                }
-                , options: {
-                    responsive: true
-                    , plugins: {
-                        legend: {
-                            position: 'bottom'
-                        }
-                    }
-                }
-            });
+            // Memanggil fungsi dari app.js
+            window.renderStuntingChart('stuntingChart', dataStunting);
         });
 
     </script>

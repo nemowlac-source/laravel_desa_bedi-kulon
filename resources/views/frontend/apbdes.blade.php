@@ -1,543 +1,5 @@
 <x-frontend>
     <style>
-        /* Styling APBDes */
-        .apbdes-section {
-            padding: 60px 0;
-            background-color: #f8f9fa;
-        }
-
-        .apbdes-layout {
-            display: flex;
-            justify-content: space-between;
-            gap: 50px;
-            align-items: flex-start;
-        }
-
-        .apbdes-info {
-            flex: 1;
-        }
-
-        .apbdes-stats {
-            flex: 1.5;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        /* Judul Kiri */
-        .title-green-big {
-            color: #72c02c;
-            font-size: 2.2rem;
-            font-weight: 800;
-            line-height: 1.2;
-        }
-
-        .apbdes-location {
-            color: #444;
-            font-size: 1.1rem;
-            margin-top: 15px;
-            line-height: 1.5;
-        }
-
-        /* Year Selector */
-        .year-selector {
-            align-self: flex-end;
-            width: 100%;
-        }
-
-        .form-select {
-            width: 100%;
-            padding: 10px 15px;
-            border-radius: 8px;
-            border: 1px solid #ced4da;
-            color: #333;
-            font-weight: 600;
-        }
-
-        /* Card Styles */
-        .stats-row-top,
-        .stats-row-inner {
-            display: flex;
-            gap: 15px;
-        }
-
-        .stat-card,
-        .pembiayaan-wrapper,
-        .stat-card-total {
-            background: #fff;
-            border-radius: 10px;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
-            border: 1px solid #eef0f2;
-        }
-
-        .stat-card {
-            flex: 1;
-            padding: 20px;
-        }
-
-        /* Pembiayaan Section */
-        .pembiayaan-wrapper {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .pembiayaan-header {
-            padding: 15px 20px;
-            border-bottom: 1px solid #eee;
-            font-weight: 700;
-            color: #666;
-        }
-
-        .stat-card-inner {
-            flex: 1;
-            padding: 20px;
-        }
-
-        .stat-card-inner:first-child {
-            border-right: 1px solid #eee;
-        }
-
-        /* Total Section */
-        .stat-card-total {
-            padding: 20px;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            gap: 20px;
-        }
-
-        /* Typography & Colors */
-        .stat-label {
-            display: block;
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: #555;
-            margin-bottom: 8px;
-        }
-
-        .stat-value {
-            display: block;
-            font-size: 1.5rem;
-            font-weight: 800;
-        }
-
-        .stat-label-total {
-            font-size: 1.1rem;
-            font-weight: 700;
-            color: #555;
-        }
-
-        .stat-value-total {
-            font-size: 1.6rem;
-            font-weight: 800;
-            color: #555;
-        }
-
-        .color-green-money {
-            color: #2d7d46;
-        }
-
-        /* Hijau uang */
-        .color-red-money {
-            color: #c0392b;
-        }
-
-        /* Merah belanja */
-
-        .arrow-up {
-            color: #27ae60;
-            font-style: normal;
-            margin-right: 5px;
-        }
-
-        .heart-icon {
-            color: #e74c3c;
-            font-style: normal;
-            margin-right: 5px;
-        }
-
-        /* Responsive */
-        @media (max-width: 992px) {
-            .apbdes-layout {
-                flex-direction: column;
-            }
-
-            .stats-row-top,
-            .stats-row-inner {
-                flex-direction: column;
-            }
-        }
-
-        /* Styling Grafik Tren APBDes */
-        .apbdes-trend-section {
-            padding: 20px 0 60px;
-            background-color: #f8f9fa;
-        }
-
-        .chart-title-green {
-            color: #72c02c;
-            font-size: 1.8rem;
-            font-weight: 700;
-            margin-bottom: 25px;
-        }
-
-        .apbdes-chart-wrapper {
-            background: #ffffff;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-            height: 500px;
-            /* Tinggi grafik disesuaikan agar label angka terbaca */
-            width: 100%;
-            border: 1px solid #f0f0f0;
-        }
-
-        /* Penyesuaian Responsif */
-        @media (max-width: 768px) {
-            .apbdes-chart-wrapper {
-                height: 350px;
-                padding: 20px;
-            }
-        }
-
-        /* Styling Detail Pendapatan */
-        .pendapatan-detail-section {
-            padding: 20px 0 60px;
-        }
-
-        .chart-box-white {
-            background: #fff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            height: 400px;
-            margin-bottom: 30px;
-            border: 1px solid #f0f0f0;
-        }
-
-        /* Accordion Styles */
-        .income-accordion-wrapper {
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            overflow: hidden;
-            border: 1px solid #f0f0f0;
-        }
-
-        .accordion-header {
-            width: 100%;
-            padding: 20px 25px;
-            background: #fff;
-            border: none;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            font-family: 'Poppins', sans-serif;
-            font-weight: 700;
-            color: #333;
-            cursor: pointer;
-            transition: background 0.3s;
-        }
-
-        .accordion-header:hover {
-            background: #f9f9f9;
-        }
-
-        .total-val {
-            color: #333;
-            font-weight: 800;
-        }
-
-        .accordion-content {
-            max-height: 0;
-            overflow: hidden;
-            transition: max-height 0.3s ease-out;
-        }
-
-        .accordion-content.active {
-            max-height: 500px;
-            border-top: 1px solid #eee;
-        }
-
-        /* Detail Table inside Accordion */
-        .detail-table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-
-        .detail-table th {
-            text-align: left;
-            padding: 15px 25px;
-            background: #fafafa;
-            font-size: 0.9rem;
-            color: #000;
-            border-bottom: 2px solid #eee;
-        }
-
-        .detail-table td {
-            padding: 15px 25px;
-            font-size: 0.9rem;
-        }
-
-        .text-center {
-            text-align: center;
-        }
-
-        /* Container untuk Progress Bar di dalam Akordion */
-        .progress-container {
-            padding: 15px 25px;
-            background-color: #fcfcfc;
-        }
-
-        .progress-bar-fill {
-            background-color: #438e0d;
-            /* Hijau sesuai gambar */
-            height: 12px;
-            border-radius: 20px;
-            color: white;
-            font-size: 10px;
-            font-weight: 800;
-            text-align: center;
-            line-height: 12px;
-        }
-
-        .progress-container.empty .progress-bar-fill {
-            background-color: #e5e7eb;
-        }
-
-        /* Perataan teks untuk kolom Anggaran */
-        .text-right {
-            text-align: right;
-            padding-right: 25px !important;
-        }
-
-        .text-center {
-            text-align: center;
-        }
-
-        /* Styling Baris Tabel */
-        .detail-table tbody tr {
-            border-bottom: 1px solid #f0f0f0;
-        }
-
-        .detail-table tbody tr td {
-            font-weight: 600;
-            color: #1f2937;
-            text-transform: uppercase;
-            /* Mengikuti style gambar yang huruf kapital */
-            font-size: 0.85rem;
-        }
-
-        /* Warna khusus untuk baris progress belanja */
-        .belanja-detail-section .progress-bar-fill {
-            background-color: #98e07a;
-            /* Warna hijau muda belanja sesuai gambar */
-            color: #333;
-            /* Teks persentase lebih gelap agar terbaca di warna muda */
-        }
-
-        /* Memastikan teks tabel belanja rapi */
-        .expense-accordion-wrapper .detail-table td {
-            text-transform: capitalize;
-            /* Belanja biasanya lebih baik tidak kapital semua */
-            font-size: 0.8rem;
-            padding: 12px 25px;
-        }
-
-        /* Penyesuaian khusus label grafik belanja yang panjang */
-        @media (max-width: 768px) {
-            .chart-box-white {
-                height: 500px;
-                /* Lebih tinggi di mobile agar label miring terbaca */
-            }
-        }
-
-        /* Styling List Anggaran Belanja */
-        .accordion-item {
-            background: #fff;
-            margin-bottom: 5px;
-            border-radius: 4px;
-        }
-
-        .accordion-header-static {
-            display: flex;
-            align-items: center;
-            padding: 12px 20px;
-            gap: 20px;
-            border-bottom: 1px solid #f0f0f0;
-        }
-
-        .label-text {
-            flex: 1;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: #333;
-        }
-
-        .progress-wrapper {
-            flex: 1.5;
-            /* Memberikan ruang lebih untuk bar di tengah */
-        }
-
-        .progress-bar-bg {
-            background-color: #f0f0f0;
-            height: 14px;
-            border-radius: 10px;
-            overflow: hidden;
-            position: relative;
-        }
-
-        .progress-bar-fill.light-green {
-            background-color: #98e07a;
-            /* Warna hijau muda belanja sesuai gambar */
-            height: 100%;
-            text-align: center;
-            line-height: 14px;
-            font-size: 9px;
-            font-weight: 800;
-            color: #fff;
-            text-shadow: 0 0 2px rgba(0, 0, 0, 0.2);
-        }
-
-        .value-text {
-            flex: 0.8;
-            text-align: right;
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: #333;
-        }
-
-        .arrow-down {
-            font-style: normal;
-            font-size: 12px;
-            margin-left: 5px;
-            color: #888;
-        }
-
-        /* Responsif Mobile */
-        @media (max-width: 768px) {
-            .accordion-header-static {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
-            }
-
-            .progress-wrapper,
-            .value-text {
-                width: 100%;
-                text-align: left;
-            }
-
-            .value-text {
-                text-align: right;
-            }
-        }
-
-        /* Styling Section Pembiayaan */
-        .pembiayaan-section {
-            padding: 20px 0 60px;
-            background-color: #f8f9fa;
-        }
-
-        .white-box-chart {
-            background: #fff;
-            padding: 30px;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            margin-bottom: 25px;
-        }
-
-        .chart-title-green {
-            color: #72c02c;
-            font-size: 1.8rem;
-            font-weight: 800;
-            margin-bottom: 20px;
-        }
-
-        .chart-container-finance {
-            height: 400px;
-            position: relative;
-        }
-
-        /* Styling Bar Progres Pembiayaan */
-        .finance-progress-list {
-            background: #fff;
-            border-radius: 12px;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-            overflow: hidden;
-        }
-
-        .finance-item {
-            border-bottom: 1px solid #f0f0f0;
-        }
-
-        .finance-item:last-child {
-            border-bottom: none;
-        }
-
-        .finance-header-row {
-            display: flex;
-            align-items: center;
-            padding: 15px 25px;
-            gap: 30px;
-        }
-
-        .finance-label {
-            flex: 1;
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: #333;
-        }
-
-        .progress-bar-bg {
-            flex: 2;
-            background-color: #f0f0f0;
-            height: 16px;
-            border-radius: 20px;
-            overflow: hidden;
-        }
-
-        .progress-bar-fill.dark-green {
-            background-color: #438e0d;
-            /* Hijau Tua */
-            height: 100%;
-            text-align: center;
-            color: #fff;
-            font-size: 10px;
-            font-weight: 800;
-            line-height: 16px;
-        }
-
-        .finance-value {
-            flex: 1;
-            text-align: right;
-            font-size: 1rem;
-            font-weight: 800;
-            color: #333;
-        }
-
-        .arrow-down {
-            font-style: normal;
-            font-size: 12px;
-            color: #999;
-        }
-
-        /* Mobile Responsive */
-        @media (max-width: 768px) {
-            .finance-header-row {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: 10px;
-            }
-
-            .progress-bar-bg,
-            .finance-value {
-                width: 100%;
-            }
-        }
-
-    </style>
-    <style>
         /* Import Font mirip dengan gambar (Poppins/Sans-serif modern) */
         @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;800&display=swap');
 
@@ -796,7 +258,6 @@
             </div>
         </div>
     </section>
-
     <section class="apbdes-trend-section">
         <div class="infografis-container">
             <h2 class="chart-title-green">Pendapatan dan Belanja Desa dari Tahun ke Tahun</h2>
@@ -805,7 +266,6 @@
             </div>
         </div>
     </section>
-
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
@@ -883,7 +343,6 @@
         });
 
     </script>
-
     <section class="pendapatan-detail-section">
         <div class="infografis-container">
             <h2 class="chart-title-green">Pendapatan Desa {{ $tahun_pilih }}</h2>
@@ -991,7 +450,6 @@
             </div>
         </div>
     </section>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const catCtx = document.getElementById('pendapatanCategoryChart').getContext('2d');
@@ -1064,8 +522,6 @@
         }
 
     </script>
-
-
     <section class="belanja-detail-section">
         <div class="infografis-container">
             <h2 class="chart-title-green">Belanja Desa {{ $tahun_pilih }}</h2>
@@ -1229,7 +685,6 @@
             </div>
         </div>
     </section>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const belCtx = document.getElementById('belanjaCategoryChart').getContext('2d');
@@ -1318,8 +773,6 @@
         });
 
     </script>
-
-
     <div class="accordion-item">
         <button class="accordion-header" onclick="toggleAccordion('pembinaan-detail')">
             <span>Pembinaan Kemasyarakatan Desa</span>
@@ -1359,7 +812,6 @@
             </table>
         </div>
     </div>
-
     <div class="accordion-item">
         <button class="accordion-header" onclick="toggleAccordion('pemberdayaan-detail')">
             <span>Pemberdayaan Masyarakat Desa</span>
@@ -1399,7 +851,6 @@
             </table>
         </div>
     </div>
-
     <div class="accordion-item">
         <button class="accordion-header" onclick="toggleAccordion('bencana-detail')">
             <span>Penanggulangan Bencana, Darurat & Mendesak</span>
@@ -1439,9 +890,6 @@
             </table>
         </div>
     </div>
-
-
-
     <section class="pembiayaan-section">
         <div class="infografis-container">
             <div class="white-box-chart">
@@ -1492,70 +940,23 @@
             </div>
         </div>
     </section>
-
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const finCtx = document.getElementById('pembiayaanChart').getContext('2d');
-
-            // Data Dinamis
-            const valTerima = {
+            // Ambil data dari PHP Laravel
+            const dataTerima = {
                 {
-                    $pembiayaan_penerimaan
+                    $pembiayaan_penerimaan ? ? 0
                 }
             };
-            const valKeluar = {
+            const dataKeluar = {
                 {
-                    $pembiayaan_pengeluaran
+                    $pembiayaan_pengeluaran ? ? 0
                 }
             };
 
-            new Chart(finCtx, {
-                type: 'bar'
-                , data: {
-                    labels: ['Penerimaan', 'Pengeluaran']
-                    , datasets: [{
-                        label: 'Anggaran'
-                        , data: [valTerima, valKeluar], // Data Variabel
-                        backgroundColor: '#438e0d', // Hijau Tua
-                        borderRadius: 4
-                        , barThickness: 80
-                    }]
-                }
-                , options: {
-                    responsive: true
-                    , maintainAspectRatio: false
-                    , scales: {
-                        y: {
-                            beginAtZero: true,
-                            // Max dihapus agar otomatis
-                            ticks: {
-                                callback: value => 'Rp' + (value / 1000000).toFixed(0) + ' Jt'
-                            }
-                            , grid: {
-                                borderDash: [5, 5]
-                            }
-                        }
-                        , x: {
-                            grid: {
-                                display: false
-                            }
-                        }
-                    }
-                    , plugins: {
-                        legend: {
-                            display: false
-                        }
-                        , tooltip: {
-                            callbacks: {
-                                label: context => 'Rp' + new Intl.NumberFormat('id-ID').format(context.raw)
-                            }
-                        }
-                    }
-                }
-            });
+            // Panggil fungsi yang ada di app.js
+            window.renderPembiayaanChart('pembiayaanChart', dataTerima, dataKeluar);
         });
 
     </script>
-
-
 </x-frontend>

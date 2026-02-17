@@ -1,58 +1,5 @@
 <x-frontend>
-    <style>
-        /* Reset CSS */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            /* KUNCI UTAMA */
-        }
 
-        html,
-        body {
-            max-width: 100%;
-            overflow-x: hidden;
-        }
-
-        /*   */
-        .hero {
-            position: relative;
-            width: 100%;
-            height: 100vh;
-            /* Sesuaikan tinggi sesuai kebutuhan */
-
-            /* Gambar default awal */
-            background-image: url('assets/img/desa1.jpg');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
-
-            /* INI KUNCINYA: Membuat efek transisi halus saat gambar berubah */
-            transition: background-image 1s ease-in-out;
-
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            color: white;
-        }
-
-        .hero-overlay {
-            /* Memberikan lapisan gelap agar teks terbaca jelas */
-            background-color: rgba(0, 0, 0, 0.5);
-            padding: 2rem;
-            border-radius: 10px;
-            width: 100%;
-            height: 100%;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
-            align-items: center;
-        }
-
-        /* */
-
-    </style>
     <header class="hero">
         <div class="hero-overlay">
             <h4>PEMERINTAH DESA PONOROGO</h4>
@@ -555,33 +502,18 @@
         </div>
     </section>
     <script>
-        // 1. Daftar gambar yang ingin dijadikan slide
-        // Ganti path sesuai lokasi gambar Anda
-        const images = [
-            'assets/img/background 1.png'
-            , 'assets/img/background 2.png'
-            , 'assets/img/background 3.png'
-            , 'assets/img/background 3.png'
-        ];
+        document.addEventListener('DOMContentLoaded', function() {
+            // Daftar gambar menggunakan helper asset() Laravel
+            const myImages = [
+                "{{ asset('assets/img/background 1.png') }}"
+                , "{{ asset('assets/img/background 2.png') }}"
+                , "{{ asset('assets/img/background 3.png') }}"
+            ];
 
-        let currentIndex = 0;
-        const heroSection = document.querySelector('.hero');
-
-        function changeBackground() {
-            // Naikkan index gambar
-            currentIndex++;
-
-            // Jika sudah sampai gambar terakhir, kembali ke 0 (looping)
-            if (currentIndex >= images.length) {
-                currentIndex = 0;
-            }
-
-            // Ganti background image
-            heroSection.style.backgroundImage = `url('${images[currentIndex]}')`;
-        }
-
-        // Jalankan fungsi changeBackground setiap 5 detik (5000 milidetik)
-        setInterval(changeBackground, 5000);
+            // Jalankan fungsi slider
+            window.initHeroSlider('.hero', myImages, 5000);
+        });
 
     </script>
+
 </x-frontend>

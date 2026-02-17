@@ -26,12 +26,9 @@
 
         </div>
     </section>
-
     <section class="bagan-section">
         <div class="bagan-container">
             <h2 class="title-green">Bagan Desa ???</h2>
-
-
             <div class="bagan-grid">
                 <div class="bagan-item">
                     <h3>Struktur Organisasi Pemerintahan Desa</h3>
@@ -51,7 +48,6 @@
             </div>
         </div>
     </section>
-
     <section class="sejarah-konten">
         <div class="sejarah-wrapper">
             <h2 class="title-green">Sejarah Berdirinya Desa Bedi Kulon ???</h2>
@@ -121,5 +117,4 @@
             </div>
         </div>
     </section>
-
 </x-frontend>

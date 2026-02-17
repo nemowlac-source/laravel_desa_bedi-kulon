@@ -1,263 +1,4 @@
 <x-frontend>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-    <style>
-        /* Import Font mirip dengan gambar (Poppins/Sans-serif modern) */
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;800&display=swap');
-
-        /* ... css sebelumnya ... */
-        .piramida-section {
-            padding: 60px 0;
-            background: #f1f5f9;
-        }
-
-        .title-blue-bold {
-            color: #1e3a8a;
-            font-size: 2rem;
-            font-weight: 800;
-            text-align: center;
-            margin-bottom: 30px;
-        }
-
-        .narasi-statistik {
-            margin-top: 40px;
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-        }
-
-        .narasi-item {
-            background: #fff;
-            padding: 20px;
-            border-radius: 8px;
-            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
-
-        .border-green {
-            border-left: 5px solid #10b981;
-        }
-
-        .border-orange {
-            border-left: 5px solid #f97316;
-        }
-
-        @media (max-width: 768px) {
-            .narasi-statistik {
-                grid-template-columns: 1fr;
-            }
-        }
-
-
-        .infografis-page {
-            padding: 20px 0;
-            /* background-color: #f9f9f9; */
-
-        }
-
-        .stat-container {
-            max-width: 1100px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        .title-green-sub {
-            color: #28a745;
-            font-size: 2rem;
-            font-weight: 800;
-            text-align: center;
-            margin-bottom: 50px;
-            text-transform: uppercase;
-        }
-
-        .stat-penduduk-grid {
-            display: grid;
-            grid-template-columns: repeat(2, 1fr);
-            /* 2 Kolom biar besar */
-            gap: 30px;
-        }
-
-        .stat-card-penduduk {
-            background: #fff;
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            border-left: 5px solid #28a745;
-            transition: transform 0.3s;
-        }
-
-        .stat-card-penduduk:hover {
-            transform: translateY(-5px);
-        }
-
-        .stat-icon-wrapper img {
-            width: 60px;
-            height: 60px;
-        }
-
-        .stat-data {
-            display: flex;
-            flex-direction: column;
-        }
-
-        .stat-label {
-            font-size: 0.9rem;
-            color: #888;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .stat-value {
-            font-size: 2rem;
-            font-weight: 800;
-        }
-
-        .color-green {
-            color: #28a745;
-        }
-
-        .color-light-green {
-            color: #82c91e;
-        }
-
-        @media (max-width: 768px) {
-            .stat-penduduk-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-
-
-        .header-infografis {
-            background-color: #f8f9fa;
-            /* Background abu-abu sangat muda/putih */
-            font-family: 'Poppins', sans-serif;
-            border-bottom: 1px solid #e0e0e0;
-            /* Garis abu-abu tipis di bawah seluruh header */
-        }
-
-        .header-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            /* Elemen sejajar di garis bawah */
-        }
-
-        /* Styling Judul Kiri */
-        .brand-title h1 {
-            font-size: 2.5rem;
-            font-weight: 800;
-            /* Extra Bold */
-            color: #72c02c;
-            /* Warna Hijau Cerah sesuai gambar */
-            line-height: 1.1;
-            margin: 0;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-        }
-
-        /* Styling Menu Kanan */
-        .nav-menu {
-
-            display: flex;
-            gap: 30px;
-            /* Jarak antar menu */
-        }
-
-        .nav-item {
-            text-decoration: none;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-bottom: 15px;
-            position: relative;
-            color: #6c757d;
-            /* Warna teks abu-abu tua */
-            transition: all 0.3s ease;
-        }
-
-        /* Styling Ikon */
-        .icon-box img {
-            width: 32px;
-            height: 32px;
-            margin-bottom: 8px;
-            /* Filter agar ikon menjadi abu-abu gelap (outline style) */
-            filter: grayscale(100%) opacity(0.7);
-        }
-
-        /* Styling Teks Menu */
-        .nav-text {
-            font-size: 0.9rem;
-            font-weight: 700;
-        }
-
-        /* Efek Hover */
-        .nav-item:hover {
-            color: #333;
-        }
-
-        .nav-item:hover .icon-box img {
-            filter: grayscale(100%) opacity(1);
-        }
-
-        /* State Active (PENDUDUK) */
-        .nav-item.active {
-            color: #343a40;
-            /* Teks lebih gelap saat aktif */
-        }
-
-        .nav-item.active .icon-box img {
-            filter: grayscale(100%) opacity(1);
-            /* Ikon lebih tegas */
-        }
-
-        /* Garis Hijau di Bawah Tab Aktif */
-        .nav-item.active::after {
-            content: '';
-            position: absolute;
-            bottom: -1px;
-            /* Menempel tepat di garis border container */
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background-color: #72c02c;
-            /* Warna Hijau */
-        }
-
-        /* Responsif untuk Mobile */
-        @media (max-width: 768px) {
-            .header-container {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .brand-title h1 {
-                text-align: center;
-                font-size: 2rem;
-                margin-bottom: 30px;
-            }
-
-            .nav-menu {
-                width: 100%;
-                justify-content: space-between;
-                overflow-x: auto;
-                /* Scroll samping jika layar kecil */
-                padding-bottom: 0;
-            }
-
-            .nav-item {
-                min-width: 70px;
-                /* Lebar minimum agar ikon tidak berdempetan */
-            }
-        }
-
-    </style>
     <section class="infografis-page">
         <div class="infografis-container">
             <div class="header-infografis">
@@ -581,7 +322,6 @@
             </div>
         </div>
     </section>
-
     <script>
         // ... (Script Piramida Chart sebelumnya biarkan di atas) ...
 
@@ -621,8 +361,6 @@
         });
 
     </script>
-
-
     <section class="pendidikan-section">
         <style>
             .pendidikan-section {
@@ -660,7 +398,6 @@
             </div>
         </div>
     </section>
-
     <script>
         // ... (Script Piramida & Dusun sebelumnya biarkan) ...
 
@@ -717,8 +454,6 @@
         });
 
     </script>
-
-
     <section class="pekerjaan-section">
         <style>
             .pekerjaan-section {
@@ -863,8 +598,6 @@
             </div>
         </div>
     </section>
-
-
     <section class="wajib-pilih-section">
         <style>
             .wajib-pilih-section {
@@ -903,7 +636,6 @@
             </div>
         </div>
     </section>
-
     <script>
         // ... (Script Piramida, Dusun, Pendidikan sebelumnya biarkan) ...
 
@@ -961,7 +693,6 @@
         });
 
     </script>
-
     <section class="perkawinan-section">
         <style>
             .perkawinan-section {
@@ -1067,8 +798,6 @@
             </div>
         </div>
     </section>
-
-
     <section class="agama-section">
         <style>
             .agama-section {
@@ -1152,7 +881,6 @@
 
 
     </section>
-
     <section class="agama-section">
         <style>
             .agama-section {
@@ -1267,251 +995,59 @@
             </div>
         </div>
     </section>
+    @php
+    // Siapkan data di blok PHP agar aman dari formatter JS
+    $labels = $wp_labels ?? ['2024', '2025', '2026'];
+    $values = $wp_data ?? [800, 825, 850];
+    // Data default jika database kosong
+    $eduLabels = $pendidikan_labels ?? [
+    'Tidak/Belum Sekolah', 'Belum Tamat SD/Sederajat', 'Tamat SD/Sederajat',
+    'SLTP/Sederajat', 'SLTA/Sederajat', 'Diploma I/II',
+    'Diploma III/Sarjana Muda', 'Diploma IV/Strata I', 'Strata II', 'Strata III'
+    ];
+    $eduData = $pendidikan_data ?? [181, 93, 180, 78, 132, 5, 11, 46, 0, 0];
+    // Data Dusun dari database atau default
+    $dusunLabels = $chart_dusun_labels ?? ['Piasan', 'Mubur Kecil'];
+    $dusunData = $chart_dusun_data ?? [470, 256];
+    // Data Default jika variabel dari controller belum ada
+    $piramidaLabels = $labels_umur ?? ['0-4', '5-9', '10-14', '15-19', '20-24', '25-29', '30-34', '35-39', '40-44', '45-49', '50-54', '55-59', '60-64', '65-69', '70-74', '75-79', '80-84', '85+'];
 
+    // Pastikan data laki-laki adalah negatif untuk efek piramida
+    $lakiLaki = $data_laki ?? [-23, -41, -40, -34, -22, -32, -27, -17, -36, -24, -19, -18, -18, -6, -3, -1, -1, -1];
+    $perempuan = $data_perempuan ?? [35, 28, 45, 35, 33, 31, 28, 21, 27, 22, 26, 10, 8, 6, 5, 1, 2, 0];
 
-    <script>
-        const wpCtx = document.getElementById('wajibPilihChart').getContext('2d');
+    @endphp
 
-        new Chart(wpCtx, {
-            type: 'bar'
-            , data: {
-                labels: ['2024', '2025', '2026'], // Tahun sesuai gambar
-                datasets: [{
-                    label: 'Jumlah Wajib Pilih'
-                    , data: [800, 825, 850], // Data angka sesuai label di atas batang
-                    backgroundColor: '#438e0d', // Hijau tua sesuai gambar
-                    borderRadius: 5
-                    , barThickness: 80 // Membuat batang lebih tebal seperti di gambar
-                }]
-            }
-            , options: {
-                responsive: true
-                , maintainAspectRatio: false
-                , scales: {
-                    y: {
-                        beginAtZero: true
-                        , max: 1000, // Skala maksimal sesuai gambar
-                        ticks: {
-                            stepSize: 200
-                        }
-                    }
-                }
-                , plugins: {
-                    legend: {
-                        display: false
-                    }
-                    , tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                return context.raw + ' Jiwa';
-                            }
-                        }
-                    }
-                }
-            }
-        });
-
-    </script>
-
-    <script>
-        const eduCtx = document.getElementById('pendidikanChart').getContext('2d');
-
-        new Chart(eduCtx, {
-            type: 'bar'
-            , data: {
-                labels: [
-                    'Tidak/Belum Sekolah'
-                    , 'Belum Tamat SD/Sederajat'
-                    , 'Tamat SD/Sederajat'
-                    , 'SLTP/Sederajat'
-                    , 'SLTA/Sederajat'
-                    , 'Diploma I/II'
-                    , 'Diploma III/Sarjana Muda'
-                    , 'Diploma IV/Strata I'
-                    , 'Strata II'
-                    , 'Strata III'
-                ]
-                , datasets: [{
-                    label: 'Jumlah Penduduk'
-                    , data: [181, 93, 180, 78, 132, 5, 11, 46, 0, 0], // Data sesuai gambar
-                    backgroundColor: '#0d2481', // Biru tua sesuai gambar
-                    borderRadius: 5
-                    , barThickness: 40
-                }]
-            }
-            , options: {
-                responsive: true
-                , maintainAspectRatio: false
-                , scales: {
-                    y: {
-                        beginAtZero: true
-                        , max: 210, // Menyesuaikan skala y sesuai gambar
-                        ticks: {
-                            stepSize: 30
-                        }
-                    }
-                    , x: {
-                        ticks: {
-                            font: {
-                                size: 10
-                            }
-                        }
-                    }
-                }
-                , plugins: {
-                    legend: {
-                        display: false // Sembunyikan legenda karena sudah jelas dari judul
-                    }
-                    , tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                return context.raw + ' Orang';
-                            }
-                        }
-                    }
-                }
-            }
-        });
-
-    </script>
-
-    <script>
-        const pieCtx = document.getElementById('dusunChart').getContext('2d');
-
-        new Chart(pieCtx, {
-            type: 'pie'
-            , data: {
-                labels: ['Piasan', 'Mubur Kecil']
-                , datasets: [{
-                    data: [470, 256], // Data jiwa sesuai gambar
-                    backgroundColor: [
-                        '#5b73c7', // Biru untuk Piasan
-                        '#90cd76' // Hijau untuk Mubur Kecil
-                    ]
-                    , borderWidth: 1
-                }]
-            }
-            , options: {
-                responsive: true
-                , maintainAspectRatio: false
-                , plugins: {
-                    legend: {
-                        display: false // Kita gunakan keterangan custom di samping
-                    }
-                    , tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                let total = 470 + 256;
-                                let value = context.raw;
-                                let percentage = ((value / total) * 100).toFixed(2);
-                                return context.label + ': ' + value + ' Jiwa (' + percentage + '%)';
-                            }
-                        }
-                    }
-                }
-            }
-        });
-
-    </script>
-
-    <script>
-        const pieCtx = document.getElementById('dusunChart').getContext('2d');
-
-        new Chart(pieCtx, {
-            type: 'pie'
-            , data: {
-                labels: ['Piasan', 'Mubur Kecil']
-                , datasets: [{
-                    data: [470, 256], // Data jiwa sesuai gambar
-                    backgroundColor: [
-                        '#5b73c7', // Biru untuk Piasan
-                        '#90cd76' // Hijau untuk Mubur Kecil
-                    ]
-                    , borderWidth: 1
-                }]
-            }
-            , options: {
-                responsive: true
-                , maintainAspectRatio: false
-                , plugins: {
-                    legend: {
-                        display: false // Kita gunakan keterangan custom di samping
-                    }
-                    , tooltip: {
-                        callbacks: {
-                            label: function(context) {
-                                let total = 470 + 256;
-                                let value = context.raw;
-                                let percentage = ((value / total) * 100).toFixed(2);
-                                return context.label + ': ' + value + ' Jiwa (' + percentage + '%)';
-                            }
-                        }
-                    }
-                }
-            }
-        });
-
-    </script>
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const ctx = document.getElementById('piramidaChart').getContext('2d');
+            const labelsWajibPilih = @json($labels);
+            const dataWajibPilih = @json($values);
 
-            const dataLaki = [-23, -41, -40, -34, -22, -32, -27, -17, -36, -24, -19, -18, -18, -6, -3, -1, -1, -1];
-            const dataPerempuan = [35, 28, 45, 35, 33, 31, 28, 21, 27, 22, 26, 10, 8, 6, 5, 1, 2, 0];
-            const labels = ['0-4', '5-9', '10-14', '15-19', '20-24', '25-29', '30-34', '35-39', '40-44', '45-49', '50-54', '55-59', '60-64', '65-69', '70-74', '75-79', '80-84', '85+'];
+            window.renderWajibPilihChart('wajibPilihChart', labelsWajibPilih, dataWajibPilih);
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+            const labelsPendidikan = @json($eduLabels);
+            const dataPendidikan = @json($eduData);
 
-            new Chart(ctx, {
-                type: 'bar'
-                , data: {
-                    labels: labels
-                    , datasets: [{
-                            label: 'Laki-Laki'
-                            , data: dataLaki
-                            , backgroundColor: '#689f84'
-                            , borderRadius: 5
-                        , }
-                        , {
-                            label: 'Perempuan'
-                            , data: dataPerempuan
-                            , backgroundColor: '#f5a691'
-                            , borderRadius: 5
-                        , }
-                    ]
-                }
-                , options: {
-                    indexAxis: 'y'
-                    , responsive: true
-                    , scales: {
-                        x: {
-                            stacked: true
-                            , ticks: {
-                                callback: (value) => Math.abs(value)
-                            }
-                        }
-                        , y: {
-                            beginAtZero: true
-                            , stacked: true
-                            , position: 'center'
-                        }
-                    }
-                    , plugins: {
-                        tooltip: {
-                            callbacks: {
-                                label: (context) => {
-                                    let label = context.dataset.label || '';
-                                    return label + ': ' + Math.abs(context.raw) + ' orang';
-                                }
-                            }
-                        }
-                    }
-                }
-            });
+            window.renderPendidikanChart('pendidikanChart', labelsPendidikan, dataPendidikan);
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+            const labelsDusun = @json($dusunLabels);
+            const dataDusun = @json($dusunData);
+
+            // Memanggil fungsi dari app.js
+            window.renderDusunChart('dusunChart', labelsDusun, dataDusun);
+        });
+        document.addEventListener('DOMContentLoaded', function() {
+            const labels = @json($piramidaLabels);
+            const dataLaki = @json($lakiLaki);
+            const dataPerempuan = @json($perempuan);
+
+            // Jalankan fungsi dari app.js
+            window.renderPiramidaChart('piramidaChart', labels, dataLaki, dataPerempuan);
         });
 
     </script>
-
 
 
 </x-frontend>

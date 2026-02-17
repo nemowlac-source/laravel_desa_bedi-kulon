@@ -1,137 +1,4 @@
 <x-frontend>
-
-    <style>
-        /* Import Font mirip dengan gambar (Poppins/Sans-serif modern) */
-        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;800&display=swap');
-
-        .header-infografis {
-            background-color: #f8f9fa;
-            /* Background abu-abu sangat muda/putih */
-            padding-top: 40px;
-            font-family: 'Poppins', sans-serif;
-            border-bottom: 1px solid #e0e0e0;
-            /* Garis abu-abu tipis di bawah seluruh header */
-        }
-
-        .header-container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-end;
-            /* Elemen sejajar di garis bawah */
-        }
-
-        /* Styling Judul Kiri */
-        .brand-title h1 {
-            font-size: 2.5rem;
-            font-weight: 800;
-            /* Extra Bold */
-            color: #72c02c;
-            /* Warna Hijau Cerah sesuai gambar */
-            line-height: 1.1;
-            margin: 0;
-            margin-bottom: 20px;
-            text-transform: uppercase;
-        }
-
-        /* Styling Menu Kanan */
-        .nav-menu {
-            display: flex;
-            gap: 30px;
-            /* Jarak antar menu */
-        }
-
-        .nav-item {
-            text-decoration: none;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            padding-bottom: 15px;
-            position: relative;
-            color: #6c757d;
-            /* Warna teks abu-abu tua */
-            transition: all 0.3s ease;
-        }
-
-        /* Styling Ikon */
-        .icon-box img {
-            width: 32px;
-            height: 32px;
-            margin-bottom: 8px;
-            /* Filter agar ikon menjadi abu-abu gelap (outline style) */
-            filter: grayscale(100%) opacity(0.7);
-        }
-
-        /* Styling Teks Menu */
-        .nav-text {
-            font-size: 0.9rem;
-            font-weight: 700;
-        }
-
-        /* Efek Hover */
-        .nav-item:hover {
-            color: #333;
-        }
-
-        .nav-item:hover .icon-box img {
-            filter: grayscale(100%) opacity(1);
-        }
-
-        /* State Active (PENDUDUK) */
-        .nav-item.active {
-            color: #343a40;
-            /* Teks lebih gelap saat aktif */
-        }
-
-        .nav-item.active .icon-box img {
-            filter: grayscale(100%) opacity(1);
-            /* Ikon lebih tegas */
-        }
-
-        /* Garis Hijau di Bawah Tab Aktif */
-        .nav-item.active::after {
-            content: '';
-            position: absolute;
-            bottom: -1px;
-            /* Menempel tepat di garis border container */
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background-color: #72c02c;
-            /* Warna Hijau */
-        }
-
-        /* Responsif untuk Mobile */
-        @media (max-width: 768px) {
-            .header-container {
-                flex-direction: column;
-                align-items: center;
-            }
-
-            .brand-title h1 {
-                text-align: center;
-                font-size: 2rem;
-                margin-bottom: 30px;
-            }
-
-            .nav-menu {
-                width: 100%;
-                justify-content: space-between;
-                overflow-x: auto;
-                /* Scroll samping jika layar kecil */
-                padding-bottom: 0;
-            }
-
-            .nav-item {
-                min-width: 70px;
-                /* Lebar minimum agar ikon tidak berdempetan */
-            }
-        }
-
-    </style>
-
     <style>
         /* Styling Halaman Bansos */
         .bansos-section {
@@ -402,7 +269,6 @@
             <p class="opacity-90">Data Penerima Bantuan Desa Bedi Kulon Tahun {{ date('Y') }}</p>
         </div>
     </section>
-
     <div class="container mx-auto px-4 py-8">
 
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
@@ -511,56 +377,15 @@
         </div>
 
     </div>
-
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const ctx = document.getElementById('bansosChart').getContext('2d');
+            // Ambil data dari Controller
+            const chartLabels = @json($chart_labels);
+            const chartData = @json($chart_data);
 
-            // Data sudah disiapkan dari Controller, jadi aman dari formatter
-            const labels = @json($chart_labels);
-            const data = @json($chart_data);
-
-            new Chart(ctx, {
-                type: 'bar', // Bisa diganti 'pie' atau 'doughnut'
-                data: {
-                    labels: labels
-                    , datasets: [{
-                        label: 'Jumlah Penerima'
-                        , data: data
-                        , backgroundColor: [
-                            '#3b82f6', '#10b981', '#f59e0b', '#ef4444', '#8b5cf6'
-                        ]
-                        , borderRadius: 5
-                        , barThickness: 40
-                    }]
-                }
-                , options: {
-                    responsive: true
-                    , maintainAspectRatio: false
-                    , scales: {
-                        y: {
-                            beginAtZero: true
-                            , ticks: {
-                                stepSize: 1
-                            }
-                        }
-                        , x: {
-                            grid: {
-                                display: false
-                            }
-                        }
-                    }
-                    , plugins: {
-                        legend: {
-                            display: false
-                        } // Sembunyikan legend jika pakai Bar chart
-                    }
-                }
-            });
+            // Jalankan fungsi yang ada di app.js
+            window.renderBansosChart('bansosChart', chartLabels, chartData);
         });
 
     </script>
-
-
 </x-frontend>
