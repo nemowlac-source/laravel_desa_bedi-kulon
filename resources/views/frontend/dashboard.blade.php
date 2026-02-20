@@ -23,28 +23,31 @@
 
             <div class="explore-grid">
                 <div class="explore-card">
-                    <div class="icon-box">
+                    <div class="icon-box-dashboard">
+
                         <img src="https://cdn-icons-png.flaticon.com/512/5351/5351465.png" alt="Profil Desa" />
                     </div>
                     <h3>PROFIL DESA</h3>
                 </div>
 
                 <div class="explore-card">
-                    <div class="icon-box">
+                    <div class="icon-box-dashboard">
+
                         <img src="https://cdn-icons-png.flaticon.com/512/4221/4221419.png" alt="Infografis" />
                     </div>
                     <h3>INFOGRAFIS</h3>
                 </div>
 
                 <div class="explore-card">
-                    <div class="icon-box">
+                    <div class="icon-box-dashboard">
                         <img src="https://cdn-icons-png.flaticon.com/512/1067/1067357.png" alt="IDM" />
                     </div>
                     <h3>IDM</h3>
                 </div>
 
                 <div class="explore-card">
-                    <div class="icon-box">
+                    <div class="icon-box-dashboard">
+
                         <img src="https://cdn-icons-png.flaticon.com/512/2991/2991108.png" alt="PPID" />
                     </div>
                     <h3>PPID</h3>
@@ -503,17 +506,23 @@
     </section>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Daftar gambar menggunakan helper asset() Laravel
             const myImages = [
-                "{{ asset('assets/img/background 1.png') }}"
-                , "{{ asset('assets/img/background 2.png') }}"
-                , "{{ asset('assets/img/background 3.png') }}"
+                "{{ asset('assets/img/background 1.webp') }}"
+                , "{{ asset('assets/img/background 2.webp') }}"
+                , "{{ asset('assets/img/background 3.webp') }}"
             ];
 
-            // Jalankan fungsi slider
+            // --- TAMBAHKAN LOGIKA PRELOAD INI ---
+            myImages.forEach((src) => {
+                const img = new Image();
+                img.src = src;
+            });
+            // ------------------------------------
+
             window.initHeroSlider('.hero', myImages, 5000);
         });
 
     </script>
+
 
 </x-frontend>

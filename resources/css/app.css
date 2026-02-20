@@ -2,11 +2,17 @@
 @tailwind components;
 @tailwind utilities;
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@600;800&display=swap");
+
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: "Poppins", sans-serif;
+}
+
+body {
+    font-family: "Poppins", "Outfit", sans-serif;
+    overflow-x: hidden;
+    background-color: #f4f4f4;
 }
 
 /* Navigasi Hijau Sesuai Gambar */
@@ -18,12 +24,6 @@ nav {
     top: 0;
     z-index: 1000;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-}
-
-.nav-container {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
 }
 
 .logo-section {
@@ -63,21 +63,6 @@ nav {
 
 .nav-links li a.active {
     border-bottom: 3px solid white;
-}
-
-/* Hero Section Merah Putih */
-.hero {
-    height: 85vh;
-    background:
-        linear-gradient(rgba(180, 0, 0, 0.8), rgba(150, 0, 0, 0.8)),
-        url("https://www.setneg.go.id/images/background_dirgahayu.jpg"); /* Ganti dengan gambar nuansa desa */
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: white;
 }
 
 .hero-overlay h4 {
@@ -174,11 +159,20 @@ nav {
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
 }
 
-.icon-box img {
-    width: 60px; /* Ukuran ikon */
+/* Targetkan kedua jenis elemen: img dan svg */
+.icon-box img,
+.icon-box svg {
+    width: 52px; /* Sesuaikan ukuran agar tidak terlalu raksasa (90px mungkin terlalu besar untuk menu) */
     height: auto;
-    margin-bottom: 15px;
-    filter: none; /* Membuat ikon jadi kehijauan jika gambar aslinya hitam */
+    margin-bottom: 8px;
+    filter: none;
+    transition: all 0.3s ease;
+}
+
+/* Khusus untuk SVG agar warnanya mengikuti tema */
+.icon-box svg {
+    overflow: visible !important;
+    stroke: currentColor; /* Agar warna garis mengikuti warna teks menu */
 }
 
 .explore-card h3 {
@@ -1502,11 +1496,21 @@ nav {
     }
 }
 
-/* Styling Halaman Infografis */
+/* Styling Halaman Infografis - Versi Gabungan & Optimal */
 .infografis-page {
-    padding: 60px 10%;
-    background-color: #f9fdf9;
+    /* Padding atas-bawah 60px agar lega, padding samping gunakan 5% sebagai cadangan */
+    padding: 2rem 5rem;
+
+    /* Gunakan warna background hijau sangat muda agar mata tidak cepat lelah */
+    /* Memastikan konten minimal setinggi layar agar footer tidak naik ke tengah */
     min-height: 80vh;
+
+    /* Tambahkan transisi halus jika nanti ada perubahan tema */
+    transition: background-color 0.3s ease;
+
+    /* Memastikan box-sizing konsisten */
+    display: block;
+    width: 100%;
 }
 
 .infografis-header {
@@ -1572,7 +1576,6 @@ nav {
     align-items: center;
     gap: 50px;
     flex-wrap: wrap;
-    padding: 10rem;
 }
 
 .demografi-text {
@@ -1597,7 +1600,6 @@ nav {
     width: 100%;
     max-width: 500px;
     border-radius: 20px;
-    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
 }
 
 /* Responsif */
@@ -1723,9 +1725,12 @@ nav {
 }
 
 .narasi-statistik {
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
+    display: flex; /* Memastikan mode flex aktif */
+    flex-direction: column; /* Mengatur arah menjadi kolom (bertumpuk atas-bawah) */
+    align-items: center; /* Menyejajarkan blok ke tengah secara horizontal */
+    gap: 20px; /* Jarak antar blok narasi */
+    width: 100%; /* Memenuhi lebar kontainer */
+    padding-top: 1rem;
 }
 
 .narasi-item {
@@ -1828,12 +1833,6 @@ nav {
     }
 }
 
-/* Styling Section Pendidikan */
-.pendidikan-section {
-    padding: 60px 0;
-    background-color: #f9fdf9;
-}
-
 .chart-bar-wrapper {
     background: white;
     padding: 30px;
@@ -1850,11 +1849,6 @@ nav {
         height: 350px;
         padding: 15px;
     }
-}
-
-/* Styling Section Pekerjaan */
-.pekerjaan-section {
-    padding: 60px 0;
 }
 
 .pekerjaan-grid-main {
@@ -1937,12 +1931,6 @@ nav {
     .pekerjaan-cards-grid {
         grid-template-columns: 1fr;
     }
-}
-
-/* Styling Section Wajib Pilih */
-.wajib-pilih-section {
-    padding: 60px 0;
-    background-color: #ffffff;
 }
 
 /* Wrapper grafik agar memiliki bayangan dan ruang yang cukup */
@@ -2538,27 +2526,12 @@ nav {
     }
 }
 
-/* RESET CSS */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: "Outfit", sans-serif;
-    overflow-x: hidden;
-    background-color: #f4f4f4;
-    /* Warna background body agar scroll terlihat */
-    height: 200vh;
-    /* Hanya untuk simulasi agar bisa di-scroll */
-}
-
 /* --- NAVBAR STYLE DASAR --- */
 nav {
     background-color: #2ac0b4;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
     width: 100%;
+    height: 5.5rem;
     /* BERUBAH: Membuat header melayang saat scroll */
     position: sticky;
     top: 0;
@@ -2612,7 +2585,7 @@ nav {
 .nav-links {
     display: flex;
     list-style: none;
-    gap: 12px;
+    gap: 5px;
     align-items: center;
 }
 
@@ -2620,7 +2593,7 @@ nav {
     text-decoration: none;
     color: white;
     font-weight: 700;
-    font-size: 0.95rem;
+    font-size: 1.1rem;
     position: relative;
     padding: 5px 4px;
     transition: all 0.3s ease;
@@ -2903,12 +2876,6 @@ nav {
 }
 
 /* Judul Kiri */
-.title-green-big {
-    color: #72c02c;
-    font-size: 2.2rem;
-    font-weight: 800;
-    line-height: 1.2;
-}
 
 .apbdes-location {
     color: #444;
@@ -3414,134 +3381,6 @@ nav {
     }
 }
 
-/* Import Font mirip dengan gambar (Poppins/Sans-serif modern) */
-
-.header-infografis {
-    background-color: #f8f9fa;
-    /* Background abu-abu sangat muda/putih */
-    padding-top: 40px;
-    font-family: "Poppins", sans-serif;
-    border-bottom: 1px solid #e0e0e0;
-    /* Garis abu-abu tipis di bawah seluruh header */
-}
-
-.header-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    /* Elemen sejajar di garis bawah */
-}
-
-/* Styling Judul Kiri */
-.brand-title h1 {
-    font-size: 2.5rem;
-    font-weight: 800;
-    /* Extra Bold */
-    color: #72c02c;
-    /* Warna Hijau Cerah sesuai gambar */
-    line-height: 1.1;
-    margin: 0;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-}
-
-/* Styling Menu Kanan */
-.nav-menu {
-    display: flex;
-    gap: 30px;
-    /* Jarak antar menu */
-}
-
-.nav-item {
-    text-decoration: none;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-bottom: 15px;
-    position: relative;
-    color: #6c757d;
-    /* Warna teks abu-abu tua */
-    transition: all 0.3s ease;
-}
-
-/* Styling Ikon */
-.icon-box img {
-    width: 32px;
-    height: 32px;
-    margin-bottom: 8px;
-    /* Filter agar ikon menjadi abu-abu gelap (outline style) */
-    filter: grayscale(100%) opacity(0.7);
-}
-
-/* Styling Teks Menu */
-.nav-text {
-    font-size: 0.9rem;
-    font-weight: 700;
-}
-
-/* Efek Hover */
-.nav-item:hover {
-    color: #333;
-}
-
-.nav-item:hover .icon-box img {
-    filter: grayscale(100%) opacity(1);
-}
-
-/* State Active (PENDUDUK) */
-.nav-item.active {
-    color: #343a40;
-    /* Teks lebih gelap saat aktif */
-}
-
-.nav-item.active .icon-box img {
-    filter: grayscale(100%) opacity(1);
-    /* Ikon lebih tegas */
-}
-
-/* Garis Hijau di Bawah Tab Aktif */
-.nav-item.active::after {
-    content: "";
-    position: absolute;
-    bottom: -1px;
-    /* Menempel tepat di garis border container */
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background-color: #72c02c;
-    /* Warna Hijau */
-}
-
-/* Responsif untuk Mobile */
-@media (max-width: 768px) {
-    .header-container {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .brand-title h1 {
-        text-align: center;
-        font-size: 2rem;
-        margin-bottom: 30px;
-    }
-
-    .nav-menu {
-        width: 100%;
-        justify-content: space-between;
-        overflow-x: auto;
-        /* Scroll samping jika layar kecil */
-        padding-bottom: 0;
-    }
-
-    .nav-item {
-        min-width: 70px;
-        /* Lebar minimum agar ikon tidak berdempetan */
-    }
-}
-
 /* Container Layout */
 .belanja-section {
     padding: 50px 0 80px;
@@ -3941,33 +3780,22 @@ nav {
     /* KUNCI UTAMA */
 }
 
-html,
-body {
-    max-width: 100%;
-    overflow-x: hidden;
-}
-
 /*   */
+/* Hero Section Dashboard Desa */
 .hero {
     position: relative;
     width: 100%;
     height: 100vh;
-    /* Sesuaikan tinggi sesuai kebutuhan */
-
-    /* Gambar default awal */
-    background-image: url("assets/img/desa1.jpg");
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
-
-    /* INI KUNCINYA: Membuat efek transisi halus saat gambar berubah */
     transition: background-image 0.8s ease-in-out;
-
     display: flex;
     align-items: center;
     justify-content: center;
     text-align: center;
     color: white;
+    margin-top: 0;
 }
 
 .hero-overlay {
@@ -4146,131 +3974,6 @@ body {
         font-size: 2rem;
     }
 }
-.header-infografis {
-    background-color: #f8f9fa;
-    /* Background abu-abu sangat muda/putih */
-    padding-top: 40px;
-    font-family: "Poppins", sans-serif;
-    border-bottom: 1px solid #e0e0e0;
-    /* Garis abu-abu tipis di bawah seluruh header */
-}
-
-.header-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    /* Elemen sejajar di garis bawah */
-}
-
-/* Styling Judul Kiri */
-.brand-title h1 {
-    font-size: 2.5rem;
-    font-weight: 800;
-    /* Extra Bold */
-    color: #72c02c;
-    /* Warna Hijau Cerah sesuai gambar */
-    line-height: 1.1;
-    margin: 0;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-}
-
-/* Styling Menu Kanan */
-.nav-menu {
-    display: flex;
-    gap: 30px;
-    /* Jarak antar menu */
-}
-
-.nav-item {
-    text-decoration: none;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-bottom: 15px;
-    position: relative;
-    color: #6c757d;
-    /* Warna teks abu-abu tua */
-    transition: all 0.3s ease;
-}
-
-/* Styling Ikon */
-.icon-box img {
-    width: 32px;
-    height: 32px;
-    margin-bottom: 8px;
-    /* Filter agar ikon menjadi abu-abu gelap (outline style) */
-    filter: grayscale(100%) opacity(0.7);
-}
-
-/* Styling Teks Menu */
-.nav-text {
-    font-size: 0.9rem;
-    font-weight: 700;
-}
-
-/* Efek Hover */
-.nav-item:hover {
-    color: #333;
-}
-
-.nav-item:hover .icon-box img {
-    filter: grayscale(100%) opacity(1);
-}
-
-/* State Active (PENDUDUK) */
-.nav-item.active {
-    color: #343a40;
-    /* Teks lebih gelap saat aktif */
-}
-
-.nav-item.active .icon-box img {
-    filter: grayscale(100%) opacity(1);
-    /* Ikon lebih tegas */
-}
-
-/* Garis Hijau di Bawah Tab Aktif */
-.nav-item.active::after {
-    content: "";
-    position: absolute;
-    bottom: -1px;
-    /* Menempel tepat di garis border container */
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background-color: #72c02c;
-    /* Warna Hijau */
-}
-
-/* Responsif untuk Mobile */
-@media (max-width: 768px) {
-    .header-container {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .brand-title h1 {
-        text-align: center;
-        font-size: 2rem;
-        margin-bottom: 30px;
-    }
-
-    .nav-menu {
-        width: 100%;
-        justify-content: space-between;
-        overflow-x: auto;
-        /* Scroll samping jika layar kecil */
-        padding-bottom: 0;
-    }
-
-    .nav-item {
-        min-width: 70px;
-        /* Lebar minimum agar ikon tidak berdempetan */
-    }
-}
 
 /* Warna khusus untuk baris pemisah IKS/IKE/IKL */
 .row-separator td {
@@ -4423,25 +4126,12 @@ body {
 /* Import Font mirip dengan gambar (Poppins/Sans-serif modern) */
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@600;800&display=swap");
 
-/* ... css sebelumnya ... */
-.piramida-section {
-    padding: 60px 0;
-    background: #f1f5f9;
-}
-
 .title-blue-bold {
     color: #1e3a8a;
     font-size: 2rem;
     font-weight: 800;
     text-align: center;
     margin-bottom: 30px;
-}
-
-.narasi-statistik {
-    margin-top: 40px;
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 20px;
 }
 
 .narasi-item {
@@ -4467,13 +4157,8 @@ body {
     }
 }
 
-.infografis-page {
-    padding: 20px 0;
-    /* background-color: #f9f9f9; */
-}
-
 .stat-container {
-    max-width: 1100px;
+    width: 100%;
     margin: 0 auto;
     padding: 0 20px;
 }
@@ -4482,7 +4167,7 @@ body {
     color: #28a745;
     font-size: 2rem;
     font-weight: 800;
-    text-align: center;
+    text-align: start;
     margin-bottom: 50px;
     text-transform: uppercase;
 }
@@ -4502,7 +4187,7 @@ body {
     display: flex;
     align-items: center;
     gap: 20px;
-    border-left: 5px solid #28a745;
+    /* border-left: 5px solid #28a745; */
     transition: transform 0.3s;
 }
 
@@ -4547,21 +4232,13 @@ body {
 }
 
 .header-infografis {
-    background-color: #f8f9fa;
     /* Background abu-abu sangat muda/putih */
     font-family: "Poppins", sans-serif;
-    border-bottom: 1px solid #e0e0e0;
-    /* Garis abu-abu tipis di bawah seluruh header */
-}
-
-.header-container {
-    max-width: 1200px;
     margin: 0 auto;
-    padding: 0 20px;
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
-    /* Elemen sejajar di garis bawah */
+    /* Garis abu-abu tipis di bawah seluruh header */
 }
 
 /* Styling Judul Kiri */
@@ -4569,7 +4246,7 @@ body {
     font-size: 2.5rem;
     font-weight: 800;
     /* Extra Bold */
-    color: #72c02c;
+    color: #2ac0b4;
     /* Warna Hijau Cerah sesuai gambar */
     line-height: 1.1;
     margin: 0;
@@ -4580,8 +4257,8 @@ body {
 /* Styling Menu Kanan */
 .nav-menu {
     display: flex;
-    gap: 30px;
-    /* Jarak antar menu */
+    gap: 55px;
+    width: 40rem;
 }
 
 .nav-item {
@@ -4597,7 +4274,7 @@ body {
 }
 
 /* Styling Ikon */
-.icon-box img {
+.icon-box-dashboard img {
     width: 32px;
     height: 32px;
     margin-bottom: 8px;
@@ -4642,33 +4319,6 @@ body {
     height: 3px;
     background-color: #72c02c;
     /* Warna Hijau */
-}
-
-/* Responsif untuk Mobile */
-@media (max-width: 768px) {
-    .header-container {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .brand-title h1 {
-        text-align: center;
-        font-size: 2rem;
-        margin-bottom: 30px;
-    }
-
-    .nav-menu {
-        width: 100%;
-        justify-content: space-between;
-        overflow-x: auto;
-        /* Scroll samping jika layar kecil */
-        padding-bottom: 0;
-    }
-
-    .nav-item {
-        min-width: 70px;
-        /* Lebar minimum agar ikon tidak berdempetan */
-    }
 }
 
 /* CSS INTERNAL - Menjamin tata letak peta dan sidebar berfungsi */
@@ -4958,11 +4608,6 @@ body {
 }
 
 /* --- CSS RESET & BASE --- */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-}
 
 /* --- PAGE CONTENT --- */
 .container-custom {
@@ -5361,108 +5006,6 @@ body {
     }
 }
 
-/* Import Font mirip dengan gambar (Poppins/Sans-serif modern) */
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@600;800&display=swap");
-
-.header-infografis {
-    background-color: #f8f9fa;
-    /* Background abu-abu sangat muda/putih */
-    padding-top: 40px;
-    font-family: "Poppins", sans-serif;
-    border-bottom: 1px solid #e0e0e0;
-    /* Garis abu-abu tipis di bawah seluruh header */
-}
-
-.header-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    /* Elemen sejajar di garis bawah */
-}
-
-/* Styling Judul Kiri */
-.brand-title h1 {
-    font-size: 2.5rem;
-    font-weight: 800;
-    /* Extra Bold */
-    color: #72c02c;
-    /* Warna Hijau Cerah sesuai gambar */
-    line-height: 1.1;
-    margin: 0;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-}
-
-/* Styling Menu Kanan */
-.nav-menu {
-    display: flex;
-    gap: 30px;
-    /* Jarak antar menu */
-}
-
-.nav-item {
-    text-decoration: none;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-bottom: 15px;
-    position: relative;
-    color: #6c757d;
-    /* Warna teks abu-abu tua */
-    transition: all 0.3s ease;
-}
-
-/* Styling Ikon */
-.icon-box img {
-    width: 32px;
-    height: 32px;
-    margin-bottom: 8px;
-    /* Filter agar ikon menjadi abu-abu gelap (outline style) */
-    filter: grayscale(100%) opacity(0.7);
-}
-
-/* Styling Teks Menu */
-.nav-text {
-    font-size: 0.9rem;
-    font-weight: 700;
-}
-
-/* Efek Hover */
-.nav-item:hover {
-    color: #333;
-}
-
-.nav-item:hover .icon-box img {
-    filter: grayscale(100%) opacity(1);
-}
-
-/* State Active (PENDUDUK) */
-.nav-item.active {
-    color: #343a40;
-    /* Teks lebih gelap saat aktif */
-}
-
-.nav-item.active .icon-box img {
-    filter: grayscale(100%) opacity(1);
-    /* Ikon lebih tegas */
-}
-
-/* Garis Hijau di Bawah Tab Aktif */
-.nav-item.active::after {
-    content: "";
-    position: absolute;
-    bottom: -1px;
-    /* Menempel tepat di garis border container */
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background-color: #72c02c;
-    /* Warna Hijau */
-}
-
 /* Responsif untuk Mobile */
 @media (max-width: 768px) {
     .header-container {
@@ -5778,135 +5321,6 @@ body {
     }
 }
 
-/* Import Font mirip dengan gambar (Poppins/Sans-serif modern) */
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@600;800&display=swap");
-
-.header-infografis {
-    background-color: #f8f9fa;
-    /* Background abu-abu sangat muda/putih */
-    padding-top: 40px;
-    font-family: "Poppins", sans-serif;
-    border-bottom: 1px solid #e0e0e0;
-    /* Garis abu-abu tipis di bawah seluruh header */
-}
-
-.header-container {
-    max-width: 1200px;
-    margin: 0 auto;
-    padding: 0 20px;
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    /* Elemen sejajar di garis bawah */
-}
-
-/* Styling Judul Kiri */
-.brand-title h1 {
-    font-size: 2.5rem;
-    font-weight: 800;
-    /* Extra Bold */
-    color: #72c02c;
-    /* Warna Hijau Cerah sesuai gambar */
-    line-height: 1.1;
-    margin: 0;
-    margin-bottom: 20px;
-    text-transform: uppercase;
-}
-
-/* Styling Menu Kanan */
-.nav-menu {
-    display: flex;
-    gap: 30px;
-    /* Jarak antar menu */
-}
-
-.nav-item {
-    text-decoration: none;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding-bottom: 15px;
-    position: relative;
-    color: #6c757d;
-    /* Warna teks abu-abu tua */
-    transition: all 0.3s ease;
-}
-
-/* Styling Ikon */
-.icon-box img {
-    width: 32px;
-    height: 32px;
-    margin-bottom: 8px;
-    /* Filter agar ikon menjadi abu-abu gelap (outline style) */
-    filter: grayscale(100%) opacity(0.7);
-}
-
-/* Styling Teks Menu */
-.nav-text {
-    font-size: 0.9rem;
-    font-weight: 700;
-}
-
-/* Efek Hover */
-.nav-item:hover {
-    color: #333;
-}
-
-.nav-item:hover .icon-box img {
-    filter: grayscale(100%) opacity(1);
-}
-
-/* State Active (PENDUDUK) */
-.nav-item.active {
-    color: #343a40;
-    /* Teks lebih gelap saat aktif */
-}
-
-.nav-item.active .icon-box img {
-    filter: grayscale(100%) opacity(1);
-    /* Ikon lebih tegas */
-}
-
-/* Garis Hijau di Bawah Tab Aktif */
-.nav-item.active::after {
-    content: "";
-    position: absolute;
-    bottom: -1px;
-    /* Menempel tepat di garis border container */
-    left: 0;
-    width: 100%;
-    height: 3px;
-    background-color: #72c02c;
-    /* Warna Hijau */
-}
-
-/* Responsif untuk Mobile */
-@media (max-width: 768px) {
-    .header-container {
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .brand-title h1 {
-        text-align: center;
-        font-size: 2rem;
-        margin-bottom: 30px;
-    }
-
-    .nav-menu {
-        width: 100%;
-        justify-content: space-between;
-        overflow-x: auto;
-        /* Scroll samping jika layar kecil */
-        padding-bottom: 0;
-    }
-
-    .nav-item {
-        min-width: 70px;
-        /* Lebar minimum agar ikon tidak berdempetan */
-    }
-}
-
 /* Styling Section Stunting */
 .stunting-section {
     padding: 40px 0 80px;
@@ -6009,17 +5423,6 @@ body {
 }
 
 /* Reset dan Font Dasar */
-* {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
-    font-family: "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-}
-
-body {
-    background-color: #f8f9fa;
-    color: #333;
-}
 
 /* Container Utama */
 .container-wisata {
@@ -6162,6 +5565,582 @@ body {
 /* Responsif */
 @media (max-width: 768px) {
     .grid-container {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* Styling Halaman Bansos */
+.bansos-section {
+    padding: 40px 0;
+    background-color: #f9f9f9;
+}
+
+.infografis-container {
+    width: 100%;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.title-green {
+    color: #2ac0b4;
+    font-size: 1.8rem;
+    font-weight: 800;
+    margin-bottom: 30px;
+    justify-content: start;
+    display: flex;
+}
+
+/* Grid Layout */
+.bansos-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    /* Dua kolom sesuai gambar */
+    gap: 20px;
+}
+
+/* Kartu Bansos */
+.bansos-card {
+    background: #ffffff;
+    border-radius: 10px;
+    padding: 30px;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s ease;
+}
+
+.bansos-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Bagian Angka (Kiri) */
+.bansos-count {
+    text-align: center;
+    min-width: 100px;
+}
+
+.bansos-count .number {
+    display: block;
+    font-size: 3rem;
+    font-weight: 800;
+    color: #333;
+    line-height: 1;
+}
+
+.bansos-count .unit {
+    font-size: 0.9rem;
+    font-weight: 700;
+    color: #444;
+}
+
+/* Bagian Teks (Kanan) */
+.bansos-info p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #777;
+}
+
+.bansos-info h3 {
+    margin: 5px 0 0;
+    font-size: 1.2rem;
+    font-weight: 800;
+    color: #4c5258;
+}
+
+/* Responsif untuk layar HP */
+@media (max-width: 768px) {
+    .bansos-grid {
+        grid-template-columns: 1fr;
+        /* Jadi satu kolom di HP */
+    }
+
+    .bansos-card {
+        padding: 20px;
+        gap: 20px;
+    }
+
+    .bansos-count .number {
+        font-size: 2.2rem;
+    }
+}
+
+/* Styling Cek Penerima Bansos */
+.cek-bansos-section {
+    padding: 20px 0 80px;
+    background-color: #f9f9f9;
+}
+
+.search-bansos-wrapper {
+    margin-top: 20px;
+}
+
+.search-input-group {
+    position: relative;
+    display: flex;
+    align-items: center;
+    background: #ffffff;
+    border: 1px solid #d1d5db;
+    /* Border abu-abu tipis sesuai gambar */
+    border-radius: 8px;
+    padding: 15px 20px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.02);
+}
+
+.icon-search {
+    color: #9ca3af;
+    margin-right: 15px;
+    font-size: 1.1rem;
+}
+
+.input-nik {
+    width: 100%;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    color: #4b5563;
+    font-family: "Poppins", sans-serif;
+}
+
+.input-nik::placeholder {
+    color: #9ca3af;
+    /* Warna placeholder abu-abu muda sesuai gambar */
+}
+
+/* Efek Fokus */
+.search-input-group:focus-within {
+    border-color: #72c02c;
+    box-shadow: 0 0 0 3px rgba(114, 192, 44, 0.1);
+}
+
+.dusun-section {
+    padding: 60px 0;
+    background: #fff;
+}
+
+.dusun-grid {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: center;
+    gap: 50px;
+    margin-top: 40px;
+}
+
+.chart-pie-wrapper {
+    width: 100%;
+    max-width: 400px;
+    /* Ukuran Grafik */
+    position: relative;
+}
+
+.dusun-keterangan {
+    flex: 1;
+    min-width: 300px;
+}
+
+.keterangan-list {
+    list-style: none;
+    padding: 0;
+}
+
+.keterangan-list li {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+    font-size: 1rem;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.dot {
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    display: inline-block;
+    margin-right: 15px;
+}
+
+@media (max-width: 768px) {
+    .dusun-grid {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .keterangan-list li {
+        justify-content: center;
+    }
+}
+
+.chart-bar-wrapper {
+    width: 100%;
+    /* Lebar chart */
+    height: 500px;
+    /* Tinggi chart */
+    margin: 0 auto;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+@media (max-width: 768px) {
+    .chart-bar-wrapper {
+        height: 350px;
+    }
+}
+
+.pekerjaan-section {
+    padding: 60px 0;
+    background: #fff;
+}
+
+.title-green {
+    color: #2ac0b4;
+    font-size: 2rem;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+.pekerjaan-grid-main {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    /* Tabel 1 bagian, Kartu 1.5 bagian */
+    gap: 40px;
+    align-items: start;
+}
+
+/* Style Tabel */
+.pekerjaan-table-wrapper {
+    background: #fff;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+    border: 1px solid #eee;
+}
+
+.pekerjaan-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.pekerjaan-table th {
+    background: #28a745;
+    color: white;
+    padding: 15px;
+    text-align: left;
+    font-weight: 700;
+}
+
+.pekerjaan-table td {
+    padding: 12px 15px;
+    border-bottom: 1px solid #f0f0f0;
+    color: #555;
+}
+
+.pekerjaan-table tr:last-child td {
+    border-bottom: none;
+}
+
+.pekerjaan-table tr:hover {
+    background-color: #f9f9f9;
+}
+
+/* Style Grid Cards */
+.pekerjaan-cards-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    /* 2 Kolom kartu */
+    gap: 20px;
+}
+
+.job-card {
+    background: #f8f9fa;
+    padding: 20px;
+    border-radius: 10px;
+    border-left: 5px solid #28a745;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transition: transform 0.3s;
+}
+
+.job-card:hover {
+    transform: translateY(-5px);
+    background: #fff;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.job-name {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #444;
+    margin-bottom: 10px;
+}
+
+.job-count {
+    font-size: 1.8rem;
+    font-weight: 800;
+    color: #28a745;
+    align-self: flex-end;
+    /* Angka di kanan bawah */
+}
+
+@media (max-width: 992px) {
+    .pekerjaan-grid-main {
+        grid-template-columns: 1fr;
+    }
+}
+
+.wajib-pilih-section {
+    padding: 60px 0;
+    background: #f1f5f9;
+    /* Background sedikit abu agar kontras */
+}
+
+.title-green {
+    color: #2ac0b4;
+    font-size: 2rem;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+/* Kita gunakan wrapper yang sama dengan chart pendidikan agar konsisten */
+.chart-bar-wrapper {
+    width: 100%;
+    height: 450px;
+    margin: 0 auto;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
+}
+
+.perkawinan-section {
+    padding: 60px 0;
+    background: #fff;
+}
+
+.infografis-grid-triple {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    /* 3 Kolom */
+    gap: 25px;
+}
+
+.stat-card-mini {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition:
+        transform 0.3s,
+        box-shadow 0.3s;
+}
+
+.stat-card-mini:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+    border-color: #28a745;
+    /* Highlight Hijau saat hover */
+}
+
+.stat-card-mini img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+}
+
+.card-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-card-mini .label {
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: 600;
+}
+
+.stat-card-mini .value {
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
+.color-green {
+    color: #28a745;
+}
+
+@media (max-width: 992px) {
+    .infografis-grid-triple {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .infografis-grid-triple {
+        grid-template-columns: 1fr;
+    }
+}
+
+.agama-section {
+    padding: 60px 0;
+    background: #f8f9fa;
+    /* Background abu-abu muda */
+}
+
+.title-green {
+    color: #2ac0b4;
+    font-size: 2rem;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+/* Kita gunakan style grid dan card yang sama dengan Perkawinan */
+.infografis-grid-triple {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.stat-card-mini {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition:
+        transform 0.3s,
+        box-shadow 0.3s;
+}
+
+.stat-card-mini:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+    border-color: #28a745;
+}
+
+.stat-card-mini img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+}
+
+.card-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-card-mini .label {
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: 600;
+}
+
+.stat-card-mini .value {
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
+.color-green {
+    color: #28a745;
+}
+
+@media (max-width: 992px) {
+    .infografis-grid-triple {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .infografis-grid-triple {
+        grid-template-columns: 1fr;
+    }
+}
+
+.agama-section {
+    padding: 60px 0;
+    background: #f8f9fa;
+    /* Background abu-abu muda */
+}
+
+.title-green {
+    color: #2ac0b4;
+    font-size: 2rem;
+    font-weight: 800;
+    text-align: center;
+    margin-bottom: 40px;
+}
+
+/* Kita gunakan style grid dan card yang sama dengan Perkawinan */
+.infografis-grid-triple {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 25px;
+}
+
+.stat-card-mini {
+    background: #fff;
+    border: 1px solid #eee;
+    border-radius: 12px;
+    padding: 20px;
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    transition:
+        transform 0.3s,
+        box-shadow 0.3s;
+}
+
+.stat-card-mini:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+    border-color: #28a745;
+}
+
+.stat-card-mini img {
+    width: 50px;
+    height: 50px;
+    object-fit: contain;
+}
+
+.card-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.stat-card-mini .label {
+    font-size: 0.9rem;
+    color: #666;
+    font-weight: 600;
+}
+
+.stat-card-mini .value {
+    font-size: 1.5rem;
+    font-weight: 800;
+}
+
+.color-green {
+    color: #28a745;
+}
+
+@media (max-width: 992px) {
+    .infografis-grid-triple {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .infografis-grid-triple {
         grid-template-columns: 1fr;
     }
 }

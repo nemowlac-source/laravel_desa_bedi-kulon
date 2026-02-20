@@ -131,25 +131,27 @@ window.renderBansosChart = (canvasId, labels, data) => {
 
 window.initHeroSlider = (elementSelector, imageList, intervalTime = 5000) => {
     const heroSection = document.querySelector(elementSelector);
-
-    // Validasi: Jika element hero tidak ditemukan atau gambar kosong, stop
     if (!heroSection || !imageList || imageList.length === 0) return;
 
     let currentIndex = 0;
 
+    // Fungsi untuk mengganti background
+    const setBackground = (index) => {
+        heroSection.style.backgroundImage = `url('${imageList[index]}')`;
+    };
+
+    // LANGKAH PENTING: Panggil langsung agar gambar pertama muncul INSTAN
+    setBackground(currentIndex);
+
     const changeBackground = () => {
         currentIndex++;
-
-        // Looping index
         if (currentIndex >= imageList.length) {
             currentIndex = 0;
         }
-
-        // Ganti background image dengan efek transisi halus jika ada CSS-nya
-        heroSection.style.backgroundImage = `url('${imageList[currentIndex]}')`;
+        setBackground(currentIndex);
     };
 
-    // Jalankan interval
+    // Jalankan interval untuk gambar selanjutnya
     setInterval(changeBackground, intervalTime);
 };
 /**
@@ -317,15 +319,18 @@ window.renderDusunChart = (canvasId, labels, data) => {
             },
         },
     });
-};
-/**
+}; /**
  * Fungsi Global untuk Piramida Penduduk
+ * Menggabungkan logika pemrosesan data negatif dan kustomisasi tampilan
  */
 window.renderPiramidaChart = (canvasId, labels, dataLaki, dataPerempuan) => {
     const el = document.getElementById(canvasId);
     if (!el) return;
 
     const ctx = el.getContext("2d");
+
+    // Otomatis ubah data laki-laki menjadi negatif untuk efek cermin ke kiri
+    const dataLakiNegatif = dataLaki.map((value) => -Math.abs(value));
 
     new Chart(ctx, {
         type: "bar",
@@ -334,27 +339,27 @@ window.renderPiramidaChart = (canvasId, labels, dataLaki, dataPerempuan) => {
             datasets: [
                 {
                     label: "Laki-Laki",
-                    data: dataLaki, // Harus berupa angka negatif untuk efek ke kiri
-                    backgroundColor: "#689f84",
+                    data: dataLakiNegatif,
+                    backgroundColor: "#3b82f6", // Biru sesuai script baru Anda
                     borderRadius: 5,
                 },
                 {
                     label: "Perempuan",
                     data: dataPerempuan,
-                    backgroundColor: "#f5a691",
+                    backgroundColor: "#ec4899", // Pink sesuai script baru Anda
                     borderRadius: 5,
                 },
             ],
         },
         options: {
-            indexAxis: "y",
+            indexAxis: "y", // Membuat chart horizontal
             responsive: true,
             maintainAspectRatio: false,
             scales: {
                 x: {
                     stacked: true,
                     ticks: {
-                        // Mengubah angka negatif menjadi positif di sumbu X
+                        // Menghilangkan tanda minus di label sumbu X
                         callback: (value) => Math.abs(value),
                     },
                 },
@@ -369,8 +374,11 @@ window.renderPiramidaChart = (canvasId, labels, dataLaki, dataPerempuan) => {
                     callbacks: {
                         label: (context) => {
                             let label = context.dataset.label || "";
-                            // Mengubah angka negatif menjadi positif di tooltip
-                            return `${label}: ${Math.abs(context.raw)} orang`;
+                            if (label) {
+                                label += ": ";
+                            }
+                            // Menghilangkan tanda minus di tooltip
+                            return label + Math.abs(context.raw) + " orang";
                         },
                     },
                 },
