@@ -112,20 +112,17 @@ nav {
 .explore-container {
     display: flex;
     align-items: center;
-    gap: 50px;
-    flex-wrap: wrap; /* Agar responsif di HP */
+    justify-content: space-between;
+    gap: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 60px 20px;
 }
 
 .explore-content {
     flex: 1;
-    min-width: 300px;
-}
-
-.title-green {
-    color: #2ac0b4; /* Warna hijau cerah sesuai gambar */
-    font-size: 2.5rem;
-    font-weight: 800;
-    margin-bottom: 20px;
+    height: 100px;
+    min-width: 600px;
 }
 
 .explore-content p {
@@ -134,26 +131,48 @@ nav {
     line-height: 1.8;
 }
 
-/* Grid Kartu */
 .explore-grid {
-    flex: 1;
     display: grid;
     grid-template-columns: repeat(2, 1fr);
-    gap: 20px;
-    min-width: 300px;
+    column-gap: 30px;
+    row-gap: 80px;
+    flex: 1.5;
+    padding-right: 40px;
 }
-
+/* Styling Kartu */
 .explore-card {
-    background: white;
-    padding: 30px;
+    background: #ffffff;
+    padding: 0 20px 25px 20px; /* Bawahnya diberi jarak, atasnya 0 */
     text-align: center;
-    border-radius: 10px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
+    border-radius: 12px;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.05);
+    border: 1px solid #f9f9f9;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-end;
+    min-height: 100px; /* Membuat bentuk kartu persegi panjang */
+    width: 250px;
     transition: transform 0.3s ease;
-    cursor: pointer;
-    border: 1px solid #eee;
 }
 
+/* EFEK LEBIH MASUK (Zig-Zag Horizontal) */
+/* Menggunakan transform agar lebar kotak tetap aman dan tidak terpotong */
+.explore-card:nth-child(3),
+.explore-card:nth-child(4) {
+    transform: translateX(40px); /* Geser kotak ke kanan sejauh 40px */
+}
+
+/* Efek Hover (Opsional agar kartu sedikit naik saat disorot) */
+.explore-card:hover {
+    transform: translateY(-5px);
+}
+
+/* Pastikan hover pada elemen ke 3 & 4 tetap mempertahankan posisi gesernya */
+.explore-card:nth-child(3):hover,
+.explore-card:nth-child(4):hover {
+    transform: translate(40px, -5px);
+}
 .explore-card:hover {
     transform: translateY(-10px);
     box-shadow: 0 15px 35px rgba(0, 0, 0, 0.1);
@@ -176,12 +195,11 @@ nav {
 }
 
 .explore-card h3 {
-    font-size: 0.9rem;
+    font-size: 1.05rem;
     font-weight: 700;
-    color: #444;
-    letter-spacing: 1px;
+    color: #4a4a4a;
+    margin: 0;
 }
-
 /* Penyesuaian Mobile */
 @media (max-width: 768px) {
     .explore-container {
@@ -297,7 +315,6 @@ nav {
 /* Styling Section Peta */
 .map-section {
     padding: 60px 10%;
-    background-color: #f4f4f4; /* Warna abu-abu senada dengan section Jelajahi Desa */
     text-align: center;
 }
 
@@ -310,6 +327,8 @@ nav {
     color: #666;
     margin-bottom: 30px;
     font-size: 1.1rem;
+    display: flex;
+    justify-content: start;
 }
 
 .map-wrapper {
@@ -2025,10 +2044,7 @@ nav {
 
 .map-container {
     flex: 2;
-    border-radius: 15px;
     overflow: hidden;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    background: #e5e3df;
 }
 
 .poi-sidebar {
@@ -2527,27 +2543,31 @@ nav {
 }
 
 /* --- NAVBAR STYLE DASAR --- */
+/* Status Awal (Transparan) */
 nav {
-    background-color: #2ac0b4;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    background-color: transparent; /* Awalnya transparan */
+    box-shadow: none; /* Hilangkan shadow saat transparan agar bersih */
     width: 100%;
     height: 5.5rem;
-    /* BERUBAH: Membuat header melayang saat scroll */
-    position: sticky;
+    position: fixed; /* Gunakan fixed agar benar-benar menempel di atas konten */
     top: 0;
     z-index: 1000;
     padding: 8px 20px;
+}
+
+/* Status saat sudah di-scroll (Warna Asli) */
+nav.scrolled {
+    background-color: #2ac0b4;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .nav-container {
     max-width: 2080px;
     margin: 0 auto;
     display: flex;
-    /* Logo kiri, menu kanan */
     justify-content: space-between;
     align-items: center;
 }
-
 /* --- LOGO AREA --- */
 .logo-section {
     display: flex;
@@ -3586,7 +3606,7 @@ nav {
     min-height: 80vh;
 }
 
-.container-custom {
+.container-custom-pemerintahan {
     max-width: 1200px;
     margin: 0 auto;
     padding: 0 15px;
@@ -4273,13 +4293,22 @@ nav {
     transition: all 0.3s ease;
 }
 
-/* Styling Ikon */
-.icon-box-dashboard img {
-    width: 32px;
-    height: 32px;
-    margin-bottom: 8px;
-    /* Filter agar ikon menjadi abu-abu gelap (outline style) */
-    filter: grayscale(100%) opacity(0.7);
+.icon-box-dashboard {
+    /* Angka negatif ini menarik ikon ke atas menembus batas putih */
+    margin-top: -45px;
+    margin-bottom: 15px;
+}
+
+.icon-box-dashboard img,
+.icon-box-dashboard svg {
+    width: 150px; /* Ukuran ikon disamakan */
+    height: 150px;
+    object-fit: contain;
+}
+
+.icon-dashboard {
+    height: 10rem;
+    width: 15rem;
 }
 
 /* Styling Teks Menu */
@@ -4352,12 +4381,7 @@ nav {
 /* Container Peta */
 .map-container {
     flex: 2;
-    /* Peta lebih lebar */
-    background: #e5e3df;
-    border-radius: 15px;
     overflow: hidden;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
-    border: 1px solid #ddd;
 }
 
 /* Sidebar Titik Menarik */
@@ -4458,10 +4482,11 @@ nav {
 }
 /* Container Layout */
 .pemerintahan-section {
-    padding: 60px 0;
-    background-color: #f9f9f9;
-    font-family: "Poppins", sans-serif;
+    padding: 2rem 5rem;
     min-height: 80vh;
+    transition: background-color 0.3s ease;
+    display: block;
+    width: 100%;
 }
 
 .container-custom {
@@ -4499,12 +4524,9 @@ nav {
 }
 
 /* --- SOTK SECTION (BAGAN) --- */
-.sotk-wrapper {
+.sotk-wrapper-pemerinatahan {
     background: #fff;
-    padding: 20px;
     border-radius: 8px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.05);
-    margin-bottom: 60px;
     text-align: center;
 }
 
@@ -5433,14 +5455,13 @@ nav {
 }
 
 /* Header Halaman */
-.page-header {
-    margin-bottom: 40px;
-    text-align: center;
+.page-header-pemerintahan {
+    margin-bottom: 10px;
+    color: black;
 }
 
-.page-title {
-    color: #5cb85c;
-    /* Hijau */
+.page-title-pemerintahan {
+    color: #2ac0b4;
     font-size: 36px;
     font-weight: 800;
     margin-bottom: 10px;
@@ -5455,8 +5476,9 @@ nav {
     border-radius: 2px;
 }
 
-.page-subtitle {
+.page-subtitle-pemerintahan {
     color: #666;
+    background-color: red;
     font-size: 16px;
     max-width: 600px;
     margin: 0 auto;
@@ -5585,7 +5607,6 @@ nav {
     color: #2ac0b4;
     font-size: 1.8rem;
     font-weight: 800;
-    margin-bottom: 30px;
     justify-content: start;
     display: flex;
 }
@@ -5795,14 +5816,6 @@ nav {
     background: #fff;
 }
 
-.title-green {
-    color: #2ac0b4;
-    font-size: 2rem;
-    font-weight: 800;
-    text-align: center;
-    margin-bottom: 40px;
-}
-
 .pekerjaan-grid-main {
     display: grid;
     grid-template-columns: 1fr 1.5fr;
@@ -5900,14 +5913,6 @@ nav {
     /* Background sedikit abu agar kontras */
 }
 
-.title-green {
-    color: #2ac0b4;
-    font-size: 2rem;
-    font-weight: 800;
-    text-align: center;
-    margin-bottom: 40px;
-}
-
 /* Kita gunakan wrapper yang sama dengan chart pendidikan agar konsisten */
 .chart-bar-wrapper {
     width: 100%;
@@ -5995,14 +6000,6 @@ nav {
     /* Background abu-abu muda */
 }
 
-.title-green {
-    color: #2ac0b4;
-    font-size: 2rem;
-    font-weight: 800;
-    text-align: center;
-    margin-bottom: 40px;
-}
-
 /* Kita gunakan style grid dan card yang sama dengan Perkawinan */
 .infografis-grid-triple {
     display: grid;
@@ -6071,14 +6068,6 @@ nav {
     padding: 60px 0;
     background: #f8f9fa;
     /* Background abu-abu muda */
-}
-
-.title-green {
-    color: #2ac0b4;
-    font-size: 2rem;
-    font-weight: 800;
-    text-align: center;
-    margin-bottom: 40px;
 }
 
 /* Kita gunakan style grid dan card yang sama dengan Perkawinan */

@@ -10,10 +10,11 @@
         </div> -->
         </div>
     </header>
-    <section class="explore-section">
+    <section class="infografis-page">
+
         <div class="explore-container">
             <div class="explore-content">
-                <h2 class="title-green">JELAJAHI DESA</h2>
+                <h2 class="title-green" style="font-size: 50px">JELAJAHI DESA</h2>
                 <p>
                     Melalui website ini Anda dapat menjelajahi segala hal yang terkait
                     dengan desa. Aspek pemerintahan, penduduk, demografi, potensi desa,
@@ -22,33 +23,33 @@
             </div>
 
             <div class="explore-grid">
-                <div class="explore-card">
-                    <div class="icon-box-dashboard">
+                <div class="explore-card" onclick="window.location='{{ route('frontend.profile') }}'">
 
-                        <img src="https://cdn-icons-png.flaticon.com/512/5351/5351465.png" alt="Profil Desa" />
+
+                    <div class="icon-box-dashboard">
+                        <img src="{{ asset('assets/img/profil.svg') }}" alt="Profil Desa" />
                     </div>
                     <h3>PROFIL DESA</h3>
                 </div>
 
-                <div class="explore-card">
-                    <div class="icon-box-dashboard">
+                <div class="explore-card" onclick="window.location='{{ route('frontend.infografis') }}'">
 
-                        <img src="https://cdn-icons-png.flaticon.com/512/4221/4221419.png" alt="Infografis" />
+                    <div class="icon-box-dashboard">
+                        <img src="{{ asset('assets/img/infografis.svg') }}" alt="Infografis" />
                     </div>
                     <h3>INFOGRAFIS</h3>
                 </div>
 
-                <div class="explore-card">
+                <div class="explore-card" onclick="window.location='{{ route('frontend.idm') }}'">
                     <div class="icon-box-dashboard">
-                        <img src="https://cdn-icons-png.flaticon.com/512/1067/1067357.png" alt="IDM" />
+                        <img src="{{ asset('assets/img/idm.svg') }}" alt="IDM" />
                     </div>
                     <h3>IDM</h3>
                 </div>
 
-                <div class="explore-card">
+                <div class="explore-card" onclick="window.location='{{ route('frontend.ppid') }}'">
                     <div class="icon-box-dashboard">
-
-                        <img src="https://cdn-icons-png.flaticon.com/512/2991/2991108.png" alt="PPID" />
+                        <img src="{{ asset('assets/img/ppid.svg') }}" alt="PPID" />
                     </div>
                     <h3>PPID</h3>
                 </div>
@@ -89,14 +90,13 @@
         <div class="map-container">
             <h2 class="title-green">LOKASI DESA</h2>
             <p class="map-subtitle">
-                Temukan lokasi strategis dan batas wilayah Desa Bedi Kulon melalui peta
-                interaktif berikut.
+                Temukan lokasi strategis dan batas wilayah Desa Bedi Kulon melalui peta berikut.
             </p>
 
-            <div class="map-wrapper">
-                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d82214.9804084441!2d111.4497112763571!3d-7.942160672324217!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e797497c48641c7%3A0x67c2c67a022feb71!2sBedikulon%2C%20Kec.%20Bungkal%2C%20Kabupaten%20Ponorogo%2C%20Jawa%20Timur!5e0!3m2!1sid!2sid!4v1770011788443!5m2!1sid!2sid" width="100%" height="450" style="border: 0" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade">
-                </iframe>
+            <div class="peta-container" style="position: relative; width: 100%; height: 500px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                <div id="mapDesa" style="width: 100%; height: 100%;"></div>
             </div>
+
         </div>
     </section>
     <section class="sotk-section">
@@ -118,12 +118,6 @@
                         <h3>{{ strtoupper($staf->nama) }}</h3>
 
                         <p>{{ $staf->jabatan }}</p>
-
-                        @if($staf->niap)
-                        <p style="font-size: 0.8rem; color: #888; margin-top: 5px;">
-                            NIAP: {{ $staf->niap }}
-                        </p>
-                        @endif
                     </div>
                 </div>
                 @empty
