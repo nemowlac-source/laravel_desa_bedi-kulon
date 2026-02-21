@@ -238,7 +238,7 @@
     <section class="news-section">
         <div class="news-container">
             <h2 class="title-green">Berita Desa</h2>
-            <p class="news-subtitle">
+            <p class="admin-subtitle">
                 Menyajikan informasi terbaru tentang peristiwa, berita terkini, dan
                 artikel-artikel jurnalistik dari Desa Bedi Kulon
             </p>
@@ -338,54 +338,53 @@
 
         </div>
     </section>
-    <section class="wisata-section">
-        <div class="wisata-container">
-            <div class="wisata-header">
-                <h2 class="title-white">WISATA DESA</h2>
-                <p class="wisata-subtitle">
-                    Layanan yang mempermudah promosi wisata desa sehingga dapat menarik
-                    pengunjung desa
-                </p>
-            </div>
+    <section class="wisata-section-baru">
 
-            <div class="wisata-slider-wrapper" style="position: relative; overflow: hidden; border-radius: 15px;">
+        <div class="wisata-wrapper-utama">
 
-                @forelse($wisata_desa as $key => $item)
-                <div class="wisata-hero-card myslides fade" style="display: {{ $key == 0 ? 'flex' : 'none' }}; background-image: url('{{ asset('storage/' . $item->gambar) }}'); background-size: cover; background-position: center; height: 400px; position: relative; align-items: flex-end; padding: 30px;">
+            <div class="slide-bg-luar" style="background-image: url('{{ asset('storage/' . ($wisata_desa->first()->gambar ?? '')) }}');"></div>
+            <div class="slide-bg-overlay"></div>
 
-                    <div class="wisata-overlay" style="background: linear-gradient(to top, rgba(0,0,0,0.8), transparent); position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1;"></div>
+            <div class="wisata-container-tengah">
 
-                    <div class="wisata-content" style="position: relative; z-index: 2; color: white; max-width: 600px;">
-                        <h1 style="font-size: 2rem; font-weight: bold; margin-bottom: 10px;">{{ $item->nama_wisata }}</h1>
+                <div class="wisata-header-kiri">
+                    <h1 class="judul-wisata">WISATA DESA</h1>
+                    <span class="deskripsi-wisata">Layanan promosi potensi desa dan fasilitas untuk menarik minat pengunjung.</span>
+                </div>
 
-                        <div style="margin-bottom: 10px; font-size: 0.9rem; color: #ddd;">
-                            <span style="margin-right: 15px;"><i class="icon-clock"></i> {{ $item->jam_buka ?? '24 Jam' }}</span>
-                            <span><i class="icon-ticket"></i> {{ $item->harga_tiket ?? 'Gratis' }}</span>
+                <div class="wisata-inner-slider">
+                    @forelse($wisata_desa as $key => $item)
+                    <a href="#" class="wisata-slide fade" style="display: {{ $key == 0 ? 'block' : 'none' }};">
+
+                        <img src="{{ asset('storage/' . $item->gambar) }}" class="inner-image" alt="{{ $item->nama_wisata }}">
+                        <div class="inner-box-gradient"></div>
+
+                        <button class="slide-arrow-btn left" onclick="plusSlides(-1); event.preventDefault();">❮</button>
+
+                        <div class="wisata-text-content">
+                            <h3>{{ $item->nama_wisata }}</h3>
+                            <p>{{ Str::limit($item->deskripsi, 150) }}</p>
                         </div>
 
-                        <p style="font-size: 1rem; line-height: 1.5; opacity: 0.9;">
-                            {{ Str::limit($item->deskripsi, 150) }}
-                        </p>
+                        <button class="slide-arrow-btn right" onclick="plusSlides(1); event.preventDefault();">❯</button>
+                    </a>
+                    @empty
+                    <div class="wisata-slide" style="background-color: #333; display: flex; align-items: center; justify-content: center; color: white;">
+                        Belum ada data wisata.
                     </div>
+                    @endforelse
                 </div>
-                @empty
-                <div class="wisata-hero-card" style="background-color: #333; height: 300px; display: flex; align-items: center; justify-content: center; color: white;">
-                    <p>Belum ada data wisata.</p>
-                </div>
-                @endforelse
-
-                @if($wisata_desa->count() > 1)
-                <button class="slider-arrow left" onclick="plusSlides(-1)" style="position: absolute; top: 50%; left: 20px; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: white; border: none; font-size: 24px; padding: 10px 15px; cursor: pointer; z-index: 10; border-radius: 50%;">❮</button>
-                <button class="slider-arrow right" onclick="plusSlides(1)" style="position: absolute; top: 50%; right: 20px; transform: translateY(-50%); background: rgba(0,0,0,0.5); color: white; border: none; font-size: 24px; padding: 10px 15px; cursor: pointer; z-index: 10; border-radius: 50%;">❯</button>
-                @endif
             </div>
 
-            <div class="wisata-footer" style="margin-top: 30px; text-align: center;">
-                <a href="{{ route('frontend.wisata') }}" class="view-more-white" style="color: white; text-decoration: none; font-weight: bold; border: 1px solid white; padding: 10px 20px; border-radius: 5px; transition: 0.3s;">
-                    <i class="icon-list"></i> LIHAT WISATA LEBIH BANYAK
+        </div>
+        <div class="news-more">
+            <div class="wisata-div-bar">
+                <a href="{{ route('frontend.wisata') }}" class="btn-lihat-semua">
+                    <i class="icon-list-wisata"></i> LIHAT WISATA LEBIH BANYAK
                 </a>
             </div>
         </div>
+
     </section>
     <script>
         let slideIndex = 1;
@@ -419,41 +418,34 @@
     </script>
     <section class="shop-section">
         <div class="shop-container">
+
             <div class="shop-header">
                 <div>
-                    <h2 class="title-green">BELI DARI DESA</h2>
+                    <h2 class="title-green" style="color: #7ED957; font-size: 2.5rem; font-weight: 800; margin-bottom: 5px; text-transform: uppercase;">
+                        BELI DARI DESA
+                    </h2>
                     <p class="shop-subtitle">
-                        Layanan yang disediakan untuk promosi produk UMKM desa sehingga
-                        mampu meningkatkan perekonomian masyarakat desa
+                        Layanan yang disediakan promosi produk UMKM desa sehingga mampu meningkatkan perekonomian masyarakat desa
                     </p>
                 </div>
-                <a href="{{ route('frontend.belanja') }}" class="view-more-link">
-                    <i class="icon-grid"></i> LIHAT PRODUK LEBIH BANYAK
-                </a>
             </div>
 
             <div class="product-grid">
 
                 @forelse($produk_umkm as $produk)
                 <div class="product-card">
-                    <div class="product-img">
-                        <img src="{{ asset('storage/' . $produk->gambar) }}" alt="{{ $produk->nama_produk }}" style="width: 100%; height: 200px; object-fit: cover;" onerror="this.src='https://placehold.co/400x300?text=No+Image'" />
-                    </div>
+                    <img src="{{ asset('storage/' . $produk->gambar) }}" alt="{{ $produk->nama_produk }}" class="product-image" onerror="this.src='https://placehold.co/400x300?text=No+Image'" />
 
                     <div class="product-info">
-                        <h3 style="margin-bottom: 5px;">{{ $produk->nama_produk }}</h3>
+                        <h3>{{ $produk->nama_produk }}</h3>
 
-                        <div style="font-size: 0.8rem; color: #888; margin-bottom: 5px;">
-                            <i class="icon-user"></i> {{ $produk->penjual }}
+                        <div class="product-bottom-row">
+                            <div class="rating-stars">
+                                &#9733;&#9733;&#9733;&#9733;&#9733;
+                            </div>
+
+                            <span class="price-text">Rp{{ number_format($produk->harga, 0, ',', '.') }}</span>
                         </div>
-
-                        <p class="price" style="color: #28a745; font-weight: bold;">
-                            Rp{{ number_format($produk->harga, 0, ',', '.') }}
-                        </p>
-
-                        <a href="https://wa.me/{{ $produk->no_hp }}?text=Halo, saya tertarik dengan produk {{ $produk->nama_produk }} yang ada di Website Desa." target="_blank" style="display: block; text-align: center; background: #25D366; color: white; padding: 8px; border-radius: 5px; text-decoration: none; margin-top: 10px; font-weight: bold; font-size: 0.9rem;">
-                            <i class="icon-phone"></i> Beli Sekarang
-                        </a>
                     </div>
                 </div>
                 @empty
@@ -463,6 +455,13 @@
                 @endforelse
 
             </div>
+
+            <div class="shop-footer">
+                <a href="{{ route('frontend.belanja') }}" class="btn-lihat-semua-hitam">
+                    <i class="icon-list"></i> LIHAT PRODUK LEBIH BANYAK
+                </a>
+            </div>
+
         </div>
     </section>
     <section class="gallery-section">
@@ -474,9 +473,6 @@
                         Menampilkan kegiatan-kegiatan yang berlangsung di desa
                     </p>
                 </div>
-                <a href="{{ route('frontend.galeri') }}" class="view-more-link">
-                    <i class="icon-images"></i> LIHAT FOTO LEBIH BANYAK
-                </a>
             </div>
 
             <div class="gallery-grid">
@@ -495,6 +491,11 @@
                 </div>
                 @endforelse
 
+            </div>
+            <div class="shop-footer">
+                <a href="{{ route('frontend.galeri') }}" class="view-more-link">
+                    <i class="icon-images"></i> LIHAT FOTO LEBIH BANYAK
+                </a>
             </div>
         </div>
     </section>
