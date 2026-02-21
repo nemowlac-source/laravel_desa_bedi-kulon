@@ -155,38 +155,6 @@
         </div>
     </section>
     <div class="container mx-auto px-4 py-8">
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-10">
-
-            <div class="md:col-span-1 space-y-4">
-                <div class="bg-white p-6 rounded-lg shadow border-l-4 border-blue-500">
-                    <div class="text-gray-500 text-sm font-semibold uppercase">Total Penerima Bantuan</div>
-                    <div class="text-4xl font-bold text-gray-800 mt-2">{{ number_format($total_penerima) }}</div>
-                    <div class="text-xs text-gray-400 mt-1">Kepala Keluarga / Individu</div>
-                </div>
-
-                <div class="bg-white p-4 rounded-lg shadow">
-                    <h3 class="font-bold text-gray-700 mb-3 border-b pb-2">Rincian Per Jenis</h3>
-                    <ul class="space-y-2">
-                        @foreach($statistik as $stat)
-                        <li class="flex justify-between items-center text-sm">
-                            <span class="text-gray-600">{{ $stat->jenis_bantuan }}</span>
-                            <span class="font-bold bg-blue-100 text-blue-800 px-2 py-0.5 rounded-full">{{ $stat->total }}</span>
-                        </li>
-                        @endforeach
-                    </ul>
-                </div>
-            </div>
-
-            <div class="md:col-span-2 bg-white p-6 rounded-lg shadow">
-                <h3 class="font-bold text-gray-700 mb-4">Grafik Sebaran Bantuan</h3>
-                <div class="h-64">
-                    <canvas id="bansosChart"></canvas>
-                </div>
-            </div>
-        </div>
-
-
         <div class="bg-white p-4 rounded-lg shadow mb-6">
             <form action="{{ route('bansos.index') }}" method="GET" class="flex flex-col md:flex-row gap-4">
 
@@ -206,61 +174,6 @@
                 </div>
             </form>
         </div>
-
-
-        <div class="bg-white rounded-lg shadow overflow-hidden">
-            <div class="overflow-x-auto">
-                <table class="table w-full">
-                    <thead class="bg-gray-100 text-gray-600">
-                        <tr>
-                            <th class="p-4 text-left">Nama Penerima</th>
-                            <th class="p-4 text-left">Alamat</th>
-                            <th class="p-4 text-center">Jenis Bantuan</th>
-                            <th class="p-4 text-center">Dokumentasi</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-gray-100">
-                        @forelse($penerima as $item)
-                        <tr class="hover:bg-gray-50 transition">
-                            <td class="p-4 font-bold text-gray-800">
-                                {{ $item->nama_penerima }}
-                            </td>
-                            <td class="p-4 text-gray-600">{{ $item->alamat }}</td>
-                            <td class="p-4 text-center">
-                                <span class="px-3 py-1 rounded-full text-xs font-semibold
-                                    {{ $item->jenis_bantuan == 'BLT Dana Desa' ? 'bg-green-100 text-green-800' : 
-                                      ($item->jenis_bantuan == 'PKH' ? 'bg-yellow-100 text-yellow-800' : 'bg-blue-100 text-blue-800') }}">
-                                    {{ $item->jenis_bantuan }}
-                                </span>
-                            </td>
-                            <td class="p-4 text-center">
-                                @if($item->foto)
-                                <a href="{{ asset('storage/' . $item->foto) }}" target="_blank" class="text-blue-600 hover:underline text-sm flex items-center justify-center gap-1">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" /></svg>
-                                    Lihat Bukti
-                                </a>
-                                @else
-                                <span class="text-gray-400 text-xs">-</span>
-                                @endif
-                            </td>
-                        </tr>
-                        @empty
-                        <tr>
-                            <td colspan="4" class="p-8 text-center text-gray-500">
-                                Data penerima tidak ditemukan.
-                            </td>
-                        </tr>
-                        @endforelse
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="p-4 border-t">
-                {{ $penerima->links() }}
-            </div>
-        </div>
-
     </div>
     <script>
         document.addEventListener('DOMContentLoaded', function() {

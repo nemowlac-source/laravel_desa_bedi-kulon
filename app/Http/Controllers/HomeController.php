@@ -97,12 +97,41 @@ class HomeController extends Controller
         return view('frontend.belanja', compact('products'));
     }
 
+    // FUNGSI BARU: Menampilkan Detail Belanja
+    public function detailBelanja($id)
+    {
+        // Cari produk berdasarkan ID (Ganti 'Produk' dengan nama Model Anda, misal 'Umkm')
+        $produk = Umkm::findOrFail($id);
+
+        // Arahkan ke file blade detail-belanja
+        return view('frontend.detail-belanja', compact('produk'));
+    }
+
     public function berita()
     {
         // Ambil data berita, urutkan terbaru, 6 per halaman
         $beritas = Berita::latest()->paginate(6);
 
         return view('frontend.berita', compact('beritas'));
+    }
+
+    // [KODE BARU] Menampilkan Isi Detail Berita
+    public function bacaBerita($id)
+    {
+        // 1. Cari artikel berdasarkan ID
+        $berita = Berita::findOrFail($id);
+
+        // (Opsional) Jika di database Anda ada kolom 'views', buka komentar di bawah ini:
+        // $berita->increment('views');
+
+        // 2. Ambil 5 berita terbaru untuk di Sidebar Kanan (selain berita yang sedang dibaca)
+        $berita_terbaru = Berita::where('id', '!=', $id)
+            ->latest() // Sama dengan orderBy('created_at', 'desc')
+            ->take(5)
+            ->get();
+
+        // 3. Kirim ke file view (Pastikan Anda sudah membuat file detail-berita.blade.php di folder frontend)
+        return view('frontend.detail-berita', compact('berita', 'berita_terbaru'));
     }
 
     public function pemerintahan()

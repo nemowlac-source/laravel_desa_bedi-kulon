@@ -34,9 +34,13 @@
                         <div class="product-footer">
                             <span class="price">Rp{{ number_format($item->harga, 0, ',', '.') }}</span>
 
-                            <a href="https://wa.me/{{ $item->no_hp }}?text=Halo, saya tertarik membeli {{ $item->nama_produk }} yang ada di website Desa." class="btn-beli" target="_blank">
+                            <a href="{{ route('frontend.belanja.detail', $item->id) }}" class="btn-beli" target="_blank">
+
                                 <i class="icon-phone"></i> Beli
                             </a>
+                            {{-- <a href="https://wa.me/{{ $item->no_hp }}?text=Halo, saya tertarik membeli {{ $item->nama_produk }} yang ada di website Desa." class="btn-beli" target="_blank">
+                            <i class="icon-phone"></i> Beli
+                            </a> --}}
                         </div>
                     </div>
                 </div>

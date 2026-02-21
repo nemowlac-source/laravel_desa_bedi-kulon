@@ -18,7 +18,7 @@
 
                     <div class="news-content">
                         <h3 class="news-card-title">
-                            <a href="#">{{ $item->judul }}</a>
+                            <a href="{{ route('frontend.berita.detail', $item->id) }}">{{ $item->judul }}</a>
                         </h3>
 
                         <p class="news-excerpt">

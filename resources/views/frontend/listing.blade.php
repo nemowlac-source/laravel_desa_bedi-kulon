@@ -1,15 +1,14 @@
 <x-frontend>
     <section class="listing-map-section">
         <div class="container">
-            <h1 class="title-green-bold">Peta Potensi & Tempat Menarik</h1>
-            <p class="subtitle">Eksplorasi titik-titik strategis, objek wisata, dan fasilitas penting di Desa Kersik.</p>
-
+            <h1 class="title-green-bold">Peta Desa</h1>
+            <p class="subtitle">Menampilkan Peta Desa Dengan Interest Point Desa Bedikulon</p>
             <div class="map-layout">
-                <div class="map-container" id="map">
-                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d15959.049448057218!2d117.478377!3d-0.052557!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2df679e501101ac3%3A0x1594cfc9946b3cfb!2sKantor%20Desa%20Kersik!5e0!3m2!1sid!2sid!4v1707000000000!5m2!1sid!2sid" width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy">
-                    </iframe>
+                <div class="peta-container" style="position: relative; width: 100%; height: 500px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+                    <div id="mapDesa" style="width: 100%; height: 100%;"></div>
                 </div>
 
+                {{--
                 <div class="poi-sidebar">
                     <h3>Titik Point Desa</h3>
                     <div class="poi-list">
@@ -55,7 +54,7 @@
                         </div>
 
                     </div>
-                </div>
+                </div> --}}
             </div>
         </div>
     </section>

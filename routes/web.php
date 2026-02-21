@@ -38,7 +38,9 @@ Route::get('/pemerintahan', [HomeController::class, 'pemerintahan'])->name('fron
 Route::get('/galeri', [HomeController::class, 'galeri'])->name('frontend.galeri');
 Route::get('/infografis', [InfografisController::class, 'index'])->name('frontend.infografis');
 Route::get('/belanja', [HomeController::class, 'belanja'])->name('frontend.belanja');
+Route::get('/belanja/{id}', [App\Http\Controllers\HomeController::class, 'detailBelanja'])->name('frontend.belanja.detail');
 Route::get('/berita', [HomeController::class, 'berita'])->name('frontend.berita');
+Route::get('/berita/{id}', [HomeController::class, 'bacaBerita'])->name('frontend.berita.detail');
 Route::get('/idm', [IdmController::class, 'index'])->name('frontend.idm');
 Route::get('/sdgs', [SdgsController::class, 'index'])->name('frontend.sdgs');
 Route::get('/profile-desa', function () {

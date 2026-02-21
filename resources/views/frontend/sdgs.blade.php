@@ -1,4 +1,200 @@
 <x-frontend>
+    <style>
+        /* --- RESET & WADAH UTAMA --- */
+        .sdg-infografis-section {
+            padding: 60px 20px;
+            background-color: #ffffff;
+            font-family: 'Poppins', sans-serif;
+            width: 100%;
+        }
+
+        .sdg-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* --- BARIS ATAS: JUDUL & TAB --- */
+        .sdg-header-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            margin-bottom: 50px;
+            border-bottom: 2px solid #f0f0f0;
+            /* Garis abu-abu tipis membentang di bawah tab */
+        }
+
+        /* Judul Besar Kiri */
+        .sdg-main-title h1 {
+            font-size: 3rem;
+            font-weight: 800;
+            color: #7ED957;
+            /* Hijau Terang */
+            line-height: 1.2;
+            margin: 0 0 20px 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* Menu Tab Kanan */
+        .sdg-tabs {
+            display: flex;
+            gap: 15px;
+        }
+
+        .sdg-tab-item {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            text-decoration: none;
+            color: #6b7280;
+            /* Abu-abu */
+            padding: 10px 20px 15px 20px;
+            border-bottom: 3px solid transparent;
+            transition: all 0.3s ease;
+            margin-bottom: -2px;
+            /* Menimpa garis abu-abu di bawahnya */
+        }
+
+        .sdg-tab-item span {
+            font-size: 0.95rem;
+            font-weight: 600;
+        }
+
+        .sdg-tab-item:hover {
+            color: #111;
+        }
+
+        /* Tab yang Aktif (SDGs) */
+        .sdg-tab-item.active {
+            color: #111;
+            border-bottom: 3px solid #7ED957;
+            /* Garis bawah hijau */
+        }
+
+        /* --- BARIS BAWAH: GRID KONTEN --- */
+        .sdg-content-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            /* Membagi layar 50:50 */
+            gap: 60px;
+            align-items: center;
+        }
+
+        /* Teks dan Penjelasan */
+        .sdg-subtitle {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #7ED957;
+            margin: 0 0 20px 0;
+        }
+
+        .sdg-desc {
+            font-size: 1.05rem;
+            line-height: 1.8;
+            color: #111;
+            /* Hitam pekat sesuai referensi */
+            margin-bottom: 40px;
+            text-align: justify;
+        }
+
+        /* Kotak Skor */
+        .sdg-score-card {
+            background-color: #fcfcfc;
+            border-radius: 12px;
+            padding: 30px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
+            /* Bayangan sangat halus */
+            border: 1px solid #f3f4f6;
+        }
+
+        .score-label {
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #111;
+            line-height: 1.4;
+        }
+
+        .score-number {
+            font-size: 4.5rem;
+            /* Angka raksasa */
+            font-weight: 900;
+            color: #555;
+            /* Abu-abu gelap */
+            line-height: 1;
+            font-family: 'Arial Black', Impact, sans-serif;
+            /* Font tebal bawaan jika Poppins kurang tebal */
+            letter-spacing: -2px;
+        }
+
+        /* Gambar Ilustrasi */
+        .sdg-image-box {
+            width: 100%;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .sdg-image-box img {
+            max-width: 100%;
+            height: auto;
+            object-fit: contain;
+            /* Animasi melayang ringan opsional */
+            animation: floatImage 6s ease-in-out infinite;
+        }
+
+        @keyframes floatImage {
+            0% {
+                transform: translateY(0px);
+            }
+
+            50% {
+                transform: translateY(-15px);
+            }
+
+            100% {
+                transform: translateY(0px);
+            }
+        }
+
+        /* --- RESPONSIVE UNTUK HP / TABLET --- */
+        @media (max-width: 992px) {
+            .sdg-header-row {
+                flex-direction: column;
+                align-items: flex-start;
+                gap: 20px;
+            }
+
+            .sdg-tabs {
+                width: 100%;
+                overflow-x: auto;
+                /* Bisa digeser menyamping jika layar kecil */
+                padding-bottom: 5px;
+            }
+
+            .sdg-content-grid {
+                grid-template-columns: 1fr;
+                /* Jadi satu susun */
+                gap: 40px;
+            }
+
+            .sdg-image-box {
+                justify-content: center;
+            }
+        }
+
+        @media (max-width: 576px) {
+            .sdg-score-card {
+                flex-direction: column;
+                text-align: center;
+                gap: 15px;
+                padding: 20px;
+            }
+        }
+
+    </style>
     <section class="infografis-page">
         <div class="header-infografis">
             <div class="brand-title">
@@ -86,53 +282,79 @@
 
             </div>
         </div>
+        <div class="sdg-container">
+            <div class="sdg-content-grid">
 
+                <div class="sdg-text-box">
+                    <h2 class="sdg-subtitle">SDGs Desa</h2>
+                    <p class="sdg-desc">
+                        SDGs desa mengacu pada upaya yang dilakukan di tingkat desauntuk mencapai Tujuan Pembangunan Berkelanjutan (Sustainable Development Goals/SDGs). SDGs merupakan agenda global yang ditetapkan oleh Perserikatan Bangsa-Bangsa (PBB) untuk mengatasi berbagai tantangan sosial, ekonomi, dan lingkungan di seluruh dunia
+                    </p>
 
-        <div class="container mx-auto px-4 py-10">
-            <h3 class="text-2xl font-bold text-gray-800 mb-6 text-center">Capaian 18 Tujuan SDGs Desa</h3>
-
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-
-                {{-- Loop dimulai di sini, $item dibuat di sini --}}
-                @forelse($sdgs_items as $item)
-
-                <div class="card bg-white shadow-md border border-gray-100 rounded-xl overflow-hidden hover:shadow-lg transition group">
-                    <div class="p-5 flex items-start gap-4">
-
-                        {{-- Panggil fungsi Model di sini --}}
-                        <div class="flex-shrink-0 w-12 h-12 flex items-center justify-center rounded-lg font-bold text-white text-xl" style="background-color: {{ $item->getColor() }};">
-                            {{ $item->goal_number }}
+                    <div class="sdg-score-card">
+                        <div class="score-label">
+                            Skor SDGs Desa<br>Kersik
                         </div>
-
-                        <div class="flex-1">
-                            <h4 class="font-bold text-gray-800 text-lg mb-2 group-hover:text-blue-600 transition">
-                                {{ $item->title }}
-                            </h4>
-
-                            {{-- Progress Bar --}}
-                            <div class="w-full bg-gray-200 rounded-full h-2.5 mb-1">
-                                <div class="h-2.5 rounded-full" style="width: {{ $item->score }}%; 
-                                        background-color: {{ $item->score < 40 ? '#ef4444' : ($item->score < 70 ? '#eab308' : '#22c55e') }}">
-                                </div>
-                            </div>
-
-                            <div class="flex justify-between items-center mt-1">
-                                <span class="text-xs text-gray-500">Capaian</span>
-                                <span class="font-bold text-sm">{{ number_format($item->score, 2) }}</span>
-                            </div>
+                        <div class="score-number">
+                            44.63
                         </div>
-
                     </div>
                 </div>
 
+                <div class="sdg-image-box">
+                    <img src="{{ asset('assets/img/sdgs.png') }}" alt="Ilustrasi SDGs" onerror="this.src='https://placehold.co/600x500?text=Ilustrasi+3D+SDGs'">
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <div class="container mx-auto px-4 py-10">
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                {{-- Loop dimulai di sini --}}
+                @forelse($sdgs_items as $item)
+
+                <div class="card bg-white shadow-sm border border-gray-100 rounded-2xl overflow-hidden hover:shadow-md transition p-6 flex flex-col justify-between h-full group">
+
+                    {{-- 1. Judul di Paling Atas --}}
+                    <h4 class="font-extrabold text-black text-xl mb-6 leading-tight group-hover:text-blue-600 transition">
+                        {{ $item->title }}
+                    </h4>
+
+                    {{-- 2. Baris Bawah: Ikon/Warna (Kiri) & Nilai (Kanan) --}}
+                    <div class="flex justify-between items-end mt-auto">
+
+                        {{-- Kiri: Kotak Nomor SDGs (Ukurannya diperbesar) --}}
+                        <div class="flex-shrink-0 w-20 h-20 flex items-center justify-center rounded-xl font-black text-white text-4xl shadow-sm" style="background-color: {{ $item->getColor() }};">
+                            {{ $item->goal_number }}
+                        </div>
+
+                        {{-- Kanan: Tulisan Nilai dan Angka Besar --}}
+                        <div class="text-right">
+                            <span class="block text-sm text-gray-800 font-medium mb-1">Nilai</span>
+                            <span class="block font-black text-5xl text-black leading-none tracking-tighter">
+                                {{ number_format($item->score, 2) }}
+                            </span>
+                        </div>
+
+                    </div>
+
+                </div>
+
                 @empty
-                <div class="col-span-3 text-center py-10 text-gray-500">
+                {{-- Pesan jika data kosong --}}
+                {{-- Menggunakan col-span-full agar tulisan berada persis di tengah grid --}}
+                <div class="col-span-full text-center py-10 text-gray-500 font-medium">
                     Data SDGs tahun {{ $tahun_pilih }} belum diinput.
                 </div>
                 @endforelse
-                {{-- Loop berakhir, $item hilang (menjadi undefined) di sini --}}
+                {{-- Loop berakhir --}}
 
             </div>
         </div>
+
+
     </section>
 </x-frontend>
