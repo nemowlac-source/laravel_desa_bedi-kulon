@@ -26,6 +26,7 @@ class ApbdController extends Controller
             'tahun' => 'required|numeric',
             'jenis' => 'required',
             'kategori' => 'required',
+            'uraian'   => 'required|string',
             'anggaran' => 'required|numeric',
             'realisasi' => 'required|numeric',
         ]);

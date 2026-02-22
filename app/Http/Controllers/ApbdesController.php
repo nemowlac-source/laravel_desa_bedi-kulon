@@ -72,49 +72,32 @@ class ApbdesController extends Controller
         $chart_belanja    = $history_apbd->pluck('total_belanja');
 
         // --- TAMBAHAN: DATA RINCIAN PENDAPATAN ---
+        // Diubah agar langsung mengambil berdasarkan kategori tetap (PAD, Transfer, Lain-lain)
+        // Hal ini agar datanya akurat untuk ditampilkan di grafik pendapatan.
+        // --- DATA RINCIAN PENDAPATAN (FIXED) ---
 
         // 1. Pendapatan Asli Desa (PADes)
-        // Cari yang kategorinya mengandung kata "Asli Desa", "BUMDes", "Tanah Kas", dll
         $pad_items = Apbd::where('tahun', $tahun_pilih)
             ->where('jenis', 'Pendapatan')
-            ->where(function ($q) {
-                $q->where('kategori', 'LIKE', '%Asli Desa%')
-                    ->orWhere('kategori', 'LIKE', '%BUMDes%')
-                    ->orWhere('kategori', 'LIKE', '%Sewa%')
-                    ->orWhere('kategori', 'LIKE', '%Swadaya%');
-            })->get();
+            ->where('kategori', 'Pendapatan Asli Desa')
+            ->get();
         $total_pad = $pad_items->sum('anggaran');
 
-
-        // 2. Pendapatan Transfer (Dana Desa, ADD, Banprov, dll)
-        // Cari yang kategorinya mengandung "Dana Desa", "Bantuan", "Bagi Hasil", "Alokasi"
+        // 2. Pendapatan Transfer (Ditambah orWhere agar data "Dana desa" terbaca)
         $transfer_items = Apbd::where('tahun', $tahun_pilih)
             ->where('jenis', 'Pendapatan')
             ->where(function ($q) {
-                $q->where('kategori', 'LIKE', '%Dana Desa%') // DD & ADD
-                    ->orWhere('kategori', 'LIKE', '%Bagi Hasil%')
-                    ->orWhere('kategori', 'LIKE', '%Bantuan Keuangan%');
+                $q->where('kategori', 'Pendapatan Transfer')
+                    ->orWhere('kategori', 'Dana desa'); // Sesuaikan dengan hasil dd() kamu tadi
             })->get();
         $total_transfer = $transfer_items->sum('anggaran');
 
-
         // 3. Pendapatan Lain-lain
-        // Sisanya (Yang TIDAK masuk ke dua kategori di atas)
-        // Cara mudah: Ambil semua pendapatan, lalu filter manually di collection atau query 'whereNot'
         $lain_items = Apbd::where('tahun', $tahun_pilih)
             ->where('jenis', 'Pendapatan')
-            ->whereNot(function ($q) {
-                $q->where('kategori', 'LIKE', '%Asli Desa%')
-                    ->orWhere('kategori', 'LIKE', '%BUMDes%')
-                    ->orWhere('kategori', 'LIKE', '%Sewa%')
-                    ->orWhere('kategori', 'LIKE', '%Swadaya%')
-                    ->orWhere('kategori', 'LIKE', '%Dana Desa%')
-                    ->orWhere('kategori', 'LIKE', '%Bagi Hasil%')
-                    ->orWhere('kategori', 'LIKE', '%Bantuan Keuangan%');
-            })->get();
+            ->where('kategori', 'Pendapatan Lain-lain')
+            ->get();
         $total_lain = $lain_items->sum('anggaran');
-
-        // ... (lanjutan kode index sebelumnya) ...
 
         // --- TAMBAHAN: DATA RINCIAN BELANJA (5 BIDANG) ---
         // Pastikan saat input di Admin, sertakan kata kunci Bidang di kolom Kategori
@@ -163,6 +146,8 @@ class ApbdesController extends Controller
         $grand_total_belanja = $total_pemerintahan + $total_pembangunan + $total_pembinaan + $total_pemberdayaan + $total_bencana;
         // Hindari pembagian dengan nol
         $grand_total_belanja = $grand_total_belanja == 0 ? 1 : $grand_total_belanja;
+
+
 
         // 5. Kirim data ke View Frontend
         return view('frontend.apbdes', compact(

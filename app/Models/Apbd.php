@@ -13,6 +13,7 @@ class Apbd extends Model
         'tahun',
         'jenis',
         'kategori',
+        'uraian', // TAMBAHKAN INI
         'anggaran',
         'realisasi',
     ];

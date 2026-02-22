@@ -1,58 +1,56 @@
 <x-layouts.admin>
     <div class="flex justify-between items-center mb-6">
-        <h1 class="text-2xl font-bold">Transparansi APBD Desa</h1>
-        <a href="{{ route('apbd.create') }}" class="btn btn-primary text-white">Tambah Data APBD</a>
+        <h2 class="text-2xl font-bold">Manajemen Data APBD 📂</h2>
+        <a href="{{ route('apbd.create') }}" class="btn btn-primary text-white">+ Tambah Data</a>
     </div>
 
     @if(session('success'))
-    <div class="alert alert-success mb-4 text-white">{{ session('success') }}</div>
+    <div class="alert alert-success shadow-lg mb-6">
+        <div><span>{{ session('success') }}</span></div>
+    </div>
     @endif
 
-    <div class="card bg-white shadow p-4 overflow-x-auto">
+    <div class="card bg-white shadow overflow-x-auto">
         <table class="table w-full">
-            <thead class="bg-gray-100">
-                <tr>
+            <thead>
+                <tr class="bg-gray-100">
                     <th>Tahun</th>
                     <th>Jenis</th>
-                    <th>Uraian / Kategori</th>
-                    <th class="text-right">Anggaran (Rp)</th>
-                    <th class="text-right">Realisasi (Rp)</th>
-                    <th class="text-center">%</th>
+                    <th>Kategori / Bidang</th>
+                    <th>Uraian Detail</th>
+                    <th class="text-right">Anggaran</th>
                     <th class="text-center">Aksi</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach($apbds as $item)
+                @forelse($apbds as $data)
                 <tr class="hover">
-                    <td class="font-bold">{{ $item->tahun }}</td>
+                    <td>{{ $data->tahun }}</td>
                     <td>
-                        @if($item->jenis == 'Pendapatan')
-                        <span class="badge badge-success text-white">Pendapatan</span>
-                        @elseif($item->jenis == 'Belanja')
-                        <span class="badge badge-error text-white">Belanja</span>
-                        @else
-                        <span class="badge badge-info text-white">Pembiayaan</span>
-                        @endif
+                        <span class="badge {{ $data->jenis == 'Pendapatan' ? 'badge-success' : 'badge-error' }} text-white">
+                            {{ $data->jenis }}
+                        </span>
                     </td>
-                    <td>{{ $item->kategori }}</td>
-                    <td class="text-right font-mono">{{ number_format($item->anggaran, 0, ',', '.') }}</td>
-                    <td class="text-right font-mono">{{ number_format($item->realisasi, 0, ',', '.') }}</td>
-
+                    <td class="text-xs font-semibold">{{ $data->kategori }}</td>
+                    <td>{{ $data->uraian }}</td>
+                    <td class="text-right font-bold text-sm">
+                        Rp{{ number_format($data->anggaran, 0, ',', '.') }}
+                    </td>
                     <td class="text-center">
-                        <div class="tooltip" data-tip="{{ $item->persentase }}%">
-                            <progress class="progress progress-primary w-16" value="{{ $item->persentase }}" max="100"></progress>
+                        <div class="flex justify-center gap-2">
+                            <a href="{{ route('apbd.edit', $data->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                            <form action="{{ route('apbd.destroy', $data->id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus?')">
+                                @csrf @method('DELETE')
+                                <button class="btn btn-sm btn-error text-white">Hapus</button>
+                            </form>
                         </div>
                     </td>
-
-                    <td class="flex justify-center gap-2">
-                        <a href="{{ route('apbd.edit', $item->id) }}" class="btn btn-xs btn-warning">Edit</a>
-                        <form action="{{ route('apbd.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Hapus data ini?');">
-                            @csrf @method('DELETE')
-                            <button class="btn btn-xs btn-error text-white">Hapus</button>
-                        </form>
-                    </td>
                 </tr>
-                @endforeach
+                @empty
+                <tr>
+                    <td colspan="6" class="text-center py-10 text-gray-400">Belum ada data APBD. Klik 'Tambah Data' untuk memulai.</td>
+                </tr>
+                @endforelse
             </tbody>
         </table>
     </div>
