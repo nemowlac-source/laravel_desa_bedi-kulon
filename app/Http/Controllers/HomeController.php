@@ -150,6 +150,23 @@ class HomeController extends Controller
         return view('frontend.potensi', compact('potensis'));
     }
 
+    // FUNGSI BARU: Menampilkan Detail Potensi Desa
+    public function detailPotensi($id)
+    {
+        // 1. Cari data potensi berdasarkan ID 
+        // (Sesuaikan "Wisata" dengan nama Model database yang Anda gunakan)
+        $potensi = Wisata::findOrFail($id);
+
+        // 2. Ambil 4 potensi lainnya untuk di Sidebar Kanan (selain yang sedang dibuka)
+        $potensi_lain = Wisata::where('id', '!=', $id)
+            ->latest()
+            ->take(4)
+            ->get();
+
+        // 3. Arahkan ke file blade
+        return view('frontend.detail-potensi', compact('potensi', 'potensi_lain'));
+    }
+
     public function wisata()
     {
         // Ambil data wisata, 9 item per halaman

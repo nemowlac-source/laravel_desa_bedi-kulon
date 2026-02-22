@@ -284,53 +284,222 @@
             </div>
         </div>
     </section>
-    <section class="potensi-section">
+    <style>
+        /* --- WADAH UTAMA --- */
+        .potensi-desa-section {
+            padding: 80px 20px;
+            background-color: #fbfbfb;
+            /* Warna latar belakang sangat terang */
+            font-family: 'Poppins', sans-serif;
+        }
+
+        .potensi-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* --- HEADER (Judul & Tombol) --- */
+        .potensi-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 60px;
+            gap: 30px;
+        }
+
+        .potensi-title-area {
+            max-width: 600px;
+            /* Membatasi lebar teks deskripsi */
+        }
+
+        .judul-potensi {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: #7ED957;
+            /* Hijau Terang */
+            margin: 0 0 15px 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .deskripsi-potensi {
+            font-size: 1.05rem;
+            color: #333;
+            line-height: 1.6;
+            margin: 0;
+        }
+
+        .potensi-action-area {
+            padding-top: 10px;
+            /* Menyelaraskan dengan judul */
+        }
+
+        .btn-lihat-semua {
+            display: inline-flex;
+            align-items: center;
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: #111;
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: color 0.3s;
+        }
+
+        .btn-lihat-semua:hover {
+            color: #7ED957;
+        }
+
+        /* --- GRID LINGKARAN --- */
+        .potensi-grid {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 60px;
+            justify-content: flex-start;
+            /* Menyusun dari kiri ke kanan */
+        }
+
+        .potensi-item {
+            width: 320px;
+            /* Ukuran total tiap item */
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        /* Wadah Lingkaran */
+        .potensi-circle-wrapper {
+            width: 300px;
+            height: 300px;
+            border-radius: 50%;
+            position: relative;
+            overflow: hidden;
+            /* Memotong gambar & ornamen agar tetap melingkar */
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+            margin-bottom: 25px;
+            background-color: #eaeaea;
+        }
+
+        .potensi-circle-wrapper img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Ornamen Gelap Kanan Atas */
+        .shape-dark {
+            position: absolute;
+            top: 0;
+            right: -20px;
+            width: 55%;
+            height: 100%;
+            background-color: #31313A;
+            /* Biru Gelap/Hitam */
+            /* Membuat bentuk panah ke kiri */
+            clip-path: polygon(100% 0, 100% 100%, 0 50%);
+            z-index: 2;
+            opacity: 0.95;
+        }
+
+        /* Ornamen Warna Kiri Bawah */
+        .shape-accent {
+            position: absolute;
+            bottom: -10px;
+            left: -10px;
+            width: 40%;
+            height: 60%;
+            /* Membuat bentuk panah ke kanan */
+            clip-path: polygon(0 0, 100% 50%, 0 100%);
+            z-index: 2;
+            opacity: 0.95;
+        }
+
+        /* Logika Warna Unik (Ganjil Merah, Genap Oranye seperti referensi) */
+        .potensi-item:nth-child(odd) .shape-accent {
+            background-color: #E62A2A;
+            /* Merah */
+        }
+
+        .potensi-item:nth-child(even) .shape-accent {
+            background-color: #F27A1A;
+            /* Oranye */
+        }
+
+        /* Teks Judul di Bawah */
+        .potensi-name {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #111;
+            margin: 0;
+            letter-spacing: 0.5px;
+        }
+
+        /* --- RESPONSIVE UNTUK HP / TABLET --- */
+        @media (max-width: 992px) {
+            .potensi-header {
+                flex-direction: column;
+                /* Tumpuk judul dan tombol */
+                gap: 20px;
+            }
+
+            .potensi-grid {
+                justify-content: center;
+                /* Di layar kecil, lingkaran ke tengah */
+            }
+        }
+
+        @media (max-width: 576px) {
+            .potensi-circle-wrapper {
+                width: 250px;
+                height: 250px;
+            }
+        }
+
+    </style>
+
+    <section class="potensi-desa-section">
         <div class="potensi-container">
+
             <div class="potensi-header">
-                <div>
-                    <h2 class="title-green">POTENSI DESA</h2>
-                    <p class="potensi-subtitle">
-                        Informasi tentang potensi dan kemajuan desa di berbagai bidang
-                        seperti ekonomi, pariwisata, pertanian, industri kreatif, dan
-                        kelestarian lingkungan
+                <div class="potensi-title-area">
+
+                    <h1 class="judul-potensi">POTENSI DESA</h1>
+                    <p class="deskripsi-potensi">
+                        Informasi tentang potensi dan kemajuan desa di berbagai bidang seperti ekonomi, pariwisata, pertanian, industri kreatif, dan kelestarian lingkungan.
                     </p>
                 </div>
-                <a href="{{ route('frontend.potensi') }}" class="view-more-link">
-                    <i class="icon-list"></i> LIHAT POTENSI LEBIH BANYAK
-                </a>
+
+                <div class="potensi-action-area">
+                    <a href="{{ route('frontend.wisata') ?? '#' }}" class="btn-lihat-semua">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
+                            <line x1="8" y1="6" x2="21" y2="6"></line>
+                            <line x1="8" y1="12" x2="21" y2="12"></line>
+                            <line x1="8" y1="18" x2="21" y2="18"></line>
+                            <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                            <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                            <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                        </svg>
+                        LIHAT POTENSI LEBIH BANYAK
+                    </a>
+                </div>
             </div>
 
-            <div class="potensi-slider" style="display: flex; gap: 30px; flex-wrap: wrap; justify-content: center;">
+            <div class="potensi-grid">
 
-                @forelse($potensi_desa as $item)
-
-                @php
-                $colors = ['red', 'orange', 'green', 'blue'];
-                $color = $colors[$loop->index % 4];
-                // Jika urutan ke-0 pakai merah, ke-1 orange, dst.
-                @endphp
-
-                <div class="potensi-item" style="text-align: center; max-width: 200px;">
-                    <div class="circle-potensi" style="position: relative; width: 180px; height: 180px; margin: 0 auto 20px;">
-
-                        <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->judul }}" style="width: 100%; height: 100%; object-fit: cover; border-radius: 50%; border: 5px solid #fff; box-shadow: 0 5px 15px rgba(0,0,0,0.1);" onerror="this.src='https://placehold.co/200x200?text=Potensi'" />
-
-                        <div class="accent-{{ $color }}" style="position: absolute; bottom: 0; right: 0; width: 40px; height: 40px; border-radius: 50%;">
+                @forelse($wisata_desa ?? [] as $item)
+                <div class="potensi-item">
+                    <a href="{{ route('frontend.potensi.detail', $item->id) }}" style="text-decoration: none; display: flex; flex-direction: column;transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+                        <div class="potensi-circle-wrapper">
+                            <img src="{{ asset('storage/' . ($item->gambar ?? '')) }}" alt="{{ $item->nama_wisata }}">
+                            <div class="shape-dark"></div>
+                            <div class="shape-accent"></div>
                         </div>
-                    </div>
-
-                    <h3 style="font-size: 1.1rem; font-weight: bold; text-transform: uppercase;">
-                        {{ $item->judul }}
-                    </h3>
-
-                    @if($item->lokasi)
-                    <p style="font-size: 0.8rem; color: #888;">{{ $item->lokasi }}</p>
-                    @endif
+                        <h3 class="potensi-name">{{ strtoupper($item->nama_wisata) }}</h3>
+                    </a>
                 </div>
-
                 @empty
-                <div style="width: 100%; text-align: center; padding: 40px; color: #888;">
-                    <p>Data potensi desa belum ditambahkan.</p>
+                <div style="width: 100%; text-align: left; padding: 50px 0; color: #888;">
+                    Belum ada data potensi desa.
                 </div>
                 @endforelse
 
@@ -338,6 +507,7 @@
 
         </div>
     </section>
+
     <section class="wisata-section-baru">
 
         <div class="wisata-wrapper-utama">

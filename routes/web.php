@@ -34,6 +34,7 @@ Route::get('/apbdes', [ApbdesController::class, 'index'])->name('frontend.apbdes
 Route::get('/', [HomeController::class, 'index'])->name('frontend.dashboard');
 Route::get('/wisata', [HomeController::class, 'wisata'])->name('frontend.wisata');
 Route::get('/potensi', [HomeController::class, 'potensi'])->name('frontend.potensi');
+Route::get('/potensi/{id}', [App\Http\Controllers\HomeController::class, 'detailPotensi'])->name('frontend.potensi.detail');
 Route::get('/pemerintahan', [HomeController::class, 'pemerintahan'])->name('frontend.pemerintahan');
 Route::get('/galeri', [HomeController::class, 'galeri'])->name('frontend.galeri');
 Route::get('/infografis', [InfografisController::class, 'index'])->name('frontend.infografis');
