@@ -15,6 +15,7 @@ class Wisata extends Model
         'alamat',
         'harga_tiket',
         'jam_buka',
+        'views',
         'gambar',
     ];
 }

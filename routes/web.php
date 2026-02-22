@@ -36,6 +36,8 @@ Route::get('/stunting', [StuntingController::class, 'index'])->name('frontend.st
 Route::get('/apbdes', [ApbdesController::class, 'index'])->name('frontend.apbdes');
 Route::get('/', [HomeController::class, 'index'])->name('frontend.dashboard');
 Route::get('/wisata', [HomeController::class, 'wisata'])->name('frontend.wisata');
+// Menggunakan ID atau Slug untuk mencari data spesifik ⏺️
+Route::get('/wisata/{id}', [App\Http\Controllers\HomeController::class, 'show'])->name('frontend.show');
 Route::get('/potensi', [HomeController::class, 'potensi'])->name('frontend.potensi');
 Route::get('/potensi/{id}', [App\Http\Controllers\HomeController::class, 'detailPotensi'])->name('frontend.potensi.detail');
 Route::get('/pemerintahan', [HomeController::class, 'pemerintahan'])->name('frontend.pemerintahan');

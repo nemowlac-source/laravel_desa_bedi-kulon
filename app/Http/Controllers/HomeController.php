@@ -174,4 +174,18 @@ class HomeController extends Controller
 
         return view('frontend.wisata', compact('wisatas'));
     }
+
+    public function show($id)
+    {
+        // Ambil detail wisata berdasarkan ID
+        $wisata = Wisata::findOrFail($id);
+
+        // Ambil 4 wisata lainnya untuk sidebar
+        $wisataLainnya = Wisata::where('id', '!=', $id)->limit(4)->get();
+
+        // Tambah jumlah view (opsional jika ingin dinamis)
+        $wisata->increment('views');
+
+        return view('frontend.show', compact('wisata', 'wisataLainnya'));
+    }
 }

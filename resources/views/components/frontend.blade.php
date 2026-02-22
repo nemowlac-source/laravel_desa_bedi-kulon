@@ -503,12 +503,12 @@
                 <div class="footer-logo-section">
                     <img src="assets/img/Logo Ponorogo.png" alt="Logo Kukar" class="footer-logo" />
                     <div class="footer-identity">
-                        <h3>Pemerintah Desa Kersik</h3>
-                        <p>Jalan Langaseng Dusun Empang RT.003</p>
-                        <p>Desa Kersik, Kecamatan Marang Kayu,</p>
-                        <p>Kabupaten Kutai Kartanegara</p>
-                        <p>Provinsi Kalimantan Timur, 75385</p>
-                        <p class="kode-wilayah">Kode Wilayah: 64.02.17.2005</p>
+                        <h3>Pemerintah Desa Bedikulon</h3>
+                        <p>Jalan Jl. Ahmad Yani 1</p>
+                        <p>Desa Bedikulon, Kecamatan Bungkal,</p>
+                        <p>Kabupaten Ponorogo</p>
+                        <p>Provinsi Jawa Timur, 63462</p>
+                        <p class="kode-wilayah">Kode Wilayah: 35.02.03.2019</p>
                     </div>
                 </div>
             </div>
@@ -517,7 +517,8 @@
                 <h4>Hubungi Kami</h4>
                 <ul class="contact-list">
                     <li><i class="fas fa-phone-alt"></i> 082150208664</li>
-                    <li><i class="fas fa-envelope"></i> kersik.marangkayu@kukarkab.go.id</li>
+                    <li><i class="fas fa-envelope"></i> bedikulon@gmail.com</li>
+
                 </ul>
                 {{-- <div class="social-icons">
                     <a href="#"><i class="fab fa-instagram"></i></a>
@@ -531,8 +532,8 @@
             <div class="footer-column">
                 <h4>Nomor Telepon Penting</h4>
                 <ul class="emergency-list">
-                    <li><a href="#">Jumadi/Kades Kersik</a></li>
-                    <li><a href="#">Yayan/Ambulan Kersik</a></li>
+                    <li><a href="#">Kades </a></li>
+                    <li><a href="#">Ambulan </a></li>
                 </ul>
             </div>
 
@@ -587,14 +588,28 @@
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // 1. Inisiasi Peta & Layer Satelit (Kode Anda sebelumnya)
-            var map = L.map('mapDesa').setView([-7.9620, 111.4320], 15);
+            // 1. Inisiasi Peta dengan Fitur Anti-Zoom Otomatis ⏺️
+            var map = L.map('mapDesa', {
+                scrollWheelZoom: false, // Mematikan zoom pakai scroll mouse
+                smoothWheelZoom: true, // (Opsional) Membuat transisi lebih halus
+                dragging: true // Tetap bisa digeser pakai klik kiri
+            }).setView([-7.9620, 111.4320], 15);
+
+            // Sisanya tetap sama seperti kode Anda sebelumnya
             L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
                 maxZoom: 20
                 , subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
             }).addTo(map);
 
-            // 2. Memanggil GeoJSON Batas Desa (Kode Anda sebelumnya)
+            // Tambahkan fitur agar user bisa zoom jika mereka benar-benar mengklik peta 📂
+            map.on('focus', function() {
+                map.scrollWheelZoom.enable();
+            });
+            map.on('blur', function() {
+                map.scrollWheelZoom.disable();
+            });
+
+            // 2. Memanggil GeoJSON Batas Desa (Tetap sama)
             fetch('{{ asset("assets/geojson/batas-desa.geojson") }}')
                 .then(response => response.json())
                 .then(data => {
@@ -609,36 +624,24 @@
                     map.fitBounds(batasDesaLayer.getBounds());
                 });
 
-            // =======================================================
-            // 3. TAMBAHKAN TITIK (MARKER) KUSTOM ANDA DI SINI
-            // =======================================================
-
-            // Contoh Data (Nantinya data ini bisa Anda ambil dari database via json)
+            // 3. Titik (Marker) Kustom Anda (Tetap sama)
             var lokasiPenting = [{
                     nama: "Gelora Rajawali"
                     , deskripsi: "Gelora"
-                    , gambar: "https://lh3.googleusercontent.com/gps-cs-s/AHVAwepxTn57gT7vTJ_Q3AZDIC7VK6gaqdyO6mqkRd8FRVLpWvDDqSIyvUJ5uFRaBWJyzmceyPeYqwwpdM6DTNdnYLx3YXkdmN-JtQyiCXQbSAEW8wpWEfVZC-xrhm4XAYgARmnuTGqh=w408-h306-k-no", // Ganti path gambar Anda
-
-                    lat: -7.9748593905406295
+                    , gambar: "https://lh3.googleusercontent.com/gps-cs-s/AHVAwepxTn57gT7vTJ_Q3AZDIC7VK6gaqdyO6mqkRd8FRVLpWvDDqSIyvUJ5uFRaBWJyzmceyPeYqwwpdM6DTNdnYLx3YXkdmN-JtQyiCXQbSAEW8wpWEfVZC-xrhm4XAYgARmnuTGqh=w408-h306-k-no"
+                    , lat: -7.9748593905406295
                     , lng: 111.45163579512406
-
                 }
                 , {
                     nama: "Balai desa"
                     , deskripsi: "Balai"
-                    , gambar: "https://lh3.googleusercontent.com/gps-cs-s/AHVAwerKgSaxViDeMa3HeBdunXD3auv5HGqTjFQngjsTLf5pywhCUlPkex5KEVgPQIYoCTJf0YsesR3C0-Z9OtxRBQfMornpP8WmYl5uWaOOu4LBNAKpRPkDreqNx-vBDTjAtpHPYJgX=w408-h306-k-no", // Ganti path gambar Anda
-
-                    lat: -7.9741553901755555
-
+                    , gambar: "https://lh3.googleusercontent.com/gps-cs-s/AHVAwerKgSaxViDeMa3HeBdunXD3auv5HGqTjFQngjsTLf5pywhCUlPkex5KEVgPQIYoCTJf0YsesR3C0-Z9OtxRBQfMornpP8WmYl5uWaOOu4LBNAKpRPkDreqNx-vBDTjAtpHPYJgX=w408-h306-k-no"
+                    , lat: -7.9741553901755555
                     , lng: 111.45198039512412
-
                 }
             ];
 
-            // Looping untuk menaruh setiap titik ke dalam peta
             lokasiPenting.forEach(function(lokasi) {
-
-                // Membuat kerangka HTML untuk isi Popup
                 var isiPopup = `
                 <div class="custom-popup-container">
                     <div class="custom-popup-img">
@@ -651,15 +654,14 @@
                 </div>
             `;
 
-                // Menambahkan Marker (Pin Biru) ke peta dan memasang Popup HTML
                 L.marker([lokasi.lat, lokasi.lng])
                     .addTo(map)
                     .bindPopup(isiPopup);
             });
-
         });
 
     </script>
+
 
 
     <script>
