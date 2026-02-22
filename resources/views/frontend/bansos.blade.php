@@ -92,98 +92,82 @@
             <h2 class="title-green">Jumlah Penerima Bansos</h2>
 
             <div class="bansos-grid">
-                <div class="bansos-card">
-                    <div class="bansos-count">
-                        <span class="number">67</span>
-                        <span class="unit">Penduduk</span>
-                    </div>
-                    <div class="bansos-info">
-                        <p>mendapatkan bantuan</p>
-                        <h3>BPJS PBI Ketenagakerjaan</h3>
-                    </div>
-                </div>
+                @php
+                $kategori_bansos = [
+                ['key' => 'bpjs', 'label' => 'BPJS PBI Ketenagakerjaan'],
+                ['key' => 'pkh', 'label' => 'PKH'],
+                ['key' => 'bpnt', 'label' => 'BPNT'],
+                ['key' => 'blt', 'label' => 'BLT 2026'],
+                ['key' => 'pstn', 'label' => 'PSTN'],
+                ];
+                @endphp
 
+                @foreach($kategori_bansos as $b)
                 <div class="bansos-card">
                     <div class="bansos-count">
-                        <span class="number">41</span>
+                        <span class="number">{{ number_format($summary[$b['key']] ?? 0) }}</span>
                         <span class="unit">Penduduk</span>
                     </div>
                     <div class="bansos-info">
                         <p>mendapatkan bantuan</p>
-                        <h3>PKH</h3>
+                        <h3>{{ $b['label'] }}</h3>
                     </div>
                 </div>
-
-                <div class="bansos-card">
-                    <div class="bansos-count">
-                        <span class="number">35</span>
-                        <span class="unit">Penduduk</span>
-                    </div>
-                    <div class="bansos-info">
-                        <p>mendapatkan bantuan</p>
-                        <h3>BPNT</h3>
-                    </div>
-                </div>
-
-                <div class="bansos-card">
-                    <div class="bansos-count">
-                        <span class="number">0</span>
-                        <span class="unit">Penduduk</span>
-                    </div>
-                    <div class="bansos-info">
-                        <p>mendapatkan bantuan</p>
-                        <h3>BLT 2024</h3>
-                    </div>
-                </div>
-
-                <div class="bansos-card">
-                    <div class="bansos-count">
-                        <span class="number">0</span>
-                        <span class="unit">Penduduk</span>
-                    </div>
-                    <div class="bansos-info">
-                        <p>mendapatkan bantuan</p>
-                        <h3>PSTN</h3>
-                    </div>
-                </div>
+                @endforeach
             </div>
 
-        </div>
-        <div class="container mx-auto px-4">
-            <h1 class="text-3xl font-bold mb-2">Transparansi Bantuan Sosial</h1>
-            <p class="opacity-90">Data Penerima Bantuan Desa Bedi Kulon Tahun {{ date('Y') }}</p>
+            <div class="search-bansos-section" style="margin-top: 50px;">
+                <div class="stunting-card">
+                    <h2 class="title-green text-xl font-bold mb-4">Cek Status Penerima Bansos </h2>
+
+                    <p class="text-sm text-gray-500 mb-6">Masukkan 16 digit NIK Anda untuk melihat bantuan yang diterima.</p>
+
+                    <form action="{{ route('frontend.bansos') }}" method="GET" class="flex flex-col md:flex-row gap-2">
+                        <input type="text" style="color: black" name="nik" value="{{ request('nik') }}" placeholder="Masukkan NIK Anda (Contoh: 3502...)" class="input input-bordered w-full lg:flex-1" maxlength="16" required>
+                        <button type="submit" class="btn btn-danger text-black">Periksa Status</button>
+                    </form>
+
+                    @if(request()->has('nik'))
+                    <div class="mt-8 overflow-x-auto">
+                        @if($hasil_cari && $hasil_cari->count() > 0)
+                        <div class="alert alert-success bg-green-50 border-green-200">
+                            <span class="text-green-800">NIK <strong>{{ request('nik') }}</strong> terdaftar sebagai penerima bantuan </span>
+                        </div>
+                        <table class="table w-full mt-4">
+                            <thead>
+                                <tr class="bg-gray-50" style="color: black">
+
+                                    <th>Nama</th>
+                                    <th>Jenis Bantuan</th>
+                                    <th>Tahun</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach($hasil_cari as $penerima)
+                                <tr>
+                                    <td class="text-gray-800">{{ Str::mask($penerima->nama_penerima, '*', 3) }}</td>
+
+                                    <td>
+                                        <span class="badge badge-success text-white">
+                                            {{ $penerima->jenis_bantuan }}
+                                        </span>
+                                    </td>
+
+                                    <td class="text-gray-800">{{ $penerima->tahun ?? $penerima->created_at->format('Y') }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+
+                        </table>
+                        @else
+                        <div class="alert alert-error bg-red-50 border-red-200">
+                            <span class="text-red-800">Maaf, NIK <strong>{{ request('nik') }}</strong> tidak ditemukan dalam data penerima bansos tahun ini 📂</span>
+                        </div>
+                        @endif
+                    </div>
+                    @endif
+                </div>
+            </div>
         </div>
     </section>
-    <div class="container mx-auto px-4 py-8">
-        <div class="bg-white p-4 rounded-lg shadow mb-6">
-            <form action="{{ route('bansos.index') }}" method="GET" class="flex flex-col md:flex-row gap-4">
-
-                <select name="jenis" class="select select-bordered w-full md:w-1/4" onchange="this.form.submit()">
-                    <option value="">Semua Jenis Bantuan</option>
-                    @foreach($list_jenis as $j)
-                    <option value="{{ $j }}" {{ request('jenis') == $j ? 'selected' : '' }}>{{ $j }}</option>
-                    @endforeach
-                </select>
-
-                <div class="relative w-full">
-                    <input type="text" name="cari" value="{{ request('cari') }}" placeholder="Cari nama penerima..." class="input input-bordered w-full pr-10">
-                    <button type="submit" class="absolute right-2 top-2 text-gray-500 hover:text-blue-600">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" /></svg>
-                    </button>
-                </div>
-            </form>
-        </div>
-    </div>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            // Ambil data dari Controller
-            const chartLabels = @json($chart_labels);
-            const chartData = @json($chart_data);
-
-            // Jalankan fungsi yang ada di app.js
-            window.renderBansosChart('bansosChart', chartLabels, chartData);
-        });
-
-    </script>
 </x-frontend>
