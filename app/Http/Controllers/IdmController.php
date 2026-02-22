@@ -65,10 +65,15 @@ class IdmController extends Controller
             if ($skor < $min_skor_target) $penambahan = $min_skor_target - $skor;
         }
 
-        // Data Grafik
-        $history = Idm::orderBy('tahun', 'asc')->get();
-        $chart_labels = $history->pluck('tahun');
-        $chart_data   = $history->pluck('skor_idm');
+        $data_idm = Idm::orderBy('tahun', 'asc')->get();
+
+        // 1. Ambil tahun sebagai label
+        $chart_labels = $data_idm->pluck('tahun')->toArray();
+
+        // 2. Ambil nilai_idm (Bukan 'skor') dan ubah ke angka desimal (float) ⏺️
+        $chart_data = $data_idm->pluck('nilai_idm')->map(function ($item) {
+            return (float) $item;
+        })->toArray();
 
         // Kirim Semua ke View
         return view('frontend.idm', compact(

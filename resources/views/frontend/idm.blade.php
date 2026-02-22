@@ -156,19 +156,24 @@
 
                     <div class="card-small">
                         <span class="card-label">Skor IKS (Sosial)</span>
-                        <span class="card-value-small">{{ number_format($idm->iks, 4) }}</span>
+                        <span class="card-value-small">{{ number_format($details_iks->sum('nilai_plus'), 4) }}</span>
+
+
+
 
 
                     </div>
                     <div class="card-small">
                         <span class="card-label">Skor IKE (Ekonomi)</span>
-                        <span class="card-value-small">{{ number_format($idm->ike, 4) }}</span>
+                        <span class="card-value-small">{{ number_format($idm->skor_ike, 4) }}</span>
+
 
 
                     </div>
                     <div class="card-small">
                         <span class="card-label">Skor IKL (Lingkungan)</span>
-                        <span class="card-value-small">{{ number_format($idm->ikl, 4) }}</span>
+                        <span class="card-value-small">{{ number_format($idm->skor_ikl, 4) }}</span>
+
 
 
                     </div>
@@ -181,12 +186,12 @@
             <h2 class="chart-title-green">Skor IDM Tahun ke Tahun</h2>
 
             <div class="line-chart-wrapper">
-                <canvas id="idmTrendChart"></canvas>
+                <canvas id="idmTrendChart" data-labels="{{ json_encode($chart_labels) }}" data-scores="{{ json_encode($chart_data) }}">
+                </canvas>
             </div>
-        </div>
-        <div class="idm-wrapper">
-            <h2 class="table-title">Rincian Indikator IDM {{ $tahun_pilih }}</h2>
 
+        </div>
+        <div class="idm-wrapper" style="margin-top: 50px">
             <div class="table-scroll">
                 <table class="idm-table-final">
                     <thead>
@@ -195,17 +200,17 @@
                             <th rowspan="2" class="col-indikator">Indikator IDM</th>
                             <th rowspan="2" class="col-skor">Skor</th>
                             <th rowspan="2" class="col-ket">Keterangan</th>
-                            <th rowspan="2" class="col-kegiatan">Kegiatan</th>
+                            <th rowspan="2" class="col-kegiatan">Kegiatan yang dapat dilakukan</th>
                             <th rowspan="2" class="col-nilai">Nilai+</th>
-                            <th colspan="6" class="col-pelaksana">Pelaksana</th>
+                            <th colspan="6" class="col-pelaksana">Yang dapat melaksanakan kegiatan</th>
                         </tr>
                         <tr>
-                            <th class="mini-th">Pst</th>
-                            <th class="mini-th">Prv</th>
-                            <th class="mini-th">Kab</th>
-                            <th class="mini-th">Des</th>
+                            <th class="mini-th">Pusat</th>
+                            <th class="mini-th">Provinsi</th>
+                            <th class="mini-th">Kab </th>
+                            <th class="mini-th">Desa</th>
                             <th class="mini-th">CSR</th>
-                            <th class="mini-th">Lain</th>
+                            <th class="mini-th">Lainnya</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -237,7 +242,8 @@
                         {{-- FOOTER IKS --}}
                         @if($idm)
                         <tr class="bg-blue-50 font-bold text-blue-800">
-                            <td colspan="5" class="text-right">SKOR IKS</td>
+                            <td colspan="5" class="text-right">IKS {{ $tahun_pilih }}</td>
+
                             <td>{{ number_format($details_iks->sum('nilai_plus'), 4) }}</td>
                             <td colspan="6"></td>
                         </tr>
@@ -270,7 +276,8 @@
                         {{-- FOOTER IKE --}}
                         @if($idm)
                         <tr class="bg-green-50 font-bold text-green-800">
-                            <td colspan="5" class="text-right">SKOR IKE</td>
+                            <td colspan="5" class="text-right">IKE {{ $tahun_pilih }}</td>
+
                             <td>{{ number_format($idm->skor_ike, 4) }}</td>
                             <td colspan="6"></td>
                         </tr>
@@ -303,19 +310,22 @@
                         {{-- FOOTER IKL --}}
                         @if($idm)
                         <tr class="bg-yellow-50 font-bold text-yellow-800">
-                            <td colspan="5" class="text-right">SKOR IKL</td>
+                            <td colspan="5" class="text-right">IKL {{ $tahun_pilih }}</td>
+
                             <td>{{ number_format($idm->skor_ikl, 4) }}</td>
                             <td colspan="6"></td>
                         </tr>
                         {{-- TOTAL IDM --}}
                         <tr class="bg-gray-200 font-bold">
-                            <td colspan="5" class="text-right">TOTAL IDM</td>
-                            <td>{{ number_format($idm->skor_idm, 4) }}</td>
+                            <td colspan="5" class="text-right">IDM {{ $tahun_pilih }}</td>
+
+                            <td>{{ number_format($idm->nilai_idm, 4) }}</td>
+
                             <td colspan="6"></td>
                         </tr>
                         {{-- TOTAL IDM --}}
                         <tr class="bg-gray-200 font-bold">
-                            <td colspan="5" class="text-right">Skor STATUS IDM 2024</td>
+                            <td colspan="5" class="text-right font-bold">Skor STATUS IDM {{ $tahun_pilih }}</td>
                             <td>{{ ($idm->status) }}</td>
 
                             <td colspan="6"></td>
@@ -330,27 +340,33 @@
     </section>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const lineCtx = document.getElementById('idmTrendChart').getContext('2d');
+            // Ambil elemen canvas
+            const canvas = document.getElementById('idmTrendChart');
+            if (!canvas) return;
 
-            // Mengambil data dari Controller
-            const labels = @json($chart_labels);
-            const scores = @json($chart_data);
+            const ctx = canvas.getContext('2d');
 
-            new Chart(lineCtx, {
+            // Ambil data dari atribut HTML (Anti-Error) ⏺️
+            // Pastikan di Controller datanya sudah di-json_encode
+            const labels = JSON.parse(canvas.getAttribute('data-labels') || '[]');
+            const scores = JSON.parse(canvas.getAttribute('data-scores') || '[]');
+
+            new Chart(ctx, {
                 type: 'line'
                 , data: {
-                    labels: labels, // Tahun Dinamis
-                    datasets: [{
+                    labels: labels
+                    , datasets: [{
                         label: 'Skor IDM'
-                        , data: scores, // Skor Dinamis
-                        borderColor: '#ff9f89', // Warna oranye muda
-                        backgroundColor: 'transparent'
+                        , data: scores
+                        , borderColor: '#ff9f89'
+                        , backgroundColor: 'rgba(255, 159, 137, 0.1)'
+                        , fill: true
                         , borderWidth: 3
+                        , tension: 0.3, // Garis agak melengkung
+                        pointRadius: 6
                         , pointBackgroundColor: '#fff'
                         , pointBorderColor: '#ff9f89'
-                        , pointRadius: 6
-                        , pointHoverRadius: 8
-                        , tension: 0 // Garis lurus (bukan melengkung)
+                        , pointBorderWidth: 2
                     }]
                 }
                 , options: {
@@ -358,19 +374,30 @@
                     , maintainAspectRatio: false
                     , scales: {
                         y: {
-                            beginAtZero: false, // Ubah ke false agar grafik fokus di range skor (0.4 - 1.0)
-                            min: 0.4, // Batas bawah agar grafik tidak terlalu "gepeng"
-                            max: 1.0, // Skor maksimal IDM adalah 1.0
+                            beginAtZero: true
+                            , min: 0
+                            , max: 1, // Skala 0-1 sesuai standar IDM
                             ticks: {
                                 stepSize: 0.1
+                                , color: '#999'
                             }
                             , grid: {
-                                borderDash: [5, 5] // Garis putus-putus
+                                color: '#f0f0f0'
+                                , borderDash: [5, 5]
                             }
                         }
                         , x: {
-                            grid: {
+                            // INI KUNCINYA! Agar garis tidak nempel di pinggir ⏺️
+                            offset: true
+                            , grid: {
                                 display: false
+                            }
+                            , ticks: {
+                                color: '#666'
+                                , font: {
+                                    weight: '600'
+                                }
+                                , padding: 10 // Jarak antara teks tahun dan grafik
                             }
                         }
                     }
@@ -379,11 +406,7 @@
                             display: false
                         }
                         , tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    return 'Skor: ' + context.raw;
-                                }
-                            }
+                            // ... (kode tooltip bisa ditambahkan di sini jika mau)
                         }
                     }
                 }
@@ -391,4 +414,7 @@
         });
 
     </script>
+
+
+
 </x-frontend>

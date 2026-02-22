@@ -2477,15 +2477,13 @@ nav {
 }
 
 .line-chart-wrapper {
-    background: #ffffff;
-    padding: 40px;
-    border-radius: 15px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-    height: 400px; /* Tinggi grafik */
+    position: relative;
+    height: 450px; /* Tinggi ideal agar sumbu 0-1 terlihat proporsional ⏺️ */
     width: 100%;
-    border: 1px solid #f0f0f0;
+    background-color: #fff;
+    border-radius: 15px;
+    padding: 20px;
 }
-
 /* Penyesuaian Responsif */
 @media (max-width: 768px) {
     .line-chart-wrapper {
