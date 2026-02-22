@@ -1,15 +1,12 @@
 <x-frontend>
     <style>
-        .stunting-section {
-            padding: 20px;
-        }
-
         .stunting-card {
             background-color: #ffffff;
             border-radius: 12px;
             box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
             padding: 30px;
             border: 1px solid #f0f0f0;
+            margin-top: 20px;
         }
 
         .stunting-title {
@@ -17,25 +14,24 @@
             font-size: 2.2rem;
             font-weight: 800;
             color: #8ce366;
-            /* Hijau terang sesuai gambar */
             margin-bottom: 25px;
-            letter-spacing: -0.5px;
         }
 
         .chart-wrapper {
             position: relative;
             height: 450px;
-            /* Sesuaikan tinggi agar proporsional */
             width: 100%;
         }
 
     </style>
 
     <section class="infografis-page">
+
         <div class="header-infografis">
             <div class="brand-title">
                 <h1>INFOGRAFIS<br>DESA Bedi Kulon</h1>
             </div>
+
             <div class="nav-menu">
                 <a href="{{ route('frontend.infografis') }}" class="nav-item {{ Route::is('frontend.infografis') ? 'active' : '' }}">
                     <div class="icon-box">
@@ -48,6 +44,8 @@
                     </div>
                     <span class="nav-text">Penduduk</span>
                 </a>
+
+
                 <a href="{{ route('frontend.apbdes') }}" class="nav-item {{ Route::is('frontend.apbdes') ? 'active' : '' }}">
                     <div class="icon-box">
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="tabler-icon tabler-icon-cash" style="overflow: visible;">
@@ -58,6 +56,9 @@
                     </div>
                     <span class="nav-text">APBDes</span>
                 </a>
+
+
+
                 <a href="{{ route('frontend.stunting') }}" class="nav-item {{ Route::is('frontend.stunting') ? 'active' : '' }}">
                     <div class="icon-box">
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="tabler-icon tabler-icon-chart-bar" style="overflow: visible;">
@@ -69,6 +70,8 @@
                     </div>
                     <span class="nav-text">Stunting</span>
                 </a>
+
+
                 <a href="{{ route('frontend.bansos') }}" class="nav-item {{ Route::is('frontend.bansos') ? 'active' : '' }}">
                     <div class="icon-box">
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="tabler-icon tabler-icon-package" style="overflow: visible;">
@@ -81,6 +84,8 @@
                     </div>
                     <span class="nav-text">Bansos</span>
                 </a>
+
+
                 <a href="{{ route('frontend.idm') }}" class="nav-item {{ Route::is('frontend.idm') ? 'active' : '' }}">
                     <div class="icon-box">
                         <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="tabler-icon tabler-icon-crown">
@@ -89,6 +94,8 @@
                     </div>
                     <span class="nav-text">IDM</span>
                 </a>
+
+
                 <a href="{{ route('frontend.sdgs') }}" class="nav-item {{ Route::is('frontend.sdgs') ? 'active' : '' }}">
                     <div class="icon-box">
 
@@ -102,36 +109,53 @@
                     </div>
                     <span class="nav-text">SDGs</span>
                 </a>
+
+
             </div>
         </div>
+
         <div class="stunting-card">
-            <h2 class="stunting-title">Data Stunting</h2>
+            <h2 class="stunting-title">Data Stunting {{ $tahun_pilih }}</h2>
             <div class="chart-wrapper">
-                <canvas id="stuntingChart"></canvas>
+                <canvas id="stuntingChart" data-sasaran="{{ $stunting->keluarga_sasaran ?? 0 }}" data-berisiko="{{ $stunting->berisiko ?? 0 }}" data-baduta="{{ $stunting->baduta ?? 0 }}" data-balita="{{ $stunting->balita ?? 0 }}" data-pus="{{ $stunting->pus ?? 0 }}" data-pushamil="{{ $stunting->pus_hamil ?? 0 }}" data-tahun="{{ $tahun_pilih }}">
+                </canvas>
             </div>
         </div>
     </section>
+
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
 
     <script>
-        // Daftarkan plugin untuk menampilkan angka di atas chart
         Chart.register(ChartDataLabels);
 
         document.addEventListener('DOMContentLoaded', function() {
-            const ctx = document.getElementById('stuntingChart').getContext('2d');
+            // Ambil elemen canvas
+            const chartCanvas = document.getElementById('stuntingChart');
 
-            new Chart(ctx, {
+            // Ambil data dari attributes (JS tidak akan terganggu formatter PHP) 🛠️
+            const chartData = [
+                chartCanvas.getAttribute('data-sasaran')
+                , chartCanvas.getAttribute('data-berisiko')
+                , chartCanvas.getAttribute('data-baduta')
+                , chartCanvas.getAttribute('data-balita')
+                , chartCanvas.getAttribute('data-pus')
+                , chartCanvas.getAttribute('data-pushamil')
+            ];
+
+            const tahun = chartCanvas.getAttribute('data-tahun');
+
+            new Chart(chartCanvas, {
                 type: 'bar'
                 , data: {
-                    labels: ['Keluarga Sasaran', 'Berisiko', 'Baduta', 'Balita', 'Pasangan Usia Subur (PUS)', 'PUS Hamil']
+                    labels: ['Keluarga Sasaran', 'Berisiko', 'Baduta', 'Balita', 'PUS', 'PUS Hamil']
                     , datasets: [{
-                        label: 'Data Tahun 2025'
-                        , data: [16, 13, 1, 1, 0, 0], // Data sesuai gambar
-                        backgroundColor: '#b8e986', // Warna hijau batang
-                        borderRadius: 4
-                        , barThickness: 65
-                    , }]
+                        label: 'Data Tahun ' + tahun
+                        , data: chartData
+                        , backgroundColor: '#b8e986'
+                        , borderRadius: 4
+                        , barThickness: 60
+                    }]
                 }
                 , options: {
                     responsive: true
@@ -139,48 +163,21 @@
                     , plugins: {
                         legend: {
                             position: 'bottom'
-                            , labels: {
-                                boxWidth: 15
-                                , padding: 20
-                                , font: {
-                                    family: 'Poppins'
-                                    , size: 13
-                                }
-                            }
                         }
                         , datalabels: {
                             anchor: 'end'
                             , align: 'top'
                             , color: '#666'
                             , font: {
-                                weight: '600'
-                                , size: 12
+                                weight: 'bold'
+                                , size: 14
                             }
-                            , formatter: (value) => value // Menampilkan angka 16, 13, dst
                         }
                     }
                     , scales: {
                         y: {
                             beginAtZero: true
-                            , max: 18, // Batas maksimal sesuai gambar
-                            ticks: {
-                                stepSize: 3
-                                , color: '#999'
-                            }
-                            , grid: {
-                                color: '#f0f4f8'
-                            }
-                        }
-                        , x: {
-                            grid: {
-                                display: false
-                            }
-                            , ticks: {
-                                color: '#666'
-                                , font: {
-                                    size: 12
-                                }
-                            }
+                            , suggestedMax: 10
                         }
                     }
                 }
@@ -188,6 +185,4 @@
         });
 
     </script>
-
-
 </x-frontend>

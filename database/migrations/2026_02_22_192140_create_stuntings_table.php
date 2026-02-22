@@ -13,15 +13,13 @@ return new class extends Migration
     {
         Schema::create('stuntings', function (Blueprint $table) {
             $table->id();
-            $table->string('nama_anak');
-            $table->string('nama_orangtua');
-            $table->enum('jenis_kelamin', ['L', 'P']);
-            $table->integer('umur_bulan');       // Umur dalam bulan
-            $table->float('tinggi_badan');       // cm
-            $table->float('berat_badan');        // kg
-            $table->string('posyandu');          // Lokasi posyandu
-            $table->enum('status', ['Normal', 'Kurang Gizi', 'Stunting', 'Sangat Pendek']);
-            $table->date('tanggal_ukur');
+            $table->year('tahun'); // Untuk filter tahun di grafik
+            $table->integer('keluarga_sasaran')->default(0);
+            $table->integer('berisiko')->default(0);
+            $table->integer('baduta')->default(0);
+            $table->integer('balita')->default(0);
+            $table->integer('pus')->default(0); // Pasangan Usia Subur
+            $table->integer('pus_hamil')->default(0);
             $table->timestamps();
         });
     }

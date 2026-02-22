@@ -2,52 +2,46 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Stunting; // Pastikan model ini ada
+use App\Models\Stunting;
+use Illuminate\Http\Request;
 
 class StuntingController extends Controller
 {
-    public function index()
+    /**
+     * Menampilkan grafik di halaman depan (Frontend)
+     */
+    public function index(Request $request)
     {
-        // 1. STATISTIK UTAMA
-        $total_balita = Stunting::count();
+        // Mengambil tahun dari filter, default ke 2026
+        $tahun_pilih = $request->get('tahun', 2026);
 
-        // Hitung berdasarkan status
-        $jml_normal = Stunting::where('status', 'Normal')->count();
+        // Mengambil satu baris data berdasarkan tahun
+        $stunting = Stunting::where('tahun', $tahun_pilih)->first();
+        return view('frontend.stunting', compact('stunting', 'tahun_pilih'));
+    }
 
-        // Stunting biasanya gabungan "Stunting" (Pendek) & "Sangat Pendek"
-        $jml_stunting = Stunting::whereIn('status', ['Stunting', 'Sangat Pendek'])->count();
+    /**
+     * Menyimpan atau memperbarui data dari Admin
+     */
+    public function store(Request $request)
+    {
+        // Validasi input agar data yang masuk berupa angka
+        $validated = $request->validate([
+            'tahun'            => 'required|numeric',
+            'keluarga_sasaran' => 'required|numeric',
+            'berisiko'         => 'required|numeric',
+            'baduta'           => 'required|numeric',
+            'balita'           => 'required|numeric',
+            'pus'              => 'required|numeric',
+            'pus_hamil'        => 'required|numeric',
+        ]);
 
-        $jml_kurang_gizi = Stunting::where('status', 'Kurang Gizi')->count();
+        // Menggunakan updateOrCreate agar tidak ada data ganda di tahun yang sama
+        Stunting::updateOrCreate(
+            ['tahun' => $request->tahun], // Kunci pencarian
+            $validated                    // Data yang diupdate/simpan
+        );
 
-        // Hitung Persentase (Prevalensi Stunting)
-        $persen_stunting = ($total_balita > 0) ? ($jml_stunting / $total_balita) * 100 : 0;
-
-
-        // 2. DATA UNTUK GRAFIK (PIE CHART)
-        // Kita kirim array angka ke view
-        $chart_data = [
-            $jml_normal,
-            $jml_stunting,
-            $jml_kurang_gizi
-        ];
-
-
-        // 3. DAFTAR BALITA TERBARU (Untuk Tabel Transparansi)
-        // Kita ambil 10 data terakhir yang diukur
-        $data_terbaru = Stunting::latest('tanggal_ukur')->paginate(10);
-
-        // (Opsional) Menyamarkan nama anak demi privasi di frontend
-        // Kita lakukan manipulasi string di View nanti
-
-
-        return view('frontend.stunting', compact(
-            'total_balita',
-            'jml_normal',
-            'jml_stunting',
-            'jml_kurang_gizi',
-            'persen_stunting',
-            'chart_data',
-            'data_terbaru'
-        ));
+        return redirect()->back()->with('success', 'Data Statistik Stunting berhasil diperbarui ⏺️');
     }
 }
