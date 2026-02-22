@@ -97,10 +97,12 @@
         </div>
         <div class="apbdes-layout">
 
+
             <div class="apbdes-info">
-                <h2 class="title-green-big">APB Desa Bedi Kulon Tahun 2025</h2>
+                <h2 class="title-green-big">APB Desa Bedi Kulon Tahun {{ $tahun_pilih ?? date('Y') }}</h2>
                 <p class="apbdes-location">Desa Bedi Kulon, Kecamatan Marang Kayu, Kabupaten Kutai Kartanegara, Provinsi Kalimantan Timur</p>
             </div>
+
 
             <div class="apbdes-stats">
 

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Ppid;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use App\Models\PermohonanInformasi;
 
 class PpidController extends Controller
 {
@@ -26,6 +27,7 @@ class PpidController extends Controller
         $request->validate([
             'judul' => 'required',
             'kategori' => 'required',
+            'sub_kategori' => 'required',
             'file' => 'required|mimes:pdf,doc,docx,xls,xlsx,jpg,png|max:5120', // Max 5MB
             'tanggal_upload' => 'required|date',
         ]);
@@ -55,6 +57,7 @@ class PpidController extends Controller
         $request->validate([
             'judul' => 'required',
             'kategori' => 'required',
+            'sub_kategori' => 'required',
             'file' => 'mimes:pdf,doc,docx,xls,xlsx,jpg,png|max:5120', // Opsional saat edit
             'tanggal_upload' => 'required|date',
         ]);
@@ -86,5 +89,19 @@ class PpidController extends Controller
 
         $ppid->delete();
         return redirect()->route('ppid.index')->with('success', 'Dokumen dihapus');
+    }
+    // 1. Fungsi Menampilkan Tabel Permohonan
+    public function permohonanMasuk()
+    {
+        // Mengambil data terbaru dan membaginya 10 per halaman (pagination)
+        $permohonan = PermohonanInformasi::latest()->paginate(10);
+        return view('admin.ppid.permohonan-masuk', compact('permohonan'));
+    }
+
+    // 2. Fungsi Menghapus Permohonan
+    public function destroyPermohonan($id)
+    {
+        PermohonanInformasi::findOrFail($id)->delete();
+        return back()->with('success', 'Data permohonan informasi berhasil dihapus.');
     }
 }

@@ -8,23 +8,25 @@
     <div class="alert alert-success mb-4 text-white">{{ session('success') }}</div>
     @endif
 
-    <div class="card bg-white shadow p-4">
+    <div class="card bg-white shadow p-4 overflow-x-auto">
         <table class="table w-full">
-            <thead class="bg-gray-100">
+            <base-thead class="bg-gray-100">
                 <tr>
                     <th>Tanggal</th>
                     <th>Judul Informasi</th>
-                    <th>Kategori</th>
+                    <th>Kategori Utama</th>
+                    <th>Sub Kategori</th>
                     <th>File</th>
                     <th>Aksi</th>
                 </tr>
-            </thead>
+            </base-thead>
             <tbody>
                 @foreach($ppid as $item)
                 <tr class="hover">
-                    <td class="text-sm">{{ \Carbon\Carbon::parse($item->tanggal_upload)->format('d/m/Y') }}</td>
+                    <td class="text-sm whitespace-nowrap">{{ \Carbon\Carbon::parse($item->tanggal_upload)->format('d/m/Y') }}</td>
                     <td class="font-bold">{{ $item->judul }}</td>
-                    <td>
+
+                    <td class="whitespace-nowrap">
                         @if($item->kategori == 'Berkala')
                         <span class="badge badge-info">Berkala</span>
                         @elseif($item->kategori == 'Serta Merta')
@@ -35,11 +37,17 @@
                         <span class="badge badge-error">Dikecualikan</span>
                         @endif
                     </td>
+
+                    <td class="text-sm text-gray-600">
+                        {{ $item->sub_kategori ?? '-' }}
+                    </td>
+
                     <td>
                         <a href="{{ asset('storage/' . $item->file) }}" target="_blank" class="btn btn-xs btn-outline">
                             <i class="ph ph-download-simple"></i> Lihat
                         </a>
                     </td>
+
                     <td class="flex gap-2">
                         <a href="{{ route('ppid.edit', $item->id) }}" class="btn btn-xs btn-warning">Edit</a>
                         <form action="{{ route('ppid.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Hapus dokumen ini?');">

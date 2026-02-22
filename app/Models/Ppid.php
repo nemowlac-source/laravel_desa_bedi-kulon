@@ -15,5 +15,6 @@ class Ppid extends Model
         'deskripsi',
         'file',
         'tanggal_upload',
+        'sub_kategori',
     ];
 }

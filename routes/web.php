@@ -27,6 +27,9 @@ use App\Http\Controllers\PpidController;
 
 
 Route::get('/ppid', [PpidController::class, 'index'])->name('frontend.ppid');
+Route::get('/ppid/permohonan', [App\Http\Controllers\PpidController::class, 'permohonan'])->name('frontend.ppid.permohonan');
+Route::post('/ppid/permohonan', [App\Http\Controllers\PpidController::class, 'storePermohonan'])->name('frontend.ppid.permohonan.store');
+Route::get('/ppid/permohonan', [App\Http\Controllers\PpidController::class, 'permohonan'])->name('frontend.ppid.permohonan');
 Route::get('/ppid/download/{id}', [PpidController::class, 'download'])->name('ppid.download');
 Route::get('/bansos', [BansosController::class, 'index'])->name('frontend.bansos');
 Route::get('/stunting', [StuntingController::class, 'index'])->name('frontend.stunting');
@@ -83,6 +86,9 @@ Route::middleware('auth')->group(function () {
         // 6. Hapus Indikator
         Route::delete('idm-detail/{id}', [\App\Http\Controllers\Admin\IdmDetailController::class, 'destroy'])
             ->name('idm.detail.destroy');
+        // 1. RUTE KUSTOM (Harus di atas resource!)
+        Route::get('/ppid/permohonan-masuk', [\App\Http\Controllers\Admin\PpidController::class, 'permohonanMasuk'])->name('admin.ppid.permohonan');
+        Route::delete('/ppid/permohonan-masuk/{id}', [\App\Http\Controllers\Admin\PpidController::class, 'destroyPermohonan'])->name('admin.ppid.permohonan.destroy');
         // Tambahkan route lain khusus admin di sini (misal: kelola penduduk)
         Route::resource('galeri', GaleriController::class);
         Route::resource('umkm', UmkmController::class);

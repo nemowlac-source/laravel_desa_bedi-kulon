@@ -160,6 +160,12 @@
                         <i class="ph ph-file-text text-xl"></i> Dokumen PPID
                     </a>
                 </li>
+                <li>
+                    <a href="{{ route('admin.ppid.permohonan') }}">
+                        <i class="ph ph-envelope-open"></i> Permohonan Masuk
+                    </a>
+                </li>
+
                 <li class="mb-1">
                     <a href="{{ route('idm.index') }}" class="{{ request()->routeIs('admin.idm.*') ? 'active bg-blue-600' : 'hover:bg-gray-700' }}">
                         <i class="ph ph-chart-line-up text-xl"></i> Status IDM

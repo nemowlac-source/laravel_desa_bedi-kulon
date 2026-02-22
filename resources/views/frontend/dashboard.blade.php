@@ -2,7 +2,6 @@
 
     <header class="hero">
         <div class="hero-overlay">
-            <h4>PEMERINTAH DESA PONOROGO</h4>
             <h1>Selamat Datang di<br />Website Resmi Desa Bedi Kulon</h1>
             <p>Sumber informasi terbaru tentang pemerintahan di Desa Bedi Kulon</p>
             <!-- <div class="special-event">
