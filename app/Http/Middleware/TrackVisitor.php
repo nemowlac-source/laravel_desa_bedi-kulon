@@ -12,16 +12,19 @@ class TrackVisitor
     public function handle(Request $request, Closure $next)
     {
         $ip = $request->ip();
-        $date = Carbon::today();
+        $date = now()->toDateString();
 
-        // Cek apakah IP ini sudah berkunjung hari ini? Jika belum, simpan.
-        $visitor = Visitor::where('ip_address', $ip)->where('date', $date)->first();
+        // Cek apakah IP ini sudah ada di tanggal hari ini ⏺️
+        $visitor = Visitor::where('ip_address', $ip)
+            ->where('date', $date)
+            ->first();
 
+        // Jika belum ada (sesuai kode lamamu), maka buat baru 🛠️
         if (!$visitor) {
             Visitor::create([
                 'ip_address' => $ip,
-                'user_agent' => $request->userAgent(),
-                'date' => $date
+                'user_agent' => $request->userAgent(), // Menggunakan userAgent() kamu ⏺️
+                'date'       => $date
             ]);
         }
 

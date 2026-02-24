@@ -150,7 +150,8 @@
                 </div>
                 <div class="stat-data">
                     <span class="stat-label">TOTAL PENDUDUK</span>
-                    <span class="stat-value color-green">
+                    <span class="stat-value" style="color: #2ac0b4">
+
                         {{ number_format($total_penduduk, 0, ',', '.') }} <small>Jiwa</small>
                     </span>
                 </div>
@@ -162,7 +163,7 @@
                 </div>
                 <div class="stat-data">
                     <span class="stat-label">KEPALA KELUARGA</span>
-                    <span class="stat-value color-green">
+                    <span class="stat-value " style="color: #2ac0b4">
                         {{ number_format($total_kk, 0, ',', '.') }} <small>KK</small>
                     </span>
                 </div>
@@ -174,7 +175,7 @@
                 </div>
                 <div class="stat-data">
                     <span class="stat-label">PEREMPUAN</span>
-                    <span class="stat-value color-light-green">
+                    <span class="stat-value " style="color: #2ac0b4">
                         {{ number_format($total_perempuan, 0, ',', '.') }} <small>Jiwa</small>
                     </span>
                 </div>
@@ -186,7 +187,7 @@
                 </div>
                 <div class="stat-data">
                     <span class="stat-label">LAKI-LAKI</span>
-                    <span class="stat-value color-light-green">
+                    <span class="stat-value " style="color: #2ac0b4">
                         {{ number_format($total_laki, 0, ',', '.') }} <small>Jiwa</small>
                     </span>
                 </div>
@@ -293,7 +294,7 @@
 
                 <div class="card-info">
                     <span class="label">{{ $item->status }}</span>
-                    <span class="value color-green">{{ number_format($item->jumlah, 0, ',', '.') }}</span>
+                    <span class="value " style="color: #2ac0b4">{{ number_format($item->jumlah, 0, ',', '.') }}</span>
                 </div>
             </div>
             @endforeach
@@ -307,7 +308,7 @@
 
                 <div class="card-info">
                     <span class="label">{{ $item->agama }}</span>
-                    <span class="value color-green">{{ number_format($item->jumlah, 0, ',', '.') }}</span>
+                    <span class="value " style="color: #2ac0b4">{{ number_format($item->jumlah, 0, ',', '.') }}</span>
                 </div>
             </div>
             @endforeach

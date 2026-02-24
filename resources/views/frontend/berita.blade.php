@@ -21,7 +21,7 @@
         .news-title-baru {
             font-size: 2.8rem;
             font-weight: 800;
-            color: #7ED957;
+            color: #2ac0b4;
             margin: 0 0 10px 0;
             letter-spacing: 0.5px;
         }
@@ -189,7 +189,8 @@
             position: absolute;
             bottom: 0;
             right: 0;
-            background-color: #8ade54;
+            background-color: #2ac0b4;
+
             /* Warna hijau terang presisi dengan gambar */
             color: white;
             padding: 12px 18px;
@@ -249,7 +250,9 @@
             bottom: 0;
             right: 0;
             /* Menggunakan gradasi hijau halus persis seperti gambar contoh */
-            background: linear-gradient(135deg, #a0e567 0%, #75d440 100%);
+            background: linear-gradient(135deg, #6daca6 0%, #2ac0b4 100%);
+
+
             color: white;
             padding: 10px 20px;
             /* Diperlebar sedikit agar lebih proporsional */

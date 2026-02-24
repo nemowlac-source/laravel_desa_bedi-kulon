@@ -13,7 +13,7 @@
             font-family: 'Poppins', sans-serif;
             font-size: 2.2rem;
             font-weight: 800;
-            color: #8ce366;
+            color: #2ac0b4;
             margin-bottom: 25px;
         }
 
@@ -152,7 +152,8 @@
                     , datasets: [{
                         label: 'Data Tahun ' + tahun
                         , data: chartData
-                        , backgroundColor: '#b8e986'
+                        , backgroundColor: '#2ac0b4'
+
                         , borderRadius: 4
                         , barThickness: 60
                     }]

@@ -1,9 +1,33 @@
 import "./bootstrap";
 import Alpine from "alpinejs";
 import Chart from "chart.js/auto";
+import "./bootstrap";
+import Swal from "sweetalert2";
 
 window.Alpine = Alpine;
+window.Swal = Swal;
 Alpine.start();
+
+document.addEventListener("DOMContentLoaded", function () {
+    const btn = document.getElementById("readMoreBtn");
+    const list = document.getElementById("missionList");
+    const btnText = btn.querySelector(".btn-text");
+
+    btn.addEventListener("click", function () {
+        // Toggle class expanded pada list 📂
+        list.classList.toggle("expanded");
+
+        // Toggle class active pada tombol untuk putar icon 🛠️
+        btn.classList.toggle("active");
+
+        // Ubah teks secara dinamis ⏺️
+        if (list.classList.contains("expanded")) {
+            btnText.textContent = "Tutup";
+        } else {
+            btnText.textContent = "Baca Selengkapnya";
+        }
+    });
+});
 
 document.addEventListener("DOMContentLoaded", function () {
     // --- LOGIKA NAVIGASI ---
@@ -174,7 +198,7 @@ window.renderWajibPilihChart = (canvasId, labels, data) => {
                 {
                     label: "Jumlah Wajib Pilih",
                     data: data, // Angka dinamis dari database
-                    backgroundColor: "#438e0d", // Hijau tua khas desa
+                    backgroundColor: "#2ac0b4", // Hijau tua khas desa
                     borderRadius: 5,
                     barThickness: 80,
                 },

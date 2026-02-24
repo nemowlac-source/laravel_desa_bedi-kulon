@@ -198,7 +198,7 @@
 
             .apbdes-title-keren {
                 font-family: 'Poppins', sans-serif;
-                color: #8ade54;
+                color: #2ac0b4;
                 /* Hijau terang sesuai foto contoh */
                 font-size: 2.2rem;
                 font-weight: 800;
@@ -234,7 +234,7 @@
             .chart-title-green {
                 font-size: 1.8rem;
                 font-weight: 800;
-                color: #8ade54;
+                color: #2ac0b4;
                 margin-bottom: 0px;
                 /* HILANGKAN: Agar grafik langsung di bawah judul */
                 padding-bottom: 0px;
@@ -274,7 +274,7 @@
                         labels: ['Pendapatan Asli Desa', 'Pendapatan Transfer', 'Pendapatan Lain-lain']
                         , datasets: [{
                             data: [valPAD, valTransfer, valLain]
-                            , backgroundColor: '#489c19', // Hijau solid Desa Kersik
+                            , backgroundColor: '#2ac0b4', // Hijau solid Desa Kersik
                             borderRadius: 2
                             , maxBarThickness: 80, // Dikecilkan sedikit agar lebih elegan
                         }]
@@ -420,7 +420,7 @@
 
             .header-progress-fill {
                 height: 100%;
-                background: #489c19;
+                background: #2ac0b4;
                 border-radius: 20px;
                 display: flex;
                 align-items: center;
@@ -631,7 +631,7 @@
 
             /* Warna khusus untuk bar belanja (Hijau Muda) */
             .progress-fill-belanja {
-                background: #98e07a !important;
+                background: #2ac0b4 !important;
             }
 
         </style>
@@ -821,7 +821,7 @@
                                 @json(isset($pembiayaan_penerimaan) ? $pembiayaan_penerimaan : 0)
                                 , @json(isset($pembiayaan_pengeluaran) ? $pembiayaan_pengeluaran : 0)
                             ]
-                            , backgroundColor: '#489c19', // Hijau tua identik Pendapatan
+                            , backgroundColor: '#2ac0b4', // Hijau tua identik Pendapatan
                             borderRadius: 5
                             , maxBarThickness: 100
                         }]
@@ -860,7 +860,7 @@
                 <button class="accordion-header" onclick="toggleAccordion(this, 'terima-detail')">
                     <span class="cat-title">Penerimaan Pembiayaan</span>
                     <div class="header-progress-container">
-                        <div class="header-progress-fill" style="width: {{ $persen_terima }}%; background: #489c19;">
+                        <div class="header-progress-fill" style="width: {{ $persen_terima }}%; background: #2ac0b4;">
                             {{ number_format($persen_terima, 2) }}%
                         </div>
                     </div>
@@ -885,7 +885,7 @@
                 <button class="accordion-header" onclick="toggleAccordion(this, 'keluar-detail')">
                     <span class="cat-title">Pengeluaran Pembiayaan</span>
                     <div class="header-progress-container">
-                        <div class="header-progress-fill" style="width: {{ $persen_keluar }}%; background: #489c19;">
+                        <div class="header-progress-fill" style="width: {{ $persen_keluar }}%; background: #2ac0b4;">
                             {{ number_format($persen_keluar, 2) }}%
                         </div>
                     </div>
@@ -946,7 +946,7 @@
                     , datasets: [{
                         label: 'Pendapatan'
                         , data: dataPendapatan
-                        , backgroundColor: '#489c19', // Hijau Tua
+                        , backgroundColor: '#2ac0b4', // Hijau Tua
                         maxBarThickness: 45, // Batang tetap langsing meski data sedikit
                         categoryPercentage: 0.6, // Memberi jarak antar tahun
                         barPercentage: 0.9 // Merapatkan batang Pendapatan & Belanja
@@ -1092,7 +1092,7 @@
                     ]
                     , datasets: [{
                         data: dataBelanja
-                        , backgroundColor: '#98e07a', // Hijau muda cerah sesuai contoh
+                        , backgroundColor: '#2ac0b4', // Hijau muda cerah sesuai contoh
                         borderRadius: 4
                         , maxBarThickness: 70
                     }]

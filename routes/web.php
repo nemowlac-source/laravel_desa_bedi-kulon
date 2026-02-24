@@ -24,6 +24,7 @@ use App\Http\Controllers\BansosController;
 use App\Http\Controllers\IdmController;
 use App\Http\Controllers\SdgsController;
 use App\Http\Controllers\PpidController;
+use App\Http\Controllers\PengaduanController;
 
 
 Route::get('/ppid', [PpidController::class, 'index'])->name('frontend.ppid');
@@ -36,7 +37,7 @@ Route::get('/stunting', [StuntingController::class, 'index'])->name('frontend.st
 Route::get('/apbdes', [ApbdesController::class, 'index'])->name('frontend.apbdes');
 Route::get('/', [HomeController::class, 'index'])->name('frontend.dashboard');
 Route::get('/wisata', [HomeController::class, 'wisata'])->name('frontend.wisata');
-// Menggunakan ID atau Slug untuk mencari data spesifik ⏺️
+Route::post('/pengaduan/kirim', [PengaduanController::class, 'store'])->name('pengaduan.store');
 Route::get('/wisata/{id}', [App\Http\Controllers\HomeController::class, 'show'])->name('frontend.show');
 Route::get('/potensi', [HomeController::class, 'potensi'])->name('frontend.potensi');
 Route::get('/potensi/{id}', [App\Http\Controllers\HomeController::class, 'detailPotensi'])->name('frontend.potensi.detail');
@@ -111,6 +112,7 @@ Route::middleware('auth')->group(function () {
         Route::resource('sdgs', \App\Http\Controllers\Admin\SdgsDesaController::class);
         Route::resource('ppid', \App\Http\Controllers\Admin\PpidController::class);
         Route::resource('idm', \App\Http\Controllers\Admin\IdmController::class);
+        Route::resource('pengaduan', \App\Http\Controllers\Admin\PengaduanController::class)->names('admin.pengaduan');
     });
 
     // 2. AREA ANGGOTA (Bisa diakses 'admin' DAN 'anggota')

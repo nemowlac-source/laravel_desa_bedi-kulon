@@ -171,6 +171,22 @@
                         <i class="ph ph-chart-line-up text-xl"></i> Status IDM
                     </a>
                 </li>
+                <li class="mb-1">
+                    <a href="{{ route('admin.pengaduan.index') }}" class="{{ request()->routeIs('admin.pengaduan.*') ? 'active bg-blue-600' : 'hover:bg-gray-700' }}">
+                        <i class="ph ph-chat-centered-text text-xl"></i> Pengaduan Masyarakat
+
+                        {{-- Badge Notifikasi (Opsional: Menunjukkan jumlah aduan yang belum dibaca) 📂 --}}
+                        @php
+                        $count = \App\Models\Pengaduan::where('status', 'pending')->count();
+                        @endphp
+                        @if($count > 0)
+                        <span class="ml-auto bg-red-500 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+                            {{ $count }}
+                        </span>
+                        @endif
+                    </a>
+                </li>
+
 
 
 

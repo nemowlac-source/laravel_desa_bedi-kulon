@@ -5,8 +5,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Website Resmi Desa Bedi Kulon</title>
-    @vite(['resources/css/app.css'])
-    @vite(['resources/js/app.js'])
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
@@ -237,25 +236,46 @@
             /* Sedikit efek naik saat disorot */
         }
 
-        /* KOTAK POPUP FORM PENGADUAN */
+        /* Update pada bagian styling pengaduan-popup */
         .pengaduan-popup {
-            position: absolute;
-            bottom: calc(100% + 15px);
-            /* Muncul di atas tombol */
-            right: 0;
+            position: fixed;
+            /* Ubah ke fixed agar lebih stabil posisinya 🛠️ */
+            bottom: 80px;
+            /* Sesuaikan jarak dari bawah */
+            right: 20px;
             width: 320px;
             background-color: #ffffff;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+            border-radius: 12px;
+            padding: 25px 20px 20px 20px;
+            /* Tambah padding atas agar label "Nama" tidak mepet ⏺️ */
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
             border: 1px solid #eaeaea;
+            z-index: 10000;
+            /* Pastikan di atas navbar jika perlu 📂 */
 
-            /* Disembunyikan secara default */
+            /* KUNCI PERBAIKAN: Agar tidak terpotong saat zoom 100% 🛠️ */
+            max-height: calc(100vh - 120px);
+            /* Batasi tinggi maksimal layar */
+            overflow-y: auto;
+            /* Aktifkan scroll jika konten kepanjangan */
+
+            /* Efek transisi tetap sama */
             opacity: 0;
             visibility: hidden;
-            transform: translateY(10px);
-            transition: all 0.3s ease;
+            transform: translateY(20px);
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
         }
+
+        /* Tambahkan styling scrollbar agar lebih rapi (opsional) 📂 */
+        .pengaduan-popup::-webkit-scrollbar {
+            width: 5px;
+        }
+
+        .pengaduan-popup::-webkit-scrollbar-thumb {
+            background: #e2e8f0;
+            border-radius: 10px;
+        }
+
 
         .pengaduan-popup.active {
             opacity: 1;
@@ -285,7 +305,7 @@
         .input-outline-green {
             width: 100%;
             padding: 10px 12px;
-            border: 1px solid #7ED957;
+            border: 1px solid #2ac0b4;
             border-radius: 6px;
             font-family: inherit;
             font-size: 0.9rem;
@@ -330,7 +350,7 @@
         }
 
         .btn-kirim {
-            background-color: #7ED957;
+            background-color: #2ac0b4;
             /* Hijau khas */
             color: white;
             border: none;
@@ -350,6 +370,7 @@
 
     </style>
 </head>
+
 
 
 <body>
@@ -390,6 +411,7 @@
         </div>
     </nav>
 
+
     <main class="">
         {{ $slot }}
     </main>
@@ -399,15 +421,16 @@
         <div class="visitor-popup" id="visitorPopup">
             <h4 class="popup-title">Jumlah Kunjungan</h4>
             <ul class="popup-list">
-                <li><span>Hari Ini</span> <span>238</span></li>
-                <li><span>Kemarin</span> <span>238</span></li>
-                <li><span>Minggu Ini</span> <span>1.485</span></li>
-                <li><span>Minggu Lalu</span> <span>1.216</span></li>
-                <li><span>Bulan Ini</span> <span>17.344</span></li>
-                <li><span>Bulan Lalu</span> <span>13.666</span></li>
-                <li class="total-row"><span>Total Kunjungan</span> <span>96.952</span></li>
+                <li><span>Hari Ini</span> <span>{{ number_format($visitor_stats['hari_ini']) }}</span></li>
+                <li><span>Kemarin</span> <span>{{ number_format($visitor_stats['kemarin']) }}</span></li>
+                <li><span>Minggu Ini</span> <span>{{ number_format($visitor_stats['minggu_ini']) }}</span></li>
+                <li><span>Bulan Ini</span> <span>{{ number_format($visitor_stats['bulan_ini']) }}</span></li>
+                <li class="total-row"><span>Total Kunjungan</span> <span>{{ number_format($visitor_stats['total']) }}</span></li>
             </ul>
         </div>
+
+        <span class="visitor-count">{{ number_format($visitor_stats['hari_ini']) }}</span>
+
 
         <button class="visitor-btn" onclick="toggleVisitor()">
             <div class="visitor-left">
@@ -416,7 +439,8 @@
                     <path d="M2 20h20"></path>
                     <path d="M14 12v.01"></path>
                 </svg>
-                <span class="visitor-count">238</span>
+                <span class="visitor-count">{{ number_format($visitor_stats['hari_ini'], 0, ',', '.') }}</span>
+
             </div>
             <div class="visitor-center">
                 <span class="visitor-label">Kunjungan</span>
@@ -429,25 +453,26 @@
             </div>
         </button>
     </div>
-
     <div class="right-widget-container">
 
         <div class="pengaduan-popup" id="pengaduanPopup">
-            <form action="#" method="POST">
-
+            <form action="{{ route('pengaduan.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
                 <div class="form-group">
                     <label>Nama <span class="text-red">*</span></label>
-                    <input type="text" class="input-outline-green" placeholder="Masukkan nama Anda" required>
+                    <input type="text" name="nama" class="input-outline-green" placeholder="Masukkan nama Anda" required>
+
                 </div>
 
                 <div class="form-group">
                     <label>Nomor Telepon/WA <span class="text-red">*</span></label>
-                    <input type="text" class="input-gray" placeholder="Masukkan nomor HP/WhatsApp" required>
+                    <input type="text" name="no_hp" class="input-gray" placeholder="Masukkan nomor HP/WhatsApp" required>
+
                 </div>
 
                 <div class="form-group">
                     <label>Kategori Pengaduan <span class="text-red">*</span></label>
-                    <select class="input-gray" required>
+                    <select name="kategori" class="input-gray" required>
                         <option value="" disabled selected>Pilih kategori pengaduan</option>
                         <option value="Infrastruktur">Infrastruktur</option>
                         <option value="Pelayanan">Pelayanan Masyarakat</option>
@@ -457,29 +482,40 @@
 
                 <div class="form-group">
                     <label>Pengaduan <span class="text-red">*</span></label>
-                    <textarea class="input-gray" rows="3" placeholder="Masukkan kesan, informasi, atau detail aduan Anda" required></textarea>
+                    <textarea name="isi_pengaduan" class="input-gray" rows="3" placeholder="Masukkan kesan, informasi, atau detail aduan Anda" required></textarea>
+
                 </div>
 
                 <div class="form-group">
                     <label>Lampiran</label>
-                    <div class="file-upload-box">
-                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
-                            <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
-                            <polyline points="13 2 13 9 20 9"></polyline>
-                        </svg>
-                        Unggah foto/PDF jika ada
+                    <div class="file-upload-container">
+                        <input type="file" name="lampiran" id="input-file-aduan" class="hidden-input" accept=".jpg,.jpeg,.png,.pdf" style="display: none;">
+
+                        <label for="input-file-aduan" class="file-upload-box cursor-pointer flex flex-col items-center justify-center border-2 border-dashed border-gray-200 p-6 rounded-lg hover:bg-gray-50 transition">
+                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mb-2 text-gray-400">
+                                <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+                                <polyline points="13 2 13 9 20 9"></polyline>
+                            </svg>
+                            <span id="text-nama-file" class="text-sm text-gray-500 font-medium">Unggah foto/PDF</span>
+                            <p class="text-[10px] text-gray-400 mt-2 text-center">
+                                *Jika foto lebih dari satu, mohon masukkan ke dalam satu file PDF
+                            </p>
+                        </label>
                     </div>
                 </div>
 
-                <div class="form-action">
-                    <button type="submit" class="btn-kirim">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 5px;">
+
+
+                <div class="form-action mt-4">
+                    <button type="submit" class="btn-kirim w-full flex items-center justify-center">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-2">
                             <line x1="22" y1="2" x2="11" y2="13"></line>
                             <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
                         </svg>
-                        Kirim
+                        Kirim Aduan
                     </button>
                 </div>
+
 
             </form>
         </div>
@@ -493,6 +529,7 @@
                 Pengaduan
             </button>
         </div>
+
 
     </div>
 
@@ -552,6 +589,61 @@
             <p class="copyright">&copy; 2026 Powered by PT Digital Desa Indonesia</p>
         </div>
     </footer>
+    @if(session('success_pengaduan'))
+    <div id="success-trigger" data-message="{{ session('success_pengaduan') }}" style="display: none;"></div>
+
+    {{-- Hapus sesi segera setelah dirender agar tidak muncul lagi saat refresh 🛠️ --}}
+    @php session()->forget('success_pengaduan'); @endphp
+    @endif
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const successTrigger = document.getElementById('success-trigger');
+
+            if (successTrigger) {
+                const pesan = successTrigger.getAttribute('data-message');
+
+                Swal.fire({
+                    title: 'Berhasil!'
+                    , text: pesan
+                    , icon: 'success'
+                    , confirmButtonColor: '#2ac0b4'
+                    , timer: 4000
+                    , timerProgressBar: true
+                }).then(() => {
+                    // Hapus elemen dari DOM agar benar-benar bersih ⏺️
+                    successTrigger.remove();
+                });
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            // Ambil elemen input dan elemen teks ⏺️
+            const inputFile = document.getElementById('input-file-aduan');
+            const fileNameDisplay = document.getElementById('text-nama-file');
+
+            if (inputFile && fileNameDisplay) {
+                inputFile.addEventListener('change', function() {
+                    // Cek apakah ada file yang dipilih 📂
+                    if (this.files && this.files.length > 0) {
+                        const name = this.files[0].name;
+
+                        // Tampilkan nama file dan ubah warna teks agar terlihat aktif 🛠️
+                        fileNameDisplay.textContent = name;
+                        fileNameDisplay.classList.remove('text-gray-500');
+                        fileNameDisplay.classList.add('text-blue-600', 'font-bold');
+                    } else {
+                        // Jika batal pilih file, kembalikan ke teks semula ⏺️
+                        fileNameDisplay.textContent = "Unggah foto/PDF jika ada";
+                        fileNameDisplay.classList.remove('text-blue-600', 'font-bold');
+                        fileNameDisplay.classList.add('text-gray-500');
+                    }
+                });
+            }
+        });
+
+    </script>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
             const navbar = document.querySelector('nav');
@@ -588,82 +680,87 @@
     </script>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // 1. Inisiasi Peta dengan Fitur Anti-Zoom Otomatis ⏺️
-            var map = L.map('mapDesa', {
-                scrollWheelZoom: false, // Mematikan zoom pakai scroll mouse
-                smoothWheelZoom: true, // (Opsional) Membuat transisi lebih halus
-                dragging: true // Tetap bisa digeser pakai klik kiri
-            }).setView([-7.9620, 111.4320], 15);
+            const mapElement = document.getElementById('mapDesa');
 
-            // Sisanya tetap sama seperti kode Anda sebelumnya
-            L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
-                maxZoom: 20
-                , subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
-            }).addTo(map);
+            // 1. Cek keberadaan elemen sebelum menjalankan logika peta ⏺️
+            if (mapElement) {
+                // Inisiasi peta
+                var map = L.map('mapDesa', {
+                    scrollWheelZoom: false, // Anti-zoom saat scroll halaman 🛠️
+                    smoothWheelZoom: true
+                    , dragging: true
+                }).setView([-7.9620, 111.4320], 15);
 
-            // Tambahkan fitur agar user bisa zoom jika mereka benar-benar mengklik peta 📂
-            map.on('focus', function() {
-                map.scrollWheelZoom.enable();
-            });
-            map.on('blur', function() {
-                map.scrollWheelZoom.disable();
-            });
+                // Layer Satelit
+                L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
+                    maxZoom: 20
+                    , subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+                }).addTo(map);
 
-            // 2. Memanggil GeoJSON Batas Desa (Tetap sama)
-            fetch('{{ asset("assets/geojson/batas-desa.geojson") }}')
-                .then(response => response.json())
-                .then(data => {
-                    var batasDesaLayer = L.geoJSON(data, {
-                        style: {
-                            color: '#ffffff'
-                            , weight: 2
-                            , fillColor: '#2ac0b4'
-                            , fillOpacity: 0.1
-                        }
-                    }).addTo(map);
-                    map.fitBounds(batasDesaLayer.getBounds());
+                // Fitur interaksi: Zoom aktif hanya jika peta diklik 📂
+                map.on('focus', function() {
+                    map.scrollWheelZoom.enable();
+                });
+                map.on('blur', function() {
+                    map.scrollWheelZoom.disable();
                 });
 
-            // 3. Titik (Marker) Kustom Anda (Tetap sama)
-            var lokasiPenting = [{
-                    nama: "Gelora Rajawali"
-                    , deskripsi: "Gelora"
-                    , gambar: "https://lh3.googleusercontent.com/gps-cs-s/AHVAwepxTn57gT7vTJ_Q3AZDIC7VK6gaqdyO6mqkRd8FRVLpWvDDqSIyvUJ5uFRaBWJyzmceyPeYqwwpdM6DTNdnYLx3YXkdmN-JtQyiCXQbSAEW8wpWEfVZC-xrhm4XAYgARmnuTGqh=w408-h306-k-no"
-                    , lat: -7.9748593905406295
-                    , lng: 111.45163579512406
-                }
-                , {
-                    nama: "Balai desa"
-                    , deskripsi: "Balai"
-                    , gambar: "https://lh3.googleusercontent.com/gps-cs-s/AHVAwerKgSaxViDeMa3HeBdunXD3auv5HGqTjFQngjsTLf5pywhCUlPkex5KEVgPQIYoCTJf0YsesR3C0-Z9OtxRBQfMornpP8WmYl5uWaOOu4LBNAKpRPkDreqNx-vBDTjAtpHPYJgX=w408-h306-k-no"
-                    , lat: -7.9741553901755555
-                    , lng: 111.45198039512412
-                }
-            ];
+                // 2. Memanggil GeoJSON Batas Desa
+                fetch('{{ asset("assets/geojson/batas-desa.geojson") }}')
+                    .then(response => response.json())
+                    .then(data => {
+                        var batasDesaLayer = L.geoJSON(data, {
+                            style: {
+                                color: '#ffffff'
+                                , weight: 2
+                                , fillColor: '#2ac0b4'
+                                , fillOpacity: 0.1
+                            }
+                        }).addTo(map);
+                        map.fitBounds(batasDesaLayer.getBounds());
+                    });
 
-            lokasiPenting.forEach(function(lokasi) {
-                var isiPopup = `
-                <div class="custom-popup-container">
-                    <div class="custom-popup-img">
-                        <img src="${lokasi.gambar}" alt="${lokasi.nama}">
-                    </div>
-                    <div class="custom-popup-text">
-                        <h4>${lokasi.nama}</h4>
-                        <p>${lokasi.deskripsi}</p>
-                    </div>
-                </div>
-            `;
+                // 3. Titik (Marker) Kustom
+                var lokasiPenting = [{
+                        nama: "Gelora Rajawali"
+                        , deskripsi: "Gelora"
+                        , gambar: "https://lh3.googleusercontent.com/gps-cs-s/AHVAwepxTn57gT7vTJ_Q3AZDIC7VK6gaqdyO6mqkRd8FRVLpWvDDqSIyvUJ5uFRaBWJyzmceyPeYqwwpdM6DTNdnYLx3YXkdmN-JtQyiCXQbSAEW8wpWEfVZC-xrhm4XAYgARmnuTGqh=w408-h306-k-no"
+                        , lat: -7.9748593905406295
+                        , lng: 111.45163579512406
+                    }
+                    , {
+                        nama: "Balai desa"
+                        , deskripsi: "Balai"
+                        , gambar: "https://lh3.googleusercontent.com/gps-cs-s/AHVAwerKgSaxViDeMa3HeBdunXD3auv5HGqTjFQngjsTLf5pywhCUlPkex5KEVgPQIYoCTJf0YsesR3C0-Z9OtxRBQfMornpP8WmYl5uWaOOu4LBNAKpRPkDreqNx-vBDTjAtpHPYJgX=w408-h306-k-no"
+                        , lat: -7.9741553901755555
+                        , lng: 111.45198039512412
+                    }
+                ];
 
-                L.marker([lokasi.lat, lokasi.lng])
-                    .addTo(map)
-                    .bindPopup(isiPopup);
-            });
+                lokasiPenting.forEach(function(lokasi) {
+                    var isiPopup = `
+                    <div class="custom-popup-container">
+                        <div class="custom-popup-img">
+                            <img src="${lokasi.gambar}" alt="${lokasi.nama}">
+                        </div>
+                        <div class="custom-popup-text">
+                            <h4>${lokasi.nama}</h4>
+                            <p>${lokasi.deskripsi}</p>
+                        </div>
+                    </div>
+                `;
+
+                    L.marker([lokasi.lat, lokasi.lng])
+                        .addTo(map)
+                        .bindPopup(isiPopup);
+                });
+            } else {
+                // Log ini hanya muncul di Console jika halaman tidak punya peta 📂
+                console.log("Peta tidak dimuat karena elemen #mapDesa tidak ditemukan.");
+            }
         });
 
     </script>
-
-
-
     <script>
         function toggleVisitor() {
             const popup = document.getElementById('visitorPopup');
@@ -694,8 +791,6 @@
         }
 
     </script>
-
-
     @stack('scripts')
 </body>
 </html>

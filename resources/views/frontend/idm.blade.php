@@ -99,8 +99,10 @@
                         </p>
 
                         <div class="mt-4">
-                            <form action="{{ route('idm.index') }}" method="GET">
-                                <select name="tahun" onchange="this.form.submit()" class="px-4 py-2 border rounded bg-white text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500">
+                            {{-- Ubah 'idm.index' menjadi 'frontend.idm' ⏺️ --}}
+                            <form action="{{ route('frontend.idm') }}" method="GET">
+                                <select name="tahun" onchange="this.form.submit()" class="pl-4 pr-10 py-2 border rounded bg-white text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none">
+                                    {{-- Tambahkan 'appearance-none' jika kamu ingin menghilangkan panah bawaan dan menggunakan icon kustom ⏺️ --}}
                                     @forelse($list_tahun as $thn)
                                     <option value="{{ $thn }}" {{ $tahun_pilih == $thn ? 'selected' : '' }}>
                                         Tahun {{ $thn }}
@@ -109,8 +111,10 @@
                                     <option>{{ date('Y') }}</option>
                                     @endforelse
                                 </select>
+
                             </form>
                         </div>
+
                     </div>
 
                     @if($idm)
