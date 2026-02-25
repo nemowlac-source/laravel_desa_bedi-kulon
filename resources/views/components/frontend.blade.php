@@ -15,372 +15,16 @@
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <link rel="preload" as="image" href="{{ asset('assets/img/background 1.webp') }}" fetchpriority="high">
     @stack('styles')
-    <style>
-        /* Styling khusus untuk Popup Leaflet agar persis seperti gambar */
-        .leaflet-popup-content-wrapper {
-            padding: 0;
-            /* Menghilangkan padding bawaan */
-            overflow: hidden;
-            border-radius: 8px;
-        }
-
-        .leaflet-popup-content {
-            margin: 0;
-            width: 300px !important;
-            /* Lebar popup */
-        }
-
-        .custom-popup-container {
-            display: flex;
-            align-items: stretch;
-        }
-
-        .custom-popup-img {
-            width: 100px;
-            flex-shrink: 0;
-        }
-
-        .custom-popup-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-            display: block;
-        }
-
-        .custom-popup-text {
-            padding: 15px;
-            flex-grow: 1;
-            font-family: 'Poppins', sans-serif;
-        }
-
-        .custom-popup-text h4 {
-            margin: 0 0 5px 0;
-            font-size: 1.1rem;
-            font-weight: 800;
-            color: #111;
-        }
-
-        .custom-popup-text p {
-            margin: 0;
-            font-size: 0.85rem;
-            color: #555;
-            line-height: 1.4;
-        }
-
-        /* CONTAINER UTAMA (Membuatnya melayang di pojok kiri bawah) */
-        .visitor-widget-container {
-            position: fixed;
-            bottom: 20px;
-            /* Jarak dari bawah layar */
-            left: 20px;
-            /* Jarak dari kiri layar */
-            z-index: 9999;
-            /* Z-index sangat tinggi agar tidak tertindih elemen lain */
-            font-family: 'Poppins', sans-serif;
-        }
-
-        /* TOMBOL HIJAU TERANG */
-        .visitor-btn {
-            background-color: #A3D9A5;
-            /* Hijau pastel sesuai gambar */
-            border: 2px solid #ffffff;
-            /* Garis tepi putih */
-            border-radius: 8px;
-            padding: 10px 15px;
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-            /* Sedikit bayangan */
-            color: white;
-            transition: background-color 0.3s;
-        }
-
-        .visitor-btn:hover {
-            background-color: #8ECA90;
-        }
-
-        /* Layout Bagian Dalam Tombol */
-        .visitor-left {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            border-right: 1px solid rgba(255, 255, 255, 0.5);
-            /* Garis pemisah tipis */
-            padding-right: 15px;
-        }
-
-        .visitor-count {
-            font-size: 1.1rem;
-            font-weight: 800;
-            margin-top: 3px;
-        }
-
-        .visitor-center {
-            display: flex;
-            flex-direction: column;
-            text-align: left;
-        }
-
-        .visitor-label {
-            font-size: 1rem;
-            font-weight: 700;
-        }
-
-        .visitor-sub {
-            font-size: 0.85rem;
-            font-weight: 600;
-            opacity: 0.9;
-        }
-
-        /* KOTAK POPUP GELAP (Detail Statistik) */
-        .visitor-popup {
-            position: absolute;
-            bottom: calc(100% + 15px);
-            /* Muncul tepat di atas tombol hijau */
-            left: 0;
-            width: 250px;
-            background-color: #4B5563;
-            /* Abu-abu gelap sesuai gambar */
-            border: 2px solid #ffffff;
-            border-radius: 8px;
-            padding: 20px;
-            color: white;
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
-
-            /* Disembunyikan secara default */
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(10px);
-            transition: all 0.3s ease;
-        }
-
-        /* Class saat popup aktif/terbuka */
-        .visitor-popup.active {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        .popup-title {
-            font-size: 1.1rem;
-            font-weight: 800;
-            margin: 0 0 15px 0;
-        }
-
-        .popup-list {
-            list-style: none;
-            padding: 0;
-            margin: 0;
-        }
-
-        .popup-list li {
-            display: flex;
-            justify-content: space-between;
-            padding: 8px 0;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
-            font-size: 0.9rem;
-        }
-
-        .popup-list li:last-child {
-            border-bottom: none;
-        }
-
-        .total-row {
-            font-weight: 800;
-            margin-top: 5px;
-        }
-
-        /* CONTAINER UTAMA KANAN BAWAH */
-        .right-widget-container {
-            position: fixed;
-            bottom: 20px;
-            right: 20px;
-            z-index: 9999;
-            font-family: 'Poppins', sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: flex-end;
-            /* Rata kanan */
-        }
-
-        /* WADAH TOMBOL */
-        .right-buttons-row {
-            display: flex;
-            align-items: center;
-        }
-
-        /* Tombol Pengaduan (Merah Muda/Salmon) */
-        .btn-pengaduan {
-            background-color: #FCA5A5;
-            /* Warna salmon sesuai gambar */
-            color: white;
-            border: 2px solid #ffffff;
-            border-radius: 30px;
-            /* Bentuk kapsul */
-            padding: 10px 20px;
-            font-size: 1.05rem;
-            font-weight: 800;
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.15);
-            transition: background-color 0.3s, transform 0.3s;
-        }
-
-        .btn-pengaduan:hover {
-            background-color: #F87171;
-            transform: translateY(-2px);
-            /* Sedikit efek naik saat disorot */
-        }
-
-        /* Update pada bagian styling pengaduan-popup */
-        .pengaduan-popup {
-            position: fixed;
-            /* Ubah ke fixed agar lebih stabil posisinya 🛠️ */
-            bottom: 80px;
-            /* Sesuaikan jarak dari bawah */
-            right: 20px;
-            width: 320px;
-            background-color: #ffffff;
-            border-radius: 12px;
-            padding: 25px 20px 20px 20px;
-            /* Tambah padding atas agar label "Nama" tidak mepet ⏺️ */
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
-            border: 1px solid #eaeaea;
-            z-index: 10000;
-            /* Pastikan di atas navbar jika perlu 📂 */
-
-            /* KUNCI PERBAIKAN: Agar tidak terpotong saat zoom 100% 🛠️ */
-            max-height: calc(100vh - 120px);
-            /* Batasi tinggi maksimal layar */
-            overflow-y: auto;
-            /* Aktifkan scroll jika konten kepanjangan */
-
-            /* Efek transisi tetap sama */
-            opacity: 0;
-            visibility: hidden;
-            transform: translateY(20px);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        /* Tambahkan styling scrollbar agar lebih rapi (opsional) 📂 */
-        .pengaduan-popup::-webkit-scrollbar {
-            width: 5px;
-        }
-
-        .pengaduan-popup::-webkit-scrollbar-thumb {
-            background: #e2e8f0;
-            border-radius: 10px;
-        }
-
-
-        .pengaduan-popup.active {
-            opacity: 1;
-            visibility: visible;
-            transform: translateY(0);
-        }
-
-        /* STYLING DALAM FORM */
-        .form-group {
-            margin-bottom: 15px;
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: #111;
-            margin-bottom: 5px;
-        }
-
-        .text-red {
-            color: #EF4444;
-            /* Bintang merah */
-        }
-
-        /* Input bergaris hijau khusus (seperti field Nama) */
-        .input-outline-green {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid #2ac0b4;
-            border-radius: 6px;
-            font-family: inherit;
-            font-size: 0.9rem;
-            background-color: white;
-            box-sizing: border-box;
-            /* Mencegah input melebar keluar form */
-        }
-
-        /* Input berlatar abu-abu (untuk field sisanya) */
-        .input-gray {
-            width: 100%;
-            padding: 10px 12px;
-            border: none;
-            border-radius: 6px;
-            font-family: inherit;
-            font-size: 0.9rem;
-            background-color: #F3F4F6;
-            color: #555;
-            box-sizing: border-box;
-        }
-
-        /* Kotak Upload File Palsu */
-        .file-upload-box {
-            width: 100%;
-            padding: 10px 12px;
-            background-color: #F3F4F6;
-            border-radius: 6px;
-            color: #888;
-            font-size: 0.9rem;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            box-sizing: border-box;
-        }
-
-        /* Tombol Kirim Kanan Bawah */
-        .form-action {
-            display: flex;
-            justify-content: flex-end;
-            /* Rata Kanan */
-            margin-top: 10px;
-        }
-
-        .btn-kirim {
-            background-color: #2ac0b4;
-            /* Hijau khas */
-            color: white;
-            border: none;
-            border-radius: 6px;
-            padding: 10px 20px;
-            font-weight: 800;
-            font-size: 0.95rem;
-            display: flex;
-            align-items: center;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-
-        .btn-kirim:hover {
-            background-color: #6BCB45;
-        }
-
-    </style>
 </head>
 
 
-
 <body>
-    <nav>
+
+    {{-- desktopNav --}}
+    <nav id="desktopNav" class="hidden md:block fixed top-0 w-full z-[1000] transition-all duration-300">
         <div class="nav-container">
             <div class="logo-section">
                 <img src="{{ asset('assets/img/Logo Ponorogo.png') }}" alt="Logo Desa" class="logo-img" />
-
-
-
                 <div class="logo-text">
                     <span class="nama-desa">Desa Bedi Kulon</span>
                     <span class="sub-nama">Kabupaten Ponorogo</span>
@@ -410,14 +54,82 @@
             </ul>
         </div>
     </nav>
+    {{-- bottomNav --}}
+    <nav class="block md:hidden fixed top-0 left-0 right-0 h-[68px] bg-[#2ac0b4] text-white z-[9999] px-3 flex justify-between items-center shadow-md">
+        <div class="flex items-center gap-3">
+            <img src="{{ asset('assets/img/Logo Ponorogo.png') }}" alt="Logo Ponorogo" class="w-9 h-auto drop-shadow-sm" />
+            <div class="flex flex-col">
+                <span class="font-extrabold text-[15px] leading-tight tracking-wide">Desa Bedi Kulon</span>
+                <span class="text-[11px] font-medium opacity-90 leading-tight">Kabupaten Ponorogo</span>
+            </div>
+        </div>
+
+        <button type="button" aria-label="Buka Menu" onclick="toggleSidebarMobile()" class="text-white hover:opacity-80 transition-opacity p-1">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+                <path d="M4 6l16 0"></path>
+                <path d="M4 12l16 0"></path>
+                <path d="M4 18l16 0"></path>
+            </svg>
+        </button>
+
+    </nav>
 
 
-    <main class="">
+    <nav id="bottomNav" class="block md:hidden fixed !bottom-0 !top-auto left-4 right-4 !w-auto mb-[calc(1rem+env(safe-area-inset-bottom))] bg-white border border-gray-100 rounded-2xl px-5 py-3 flex justify-between items-center z-[10000] shadow-[0_10px_40px_rgba(0,0,0,0.15)]">
+
+        <a href="/" class="flex flex-col items-center gap-1.5 text-[#2ac0b4] relative">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M5 12l-2 0l9 -9l9 9l-2 0"></path>
+                <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7"></path>
+                <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6"></path>
+            </svg>
+            <span class="text-[10px] font-bold tracking-wide">Beranda</span>
+        </a>
+
+
+        <a href="javascript:void(0)" onclick="togglePengaduan()" class="flex flex-col items-center gap-1.5 text-gray-400 hover:text-[#2ac0b4] transition-colors relative">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M8 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h5.697"></path>
+                <path d="M18 14v4h4"></path>
+                <path d="M18 11v-4a2 2 0 0 0 -2 -2h-2"></path>
+                <path d="M8 3m0 2a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v0a2 2 0 0 1 -2 2h-2a2 2 0 0 1 -2 -2z"></path>
+                <path d="M18 18m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"></path>
+                <path d="M8 11h4"></path>
+                <path d="M8 15h3"></path>
+            </svg>
+            <span class="text-[10px] font-medium tracking-wide">Pengaduan</span>
+        </a>
+
+
+        <a href="/berita" class="flex flex-col items-center gap-1.5 text-gray-400 hover:text-[#2ac0b4] transition-colors relative">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M16 6h3a1 1 0 0 1 1 1v11a2 2 0 0 1 -4 0v-13a1 1 0 0 0 -1 -1h-10a1 1 0 0 0 -1 1v12a3 3 0 0 0 3 3h11"></path>
+                <path d="M8 8l4 0"></path>
+                <path d="M8 12l4 0"></path>
+                <path d="M8 16l4 0"></path>
+            </svg>
+            <span class="text-[10px] font-medium tracking-wide">Berita</span>
+        </a>
+
+
+        <a href="/belanja" class="flex flex-col items-center gap-1.5 text-gray-400 hover:text-[#2ac0b4] transition-colors relative">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M6.331 8h11.339a2 2 0 0 1 1.977 2.304l-1.255 8.152a3 3 0 0 1 -2.966 2.544h-6.852a3 3 0 0 1 -2.965 -2.544l-1.255 -8.152a2 2 0 0 1 1.977 -2.304z"></path>
+                <path d="M9 11v-5a3 3 0 0 1 6 0v5"></path>
+            </svg>
+            <span class="text-[10px] font-medium tracking-wide">Belanja</span>
+        </a>
+
+
+    </nav>
+
+    <main class="pt-16 pb-[110px] md:pt-0 md:pb-0">
         {{ $slot }}
     </main>
 
-    <div class="visitor-widget-container">
 
+    <div class="visitor-widget-container hidden md:block">
         <div class="visitor-popup" id="visitorPopup">
             <h4 class="popup-title">Jumlah Kunjungan</h4>
             <ul class="popup-list">
@@ -453,7 +165,8 @@
             </div>
         </button>
     </div>
-    <div class="right-widget-container">
+    <div class="right-widget-container hidden md:block">
+
 
         <div class="pengaduan-popup" id="pengaduanPopup">
             <form action="{{ route('pengaduan.store') }}" method="POST" enctype="multipart/form-data">
@@ -532,9 +245,8 @@
 
 
     </div>
-
-
-    <footer class="footer-desa">
+    {{-- desktopNav --}}
+    <footer class="footer-desa hidden md:block">
         <div class="footer-container">
             <div class="footer-column">
                 <div class="footer-logo-section">
@@ -589,14 +301,320 @@
             <p class="copyright">&copy; 2026 Powered by PT Digital Desa Indonesia</p>
         </div>
     </footer>
+    {{-- bottomNav --}}
+    <footer class="block md:hidden bg-[#2ac0b4] text-white pt-6 pb-[110px] px-6 font-sans">
+
+        <div class="flex items-center gap-4 mb-6">
+            <img src="{{ asset('assets/img/Logo Ponorogo.png') }}" alt="Logo Ponorogo" class="w-14 h-auto" />
+            <div>
+                <h3 class="font-extrabold text-[15px] leading-tight mb-1">Desa Bedi Kulon</h3>
+                <p class="text-[11px] leading-tight font-medium opacity-90">
+                    Kecamatan Bungkal<br>
+                    Kabupaten Ponorogo<br>
+                    Provinsi Jawa Timur
+                </p>
+            </div>
+        </div>
+
+
+        <div class="flex flex-col border-t border-white/20">
+
+            <details class="group border-b border-white/20" name="footer-menu">
+
+                <summary class="flex items-center justify-between py-4 font-bold text-sm cursor-pointer list-none">
+                    <div class="flex items-center gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-[22px] h-[22px] opacity-90" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path>
+                            <path d="M3.6 9h16.8"></path>
+                            <path d="M3.6 15h16.8"></path>
+                            <path d="M11.5 3a17 17 0 0 0 0 18"></path>
+                            <path d="M12.5 3a17 17 0 0 1 0 18"></path>
+                        </svg>
+                        <span class="text-[14px] tracking-wide">Kunjungan Website</span>
+                    </div>
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 transition-transform duration-300 group-open:rotate-180" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 9l6 6l6 -6"></path>
+                    </svg>
+                </summary>
+
+                <div class="pb-6 pt-2 pl-9">
+                    <div class="grid grid-cols-2 gap-y-5 gap-x-4">
+
+                        <div>
+                            <p class="text-[11px] font-semibold opacity-90 mb-0.5">Hari Ini</p>
+                            <p class="text-base font-bold tracking-wide">515</p>
+                        </div>
+                        <div>
+                            <p class="text-[11px] font-semibold opacity-90 mb-0.5">Kemarin</p>
+                            <p class="text-base font-bold tracking-wide">386</p>
+                        </div>
+
+                        <div>
+                            <p class="text-[11px] font-semibold opacity-90 mb-0.5">Minggu Ini</p>
+                            <p class="text-base font-bold tracking-wide">1.643</p>
+                        </div>
+                        <div>
+                            <p class="text-[11px] font-semibold opacity-90 mb-0.5">Minggu Lalu</p>
+                            <p class="text-base font-bold tracking-wide">2.681</p>
+                        </div>
+
+                        <div>
+                            <p class="text-[11px] font-semibold opacity-90 mb-0.5">Bulan Ini</p>
+                            <p class="text-base font-bold tracking-wide">9.406</p>
+                        </div>
+                        <div>
+                            <p class="text-[11px] font-semibold opacity-90 mb-0.5">Bulan Lalu</p>
+                            <p class="text-base font-bold tracking-wide">21.497</p>
+                        </div>
+
+                    </div>
+
+                    <div class="mt-5">
+                        <p class="text-[11px] font-semibold opacity-90 mb-0.5">Total Kunjungan</p>
+                        <p class="text-base font-bold tracking-wide">472.991</p>
+                    </div>
+                </div>
+            </details>
+
+
+            <details class="group border-b border-white/20" name="footer-menu">
+
+                <summary class="flex items-center justify-between py-4 font-bold text-sm cursor-pointer list-none">
+                    <div class="flex items-center gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-[22px] h-[22px] opacity-90" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2"></path>
+                        </svg>
+                        <span class="text-[14px] tracking-wide">Kontak Desa</span>
+                    </div>
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 transition-transform duration-300 group-open:rotate-180" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 9l6 6l6 -6"></path>
+                    </svg>
+                </summary>
+
+                <div class="pb-6 pt-2 pl-9 space-y-4">
+
+                    <div class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-[18px] h-[18px] mt-0.5 opacity-90 flex-shrink-0" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 4h4l2 5l-2.5 1.5a11 11 0 0 0 5 5l1.5 -2.5l5 2v4a2 2 0 0 1 -2 2a16 16 0 0 1 -15 -15a2 2 0 0 1 2 -2"></path>
+                        </svg>
+                        <span class="text-[11px] font-semibold tracking-wide opacity-95 leading-relaxed">082150208664</span>
+                    </div>
+
+                    <div class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-[18px] h-[18px] mt-0.5 opacity-90 flex-shrink-0" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z"></path>
+                            <path d="M3 7l9 6l9 -6"></path>
+                        </svg>
+                        <span class="text-[11px] font-semibold tracking-wide opacity-95 leading-relaxed">bedikulon@gmail.com</span>
+                    </div>
+
+                    <div class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-[18px] h-[18px] mt-0.5 opacity-90 flex-shrink-0" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 12a9 9 0 1 0 18 0a9 9 0 0 0 -18 0"></path>
+                            <path d="M12 7v5l3 3"></path>
+                        </svg>
+                        <span class="text-[11px] font-semibold tracking-wide opacity-95 leading-relaxed">Senin - Kamis (08.00 - 15.00) & Jum'at<br>(08.00 - 11.00)</span>
+                    </div>
+
+                    <div class="flex items-start gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-[18px] h-[18px] mt-0.5 opacity-90 flex-shrink-0" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M5 12l-2 0l9 -9l9 9l-2 0"></path>
+                            <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7"></path>
+                            <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6"></path>
+                        </svg>
+                        <span class="text-[11px] font-semibold tracking-wide opacity-95 leading-relaxed">Jalan Jl. Ahmad Yani 1<br>Desa Bedikulon, Kec. Bungkal</span>
+                    </div>
+
+                </div>
+            </details>
+
+
+            <details class="group border-b border-white/20" name="footer-menu">
+
+                <summary class="flex items-center justify-between py-4 font-bold text-sm cursor-pointer list-none">
+                    <div class="flex items-center gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-[22px] h-[22px] opacity-90" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M8 16v-4a4 4 0 0 1 8 0v4"></path>
+                            <path d="M3 12h1m8 -9v1m8 8h1m-15.4 -6.4l.7 .7m12.1 -.7l-.7 .7"></path>
+                            <path d="M6 16m0 1a1 1 0 0 1 1 -1h10a1 1 0 0 1 1 1v2a1 1 0 0 1 -1 1h-10a1 1 0 0 1 -1 -1z"></path>
+                        </svg>
+                        <span class="text-[14px] tracking-wide">Nomor Telepon Penting</span>
+                    </div>
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 transition-transform duration-300 group-open:rotate-180" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 9l6 6l6 -6"></path>
+                    </svg>
+                </summary>
+
+                <div class="pb-6 pt-2 pl-9 space-y-4">
+
+                    <div>
+                        <p class="text-[11px] font-bold tracking-wide opacity-95 mb-0.5">Kades Bedi Kulon</p>
+                        <p class="text-[11px] font-bold tracking-wide opacity-95">081242368478</p>
+                    </div>
+
+                    <div>
+                        <p class="text-[11px] font-bold tracking-wide opacity-95 mb-0.5">Ambulan Bedi Kulon</p>
+                        <p class="text-[11px] font-bold tracking-wide opacity-95">085392095123</p>
+                    </div>
+
+                </div>
+            </details>
+
+
+            <details class="group border-b border-white/20" name="footer-menu">
+
+                <summary class="flex items-center justify-between py-4 font-bold text-sm cursor-pointer list-none">
+                    <div class="flex items-center gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-[22px] h-[22px] opacity-90" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M8 9l8 -4"></path>
+                            <path d="M8 15l8 4"></path>
+                            <path d="M5 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
+                            <path d="M19 5m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
+                            <path d="M19 19m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
+                        </svg>
+                        <span class="text-[14px] tracking-wide">Sosial Media</span>
+                    </div>
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 transition-transform duration-300 group-open:rotate-180" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 9l6 6l6 -6"></path>
+                    </svg>
+                </summary>
+
+                <div class="pb-6 pt-3 flex justify-center items-center gap-5">
+
+                    <a href="#" aria-label="Facebook" class="opacity-90 hover:opacity-100 hover:scale-110 transition-all duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M7 10v4h3v7h4v-7h3l1 -4h-4v-2a1 1 0 0 1 1 -1h3v-4h-3a5 5 0 0 0 -5 5v2h-3"></path>
+                        </svg>
+                    </a>
+
+                    <a href="#" aria-label="Instagram" class="opacity-90 hover:opacity-100 hover:scale-110 transition-all duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 4m0 4a4 4 0 0 1 4 -4h8a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-8a4 4 0 0 1 -4 -4z"></path>
+                            <path d="M12 12m-3 0a3 3 0 1 0 6 0a3 3 0 1 0 -6 0"></path>
+                            <path d="M16.5 7.5l0 .01"></path>
+                        </svg>
+                    </a>
+
+                    <a href="#" aria-label="X Twitter" class="opacity-90 hover:opacity-100 hover:scale-110 transition-all duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-[18px] h-[18px]" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M4 4l11.733 16h4.267l-11.733 -16z"></path>
+                            <path d="M4 20l6.768 -6.768"></path>
+                            <path d="M20 4l-6.768 6.768"></path>
+                        </svg>
+                    </a>
+
+                    <a href="#" aria-label="YouTube" class="opacity-90 hover:opacity-100 hover:scale-110 transition-all duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M2 8a4 4 0 0 1 4 -4h12a4 4 0 0 1 4 4v8a4 4 0 0 1 -4 4h-12a4 4 0 0 1 -4 -4v-8z"></path>
+                            <path d="M10 9l5 3l-5 3z"></path>
+                        </svg>
+                    </a>
+
+                    <a href="#" aria-label="TikTok" class="opacity-90 hover:opacity-100 hover:scale-110 transition-all duration-300">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 7.917v4.034a9.948 9.948 0 0 1 -5 -1.951v4.5a6.5 6.5 0 1 1 -8 -6.326v4.326a2.5 2.5 0 1 0 4 2v-11.5h4.083a6.005 6.005 0 0 0 4.917 4.917z"></path>
+                        </svg>
+                    </a>
+
+                </div>
+            </details>
+
+
+            <details class="group border-b border-white/20" name="footer-menu">
+
+                <summary class="flex items-center justify-between py-4 font-bold text-sm cursor-pointer list-none">
+                    <div class="flex items-center gap-3">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-[22px] h-[22px] opacity-90" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M9 15l6 -6"></path>
+                            <path d="M11 6l.463 -.536a5 5 0 0 1 7.071 7.072l-.534 .464"></path>
+                            <path d="M13 18l-.397 .534a5.068 5.068 0 0 1 -7.127 0a4.972 4.972 0 0 1 0 -7.071l.524 -.463"></path>
+                        </svg>
+                        <span class="text-[14px] tracking-wide">Jelajahi</span>
+                    </div>
+
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4 transition-transform duration-300 group-open:rotate-180" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M6 9l6 6l6 -6"></path>
+                    </svg>
+                </summary>
+
+                <div class="pb-6 pt-2 pl-[42px]">
+                    <ul class="list-disc text-[11px] font-bold tracking-wide opacity-95 space-y-2.5 marker:text-white/70">
+                        <li><a href="#" class="hover:underline hover:opacity-100 transition-all duration-300">Website Kemendesa</a></li>
+                        <li><a href="#" class="hover:underline hover:opacity-100 transition-all duration-300">Website Kemendagri</a></li>
+                        <li><a href="#" class="hover:underline hover:opacity-100 transition-all duration-300">Website Kabupaten Ponorogo</a></li>
+                        <li><a href="#" class="hover:underline hover:opacity-100 transition-all duration-300">Cek DPT Online</a></li>
+                    </ul>
+                </div>
+            </details>
+
+
+        </div>
+
+        <div class="text-center text-[10px] mt-4 font-medium opacity-80">
+            &copy; 2026 Powered by Me
+        </div>
+
+
+    </footer>
+    <div id="sidebarOverlay" onclick="toggleSidebarMobile()" class="fixed inset-0 bg-black/50 z-[10000] hidden transition-opacity duration-300 opacity-0"></div>
+
+    <aside id="mobileSidebar" class="fixed top-0 right-0 w-[280px] h-full bg-white z-[10001] shadow-2xl transform translate-x-full transition-transform duration-300 ease-in-out font-sans">
+
+
+        <nav class="p-4 space-y-1">
+            <a href="/" class="flex items-center gap-4 p-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors font-semibold text-sm">
+                <i class="ph ph-house text-xl text-[#2ac0b4]"></i> Beranda
+            </a>
+            <a href="/profil" class="flex items-center gap-4 p-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors font-semibold text-sm">
+                <i class="ph ph-user text-xl text-[#2ac0b4]"></i> Profil Desa
+            </a>
+            <a href="/pemerintahan" class="flex items-center gap-4 p-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors font-semibold text-sm">
+                <i class="ph ph-users-three text-xl text-[#2ac0b4]"></i> Pemerintahan
+            </a>
+            <a href="/layanan" class="flex items-center gap-4 p-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors font-semibold text-sm">
+                <i class="ph ph-file-text text-xl text-[#2ac0b4]"></i> Layanan Publik
+            </a>
+            <hr class="my-4 border-gray-100">
+            <a href="/login" class="flex items-center gap-4 p-3 text-red-500 hover:bg-red-50 rounded-lg transition-colors font-bold text-sm">
+                <i class="ph ph-sign-in text-xl"></i> Login Admin
+            </a>
+        </nav>
+    </aside>
+
     @if(session('success_pengaduan'))
     <div id="success-trigger" data-message="{{ session('success_pengaduan') }}" style="display: none;"></div>
-
-    {{-- Hapus sesi segera setelah dirender agar tidak muncul lagi saat refresh 🛠️ --}}
     @php session()->forget('success_pengaduan'); @endphp
     @endif
 
     <script>
+        function toggleSidebarMobile() {
+            const sidebar = document.getElementById('mobileSidebar');
+            const overlay = document.getElementById('sidebarOverlay');
+
+            // Cek apakah sidebar sedang tertutup (ada class translate-x-full)
+            if (sidebar.classList.contains('translate-x-full')) {
+                // BUKA
+                sidebar.classList.remove('translate-x-full');
+                overlay.classList.remove('hidden');
+                setTimeout(() => {
+                    overlay.classList.add('opacity-100');
+                }, 10);
+                document.body.style.overflow = 'hidden'; // Kunci scroll layar utama
+            } else {
+                // TUTUP
+                sidebar.classList.add('translate-x-full');
+                overlay.classList.remove('opacity-100');
+                setTimeout(() => {
+                    overlay.classList.add('hidden');
+                }, 300);
+                document.body.style.overflow = 'auto'; // Aktifkan lagi scroll
+            }
+        }
+
         document.addEventListener('DOMContentLoaded', function() {
             const successTrigger = document.getElementById('success-trigger');
 
@@ -616,6 +634,20 @@
                 });
             }
         });
+
+        const footerDetails = document.querySelectorAll('footer details');
+        footerDetails.forEach((detail) => {
+            detail.addEventListener('toggle', () => {
+                if (detail.open) {
+                    footerDetails.forEach((otherDetail) => {
+                        if (otherDetail !== detail && otherDetail.open) {
+                            otherDetail.removeAttribute('open');
+                        }
+                    });
+                }
+            });
+        });
+
 
         document.addEventListener('DOMContentLoaded', function() {
             // Ambil elemen input dan elemen teks ⏺️
@@ -642,9 +674,6 @@
             }
         });
 
-    </script>
-
-    <script>
         document.addEventListener('DOMContentLoaded', function() {
             const navbar = document.querySelector('nav');
 
@@ -677,8 +706,6 @@
             }
         });
 
-    </script>
-    <script>
         document.addEventListener('DOMContentLoaded', function() {
             const mapElement = document.getElementById('mapDesa');
 
@@ -760,8 +787,6 @@
             }
         });
 
-    </script>
-    <script>
         function toggleVisitor() {
             const popup = document.getElementById('visitorPopup');
             const arrow = document.getElementById('visitorArrow');

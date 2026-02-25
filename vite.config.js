@@ -11,7 +11,7 @@ export default defineConfig({
     server: {
         host: "0.0.0.0", // Mengizinkan akses dari semua perangkat di jaringan yang sama
         hmr: {
-            host: "192.168.38.125", // Ganti dengan IP laptop kamu yang tadi (Langkah 3) 🛠️
+            host: "192.168.1.11", // Ganti dengan IP laptop kamu yang tadi (Langkah 3) 🛠️
         },
     },
 });
