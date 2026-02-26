@@ -124,7 +124,8 @@
 
     </nav>
 
-    <main class="pt-16 pb-[110px] md:pt-0 md:pb-0">
+    <main class="pt-0 md:pt-0 md:pb-0 bg-[#f9f9f9]">
+
         {{ $slot }}
     </main>
 
@@ -566,20 +567,33 @@
 
 
         <nav class="p-4 space-y-1">
-            <a href="/" class="flex items-center gap-4 p-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors font-semibold text-sm">
+            <a href="{{ route('frontend.dashboard') }}" class="flex items-center gap-4 p-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors font-semibold text-sm">
                 <i class="ph ph-house text-xl text-[#2ac0b4]"></i> Beranda
             </a>
-            <a href="/profil" class="flex items-center gap-4 p-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors font-semibold text-sm">
+            <a href="{{ route('frontend.profile') }}" class="flex items-center gap-4 p-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors font-semibold text-sm">
                 <i class="ph ph-user text-xl text-[#2ac0b4]"></i> Profil Desa
             </a>
-            <a href="/pemerintahan" class="flex items-center gap-4 p-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors font-semibold text-sm">
-                <i class="ph ph-users-three text-xl text-[#2ac0b4]"></i> Pemerintahan
+            <a href="{{ route('frontend.infografis') }}" class="flex items-center gap-4 p-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors font-semibold text-sm">
+                <i class="ph ph-users-three text-xl text-[#2ac0b4]"></i> Infografis
             </a>
-            <a href="/layanan" class="flex items-center gap-4 p-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors font-semibold text-sm">
-                <i class="ph ph-file-text text-xl text-[#2ac0b4]"></i> Layanan Publik
+            <a href="{{ route('frontend.listing') }}" class="flex items-center gap-4 p-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors font-semibold text-sm">
+
+                <i class="ph ph-file-text text-xl text-[#2ac0b4]"></i> Listing
+            </a>
+            <a href="{{ route('frontend.idm') }}" class="flex items-center gap-4 p-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors font-semibold text-sm">
+                <i class="ph ph-house text-xl text-[#2ac0b4]"></i> IDM
+            </a>
+            <a href="{{ route('frontend.berita') }}" class="flex items-center gap-4 p-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors font-semibold text-sm">
+                <i class="ph ph-user text-xl text-[#2ac0b4]"></i> Berita
+            </a>
+            <a href="{{ route('frontend.belanja') }}" class="flex items-center gap-4 p-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors font-semibold text-sm">
+                <i class="ph ph-users-three text-xl text-[#2ac0b4]"></i> Belanja
+            </a>
+            <a href="{{ route('frontend.ppid') }}" class="flex items-center gap-4 p-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors font-semibold text-sm">
+                <i class="ph ph-file-text text-xl text-[#2ac0b4]"></i> PPID
             </a>
             <hr class="my-4 border-gray-100">
-            <a href="/login" class="flex items-center gap-4 p-3 text-red-500 hover:bg-red-50 rounded-lg transition-colors font-bold text-sm">
+            <a href="{{ route('admin.dashboard') }}" class="flex items-center gap-4 p-3 text-red-500 hover:bg-red-50 rounded-lg transition-colors font-bold text-sm">
                 <i class="ph ph-sign-in text-xl"></i> Login Admin
             </a>
         </nav>
@@ -702,7 +716,8 @@
             } else {
                 // Jika bukan halaman home, navbar langsung berwarna (selalu scrolled)
                 navbar.classList.add('scrolled');
-                navbar.style.position = 'sticky'; // Kembali ke sticky untuk halaman lain
+                navbar.style.position = 'scrolled'; // Kembali ke sticky untuk halaman lain
+
             }
         });
 

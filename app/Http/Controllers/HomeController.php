@@ -91,7 +91,7 @@ class HomeController extends Controller
     public function belanja()
     {
         // Mengambil data UMKM dengan pagination, misalnya 9 produk per halaman
-        $products = Umkm::latest()->paginate(9);
+        $products = Umkm::latest()->paginate(6);
 
         // Mengirim data $products ke view frontend.belanja
         return view('frontend.belanja', compact('products'));
