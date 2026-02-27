@@ -297,7 +297,82 @@
 
     </style>
     <section class="news-section-baru">
-        <div class="news-container-baru">
+        <div class="block md:hidden bg-[#f7f8fa] min-h-screen pb-24">
+
+            <div class="text-center px-6 py-8 bg-white">
+                <h2 class="text-[#2ac0b4] font-extrabold text-2xl mb-2">Berita Desa</h2>
+                <p class="text-gray-500 text-[13px] leading-relaxed">
+                    Menyajikan informasi terbaru tentang peristiwa, berita terkini, dan artikel-artikel jurnalistik dari Desa Bedi Kulon
+                </p>
+            </div>
+
+            <div class="px-4 mt-4 space-y-6">
+                @forelse($beritas as $item)
+                {{-- Tambahkan 'relative' di sini agar link inset-0 bekerja untuk seluruh kartu --}}
+                <div class="relative bg-white rounded-2xl shadow-[0_4px_15px_rgba(0,0,0,0.05)] overflow-hidden border border-gray-100 transition-all active:scale-[0.98]">
+
+                    <div class="w-full h-52">
+                        <img src="{{ asset('storage/' . $item->gambar) }}" class="w-full h-full object-cover" alt="{{ $item->judul }}" onerror="this.src='https://placehold.co/600x400?text=Berita+Desa'">
+                    </div>
+
+                    <div class="p-5">
+                        <h3 class="font-bold text-[15px] text-[#2ac0b4] leading-snug mb-2 uppercase tracking-tight line-clamp-2">
+                            {{ $item->judul }}
+                        </h3>
+
+                        <p class="text-gray-500 text-[12px] leading-relaxed mb-10 line-clamp-2">
+                            {{ Str::limit(strip_tags($item->isi), 100) }}
+                        </p>
+
+                        <div class="flex justify-between items-end mt-4">
+                            <div class="flex flex-col gap-1.5 text-[11px] text-gray-500 font-medium">
+                                <div class="flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                                        <circle cx="12" cy="7" r="4"></circle>
+                                    </svg>
+                                    <span>Administrator</span>
+                                </div>
+                                <div class="flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-3.5 h-3.5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                    <span>Dilihat {{ $item->views ?? 0 }} kali</span>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="absolute bottom-0 right-0 bg-[#70d25b] text-white px-3 py-2 rounded-tl-2xl text-center min-w-[70px] shadow-sm">
+                            <span class="block text-[12px] font-black leading-none uppercase">
+                                {{ \Carbon\Carbon::parse($item->created_at)->format('d M') }}
+                            </span>
+                            <span class="block text-[10px] mt-1 font-bold opacity-90">
+                                {{ \Carbon\Carbon::parse($item->created_at)->format('Y') }}
+                            </span>
+                        </div>
+                    </div>
+
+                    <a href="{{ route('frontend.berita.detail', $item->id) }}" class="absolute inset-0 z-20"></a>
+
+                </div>
+                @empty
+                <div class="text-center py-20">
+                    <p class="text-gray-400 text-sm italic font-medium">Belum ada berita terbaru saat ini.</p>
+                </div>
+                @endforelse
+            </div>
+
+
+            <div id="pagination-container" class="mt-8 mb-10 flex justify-center">
+                {{ $beritas->links('vendor.pagination.custom-mobile') }}
+            </div>
+
+        </div>
+        <div class="news-container-baru hidden md:block">
+
+
 
             <div class="news-header-baru">
                 <h1 class="news-title-baru">Berita Desa</h1>

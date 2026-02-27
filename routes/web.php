@@ -37,6 +37,7 @@ Route::get('/stunting', [StuntingController::class, 'index'])->name('frontend.st
 Route::get('/apbdes', [ApbdesController::class, 'index'])->name('frontend.apbdes');
 Route::get('/', [HomeController::class, 'index'])->name('frontend.dashboard');
 Route::get('/wisata', [HomeController::class, 'wisata'])->name('frontend.wisata');
+Route::get('/test-form', [PengaduanController::class, 'index'])->name('frontend.pengaduan');
 Route::post('/pengaduan/kirim', [PengaduanController::class, 'store'])->name('pengaduan.store');
 Route::get('/wisata/{id}', [App\Http\Controllers\HomeController::class, 'show'])->name('frontend.show');
 Route::get('/potensi', [HomeController::class, 'potensi'])->name('frontend.potensi');

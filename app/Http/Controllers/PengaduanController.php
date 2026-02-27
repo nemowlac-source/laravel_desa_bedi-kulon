@@ -7,8 +7,14 @@ use App\Models\Pengaduan;
 
 class PengaduanController extends Controller
 {
+    public function index()
+    {
+        return view('frontend.pengaduan');
+    }
     public function store(Request $request)
     {
+
+
         $request->validate([
             'nama' => 'required|string|max:255',
             'no_hp' => 'required|numeric',

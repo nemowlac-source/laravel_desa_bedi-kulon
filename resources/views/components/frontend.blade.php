@@ -78,7 +78,8 @@
 
     <nav id="bottomNav" class="block md:hidden fixed !bottom-0 !top-auto left-4 right-4 !w-auto mb-[calc(1rem+env(safe-area-inset-bottom))] bg-white border border-gray-100 rounded-2xl px-5 py-3 flex justify-between items-center z-[10000] shadow-[0_10px_40px_rgba(0,0,0,0.15)]">
 
-        <a href="/" class="flex flex-col items-center gap-1.5 text-[#2ac0b4] relative">
+        <a href="{{ route('frontend.dashboard') }}" class="flex flex-col items-center gap-1.5 text-[#2ac0b4] relative">
+
             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M5 12l-2 0l9 -9l9 9l-2 0"></path>
                 <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7"></path>
@@ -88,7 +89,7 @@
         </a>
 
 
-        <a href="javascript:void(0)" onclick="togglePengaduan()" class="flex flex-col items-center gap-1.5 text-gray-400 hover:text-[#2ac0b4] transition-colors relative">
+        <a href="{{ route('frontend.pengaduan') }}" class="flex flex-col items-center gap-1.5 text-gray-400 hover:text-[#2ac0b4] transition-colors relative">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M8 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h5.697"></path>
                 <path d="M18 14v4h4"></path>
@@ -102,7 +103,8 @@
         </a>
 
 
-        <a href="/berita" class="flex flex-col items-center gap-1.5 text-gray-400 hover:text-[#2ac0b4] transition-colors relative">
+        <a href="{{ route('frontend.berita') }}" class="flex flex-col items-center gap-1.5 text-gray-400 hover:text-[#2ac0b4] transition-colors relative">
+
             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M16 6h3a1 1 0 0 1 1 1v11a2 2 0 0 1 -4 0v-13a1 1 0 0 0 -1 -1h-10a1 1 0 0 0 -1 1v12a3 3 0 0 0 3 3h11"></path>
                 <path d="M8 8l4 0"></path>
@@ -113,7 +115,7 @@
         </a>
 
 
-        <a href="/belanja" class="flex flex-col items-center gap-1.5 text-gray-400 hover:text-[#2ac0b4] transition-colors relative">
+        <a href="{{ route('frontend.belanja') }}" class="flex flex-col items-center gap-1.5 text-gray-400 hover:text-[#2ac0b4] transition-colors relative">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M6.331 8h11.339a2 2 0 0 1 1.977 2.304l-1.255 8.152a3 3 0 0 1 -2.966 2.544h-6.852a3 3 0 0 1 -2.965 -2.544l-1.255 -8.152a2 2 0 0 1 1.977 -2.304z"></path>
                 <path d="M9 11v-5a3 3 0 0 1 6 0v5"></path>
