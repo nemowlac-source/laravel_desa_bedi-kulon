@@ -349,6 +349,28 @@
     .progress-wrapper {
         width: 100% !important;
     }
+
+    /* KHUSUS MOBILE: Matikan total .hero agar tidak bocor */
+    @media (max-width: 767px) {
+        .hero {
+            display: none !important; /* MATIKAN TOTAL DI HP ❌ */
+        }
+    }
+}
+
+@media (min-width: 768px) {
+    .hero {
+        display: flex !important; /* Paksa Flex HANYA di desktop */
+        position: relative;
+        width: 100%;
+        height: 100vh;
+        background-size: cover;
+        background-position: center;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        color: white;
+    }
 }
 @media (max-width: 600px) {
     /* 1. Pengaturan Grid Menjadi 1 Kolom (Single Column Batch) */
@@ -3727,7 +3749,7 @@ nav.scrolled {
     transition: background-color 0.3s ease;
 
     /* Memastikan box-sizing konsisten */
-    display: block;
+    /* display: block; */
     width: 100%;
 }
 
@@ -3904,29 +3926,23 @@ nav.scrolled {
     gap: 5px;
 }
 
-/*   */
-/* Hero Section Dashboard Desa */
+/* UBAH JADI SEPERTI INI ✅ */
 .hero {
     position: relative;
     width: 100%;
-    height: 100vh;
+    /* display: flex;  <-- HAPUS INI ❌ */
+    /* height: 100vh; <-- HAPUS INI ❌ */
     background-size: cover;
     background-position: center;
     background-repeat: no-repeat;
     transition: background-image 0.8s ease-in-out;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    color: white;
-    margin-top: 0;
+    /* Sisanya biarkan untuk urusan visual saja */
 }
 
 .hero-overlay {
     /* Memberikan lapisan gelap agar teks terbaca jelas */
     background-color: rgba(0, 0, 0, 0.5);
     padding: 2rem;
-    border-radius: 10px;
     width: 100%;
     height: 100%;
     display: flex;
@@ -8625,6 +8641,29 @@ body {
 
 .btn-kirim:hover {
     background-color: #6bcb45;
+}
+
+/* </style> */
+
+/* <style> */
+/* CSS Khusus untuk Scrollbar agar membulat dan rapi seperti di foto */
+.scrollbar-custom::-webkit-scrollbar {
+    width: 6px;
+}
+
+.scrollbar-custom::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb {
+    background-color: #cbd5e1;
+    /* Warna abu-abu terang */
+    border-radius: 10px;
+    /* Membuat ujung scrollbar melengkung */
+}
+
+.scrollbar-custom::-webkit-scrollbar-thumb:hover {
+    background-color: #94a3b8;
 }
 
 /* </style> */

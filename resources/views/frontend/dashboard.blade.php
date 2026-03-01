@@ -1,78 +1,287 @@
 <x-frontend>
+    <header class="w-full">
+        {{-- PERBAIKAN: Tambahkan bg-cover, bg-center, bg-no-repeat, dan transition --}}
+        {{-- Saya juga menambahkan style background default agar saat pertama loading tidak blank --}}
+        <div class="hero hidden md:flex h-[500px] md:h-screen items-center justify-center text-center overflow-hidden bg-cover bg-center bg-no-repeat transition-all duration-700 ease-in-out relative" style="background-image: url('{{ asset('assets/img/background 1.webp') }}');">
 
-    <header class="hero">
-        <div class="hero-overlay">
-            <h1>Selamat Datang di<br />Website Resmi Desa Bedi Kulon</h1>
-            <p>Sumber informasi terbaru tentang pemerintahan di Desa Bedi Kulon</p>
-            <!-- <div class="special-event">
-            Selamat memperingati Hari Kemerdekaan Indonesia yang ke-80
-        </div> -->
+            {{-- Overlay Gelap agar teks warna putih bisa terbaca di atas gambar apapun --}}
+            <div class="absolute inset-0 bg-black/40"></div>
+
+            <div class="hero-overlay z-10 relative">
+                <h1 class="text-white text-4xl md:text-6xl font-black drop-shadow-lg">
+                    Selamat Datang di <br />Website Resmi Desa Bedi Kulon
+                </h1>
+                <p class="text-white/90 text-xl mt-4 drop-shadow-md font-medium">
+                    Sumber informasi terbaru tentang pemerintahan di Desa Bedi Kulon
+                </p>
+            </div>
         </div>
+    </header>
+
+    <header class="block md:hidden bg-[#f7f8fa] mt-[68px] pt-4 pb-8">
+
+        {{-- Container Scroll --}}
+        {{-- PERBAIKAN: Tambahkan pl-5 (jarak awal) dan scroll-pl-5 (jarak saat di-snap) --}}
+        <div class="flex overflow-x-auto snap-x snap-mandatory gap-4 pl-5 pr-5 scroll-pl-5 scrollbar-hide py-2">
+
+            {{-- Slide 1 --}}
+            <div class="snap-start shrink-0 w-[98%] relative aspect-[16/10] overflow-hidden rounded-[8px] shadow-md shadow-black/10">
+                <img src="{{ asset('assets/img/background 1.webp') }}" class="w-full h-full object-cover" alt="Hero 1">
+
+                {{-- Gradient Overlay --}}
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10"></div>
+
+                {{-- Konten Teks --}}
+                <div class="absolute inset-0 flex flex-col justify-end p-5 pb-6">
+                    <h2 class="text-white font-extrabold text-[22px] leading-tight drop-shadow-md">
+                        Selamat Datang<br>
+                        Website Resmi Desa Bedi Kulon
+                    </h2>
+                    <p class="text-white/90 text-[12px] font-semibold mt-2 leading-relaxed drop-shadow-md">
+                        Sumber informasi terbaru tentang pemerintahan di Desa Bedi Kulon
+                    </p>
+                </div>
+            </div>
+
+            {{-- Slide 2 --}}
+            <div class="snap-start shrink-0 w-[98%] relative aspect-[16/10] overflow-hidden rounded-[8px] shadow-md shadow-black/10">
+                <img src="{{ asset('assets/img/background 2.webp') }}" class="w-full h-full object-cover" alt="Hero 2">
+
+                <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10"></div>
+
+                <div class="absolute inset-0 flex flex-col justify-end p-5 pb-6">
+                    <h2 class="text-white font-extrabold text-[22px] leading-tight drop-shadow-md">
+                        Jelajahi Desa<br>
+                        Potensi & Wisata Lokal
+                    </h2>
+                    <p class="text-white/90 text-[12px] font-semibold mt-2 leading-relaxed drop-shadow-md">
+                        Temukan keindahan alam dan kearifan lokal budaya Desa Bedi Kulon.
+                    </p>
+                </div>
+            </div>
+
+            {{-- Spacer Akhir: Pembatas transparan agar slide terakhir tidak mentok di kanan --}}
+            <div class="shrink-0 w-2"></div>
+        </div>
+
+        {{-- Indikator Slide --}}
+        <div class="flex justify-center items-center gap-1.5 mt-3">
+            <div class="w-6 h-1.5 bg-[#70d25b] rounded-full"></div>
+            <div class="w-1.5 h-1.5 bg-gray-300 rounded-full"></div>
+            <div class="w-1.5 h-1.5 bg-gray-300 rounded-full"></div>
+        </div>
+
     </header>
     <section class="infografis-page">
 
-        <div class="explore-container">
-            <div class="explore-content">
-                <h2 class="title-green" style="font-size: 50px">JELAJAHI DESA</h2>
-                <p>
-                    Melalui website ini Anda dapat menjelajahi segala hal yang terkait
-                    dengan desa. Aspek pemerintahan, penduduk, demografi, potensi desa,
-                    dan juga berita tentang desa.
-                </p>
-            </div>
+        <div class="hidden md:block ">
 
-            <div class="explore-grid">
-                <div class="explore-card" onclick="window.location='{{ route('frontend.profile') }}'">
-
-
-                    <div class="icon-box-dashboard">
-                        <img src="{{ asset('assets/img/profil.svg') }}" alt="Profil Desa" />
-                    </div>
-                    <h3>PROFIL DESA</h3>
+            <div class="explore-container">
+                <div class="explore-content">
+                    <h2 class="title-green" style="font-size: 50px">JELAJAHI DESA</h2>
+                    <p>
+                        Melalui website ini Anda dapat menjelajahi segala hal yang terkait
+                        dengan desa. Aspek pemerintahan, penduduk, demografi, potensi desa,
+                        dan juga berita tentang desa.
+                    </p>
                 </div>
 
-                <div class="explore-card" onclick="window.location='{{ route('frontend.infografis') }}'">
+                <div class="explore-grid">
+                    <div class="explore-card" onclick="window.location='{{ route('frontend.profile') }}'">
 
-                    <div class="icon-box-dashboard">
-                        <img src="{{ asset('assets/img/infografis.svg') }}" alt="Infografis" />
-                    </div>
-                    <h3>INFOGRAFIS</h3>
-                </div>
 
-                <div class="explore-card" onclick="window.location='{{ route('frontend.idm') }}'">
-                    <div class="icon-box-dashboard">
-                        <img src="{{ asset('assets/img/idm.svg') }}" alt="IDM" />
+                        <div class="icon-box-dashboard">
+                            <img src="{{ asset('assets/img/profil.svg') }}" alt="Profil Desa" />
+                        </div>
+                        <h3>PROFIL DESA</h3>
                     </div>
-                    <h3>IDM</h3>
-                </div>
 
-                <div class="explore-card" onclick="window.location='{{ route('frontend.ppid') }}'">
-                    <div class="icon-box-dashboard">
-                        <img src="{{ asset('assets/img/ppid.svg') }}" alt="PPID" />
+                    <div class="explore-card" onclick="window.location='{{ route('frontend.infografis') }}'">
+
+                        <div class="icon-box-dashboard">
+                            <img src="{{ asset('assets/img/infografis.svg') }}" alt="Infografis" />
+                        </div>
+                        <h3>INFOGRAFIS</h3>
                     </div>
-                    <h3>PPID</h3>
+
+                    <div class="explore-card" onclick="window.location='{{ route('frontend.idm') }}'">
+                        <div class="icon-box-dashboard">
+                            <img src="{{ asset('assets/img/idm.svg') }}" alt="IDM" />
+                        </div>
+                        <h3>IDM</h3>
+                    </div>
+
+                    <div class="explore-card" onclick="window.location='{{ route('frontend.ppid') }}'">
+                        <div class="icon-box-dashboard">
+                            <img src="{{ asset('assets/img/ppid.svg') }}" alt="PPID" />
+                        </div>
+                        <h3>PPID</h3>
+                    </div>
                 </div>
             </div>
         </div>
-    </section>
-    <section class="welcome-section">
-        <div class="welcome-container">
-            <div class="welcome-image">
-                <div class="circle-bg">
-                    <img src="assets/img/Logo Ponorogo.png" alt="Logo Kabupaten Ponorogo" />
 
+        <div class="block md:hidden bg-white px-5 pt-8 pb-12 rounded-t-[2rem] -mt-6 relative z-10 shadow-[0_-10px_20px_rgba(0,0,0,0.02)]">
+
+            {{-- Grid Container: 4 lajur (kolom) --}}
+            <div class="grid grid-cols-4 gap-y-7 gap-x-2">
+
+                <a href="#" class="flex flex-col items-center group">
+                    <div class="w-[60px] h-[60px] bg-[#eefaf2] rounded-[1.2rem] flex items-center justify-center text-[#40b869] group-hover:bg-[#40b869] group-hover:text-white transition-all duration-300 shadow-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 21h18"></path>
+                            <path d="M5 21v-4"></path>
+                            <path d="M19 21v-4"></path>
+                            <path d="M9 21v-4"></path>
+                            <path d="M15 21v-4"></path>
+                            <path d="M3 17h18"></path>
+                            <path d="M12 3l8 10H4z"></path>
+                        </svg>
+                    </div>
+                    <span class="mt-2.5 text-[10px] font-bold text-gray-700 text-center leading-tight">Profil<br>Desa</span>
+                </a>
+
+                <a href="#" class="flex flex-col items-center group">
+                    <div class="w-[60px] h-[60px] bg-[#eefaf2] rounded-[1.2rem] flex items-center justify-center text-[#40b869] group-hover:bg-[#40b869] group-hover:text-white transition-all duration-300 shadow-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 3v18h18"></path>
+                            <path d="M18 17V9"></path>
+                            <path d="M13 17V5"></path>
+                            <path d="M8 17v-3"></path>
+                        </svg>
+                    </div>
+                    <span class="mt-2.5 text-[10px] font-bold text-gray-700 text-center leading-tight">Infografis</span>
+                </a>
+
+                <a href="#" class="flex flex-col items-center group">
+                    <div class="w-[60px] h-[60px] bg-[#eefaf2] rounded-[1.2rem] flex items-center justify-center text-[#40b869] group-hover:bg-[#40b869] group-hover:text-white transition-all duration-300 shadow-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 10h4.764a2 2 0 0 1 1.789 2.894l-3.5 7A2 2 0 0 1 15.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 0 0-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 0 1-2-2v-6a2 2 0 0 1 2-2h2.5"></path>
+                        </svg>
+                    </div>
+                    <span class="mt-2.5 text-[10px] font-bold text-gray-700 text-center leading-tight">IDM</span>
+                </a>
+
+                <a href="#" class="flex flex-col items-center group">
+                    <div class="w-[60px] h-[60px] bg-[#eefaf2] rounded-[1.2rem] flex items-center justify-center text-[#40b869] group-hover:bg-[#40b869] group-hover:text-white transition-all duration-300 shadow-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
+                            <path d="M14 2v6h6"></path>
+                            <path d="M16 13H8"></path>
+                            <path d="M16 17H8"></path>
+                            <path d="M10 9H8"></path>
+                        </svg>
+                    </div>
+                    <span class="mt-2.5 text-[10px] font-bold text-gray-700 text-center leading-tight">PPID</span>
+                </a>
+
+                <a href="#" class="flex flex-col items-center group">
+                    <div class="w-[60px] h-[60px] bg-[#eefaf2] rounded-[1.2rem] flex items-center justify-center text-[#40b869] group-hover:bg-[#40b869] group-hover:text-white transition-all duration-300 shadow-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M11 6.54l-3-3a1 1 0 0 0-1.4 0L4 6a2 2 0 0 0 0 2.83l9.17 9.17a2 2 0 0 0 2.83 0l2.45-2.6a1 1 0 0 0 0-1.4l-3-3M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
+                        </svg>
+                    </div>
+                    <span class="mt-2.5 text-[10px] font-bold text-gray-700 text-center leading-tight">Berita</span>
+                </a>
+
+                <a href="#" class="flex flex-col items-center group">
+                    <div class="w-[60px] h-[60px] bg-[#eefaf2] rounded-[1.2rem] flex items-center justify-center text-[#40b869] group-hover:bg-[#40b869] group-hover:text-white transition-all duration-300 shadow-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
+                            <path d="M3 6h18"></path>
+                            <path d="M16 10a4 4 0 0 1-8 0"></path>
+                        </svg>
+                    </div>
+                    <span class="mt-2.5 text-[10px] font-bold text-gray-700 text-center leading-tight">Belanja</span>
+                </a>
+
+                <a href="#" class="flex flex-col items-center group">
+                    <div class="w-[60px] h-[60px] bg-[#eefaf2] rounded-[1.2rem] flex items-center justify-center text-[#40b869] group-hover:bg-[#40b869] group-hover:text-white transition-all duration-300 shadow-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
+                            <path d="M3.27 6.96L12 12.01l8.73-5.05"></path>
+                            <path d="M12 22.08V12"></path>
+                        </svg>
+                    </div>
+                    <span class="mt-2.5 text-[10px] font-bold text-gray-700 text-center leading-tight">Bansos</span>
+                </a>
+
+                <a href="#" class="flex flex-col items-center group">
+                    <div class="w-[60px] h-[60px] bg-[#eefaf2] rounded-[1.2rem] flex items-center justify-center text-[#40b869] group-hover:bg-[#40b869] group-hover:text-white transition-all duration-300 shadow-sm">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
+                            <circle cx="8.5" cy="8.5" r="1.5"></circle>
+                            <path d="M21 15l-5-5L5 21"></path>
+                        </svg>
+                    </div>
+                    <span class="mt-2.5 text-[10px] font-bold text-gray-700 text-center leading-tight">Galeri</span>
+                </a>
+
+            </div>
+        </div>
+
+        <div class="hidden md:block welcome-section">
+            <div class="welcome-container">
+                <div class="welcome-image">
+                    <div class="circle-bg">
+                        <img src="assets/img/Logo Ponorogo.png" alt="Logo Kabupaten Ponorogo" />
+
+                    </div>
+                </div>
+
+                <div class="welcome-text">
+                    <h2 class="title-green">Sambutan Kepala Desa Bedi Kulon</h2>
+                    <h3 class="name-head">LUKMANUL HADI</h3>
+
+                    <p class="position-head">Kepala Desa Bedi Kulon</p>
+
+                    <div class="scroll-box">
+                        <p><strong>Assalamu Alaikum Warohmatullahi Wabarakatu.</strong></p>
+                        <p>
+                            Website ini hadir sebagai wujud transformasi desa Bedi Kulon menjadi
+                            desa yang mampu memanfaatkan teknologi informasi dan komunikasi,
+                            terintegrasi kedalam sistem online. Keterbukaan informasi publik,
+                            pelayanan publik dan kegiatan perekonomian di desa, guna
+                            mewujudkan desa Bedi Kulon sebagai desa wisata yang berkelanjutan,
+                            adaptasi dan mitigasi terhadap perubahan iklim serta menjadi desa
+                            yang mandiri.
+                        </p>
+                    </div>
                 </div>
             </div>
+        </div>
 
-            <div class="welcome-text">
-                <h2 class="title-green">Sambutan Kepala Desa Bedi Kulon</h2>
-                <h3 class="name-head">LUKMANUL HADI</h3>
+        <div class="block md:hidden bg-[#f8f9fa] px-6 py-1 pb-20">
 
-                <p class="position-head">Kepala Desa Bedi Kulon</p>
+            <div class="max-w-md mx-auto flex flex-col items-center">
 
-                <div class="scroll-box">
-                    <p><strong>Assalamu Alaikum Warohmatullahi Wabarakatu.</strong></p>
-                    <p>
+                {{-- 1. Bagian Logo / Gambar --}}
+                <div class="mb-6 relative">
+                    {{-- Lingkaran putih dengan shadow lembut di belakang logo --}}
+                    <div class="w-60 h-60 bg-white rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.08)] flex items-center justify-center p-4">
+                        {{-- Pastikan path gambarnya benar menggunakan asset() Laravel --}}
+                        <img src="{{ asset('assets/img/Logo Ponorogo.png') }}" alt="Logo Kabupaten Ponorogo" class="w-full h-full object-contain" />
+                    </div>
+                </div>
+
+                {{-- 2. Bagian Teks Judul & Nama --}}
+                <div class="text-center mb-6 w-full">
+                    {{-- Warna hijau disesuaikan dengan contoh --}}
+                    <h2 class="text-[#70d25b] font-bold text-[15px] mb-1">Sambutan Kepala Desa Bedi Kulon</h2>
+
+                    {{-- Nama Kades: Diberi tracking-[0.3em] agar hurufnya berjarak (spasi lebar) --}}
+                    <h3 class="text-gray-900 font-black text-2xl tracking-[0.3em] mb-1 uppercase">
+                        LUKMANUL HADI
+                    </h3>
+
+                    <p class="text-gray-900 font-bold text-[13px]">Kepala Desa Bedi Kulon</p>
+                </div>
+
+                {{-- 3. Bagian Teks Sambutan (Scrollable) --}}
+                {{-- max-h-[220px] membatasi tinggi kotak, overflow-y-auto memunculkan scroll --}}
+                <div class="w-full text-left text-gray-800 text-[13px] leading-relaxed max-h-[220px] overflow-y-auto pr-4 scrollbar-custom">
+                    <p class="font-bold mb-2">Assalamu Alaikum Warohmatullahi Wabarakatu.</p>
+                    <p class="text-justify">
                         Website ini hadir sebagai wujud transformasi desa Bedi Kulon menjadi
                         desa yang mampu memanfaatkan teknologi informasi dan komunikasi,
                         terintegrasi kedalam sistem online. Keterbukaan informasi publik,
@@ -82,439 +291,1051 @@
                         yang mandiri.
                     </p>
                 </div>
+
             </div>
         </div>
-    </section>
-    <section class="map-section">
-        <div class="map-container">
-            <h2 class="title-green">LOKASI DESA</h2>
-            <p class="map-subtitle">
-                Temukan lokasi strategis dan batas wilayah Desa Bedi Kulon melalui peta berikut.
-            </p>
+        {{-- ========================================== --}}
+        {{-- KODE KHUSUS DESKTOP (Layar Besar) --}}
+        {{-- ========================================== --}}
+        <div class="hidden md:block map-section">
+            <div class="map-container">
+                <h2 class="title-green">LOKASI DESA</h2>
+                <p class="map-subtitle">
+                    Temukan lokasi strategis dan batas wilayah Desa Bedi Kulon melalui peta berikut.
+                </p>
+                <div class="peta-container" style="position: relative; width: 100%; height: 500px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
 
-            <div class="peta-container" style="position: relative; width: 100%; height: 500px; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
-                <div id="mapDesa" style="width: 100%; height: 100%;"></div>
-            </div>
+                    {{-- PERUBAHAN DI SINI: ID diganti jadi mapDesaDesktop --}}
+                    <div id="mapDesaDesktop" style="width: 100%; height: 100%;"></div>
 
-        </div>
-    </section>
-    <section class="sotk-section">
-        <div class="sotk-container">
-            <h2 class="title-green">SOTK</h2>
-            <p class="sotk-subtitle">
-                Struktur Organisasi dan Tata Kerja Desa Bedi Kulon
-            </p>
-
-            <div class="sotk-grid">
-
-                @forelse($perangkat_desa as $staf)
-                <div class="staf-card">
-                    <div class="staf-photo">
-                        <img src="{{ asset('storage/' . $staf->foto) }}" alt="{{ $staf->nama }}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='https://placehold.co/400x400?text=No+Photo'" />
-                    </div>
-
-                    <div class="staf-info">
-                        <h3>{{ strtoupper($staf->nama) }}</h3>
-
-                        <p>{{ $staf->jabatan }}</p>
-                    </div>
                 </div>
-                @empty
-                <div style="grid-column: 1 / -1; text-align: center; color: #888; padding: 20px;">
-                    <p>Data perangkat desa belum diinput.</p>
-                </div>
-                @endforelse
-
-            </div>
-
-            <div class="sotk-footer">
-                <a href="{{ route('frontend.pemerintahan') }}" class="view-more">
-                    <i class="icon-list"></i> LIHAT STRUKTUR LEBIH LENGKAP
-                </a>
             </div>
         </div>
-    </section>
-    <section class="admin-section">
-        <div class="admin-container">
-            <h2 class="title-green">Administrasi Penduduk</h2>
-            <p class="admin-subtitle">
-                Sistem digital yang berfungsi mempermudah pengelolaan data dan
-                informasi terkait dengan kependudukan dan pendayagunaannya untuk
-                pelayanan publik yang efektif dan efisien
-            </p>
+        {{-- ========================================== --}}
+        {{-- KODE KHUSUS MOBILE (Layar HP) --}}
+        {{-- ========================================== --}}
+        <div class="block md:hidden bg-white px-5 py-10">
+            <div class="max-w-3xl mx-auto flex flex-col items-center">
 
-            <div class="admin-grid">
+                <h2 class="text-[#70d25b] font-black text-2xl uppercase mb-2 text-center tracking-wide">
+                    Lokasi Desa
+                </h2>
 
-                <div class="stat-item">
-                    <div class="stat-number">
-                        {{ number_format($total_penduduk, 0, ',', '.') }}
-                    </div>
-                    <div class="stat-label">Penduduk</div>
+                <p class="text-gray-800 text-[13px] font-medium text-center mb-6 leading-relaxed max-w-[90%]">
+                    Temukan lokasi strategis dan batas wilayah Desa Bedi Kulon melalui peta berikut.
+                </p>
+
+                <div class="w-full relative h-[400px] md:h-[500px] border-[6px] border-gray-200 rounded-lg overflow-hidden shadow-sm bg-gray-100 flex items-center justify-center">
+
+                    {{-- PERUBAHAN DI SINI: ID diganti jadi mapDesaMobile --}}
+                    <div id="mapDesaMobile" class="w-full h-full z-10"></div>
+
+                    <span class="absolute text-gray-400 text-sm font-medium z-0">Memuat Peta...</span>
                 </div>
 
-                <div class="stat-item">
-                    <div class="stat-number">
-                        {{ number_format($total_laki, 0, ',', '.') }}
-                    </div>
-                    <div class="stat-label">Laki-Laki</div>
-                </div>
-
-                <div class="stat-item">
-                    <div class="stat-number">
-                        {{ number_format($total_kk, 0, ',', '.') }}
-                    </div>
-                    <div class="stat-label">Kepala Keluarga</div>
-                </div>
-
-                <div class="stat-item">
-                    <div class="stat-number">
-                        {{ number_format($total_perempuan, 0, ',', '.') }}
-                    </div>
-                    <div class="stat-label">Perempuan</div>
-                </div>
-
-                <div class="stat-item">
-                    <div class="stat-number">
-                        {{ number_format($total_sementara, 0, ',', '.') }}
-                    </div>
-                    <div class="stat-label">Penduduk Sementara</div>
-                </div>
-
-                <div class="stat-item">
-                    <div class="stat-number">
-                        {{ number_format($total_mutasi, 0, ',', '.') }}
-                    </div>
-                    <div class="stat-label">Mutasi Penduduk</div>
-                </div>
-
-            </div>
-
-            <div style="text-align: center; margin-top: 20px; font-size: 0.8rem; color: #888;">
-                *Data diperbarui per tanggal {{ date('d M Y') }}
             </div>
         </div>
-    </section>
-    <section class="apb-section">
-        <div class="container">
-            <div class="apb-wrapper">
 
-                <div class="apb-image-col">
-                    <img src="{{ asset('assets/img/asset-dashboard-apbd.png') }}" alt="Ilustrasi APB Desa" onerror="this.src='https://placehold.co/600x400?text=Grafik+APBD'">
+
+        <div class=" hidden md:block sotk-section">
+
+            <div class="sotk-container">
+                <h2 class="title-green">SOTK</h2>
+                <p class="sotk-subtitle">
+                    Struktur Organisasi dan Tata Kerja Desa Bedi Kulon
+                </p>
+
+                <div class="sotk-grid">
+
+                    @forelse($perangkat_desa as $staf)
+                    <div class="staf-card">
+                        <div class="staf-photo">
+                            <img src="{{ asset('storage/' . $staf->foto) }}" alt="{{ $staf->nama }}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='https://placehold.co/400x400?text=No+Photo'" />
+                        </div>
+
+                        <div class="staf-info">
+                            <h3>{{ strtoupper($staf->nama) }}</h3>
+
+                            <p>{{ $staf->jabatan }}</p>
+                        </div>
+                    </div>
+                    @empty
+                    <div style="grid-column: 1 / -1; text-align: center; color: #888; padding: 20px;">
+                        <p>Data perangkat desa belum diinput.</p>
+                    </div>
+                    @endforelse
+
                 </div>
 
-                <div class="apb-content-col">
-                    <h2 class="apb-title">APB DESA {{ $tahun_ini }}</h2>
-                    <p class="apb-desc">
-                        Akses cepat dan transparan terhadap Anggaran Pendapatan dan Belanja Desa
-                        serta proyek pembangunan tahun anggaran {{ $tahun_ini }}.
+                <div class="sotk-footer">
+                    <a href="{{ route('frontend.pemerintahan') }}" class="view-more">
+                        <i class="icon-list"></i> LIHAT STRUKTUR LEBIH LENGKAP
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="block md:hidden bg-white px-5 py-10">
+
+            <div class="max-w-md mx-auto">
+
+                {{-- Judul & Subjudul --}}
+                <h2 class="text-[#70d25b] font-black text-2xl uppercase mb-1 text-center tracking-wide">
+                    SOTK
+                </h2>
+                <p class="text-gray-800 text-[13px] font-medium text-center mb-6">
+                    Struktur Organisasi dan Tata Kerja Desa Bedi Kulon
+                </p>
+
+                {{-- Navigasi Anak Panah --}}
+                <div class="flex justify-between items-center mb-4 px-2">
+                    <button id="btnPrevSotk" class="text-black hover:text-[#70d25b] transition-colors p-2 active:scale-95">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="19" y1="12" x2="5" y2="12"></line>
+                            <polyline points="12 19 5 12 12 5"></polyline>
+                        </svg>
+                    </button>
+                    <button id="btnNextSotk" class="text-black hover:text-[#70d25b] transition-colors p-2 active:scale-95">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </button>
+                </div>
+
+                {{-- Container Slider Card --}}
+                <div id="sliderSotk" class="flex overflow-x-auto snap-x snap-mandatory gap-4 px-2 pb-4 scrollbar-hide scroll-smooth">
+
+                    @forelse($perangkat_desa as $staf)
+                    {{-- Card Individual --}}
+                    <div class="snap-start shrink-0 w-[160px] bg-white rounded-xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.08)] border border-gray-100 flex flex-col">
+
+                        {{-- Foto Staf (Rasio pasfoto) --}}
+                        <div class="h-[190px] w-full bg-gray-100 relative">
+                            <img src="{{ asset('storage/' . $staf->foto) }}" alt="{{ $staf->nama }}" class="w-full h-full object-cover object-top" onerror="this.src='https://placehold.co/400x500?text=No+Photo'" />
+                        </div>
+
+                        {{-- Info Kotak Hijau di Bawah --}}
+                        <div class="bg-[#70d25b] p-3 flex-1 flex flex-col justify-center items-center text-center">
+                            <h3 class="text-white font-black text-[12px] leading-tight mb-1">
+                                {{ strtoupper($staf->nama) }}
+                            </h3>
+                            <p class="text-white/90 text-[10px] font-semibold leading-snug">
+                                {{ $staf->jabatan }}
+                            </p>
+                        </div>
+                    </div>
+                    @empty
+                    <div class="w-full text-center text-gray-400 py-10 text-sm font-medium">
+                        Data perangkat desa belum diinput.
+                    </div>
+                    @endforelse
+
+                    {{-- Spacer Akhir agar card terakhir tidak mentok --}}
+                    <div class="shrink-0 w-2"></div>
+                </div>
+
+                {{-- Tombol Lihat Semua --}}
+                <div class="mt-4 px-2">
+                    <a href="{{ route('frontend.pemerintahan') }}" class="block w-full border-2 border-[#70d25b] text-[#70d25b] hover:bg-[#70d25b] hover:text-white font-bold text-[14px] text-center py-3 rounded-xl transition-all">
+                        Lihat Semua
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+
+
+        <div class=" hidden md:block admin-section">
+
+            <div class="admin-container">
+                <h2 class="title-green">Administrasi Penduduk</h2>
+                <p class="admin-subtitle">
+                    Sistem digital yang berfungsi mempermudah pengelolaan data dan
+                    informasi terkait dengan kependudukan dan pendayagunaannya untuk
+                    pelayanan publik yang efektif dan efisien
+                </p>
+
+                <div class="admin-grid">
+
+                    <div class="stat-item">
+                        <div class="stat-number">
+                            {{ number_format($total_penduduk, 0, ',', '.') }}
+                        </div>
+                        <div class="stat-label">Penduduk</div>
+                    </div>
+
+                    <div class="stat-item">
+                        <div class="stat-number">
+                            {{ number_format($total_laki, 0, ',', '.') }}
+                        </div>
+                        <div class="stat-label">Laki-Laki</div>
+                    </div>
+
+                    <div class="stat-item">
+                        <div class="stat-number">
+                            {{ number_format($total_kk, 0, ',', '.') }}
+                        </div>
+                        <div class="stat-label">Kepala Keluarga</div>
+                    </div>
+
+                    <div class="stat-item">
+                        <div class="stat-number">
+                            {{ number_format($total_perempuan, 0, ',', '.') }}
+                        </div>
+                        <div class="stat-label">Perempuan</div>
+                    </div>
+
+                    <div class="stat-item">
+                        <div class="stat-number">
+                            {{ number_format($total_sementara, 0, ',', '.') }}
+                        </div>
+                        <div class="stat-label">Penduduk Sementara</div>
+                    </div>
+
+                    <div class="stat-item">
+                        <div class="stat-number">
+                            {{ number_format($total_mutasi, 0, ',', '.') }}
+                        </div>
+                        <div class="stat-label">Mutasi Penduduk</div>
+                    </div>
+
+                </div>
+
+                <div style="text-align: center; margin-top: 20px; font-size: 0.8rem; color: #888;">
+                    *Data diperbarui per tanggal {{ date('d M Y') }}
+                </div>
+            </div>
+        </div>
+
+        <div class="block md:hidden bg-[#f8f9fa] px-5 py-10">
+            <div class="max-w-md mx-auto">
+
+                {{-- Judul & Subjudul --}}
+                <h2 class="text-[#70d25b] font-black text-2xl mb-1 text-center tracking-wide">
+                    Administrasi Penduduk
+                </h2>
+                <p class="text-gray-800 text-[13px] font-medium text-center mb-10 leading-relaxed px-2">
+                    Efisiensi pengelolaan data dan informasi kependudukan yang lebih efektif.
+                </p>
+
+                {{-- Grid Container: 3 Kolom --}}
+                <div class="grid grid-cols-3 gap-y-8 gap-x-2">
+
+                    <div class="flex flex-col items-center text-center">
+                        <div class="w-14 h-14 mb-3 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-full h-full">
+                                <path fill="#40b869" opacity="0.2" d="M12 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm-6 10a6 6 0 1 1 12 0H6z" />
+                                <path fill="#40b869" d="M16 21v-2a4 4 0 0 0-4-4H4a4 4 0 0 0-4 4v2h16zm-6-9a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" />
+                                <path fill="#f59e0b" d="M24 21v-2a4 4 0 0 0-3-3.87A5.97 5.97 0 0 1 16 21h8zm-4.5-9a4 4 0 1 0 0-8 4 4 0 0 0 0 8z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-gray-900 font-black text-xl leading-none">{{ number_format($total_penduduk, 0, ',', '.') }}</h3>
+                        <p class="text-gray-800 text-[11px] font-medium mt-1">Penduduk</p>
+                    </div>
+
+                    <div class="flex flex-col items-center text-center">
+                        <div class="w-14 h-14 mb-3 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-full h-full">
+                                <circle cx="12" cy="8" r="5" fill="#3b82f6" opacity="0.2" />
+                                <path fill="#3b82f6" d="M12 14c-4.42 0-8 3.58-8 8h16c0-4.42-3.58-8-8-8z" />
+                                <circle cx="12" cy="8" r="5" fill="#1d4ed8" />
+                            </svg>
+                        </div>
+                        <h3 class="text-gray-900 font-black text-xl leading-none">{{ number_format($total_laki, 0, ',', '.') }}</h3>
+                        <p class="text-gray-800 text-[11px] font-medium mt-1">Laki-Laki</p>
+                    </div>
+
+                    <div class="flex flex-col items-center text-center">
+                        <div class="w-14 h-14 mb-3 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-full h-full">
+                                <path fill="#f97316" opacity="0.2" d="M15 13a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm-5 8h10a5 5 0 0 0-10 0z" />
+                                <path fill="#f97316" d="M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm-6 9a5 5 0 0 1 10 0H3z" />
+                                <circle cx="12" cy="16" r="3" fill="#ea580c" />
+                                <path fill="#ea580c" d="M15 21v-1a3 3 0 0 0-6 0v1h6z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-gray-900 font-black text-xl leading-none">{{ number_format($total_kk, 0, ',', '.') }}</h3>
+                        <p class="text-gray-800 text-[11px] font-medium mt-1 leading-tight">Kepala<br>Keluarga</p>
+                    </div>
+
+                    <div class="flex flex-col items-center text-center">
+                        <div class="w-14 h-14 mb-3 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-full h-full">
+                                <path fill="#ec4899" opacity="0.2" d="M12 13a5 5 0 1 0 0-10 5 5 0 0 0 0 10zm-8 8c0-4.42 3.58-8 8-8s8 3.58 8 8H4z" />
+                                <circle cx="12" cy="8" r="5" fill="#be185d" />
+                                <path fill="#be185d" d="M12 14c-4.42 0-8 3.58-8 8h16c0-4.42-3.58-8-8-8z" />
+                                <path fill="#fbcfe8" d="M12 14l-3 8h6l-3-8z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-gray-900 font-black text-xl leading-none">{{ number_format($total_perempuan, 0, ',', '.') }}</h3>
+                        <p class="text-gray-800 text-[11px] font-medium mt-1">Perempuan</p>
+                    </div>
+
+                    <div class="flex flex-col items-center text-center">
+                        <div class="w-14 h-14 mb-3 flex items-center justify-center relative">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-full h-full">
+                                <path fill="#8b5cf6" opacity="0.2" d="M3 10l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V10z" />
+                                <path fill="#8b5cf6" d="M12 3L2 11h3v10h14V11h3L12 3zm0 2.5l6 4.5v9H6v-9l6-4.5z" />
+                                <circle cx="12" cy="14" r="4" fill="#f59e0b" />
+                                <path fill="#fff" d="M12 11.5v3l2 1.5-1 1.5-2.5-2v-4h1.5z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-gray-900 font-black text-xl leading-none">{{ number_format($total_sementara, 0, ',', '.') }}</h3>
+                        <p class="text-gray-800 text-[11px] font-medium mt-1 leading-tight">Penduduk<br>Sementara</p>
+                    </div>
+
+                    <div class="flex flex-col items-center text-center">
+                        <div class="w-14 h-14 mb-3 flex items-center justify-center">
+                            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" class="w-full h-full">
+                                <path fill="#14b8a6" opacity="0.2" d="M10 9a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm-6 9a6 6 0 1 1 12 0H4z" />
+                                <path fill="#14b8a6" d="M10 10a4 4 0 1 0 0-8 4 4 0 0 0 0 8zm-6 9c0-3.31 2.69-6 6-6s6 2.69 6 6H4z" />
+                                <path fill="#f43f5e" d="M16 11l4 4-4 4v-2h-4v-4h4v-2zm-2 2v4h4l4-4-4-4v2h-4z" />
+                            </svg>
+                        </div>
+                        <h3 class="text-gray-900 font-black text-xl leading-none">{{ number_format($total_mutasi, 0, ',', '.') }}</h3>
+                        <p class="text-gray-800 text-[11px] font-medium mt-1 leading-tight">Mutasi<br>Penduduk</p>
+                    </div>
+
+                </div>
+
+                {{-- Catatan Footer --}}
+                <div class="text-center mt-10 text-[10px] text-gray-400 font-medium">
+                    *Data diperbarui per tanggal {{ date('d M Y') }}
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class=" hidden md:block apb-section">
+
+            <div class="container">
+                <div class="apb-wrapper">
+
+                    <div class="apb-image-col">
+                        <img src="{{ asset('assets/img/asset-dashboard-apbd.png') }}" alt="Ilustrasi APB Desa" onerror="this.src='https://placehold.co/600x400?text=Grafik+APBD'">
+                    </div>
+
+                    <div class="apb-content-col">
+                        <h2 class="apb-title">APB DESA {{ $tahun_ini }}</h2>
+                        <p class="apb-desc">
+                            Akses cepat dan transparan terhadap Anggaran Pendapatan dan Belanja Desa
+                            serta proyek pembangunan tahun anggaran {{ $tahun_ini }}.
+                        </p>
+
+                        <div class="apb-card">
+                            <span class="apb-label">Pendapatan Desa</span>
+                            <div class="apb-value" style="color: #28a745;">
+                                Rp{{ number_format($apbd_pendapatan, 2, ',', '.') }}
+                            </div>
+                        </div>
+
+                        <div class="apb-card">
+                            <span class="apb-label">Belanja Desa</span>
+                            <div class="apb-value" style="color: #dc3545;">
+                                Rp{{ number_format($apbd_belanja, 2, ',', '.') }}
+
+                            </div>
+                        </div>
+
+                        <div class="apb-footer">
+                            <a href="#" class="view-data-link">
+                                <i class="fa-regular fa-file-lines"></i> LIHAT DATA LEBIH LENGKAP
+                            </a>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="block md:hidden bg-white px-5 py-10">
+            <div class="max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-8">
+
+                {{-- Kolom Gambar (Sembunyi di HP, Muncul di Desktop) --}}
+                <div class="hidden md:block w-full md:w-1/2">
+                    <img src="{{ asset('assets/img/asset-dashboard-apbd.png') }}" alt="Ilustrasi APB Desa" class="w-full h-auto rounded-2xl shadow-lg object-cover" onerror="this.src='https://placehold.co/600x400?text=Grafik+APBD'">
+                </div>
+
+                {{-- Kolom Konten & Data --}}
+                <div class="w-full md:w-1/2 flex flex-col items-center">
+
+                    {{-- Judul & Subjudul --}}
+                    <h2 class="text-[#70d25b] font-black text-2xl uppercase mb-1 text-center tracking-wide">
+                        APB DESA {{ $tahun_ini ?? date('Y') }}
+                    </h2>
+                    <p class="text-gray-800 text-[13px] font-medium text-center mb-6 leading-snug px-2">
+                        Akses cepat dan transparan terhadap APB Desa serta proyek pembangunan
                     </p>
 
-                    <div class="apb-card">
-                        <span class="apb-label">Pendapatan Desa</span>
-                        <div class="apb-value" style="color: #28a745;">
-                            Rp{{ number_format($apbd_pendapatan, 2, ',', '.') }}
+                    {{-- Kartu Data APBD (Gaya seperti image_aa769d.png) --}}
+                    <div class="w-full max-w-md bg-[#f4faf6] rounded-[1.2rem] p-5 border border-[#e6f5eb] shadow-sm mb-5">
+
+                        {{-- Baris 1: Pendapatan & Belanja --}}
+                        <div class="flex justify-between items-center mb-5">
+                            {{-- Pendapatan (Kiri) --}}
+                            <div class="text-center w-1/2 pr-2">
+                                <div class="text-gray-500 text-[12px] font-semibold flex items-center justify-center gap-1 mb-1">
+                                    <svg class="w-3.5 h-3.5 text-[#28a745]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                                    </svg>
+                                    Pendapatan
+                                </div>
+                                <div class="text-[#28a745] font-black text-[14px] tracking-tight">
+                                    Rp{{ number_format($apbd_pendapatan ?? 0, 2, ',', '.') }}
+                                </div>
+                            </div>
+                            {{-- Belanja (Kanan) --}}
+                            <div class="text-center w-1/2 pl-2">
+                                <div class="text-gray-500 text-[12px] font-semibold flex items-center justify-center gap-1 mb-1">
+                                    <svg class="w-3.5 h-3.5 text-[#dc3545]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+                                    </svg>
+                                    Belanja
+                                </div>
+                                <div class="text-[#dc3545] font-black text-[14px] tracking-tight">
+                                    Rp{{ number_format($apbd_belanja ?? 0, 2, ',', '.') }}
+                                </div>
+                            </div>
                         </div>
+
+                        {{-- Judul Tengah: Pembiayaan --}}
+                        <div class="text-center mb-4">
+                            <span class="text-[#86d875] font-black text-[14px]">Pembiayaan</span>
+                        </div>
+
+                        {{-- Baris 2: Penerimaan & Pengeluaran --}}
+                        <div class="flex justify-between items-center mb-5">
+                            {{-- Penerimaan (Kiri) --}}
+                            <div class="text-center w-1/2 pr-2">
+                                <div class="text-gray-500 text-[12px] font-semibold flex items-center justify-center gap-1 mb-1">
+                                    <svg class="w-3.5 h-3.5 text-[#28a745]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+                                    </svg>
+                                    Penerimaan
+                                </div>
+                                <div class="text-[#28a745] font-black text-[14px] tracking-tight">
+                                    Rp{{ number_format($apbd_penerimaan ?? 0, 2, ',', '.') }}
+                                </div>
+                            </div>
+                            {{-- Pengeluaran (Kanan) --}}
+                            <div class="text-center w-1/2 pl-2">
+                                <div class="text-gray-500 text-[12px] font-semibold flex items-center justify-center gap-1 mb-1">
+                                    <svg class="w-3.5 h-3.5 text-[#dc3545]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M5 10l7-7m0 0l7 7m-7-7v18"></path>
+                                    </svg>
+                                    Pengeluaran
+                                </div>
+                                <div class="text-[#dc3545] font-black text-[14px] tracking-tight">
+                                    Rp{{ number_format($apbd_pengeluaran ?? 0, 2, ',', '.') }}
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- Baris 3: Surplus / Defisit --}}
+                        <div class="text-center pt-3 border-t border-gray-200/70">
+                            <span class="text-gray-600 font-medium text-[12px]">Surplus/Defisit</span>
+                            <span class="text-gray-800 font-black text-[13px] ml-1">
+                                Rp{{ number_format($apbd_surplus ?? 0, 2, ',', '.') }}
+                            </span>
+                        </div>
+
                     </div>
 
-                    <div class="apb-card">
-                        <span class="apb-label">Belanja Desa</span>
-                        <div class="apb-value" style="color: #dc3545;">
-                            Rp{{ number_format($apbd_belanja, 2, ',', '.') }}
-
-                        </div>
+                    {{-- Tombol Lihat Detail --}}
+                    <div class="w-full max-w-md px-1">
+                        <a href="#" class="block w-full border-2 border-[#70d25b] text-[#70d25b] hover:bg-[#70d25b] hover:text-white font-bold text-[14px] text-center py-3 rounded-xl transition-all active:scale-95">
+                            Lihat Detail
+                        </a>
                     </div>
 
-                    <div class="apb-footer">
-                        <a href="#" class="view-data-link">
-                            <i class="fa-regular fa-file-lines"></i> LIHAT DATA LEBIH LENGKAP
+                </div>
+            </div>
+        </div>
+
+
+        <div class=" hidden md:block news-section">
+            <div class="news-container">
+                <h2 class="title-green">Berita Desa</h2>
+                <p class="admin-subtitle">
+                    Menyajikan informasi terbaru tentang peristiwa, berita terkini, dan
+                    artikel-artikel jurnalistik dari Desa Bedi Kulon
+                </p>
+
+                <div class="news-grid">
+
+                    @forelse($berita_terbaru->take(3) as $berita)
+                    <div class="news-card">
+                        <div class="news-img">
+                            <img src="{{ asset('storage/' . $berita->gambar) }}" alt="{{ $berita->judul }}" style="width: 100%; height: 200px; object-fit: cover;" onerror="this.src='https://placehold.co/600x400?text=Berita'" />
+                        </div>
+
+                        <div class="news-content">
+                            <h3>
+                                <a href="#" style="text-decoration: none; color: inherit;">
+                                    {{ Str::limit($berita->judul, 50) }}
+                                </a>
+                            </h3>
+
+                            <p>
+                                {{ Str::limit(strip_tags($berita->isi), 100) }}
+                            </p>
+
+                            <div class="news-footer">
+                                <span><i class="user-icon"></i> {{ $berita->penulis ?? 'Admin' }}</span>
+
+                                <span class="date-tag">{{ $berita->created_at->format('d M Y') }}</span>
+                            </div>
+                        </div>
+                    </div>
+                    @empty
+                    <div style="grid-column: 1 / -1; text-align: center; color: #888; padding: 40px;">
+                        <p>Belum ada berita terbaru.</p>
+                    </div>
+                    @endforelse
+
+                </div>
+
+                <div class="news-more">
+                    <a href="{{ route('frontend.berita') }}" class="view-more-link">
+                        <i class="icon-file"></i> LIHAT BERITA LEBIH BANYAK
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="block md:hidden bg-white px-5 py-10">
+
+            <div class="max-w-md mx-auto">
+
+                {{-- Judul & Subjudul --}}
+                <h2 class="text-[#70d25b] font-black text-2xl mb-2 text-center tracking-wide">
+                    Berita Desa
+                </h2>
+                <p class="text-gray-800 text-[13px] font-medium text-center mb-6 leading-relaxed px-2">
+                    Menyajikan informasi terbaru tentang peristiwa, berita terkini, dan artikel-artikel jurnalistik dari Desa Bedi Kulon
+                </p>
+
+                {{-- Navigasi Anak Panah --}}
+                <div class="flex justify-between items-center mb-4 px-2">
+                    <button id="btnPrevBerita" class="text-black hover:text-[#70d25b] transition-colors p-2 active:scale-95">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="19" y1="12" x2="5" y2="12"></line>
+                            <polyline points="12 19 5 12 12 5"></polyline>
+                        </svg>
+                    </button>
+                    <button id="btnNextBerita" class="text-black hover:text-[#70d25b] transition-colors p-2 active:scale-95">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </button>
+                </div>
+
+                {{-- Container Slider Berita --}}
+                <div id="sliderBerita" class="flex overflow-x-auto snap-x snap-mandatory gap-4 px-2 pb-6 scrollbar-hide scroll-smooth">
+
+                    @forelse($berita_terbaru as $berita)
+                    {{-- Card Individual: Lebar 85% agar kartu selanjutnya terlihat mengintip --}}
+                    <div class="snap-start shrink-0 w-[85%] bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.08)] border border-gray-100 flex flex-col">
+
+                        {{-- Foto Berita --}}
+                        <div class="h-[180px] w-full bg-gray-100 relative">
+                            <img src="{{ asset('storage/' . $berita->gambar) }}" alt="{{ $berita->judul }}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400?text=Berita+Desa'" />
+                        </div>
+
+                        {{-- Konten Berita --}}
+                        <div class="p-5 flex-1 flex flex-col justify-between">
+                            {{-- Judul: Dibatasi 3 baris (line-clamp-3) dan kapital semua --}}
+                            <h3 class="text-gray-900 font-black text-[14px] leading-snug mb-4 uppercase line-clamp-3">
+                                <a href="#" class="hover:text-[#70d25b] transition-colors">
+                                    {{ $berita->judul }}
+                                </a>
+                            </h3>
+
+                            {{-- Meta Info (Tanggal & Tayangan) --}}
+                            <div class="flex flex-col gap-2 text-gray-400 text-[11px] font-medium">
+                                {{-- Ikon Waktu --}}
+                                <div class="flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <circle cx="12" cy="12" r="10"></circle>
+                                        <polyline points="12 6 12 12 16 14"></polyline>
+                                    </svg>
+                                    <span>{{ $berita->created_at->translatedFormat('d F Y') }}</span>
+                                </div>
+
+                                {{-- Ikon Mata (Views) --}}
+                                <div class="flex items-center gap-2">
+                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                        <circle cx="12" cy="12" r="3"></circle>
+                                    </svg>
+                                    <span>Dilihat {{ $berita->views ?? rand(50, 300) }} kali</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    @empty
+                    <div class="w-full text-center text-gray-400 py-10 text-sm font-medium">
+                        Belum ada berita terbaru saat ini.
+                    </div>
+                    @endforelse
+
+                    {{-- Spacer Akhir --}}
+                    <div class="shrink-0 w-2"></div>
+                </div>
+
+                {{-- Tombol Lihat Semua --}}
+                <div class="mt-2 px-2">
+                    <a href="{{ route('frontend.berita') }}" class="block w-full border-2 border-[#70d25b] text-[#70d25b] hover:bg-[#70d25b] hover:text-white font-bold text-[14px] text-center py-3 rounded-xl transition-all active:scale-95">
+                        Lihat Semua
+                    </a>
+                </div>
+
+            </div>
+        </div>
+        <div class=" hidden md:block potensi-desa-section">
+            <div class="potensi-container">
+
+                <div class="potensi-header">
+                    <div class="potensi-title-area">
+
+                        <h1 class="judul-potensi">POTENSI DESA</h1>
+                        <p class="deskripsi-potensi">
+                            Informasi tentang potensi dan kemajuan desa di berbagai bidang seperti ekonomi, pariwisata, pertanian, industri kreatif, dan kelestarian lingkungan.
+                        </p>
+                    </div>
+
+                    <div class="potensi-action-area">
+                        <a href="{{ route('frontend.wisata') ?? '#' }}" class="btn-lihat-semua">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
+                                <line x1="8" y1="6" x2="21" y2="6"></line>
+                                <line x1="8" y1="12" x2="21" y2="12"></line>
+                                <line x1="8" y1="18" x2="21" y2="18"></line>
+                                <line x1="3" y1="6" x2="3.01" y2="6"></line>
+                                <line x1="3" y1="12" x2="3.01" y2="12"></line>
+                                <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                            </svg>
+                            LIHAT POTENSI LEBIH BANYAK
                         </a>
                     </div>
                 </div>
 
+                <div class="potensi-grid">
+
+                    @forelse($wisata_desa ?? [] as $item)
+                    <div class="potensi-item">
+                        <a href="{{ route('frontend.potensi.detail', $item->id) }}" style="text-decoration: none; display: flex; flex-direction: column;transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
+                            <div class="potensi-circle-wrapper">
+                                <img src="{{ asset('storage/' . ($item->gambar ?? '')) }}" alt="{{ $item->nama_wisata }}">
+                                <div class="shape-dark"></div>
+                                <div class="shape-accent"></div>
+                            </div>
+                            <h3 class="potensi-name">{{ strtoupper($item->nama_wisata) }}</h3>
+                        </a>
+                    </div>
+                    @empty
+                    <div style="width: 100%; text-align: left; padding: 50px 0; color: #888;">
+                        Belum ada data potensi desa.
+                    </div>
+                    @endforelse
+
+                </div>
+
             </div>
         </div>
-    </section>
-    <section class="news-section">
-        <div class="news-container">
-            <h2 class="title-green">Berita Desa</h2>
-            <p class="admin-subtitle">
-                Menyajikan informasi terbaru tentang peristiwa, berita terkini, dan
-                artikel-artikel jurnalistik dari Desa Bedi Kulon
-            </p>
+        <div class="block md:hidden bg-[#f8f9fa] px-5 py-10">
 
-            <div class="news-grid">
+            <div class="max-w-md mx-auto">
 
-                @forelse($berita_terbaru as $berita)
-                <div class="news-card">
-                    <div class="news-img">
-                        <img src="{{ asset('storage/' . $berita->gambar) }}" alt="{{ $berita->judul }}" style="width: 100%; height: 200px; object-fit: cover;" onerror="this.src='https://placehold.co/600x400?text=Berita'" />
-                    </div>
+                {{-- Judul & Subjudul --}}
+                <h2 class="text-[#70d25b] font-black text-2xl uppercase mb-2 text-center tracking-wide">
+                    Potensi Desa
+                </h2>
+                <p class="text-gray-800 text-[13px] font-medium text-center mb-6 leading-relaxed px-2">
+                    Potensi dan kemajuan desa di berbagai bidang (ekonomi, pariwisata, dan lain-lain)
+                </p>
 
-                    <div class="news-content">
-                        <h3>
-                            <a href="#" style="text-decoration: none; color: inherit;">
-                                {{ Str::limit($berita->judul, 50) }}
-                            </a>
-                        </h3>
-
-                        <p>
-                            {{ Str::limit(strip_tags($berita->isi), 100) }}
-                        </p>
-
-                        <div class="news-footer">
-                            <span><i class="user-icon"></i> {{ $berita->penulis ?? 'Admin' }}</span>
-
-                            <span class="date-tag">{{ $berita->created_at->format('d M Y') }}</span>
-                        </div>
-                    </div>
-                </div>
-                @empty
-                <div style="grid-column: 1 / -1; text-align: center; color: #888; padding: 40px;">
-                    <p>Belum ada berita terbaru.</p>
-                </div>
-                @endforelse
-
-            </div>
-
-            <div class="news-more">
-                <a href="{{ route('frontend.berita') }}" class="view-more-link">
-                    <i class="icon-file"></i> LIHAT BERITA LEBIH BANYAK
-                </a>
-            </div>
-        </div>
-    </section>
-
-    <section class="potensi-desa-section">
-        <div class="potensi-container">
-
-            <div class="potensi-header">
-                <div class="potensi-title-area">
-
-                    <h1 class="judul-potensi">POTENSI DESA</h1>
-                    <p class="deskripsi-potensi">
-                        Informasi tentang potensi dan kemajuan desa di berbagai bidang seperti ekonomi, pariwisata, pertanian, industri kreatif, dan kelestarian lingkungan.
-                    </p>
-                </div>
-
-                <div class="potensi-action-area">
-                    <a href="{{ route('frontend.wisata') ?? '#' }}" class="btn-lihat-semua">
-                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-right: 8px;">
-                            <line x1="8" y1="6" x2="21" y2="6"></line>
-                            <line x1="8" y1="12" x2="21" y2="12"></line>
-                            <line x1="8" y1="18" x2="21" y2="18"></line>
-                            <line x1="3" y1="6" x2="3.01" y2="6"></line>
-                            <line x1="3" y1="12" x2="3.01" y2="12"></line>
-                            <line x1="3" y1="18" x2="3.01" y2="18"></line>
+                {{-- Navigasi Anak Panah (Sama dengan fitur Berita) --}}
+                <div class="flex justify-between items-center mb-4 px-2">
+                    <button id="btnPrevPotensi" class="text-black hover:text-[#70d25b] transition-colors p-2 active:scale-95">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="19" y1="12" x2="5" y2="12"></line>
+                            <polyline points="12 19 5 12 12 5"></polyline>
                         </svg>
-                        LIHAT POTENSI LEBIH BANYAK
-                    </a>
+                    </button>
+                    <button id="btnNextPotensi" class="text-black hover:text-[#70d25b] transition-colors p-2 active:scale-95">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </button>
                 </div>
-            </div>
 
-            <div class="potensi-grid">
+                {{-- Container Slider Potensi --}}
+                <div id="sliderPotensi" class="flex overflow-x-auto snap-x snap-mandatory gap-4 px-2 pb-6 scrollbar-hide scroll-smooth">
 
-                @forelse($wisata_desa ?? [] as $item)
-                <div class="potensi-item">
-                    <a href="{{ route('frontend.potensi.detail', $item->id) }}" style="text-decoration: none; display: flex; flex-direction: column;transition: transform 0.3s;" onmouseover="this.style.transform='scale(1.02)'" onmouseout="this.style.transform='scale(1)'">
-                        <div class="potensi-circle-wrapper">
-                            <img src="{{ asset('storage/' . ($item->gambar ?? '')) }}" alt="{{ $item->nama_wisata }}">
-                            <div class="shape-dark"></div>
-                            <div class="shape-accent"></div>
+                    @forelse($wisata_desa ?? [] as $item)
+                    {{-- Card Individual: Lebar 240px agar pas dan menyisakan intipan --}}
+                    <a href="{{ route('frontend.potensi.detail', $item->id) }}" class="snap-start shrink-0 relative w-[240px] h-[340px] bg-gray-200 rounded-[2rem] overflow-hidden shadow-lg group block">
+
+                        {{-- Gambar Latar Belakang --}}
+                        <img src="{{ asset('storage/' . ($item->gambar ?? '')) }}" alt="{{ $item->nama_wisata }}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" onerror="this.src='https://placehold.co/400x600?text=Potensi+Desa'">
+
+                        {{-- OVERLAY GEOMETRIS (Sesuai image_aa1c23.png) --}}
+
+                        {{-- 1. Segitiga Gelap di Kanan Atas --}}
+                        <div class="absolute top-0 right-0 w-[65%] h-[40%] bg-[#2b2c33]/95" style="clip-path: polygon(100% 0, 100% 100%, 0 0);"></div>
+
+                        {{-- 2. Poligon Gelap di Bagian Bawah --}}
+                        <div class="absolute bottom-0 left-0 w-full h-[50%] bg-[#2b2c33]/95" style="clip-path: polygon(0 45%, 100% 0, 100% 100%, 0 100%);"></div>
+
+                        {{-- 3. Aksen Merah Geometris di Kiri --}}
+                        <div class="absolute bottom-[18%] left-0 w-[45%] h-[25%] bg-[#e30a13]" style="clip-path: polygon(0 0, 100% 40%, 40% 100%, 0 100%);"></div>
+
+                        {{-- Konten Teks --}}
+                        <div class="absolute bottom-6 left-5 right-5 z-10">
+                            <h3 class="text-white font-black text-xl tracking-wide uppercase drop-shadow-md">
+                                {{ $item->nama_wisata ?? 'PARIWISATA' }}
+                            </h3>
                         </div>
-                        <h3 class="potensi-name">{{ strtoupper($item->nama_wisata) }}</h3>
-                    </a>
-                </div>
-                @empty
-                <div style="width: 100%; text-align: left; padding: 50px 0; color: #888;">
-                    Belum ada data potensi desa.
-                </div>
-                @endforelse
-
-            </div>
-
-        </div>
-    </section>
-
-    <section class="wisata-section-baru">
-
-        <div class="wisata-wrapper-utama">
-
-            <div class="slide-bg-luar" style="background-image: url('{{ asset('storage/' . ($wisata_desa->first()->gambar ?? '')) }}');"></div>
-            <div class="slide-bg-overlay"></div>
-
-            <div class="wisata-container-tengah">
-
-                <div class="wisata-header-kiri">
-                    <h1 class="judul-wisata">WISATA DESA</h1>
-                    <span class="deskripsi-wisata">Layanan promosi potensi desa dan fasilitas untuk menarik minat pengunjung.</span>
-                </div>
-
-                <div class="wisata-inner-slider">
-                    @forelse($wisata_desa as $key => $item)
-                    <a href="#" class="wisata-slide fade" style="display: {{ $key == 0 ? 'block' : 'none' }};">
-
-                        <img src="{{ asset('storage/' . $item->gambar) }}" class="inner-image" alt="{{ $item->nama_wisata }}">
-                        <div class="inner-box-gradient"></div>
-
-                        <button class="slide-arrow-btn left" onclick="plusSlides(-1); event.preventDefault();">❮</button>
-
-                        <div class="wisata-text-content">
-                            <h3>{{ $item->nama_wisata }}</h3>
-                            <p>{{ Str::limit($item->deskripsi, 150) }}</p>
-                        </div>
-
-                        <button class="slide-arrow-btn right" onclick="plusSlides(1); event.preventDefault();">❯</button>
                     </a>
                     @empty
-                    <div class="wisata-slide" style="background-color: #333; display: flex; align-items: center; justify-content: center; color: white;">
+                    <div class="w-full text-center text-gray-400 py-10 text-sm font-medium">
+                        Belum ada data potensi desa.
+                    </div>
+                    @endforelse
+
+                    {{-- Spacer Akhir --}}
+                    <div class="shrink-0 w-2"></div>
+                </div>
+
+                {{-- Tombol Lihat Semua --}}
+                <div class="mt-2 px-2">
+                    <a href="{{ route('frontend.wisata') ?? '#' }}" class="block w-full border-2 border-[#70d25b] text-[#70d25b] hover:bg-[#70d25b] hover:text-white font-bold text-[14px] text-center py-3 rounded-xl transition-all active:scale-95">
+                        Lihat Semua
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
+
+        <div class=" hidden md:block wisata-section-baru">
+            <div class="wisata-wrapper-utama">
+
+                <div class="slide-bg-luar" style="background-image: url('{{ asset('storage/' . ($wisata_desa->first()->gambar ?? '')) }}');"></div>
+                <div class="slide-bg-overlay"></div>
+
+                <div class="wisata-container-tengah">
+
+                    <div class="wisata-header-kiri">
+                        <h1 class="judul-wisata">WISATA DESA</h1>
+                        <span class="deskripsi-wisata">Layanan promosi potensi desa dan fasilitas untuk menarik minat pengunjung.</span>
+                    </div>
+
+                    <div class="wisata-inner-slider">
+                        @forelse($wisata_desa as $key => $item)
+                        <a href="#" class="wisata-slide fade" style="display: {{ $key == 0 ? 'block' : 'none' }};">
+
+                            <img src="{{ asset('storage/' . $item->gambar) }}" class="inner-image" alt="{{ $item->nama_wisata }}">
+                            <div class="inner-box-gradient"></div>
+
+                            <button class="slide-arrow-btn left" onclick="plusSlides(-1); event.preventDefault();">❮</button>
+
+                            <div class="wisata-text-content">
+                                <h3>{{ $item->nama_wisata }}</h3>
+                                <p>{{ Str::limit($item->deskripsi, 150) }}</p>
+                            </div>
+
+                            <button class="slide-arrow-btn right" onclick="plusSlides(1); event.preventDefault();">❯</button>
+                        </a>
+                        @empty
+                        <div class="wisata-slide" style="background-color: #333; display: flex; align-items: center; justify-content: center; color: white;">
+                            Belum ada data wisata.
+                        </div>
+                        @endforelse
+                    </div>
+                </div>
+
+            </div>
+            <div class="hidden md:block news-more">
+
+                <div class="wisata-div-bar">
+                    <a href="{{ route('frontend.wisata') }}" class="btn-lihat-semua">
+                        <i class="icon-list-wisata"></i> LIHAT WISATA LEBIH BANYAK
+                    </a>
+                </div>
+            </div>
+
+        </div>
+        <div class="block md:hidden bg-white px-5 py-10">
+            <div class="max-w-md mx-auto">
+
+                {{-- Judul & Subjudul --}}
+                <h2 class="text-[#70d25b] font-black text-2xl uppercase mb-3 text-center tracking-wide">
+                    Wisata
+                </h2>
+                <p class="text-gray-800 text-[13px] font-medium text-center mb-8 leading-relaxed px-2">
+                    Layanan yang mempermudah promosi wisata desa sehingga dapat menarik pengunjung desa
+                </p>
+
+                {{-- Container Slider Wisata (Bisa di-swipe horizontal) --}}
+                <div class="flex overflow-x-auto snap-x snap-mandatory gap-4 px-2 pb-6 scrollbar-hide scroll-smooth">
+
+                    @forelse($wisata_desa ?? [] as $item)
+                    {{-- Card Individual: Dibuat tinggi (h-[400px]) untuk menonjolkan foto --}}
+                    <a href="{{ route('frontend.potensi.detail', $item->id ?? '#') }}" class="snap-start shrink-0 relative w-[85%] h-[400px] rounded-[1.5rem] overflow-hidden shadow-[0_8px_25px_rgba(0,0,0,0.1)] block group">
+
+                        {{-- Foto Background (Full Cover) --}}
+                        <img src="{{ asset('storage/' . ($item->gambar ?? '')) }}" alt="{{ $item->nama_wisata }}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" onerror="this.src='https://placehold.co/400x600?text=Wisata+Desa'">
+
+                        {{-- Gradient Overlay (Hitam pekat di bawah, pudar ke atas) --}}
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+
+                        {{-- Konten Teks --}}
+                        <div class="absolute bottom-0 left-0 w-full p-6 z-10">
+                            <h3 class="text-white font-black text-xl mb-2 drop-shadow-md leading-tight">
+                                {{ $item->nama_wisata }}
+                            </h3>
+
+                            {{-- Deskripsi dibatasi maksimal 3 baris --}}
+                            <p class="text-white/90 text-[11px] font-medium leading-relaxed line-clamp-3">
+                                {{ Str::limit(strip_tags($item->deskripsi), 120) }}
+                            </p>
+                        </div>
+                    </a>
+                    @empty
+                    <div class="w-full text-center text-gray-400 py-10 text-sm font-medium">
                         Belum ada data wisata.
                     </div>
                     @endforelse
+
+                    {{-- Spacer Akhir agar card terakhir bisa di-scroll sampai mentok --}}
+                    <div class="shrink-0 w-2"></div>
                 </div>
-            </div>
 
-        </div>
-        <div class="news-more">
-            <div class="wisata-div-bar">
-                <a href="{{ route('frontend.wisata') }}" class="btn-lihat-semua">
-                    <i class="icon-list-wisata"></i> LIHAT WISATA LEBIH BANYAK
-                </a>
-            </div>
-        </div>
-
-    </section>
-    <script>
-        let slideIndex = 1;
-        showSlides(slideIndex);
-
-        // Fungsi Tombol Next/Prev
-        function plusSlides(n) {
-            showSlides(slideIndex += n);
-        }
-
-        // Fungsi Utama Slider
-        function showSlides(n) {
-            let i;
-            let slides = document.getElementsByClassName("myslides");
-            if (slides.length === 0) return; // Cegah error jika tidak ada slide
-
-            if (n > slides.length) {
-                slideIndex = 1
-            }
-            if (n < 1) {
-                slideIndex = slides.length
-            }
-
-            for (i = 0; i < slides.length; i++) {
-                slides[i].style.display = "none";
-            }
-
-            slides[slideIndex - 1].style.display = "flex";
-        }
-
-    </script>
-    <section class="shop-section">
-        <div class="shop-container">
-
-            <div class="shop-header">
-                <div>
-                    <h2 class="title-green" style="color: #2ac0b4; font-size: 2.5rem; font-weight: 800; margin-bottom: 5px; text-transform: uppercase;">
-                        BELI DARI DESA
-                    </h2>
-                    <p class="shop-subtitle">
-                        Layanan yang disediakan promosi produk UMKM desa sehingga mampu meningkatkan perekonomian masyarakat desa
-                    </p>
+                {{-- Tombol Lihat Semua --}}
+                <div class="mt-2 px-2">
+                    <a href="{{ route('frontend.wisata') ?? '#' }}" class="block w-full border-2 border-[#70d25b] text-[#70d25b] bg-transparent hover:bg-[#70d25b] hover:text-white font-bold text-[14px] text-center py-3 rounded-xl transition-all active:scale-95">
+                        Lihat Semua
+                    </a>
                 </div>
+
             </div>
+        </div>
 
-            <div class="product-grid">
+        <div class=" hidden md:block shop-section">
+            <div class="shop-container">
+                <div class="shop-header">
+                    <div>
+                        <h2 class="title-green" style="color: #2ac0b4; font-size: 2.5rem; font-weight: 800; margin-bottom: 5px; text-transform: uppercase;">
+                            BELI DARI DESA
+                        </h2>
+                        <p class="shop-subtitle">
+                            Layanan yang disediakan promosi produk UMKM desa sehingga mampu meningkatkan perekonomian masyarakat desa
+                        </p>
+                    </div>
+                </div>
 
-                @forelse($produk_umkm as $produk)
-                <div class="product-card">
-                    <img src="{{ asset('storage/' . $produk->gambar) }}" alt="{{ $produk->nama_produk }}" class="product-image" onerror="this.src='https://placehold.co/400x300?text=No+Image'" />
+                <div class="product-grid">
 
-                    <div class="product-info">
-                        <h3>{{ $produk->nama_produk }}</h3>
+                    @forelse($produk_umkm->take(3) as $produk)
 
-                        <div class="product-bottom-row">
-                            <div class="rating-stars">
-                                &#9733;&#9733;&#9733;&#9733;&#9733;
+                    <div class="product-card">
+                        <img src="{{ asset('storage/' . $produk->gambar) }}" alt="{{ $produk->nama_produk }}" class="product-image" onerror="this.src='https://placehold.co/400x300?text=No+Image'" />
+
+                        <div class="product-info">
+                            <h3>{{ $produk->nama_produk }}</h3>
+
+                            <div class="product-bottom-row">
+                                <div class="rating-stars">
+                                    &#9733;&#9733;&#9733;&#9733;&#9733;
+                                </div>
+
+                                <span class="price-text">Rp{{ number_format($produk->harga, 0, ',', '.') }}</span>
                             </div>
-
-                            <span class="price-text">Rp{{ number_format($produk->harga, 0, ',', '.') }}</span>
                         </div>
                     </div>
+                    @empty
+                    <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #888;">
+                        <p>Belum ada produk UMKM yang ditawarkan saat ini.</p>
+                    </div>
+                    @endforelse
+
                 </div>
-                @empty
-                <div style="grid-column: 1 / -1; text-align: center; padding: 40px; color: #888;">
-                    <p>Belum ada produk UMKM yang ditawarkan saat ini.</p>
+
+                <div class="shop-footer">
+                    <a href="{{ route('frontend.belanja') }}" class="btn-lihat-semua-hitam">
+                        <i class="icon-list"></i> LIHAT PRODUK LEBIH BANYAK
+                    </a>
                 </div>
-                @endforelse
 
             </div>
-
-            <div class="shop-footer">
-                <a href="{{ route('frontend.belanja') }}" class="btn-lihat-semua-hitam">
-                    <i class="icon-list"></i> LIHAT PRODUK LEBIH BANYAK
-                </a>
-            </div>
-
         </div>
-    </section>
-    <section class="gallery-section">
-        <div class="gallery-container">
-            <div class="gallery-header">
-                <div>
-                    <h2 class="title-green">GALERI DESA</h2>
-                    <p class="gallery-subtitle">
-                        Menampilkan kegiatan-kegiatan yang berlangsung di desa
-                    </p>
+        <div class="block md:hidden bg-[#f8f9fa] px-5 py-10">
+
+            <div class="max-w-md mx-auto">
+
+                {{-- Judul & Subjudul --}}
+                <h2 class="text-[#70d25b] font-black text-2xl uppercase mb-2 text-center tracking-wide">
+                    Beli Dari Desa
+                </h2>
+                <p class="text-gray-800 text-[13px] font-medium text-center mb-6 leading-relaxed px-2">
+                    Layanan yang disediakan promosi produk UMKM desa sehingga mampu meningkatkan perekonomian masyarakat desa
+                </p>
+
+                {{-- Navigasi Anak Panah --}}
+                <div class="flex justify-between items-center mb-4 px-2">
+                    <button id="btnPrevUmkm" class="text-black hover:text-[#70d25b] transition-colors p-2 active:scale-95">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="19" y1="12" x2="5" y2="12"></line>
+                            <polyline points="12 19 5 12 12 5"></polyline>
+                        </svg>
+                    </button>
+                    <button id="btnNextUmkm" class="text-black hover:text-[#70d25b] transition-colors p-2 active:scale-95">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="5" y1="12" x2="19" y2="12"></line>
+                            <polyline points="12 5 19 12 12 19"></polyline>
+                        </svg>
+                    </button>
+                </div>
+
+                {{-- Container Slider Produk --}}
+                <div id="sliderUmkm" class="flex overflow-x-auto snap-x snap-mandatory gap-4 px-2 pb-6 scrollbar-hide scroll-smooth">
+
+                    @forelse($produk_umkm as $produk)
+                    {{-- Card Individual: Lebar 200px agar berbentuk portrait yang rapi --}}
+                    <a href="#" class="snap-start shrink-0 w-[200px] bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col group">
+
+                        {{-- Foto Produk --}}
+                        <div class="h-[180px] w-full bg-gray-100 relative overflow-hidden">
+                            <img src="{{ asset('storage/' . $produk->gambar) }}" alt="{{ $produk->nama_produk }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.src='https://placehold.co/400x400?text=Produk+UMKM'" />
+                        </div>
+
+                        {{-- Info Produk --}}
+                        <div class="p-4 flex-1 flex flex-col justify-between">
+                            {{-- Nama Produk --}}
+                            <h3 class="text-gray-800 font-bold text-[14px] leading-snug mb-3 line-clamp-2 group-hover:text-[#70d25b] transition-colors">
+                                {{ $produk->nama_produk }}
+                            </h3>
+
+                            {{-- Baris Bawah: Harga & Rating Bintang --}}
+                            <div class="flex justify-between items-end mt-auto">
+                                <span class="text-gray-600 font-bold text-[13px]">
+                                    Rp{{ number_format($produk->harga, 0, ',', '.') }}
+                                </span>
+
+                                {{-- Bintang Rating (Abu-abu seperti di referensi) --}}
+                                <div class="flex text-gray-300 text-[10px] tracking-widest">
+                                    ★★★★★
+                                </div>
+                            </div>
+                        </div>
+                    </a>
+                    @empty
+                    <div class="w-full text-center text-gray-400 py-10 text-sm font-medium">
+                        Belum ada produk UMKM yang ditawarkan saat ini.
+                    </div>
+                    @endforelse
+
+                    {{-- Spacer Akhir --}}
+                    <div class="shrink-0 w-2"></div>
+                </div>
+
+                {{-- Tombol Lihat Semua --}}
+                <div class="mt-2 px-2">
+                    <a href="{{ route('frontend.belanja') ?? '#' }}" class="block w-full border-2 border-[#70d25b] text-[#70d25b] bg-transparent hover:bg-[#70d25b] hover:text-white font-bold text-[14px] text-center py-3 rounded-xl transition-all active:scale-95">
+                        Lihat Semua
+                    </a>
                 </div>
             </div>
+        </div>
 
-            <div class="gallery-grid">
-
-                @forelse($galeri_terbaru as $foto)
-                <div class="gallery-item">
-                    <img src="{{ asset('storage/' . $foto->gambar) }}" alt="{{ $foto->judul }}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='https://placehold.co/600x400?text=Foto+Tidak+Ditemukan'" />
-
-                    <div class="gallery-overlay">
-                        <span>{{ $foto->judul }}</span>
+        <div class=" hidden md:block gallery-section">
+            <div class="gallery-container">
+                <div class="gallery-header">
+                    <div>
+                        <h2 class="title-green">GALERI DESA</h2>
+                        <p class="gallery-subtitle">
+                            Menampilkan kegiatan-kegiatan yang berlangsung di desa
+                        </p>
                     </div>
                 </div>
-                @empty
-                <div class="col-span-full text-center p-10 text-gray-500">
-                    <p>Belum ada foto kegiatan yang diunggah.</p>
-                </div>
-                @endforelse
 
-            </div>
-            <div class="shop-footer">
-                <a href="{{ route('frontend.galeri') }}" class="view-more-link">
-                    <i class="icon-images"></i> LIHAT FOTO LEBIH BANYAK
-                </a>
+                <div class="gallery-grid">
+
+                    @forelse($galeri_terbaru as $foto)
+                    <div class="gallery-item">
+                        <img src="{{ asset('storage/' . $foto->gambar) }}" alt="{{ $foto->judul }}" style="width: 100%; height: 100%; object-fit: cover;" onerror="this.src='https://placehold.co/600x400?text=Foto+Tidak+Ditemukan'" />
+
+                        <div class="gallery-overlay">
+                            <span>{{ $foto->judul }}</span>
+                        </div>
+                    </div>
+                    @empty
+                    <div class="col-span-full text-center p-10 text-gray-500">
+                        <p>Belum ada foto kegiatan yang diunggah.</p>
+                    </div>
+                    @endforelse
+
+                </div>
+                <div class="shop-footer">
+                    <a href="{{ route('frontend.galeri') }}" class="view-more-link">
+                        <i class="icon-images"></i> LIHAT FOTO LEBIH BANYAK
+                    </a>
+                </div>
             </div>
         </div>
+        <div class="block md:hidden bg-white px-5 py-10">
+
+            <div class="max-w-md mx-auto">
+
+                {{-- Judul & Subjudul --}}
+                <h2 class="text-[#70d25b] font-black text-2xl uppercase mb-2 text-center tracking-wide">
+                    Galeri Desa
+                </h2>
+                <p class="text-gray-800 text-[13px] font-medium text-center mb-8 leading-relaxed px-4">
+                    Menampilkan kegiatan-kegiatan yang berlangsung di desa
+                </p>
+
+                {{-- Grid Galeri: 3 Kolom --}}
+                <div class="grid grid-cols-3 gap-3 mb-6">
+
+                    @forelse($galeri_terbaru as $foto)
+                    {{-- Item Galeri (Rasio Persegi/Square otomatis) --}}
+                    {{-- Ditambahkan efek hover agar lebih interaktif --}}
+                    <a href="#" class="relative aspect-square overflow-hidden rounded-md shadow-sm block group">
+
+                        {{-- Foto Kegiatan --}}
+                        <img src="{{ asset('storage/' . $foto->gambar) }}" alt="{{ $foto->judul }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" onerror="this.src='https://placehold.co/400x400?text=Galeri'" />
+
+                        {{-- Overlay Judul: Akan muncul hanya saat foto disentuh/di-hover --}}
+                        <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center p-2 text-center z-10">
+                            <span class="text-white text-[10px] font-bold line-clamp-3 leading-tight drop-shadow-md">
+                                {{ $foto->judul }}
+                            </span>
+                        </div>
+                    </a>
+                    @empty
+                    <div class="col-span-3 text-center py-10 text-gray-400 text-sm font-medium border-2 border-dashed border-gray-200 rounded-lg">
+                        Belum ada foto kegiatan yang diunggah.
+                    </div>
+                    @endforelse
+
+                </div>
+
+                {{-- Tombol Lihat Semua (Gaya Outline) --}}
+                <div class="px-1 mt-2">
+                    <a href="{{ route('frontend.galeri') ?? '#' }}" class="block w-full border-2 border-[#70d25b] text-[#70d25b] bg-transparent hover:bg-[#70d25b] hover:text-white font-bold text-[14px] text-center py-3 rounded-xl transition-all active:scale-95">
+                        Lihat Semua
+                    </a>
+                </div>
+
+            </div>
+        </div>
+
     </section>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const myImages = [
-                "{{ asset('assets/img/background 1.webp') }}"
-                , "{{ asset('assets/img/background 2.webp') }}"
-                , "{{ asset('assets/img/background 3.webp') }}"
-            ];
-
-            // --- TAMBAHKAN LOGIKA PRELOAD INI ---
-            myImages.forEach((src) => {
-                const img = new Image();
-                img.src = src;
-            });
-            // ------------------------------------
-
-            window.initHeroSlider('.hero', myImages, 5000);
-        });
-
-    </script>
-
-
 </x-frontend>

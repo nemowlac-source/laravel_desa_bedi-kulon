@@ -724,14 +724,35 @@
         });
 
         document.addEventListener('DOMContentLoaded', function() {
-            const mapElement = document.getElementById('mapDesa');
 
-            // 1. Cek keberadaan elemen sebelum menjalankan logika peta ⏺️
-            if (mapElement) {
-                // Inisiasi peta
-                var map = L.map('mapDesa', {
-                    scrollWheelZoom: false, // Anti-zoom saat scroll halaman 🛠️
-                    smoothWheelZoom: true
+            // 1. Data Titik (Marker) Kustom bawaanmu
+            var lokasiPenting = [{
+                    nama: "Gelora Rajawali"
+                    , deskripsi: "Gelora"
+                    , gambar: "https://lh3.googleusercontent.com/gps-cs-s/AHVAwepxTn57gT7vTJ_Q3AZDIC7VK6gaqdyO6mqkRd8FRVLpWvDDqSIyvUJ5uFRaBWJyzmceyPeYqwwpdM6DTNdnYLx3YXkdmN-JtQyiCXQbSAEW8wpWEfVZC-xrhm4XAYgARmnuTGqh=w408-h306-k-no"
+                    , lat: -7.9748593905406295
+                    , lng: 111.45163579512406
+                }
+                , {
+                    nama: "Balai desa"
+                    , deskripsi: "Balai"
+                    , gambar: "https://lh3.googleusercontent.com/gps-cs-s/AHVAwerKgSaxViDeMa3HeBdunXD3auv5HGqTjFQngjsTLf5pywhCUlPkex5KEVgPQIYoCTJf0YsesR3C0-Z9OtxRBQfMornpP8WmYl5uWaOOu4LBNAKpRPkDreqNx-vBDTjAtpHPYJgX=w408-h306-k-no"
+                    , lat: -7.9741553901755555
+                    , lng: 111.45198039512412
+                }
+            ];
+
+            // 2. Fungsi Utama untuk Membangun Peta (Dipakai untuk Desktop & Mobile)
+            function bangunPeta(idElemen) {
+                var elemenPeta = document.getElementById(idElemen);
+
+                // Cek keberadaan elemen sebelum menjalankan logika peta ⏺️
+                if (!elemenPeta) return null;
+
+                // Inisiasi peta dengan pengaturan anti-zoom bawaanmu 🛠️
+                var map = L.map(idElemen, {
+                    scrollWheelZoom: false
+                    , smoothWheelZoom: true
                     , dragging: true
                 }).setView([-7.9620, 111.4320], 15);
 
@@ -739,6 +760,7 @@
                 L.tileLayer('http://{s}.google.com/vt/lyrs=s&x={x}&y={y}&z={z}', {
                     maxZoom: 20
                     , subdomains: ['mt0', 'mt1', 'mt2', 'mt3']
+                    , attribution: '© Google Maps'
                 }).addTo(map);
 
                 // Fitur interaksi: Zoom aktif hanya jika peta diklik 📂
@@ -749,60 +771,69 @@
                     map.scrollWheelZoom.disable();
                 });
 
-                // 2. Memanggil GeoJSON Batas Desa
-                fetch('{{ asset("assets/geojson/batas-desa.geojson") }}')
-                    .then(response => response.json())
-                    .then(data => {
-                        var batasDesaLayer = L.geoJSON(data, {
-                            style: {
-                                color: '#ffffff'
-                                , weight: 2
-                                , fillColor: '#2ac0b4'
-                                , fillOpacity: 0.1
-                            }
-                        }).addTo(map);
-                        map.fitBounds(batasDesaLayer.getBounds());
-                    });
-
-                // 3. Titik (Marker) Kustom
-                var lokasiPenting = [{
-                        nama: "Gelora Rajawali"
-                        , deskripsi: "Gelora"
-                        , gambar: "https://lh3.googleusercontent.com/gps-cs-s/AHVAwepxTn57gT7vTJ_Q3AZDIC7VK6gaqdyO6mqkRd8FRVLpWvDDqSIyvUJ5uFRaBWJyzmceyPeYqwwpdM6DTNdnYLx3YXkdmN-JtQyiCXQbSAEW8wpWEfVZC-xrhm4XAYgARmnuTGqh=w408-h306-k-no"
-                        , lat: -7.9748593905406295
-                        , lng: 111.45163579512406
-                    }
-                    , {
-                        nama: "Balai desa"
-                        , deskripsi: "Balai"
-                        , gambar: "https://lh3.googleusercontent.com/gps-cs-s/AHVAwerKgSaxViDeMa3HeBdunXD3auv5HGqTjFQngjsTLf5pywhCUlPkex5KEVgPQIYoCTJf0YsesR3C0-Z9OtxRBQfMornpP8WmYl5uWaOOu4LBNAKpRPkDreqNx-vBDTjAtpHPYJgX=w408-h306-k-no"
-                        , lat: -7.9741553901755555
-                        , lng: 111.45198039512412
-                    }
-                ];
-
+                // Memasang Titik (Marker) & Popup Kustom ke peta ini
                 lokasiPenting.forEach(function(lokasi) {
                     var isiPopup = `
-                    <div class="custom-popup-container">
-                        <div class="custom-popup-img">
-                            <img src="${lokasi.gambar}" alt="${lokasi.nama}">
-                        </div>
-                        <div class="custom-popup-text">
-                            <h4>${lokasi.nama}</h4>
-                            <p>${lokasi.deskripsi}</p>
-                        </div>
-                    </div>
-                `;
-
+        <div class="custom-popup-container">
+            <div class="custom-popup-img">
+                <img src="${lokasi.gambar}" alt="${lokasi.nama}">
+            </div>
+            <div class="custom-popup-text">
+                <h4>${lokasi.nama}</h4>
+                <p>${lokasi.deskripsi}</p>
+            </div>
+        </div>
+        `;
                     L.marker([lokasi.lat, lokasi.lng])
                         .addTo(map)
                         .bindPopup(isiPopup);
                 });
+
+                return map;
+            }
+
+            // 3. Eksekusi Pembuatan Peta
+            var mapDesktop = bangunPeta('mapDesaDesktop');
+            var mapMobile = bangunPeta('mapDesaMobile');
+
+            // 4. Memanggil GeoJSON Batas Desa (Sekali untuk Dua Peta)
+            if (mapDesktop || mapMobile) {
+                fetch('{{ asset("assets/geojson/batas-desa.geojson") }}')
+                    .then(response => response.json())
+                    .then(data => {
+
+                        // Gaya styling batas desa dari kodemu
+                        var pengaturanGaya = {
+                            color: '#ffffff'
+                            , weight: 2
+                            , fillColor: '#2ac0b4'
+                            , fillOpacity: 0.1
+                        };
+
+                        // Pasang ke Peta Desktop jika ada
+                        if (mapDesktop) {
+                            var layerDesktop = L.geoJSON(data, {
+                                style: pengaturanGaya
+                            }).addTo(mapDesktop);
+                            mapDesktop.fitBounds(layerDesktop.getBounds()); // Peta otomatis menyesuaikan batas
+                        }
+
+                        // Pasang ke Peta Mobile jika ada
+                        if (mapMobile) {
+                            var layerMobile = L.geoJSON(data, {
+                                style: pengaturanGaya
+                            }).addTo(mapMobile);
+                            mapMobile.fitBounds(layerMobile.getBounds()); // Peta otomatis menyesuaikan batas
+                        }
+                    })
+                    .catch(error => console.error("Gagal memuat batas desa:", error));
             } else {
                 // Log ini hanya muncul di Console jika halaman tidak punya peta 📂
-                console.log("Peta tidak dimuat karena elemen #mapDesa tidak ditemukan.");
+                console.log("Peta tidak dimuat karena elemen Desktop dan Mobile tidak ditemukan.");
             }
+
         });
+
 
         function toggleVisitor() {
             const popup = document.getElementById('visitorPopup');

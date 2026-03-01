@@ -14,13 +14,13 @@ document.addEventListener("DOMContentLoaded", function () {
     const btnText = btn.querySelector(".btn-text");
 
     btn.addEventListener("click", function () {
-        // Toggle class expanded pada list 📂
+        // Toggle class expanded pada list
         list.classList.toggle("expanded");
 
         // Toggle class active pada tombol untuk putar icon 🛠️
         btn.classList.toggle("active");
 
-        // Ubah teks secara dinamis ⏺️
+        // Ubah teks secara dinamis
         if (list.classList.contains("expanded")) {
             btnText.textContent = "Tutup";
         } else {
@@ -462,3 +462,185 @@ window.renderStuntingChart = (canvasId, chartData) => {
         },
     });
 };
+
+document.addEventListener("DOMContentLoaded", function () {
+    // --- Skrip Slider UMKM ---
+    const sliderUmkm = document.getElementById("sliderUmkm");
+    const btnPrevUmkm = document.getElementById("btnPrevUmkm");
+    const btnNextUmkm = document.getElementById("btnNextUmkm");
+
+    if (sliderUmkm && btnPrevUmkm && btnNextUmkm) {
+        btnPrevUmkm.addEventListener("click", () => {
+            const cardWidth =
+                sliderUmkm.querySelector(".snap-start").offsetWidth;
+            sliderUmkm.scrollBy({
+                left: -(cardWidth + 16),
+                behavior: "smooth",
+            });
+        });
+
+        btnNextUmkm.addEventListener("click", () => {
+            const cardWidth =
+                sliderUmkm.querySelector(".snap-start").offsetWidth;
+            sliderUmkm.scrollBy({
+                left: cardWidth + 16,
+                behavior: "smooth",
+            });
+        });
+    }
+});
+document.addEventListener("DOMContentLoaded", function () {
+    // --- Skrip Slider Potensi ---
+    const sliderPotensi = document.getElementById("sliderPotensi");
+    const btnPrevPotensi = document.getElementById("btnPrevPotensi");
+    const btnNextPotensi = document.getElementById("btnNextPotensi");
+
+    if (sliderPotensi && btnPrevPotensi && btnNextPotensi) {
+        btnPrevPotensi.addEventListener("click", () => {
+            const cardWidth =
+                sliderPotensi.querySelector(".snap-start").offsetWidth;
+            sliderPotensi.scrollBy({
+                left: -(cardWidth + 16),
+                behavior: "smooth",
+            });
+        });
+
+        btnNextPotensi.addEventListener("click", () => {
+            const cardWidth =
+                sliderPotensi.querySelector(".snap-start").offsetWidth;
+            sliderPotensi.scrollBy({
+                left: cardWidth + 16,
+                behavior: "smooth",
+            });
+        });
+    }
+});
+document.addEventListener("DOMContentLoaded", function () {
+    const sliderSotk = document.getElementById("sliderSotk");
+    const btnPrev = document.getElementById("btnPrevSotk");
+    const btnNext = document.getElementById("btnNextSotk");
+
+    if (sliderSotk && btnPrev && btnNext) {
+        // Lebar satu kad (160px) + gap (16px) = kira-kira 176px
+        const scrollAmount = 176;
+
+        btnPrev.addEventListener("click", () => {
+            sliderSotk.scrollBy({
+                left: -scrollAmount,
+                behavior: "smooth",
+            });
+        });
+
+        btnNext.addEventListener("click", () => {
+            sliderSotk.scrollBy({
+                left: scrollAmount,
+                behavior: "smooth",
+            });
+        });
+    }
+});
+document.addEventListener("DOMContentLoaded", function () {
+    // --- Skrip Slider Berita ---
+    const sliderBerita = document.getElementById("sliderBerita");
+    const btnPrevBerita = document.getElementById("btnPrevBerita");
+    const btnNextBerita = document.getElementById("btnNextBerita");
+
+    if (sliderBerita && btnPrevBerita && btnNextBerita) {
+        btnPrevBerita.addEventListener("click", () => {
+            // Mengambil lebar satu kartu secara dinamis untuk jarak geser
+            const cardWidth =
+                sliderBerita.querySelector(".snap-start").offsetWidth;
+            sliderBerita.scrollBy({
+                left: -(cardWidth + 16),
+                behavior: "smooth",
+            }); // 16 adalah gap
+        });
+
+        btnNextBerita.addEventListener("click", () => {
+            const cardWidth =
+                sliderBerita.querySelector(".snap-start").offsetWidth;
+            sliderBerita.scrollBy({
+                left: cardWidth + 16,
+                behavior: "smooth",
+            });
+        });
+    }
+});
+
+document.addEventListener("DOMContentLoaded", function () {
+    // Daftar gambar yang akan bergantian (Gunakan variabel ini)
+    const myImages = [
+        "{{ asset('assets/img/background 1.webp') }}",
+        "{{ asset('assets/img/background 2.webp') }}",
+        "{{ asset('assets/img/background 3.webp') }}",
+    ];
+
+    // Preload agar perpindahan gambar tidak patah-patah
+    myImages.forEach((src) => {
+        const img = new Image();
+        img.src = src;
+    });
+
+    // Jalankan Slider untuk Desktop (Target class .hero)
+    if (typeof window.initHeroSlider === "function") {
+        window.initHeroSlider(".hero", myImages, 5000); // Ganti gambar tiap 5 detik
+    }
+
+    // Opsional: Slider sederhana untuk Mobile
+    let mobileIdx = 0;
+    const mobileImgElement = document.getElementById("mobileHeroImg");
+    if (mobileImgElement) {
+        setInterval(() => {
+            mobileIdx = (mobileIdx + 1) % myImages.length;
+            mobileImgElement.style.opacity = 0; // Efek fade out
+            setTimeout(() => {
+                mobileImgElement.src = myImages[mobileIdx];
+                mobileImgElement.style.opacity = 1; // Efek fade in
+            }, 500);
+        }, 5000);
+    }
+});
+
+let desktopSlideIndex = 1;
+let mobileSlideIndex = 1;
+
+// Fungsi navigasi (bisa dipanggil dari tombol)
+function plusSlides(n, isMobile = false) {
+    if (isMobile) {
+        showMobileSlides((mobileSlideIndex += n));
+    } else {
+        showDesktopSlides((desktopSlideIndex += n));
+    }
+}
+
+// Slider Khusus Desktop (Mengganti Background .hero)
+function showDesktopSlides(n) {
+    let slides = document.querySelectorAll(".myslides-desktop");
+    if (slides.length === 0) return;
+
+    if (n > slides.length) {
+        desktopSlideIndex = 1;
+    }
+    if (n < 1) {
+        desktopSlideIndex = slides.length;
+    }
+
+    slides.forEach((s) => s.classList.add("hidden")); // Sembunyikan semua
+    slides[desktopSlideIndex - 1].classList.remove("hidden"); // Munculkan yang aktif
+}
+
+// Slider Khusus Mobile (Gaya Card)
+function showMobileSlides(n) {
+    let slides = document.querySelectorAll(".myslides-mobile");
+    if (slides.length === 0) return;
+
+    if (n > slides.length) {
+        mobileSlideIndex = 1;
+    }
+    if (n < 1) {
+        mobileSlideIndex = slides.length;
+    }
+
+    slides.forEach((s) => s.classList.add("hidden"));
+    slides[mobileSlideIndex - 1].classList.remove("hidden");
+}
