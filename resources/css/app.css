@@ -3101,7 +3101,7 @@ nav.scrolled {
 
 .apbdes-info {
     flex: 1;
-    margin-top: 150px;
+    margin-top: 30px;
 }
 
 .apbdes-stats {
@@ -4322,6 +4322,7 @@ nav.scrolled {
     /* Background abu-abu sangat muda/putih */
     font-family: "Poppins", sans-serif;
     margin: 0 auto;
+    margin-top: 60px;
     display: flex;
     justify-content: space-between;
     align-items: flex-end;
@@ -4337,6 +4338,7 @@ nav.scrolled {
     /* Warna Hijau Cerah sesuai gambar */
     line-height: 1.1;
     margin: 0;
+    margin-top: 30px;
     margin-bottom: 20px;
     text-transform: uppercase;
 }
@@ -5013,7 +5015,7 @@ nav.scrolled {
 }
 
 /* Request Box */
-.ppid-request-box {
+/* .ppid-request-box {
     margin-top: 50px;
     background: #fff;
     padding: 40px;
@@ -5026,7 +5028,7 @@ nav.scrolled {
     font-size: 1.4rem;
     font-weight: 800;
     margin-bottom: 20px;
-}
+} */
 
 .btn-request {
     display: inline-block;
@@ -7762,7 +7764,6 @@ nav.scrolled {
 
 /* --- WADAH UTAMA --- */
 .ppid-section-baru {
-    padding: 80px 20px;
     background-color: #fcfcfc;
     /* Warna latar sangat terang/bersih */
     font-family: "Poppins", sans-serif;
@@ -7957,7 +7958,7 @@ nav.scrolled {
 /* --- REQUEST BOX --- */
 .ppid-request-box {
     text-align: center;
-    margin-top: 80px;
+    margin-top: 30px;
     padding: 40px;
     background-color: #ffffff;
     border-radius: 12px;

@@ -439,9 +439,10 @@
 
             </div>
 
-            <div class="pagination-wrapper">
-                {{ $beritas->links() }}
+            <div id="pagination-container" class="mt-8 mb-10 flex justify-center">
+                {{ $beritas->links('vendor.pagination.custom-mobile') }}
             </div>
+
 
         </div>
     </section>

@@ -9,6 +9,30 @@ use App\Models\PermohonanInformasi;
 
 class PpidController extends Controller
 {
+    public function lihatDokumen($id)
+    {
+        $doc = Ppid::findOrFail($id);
+
+        // 1. Tambah jumlah unduh
+        $doc->increment('jumlah_unduh');
+
+        // 2. Path Final sesuai gambar struktur folder
+        // Mengarahkan ke: public/storage/ppid_docs/namafile.pdf
+        $path = public_path('storage/' . $doc->file);
+
+        // 3. Cek file
+        if (!file_exists($path)) {
+            abort(404, 'Maaf, file dokumen tidak ditemukan di folder public/storage.');
+        }
+
+        // 4. Tampilkan PDF (Bebas dari error 403 Forbidden)
+        return response()->file($path);
+    }
+
+    public function dasarHukum()
+    {
+        return view('frontend.dasar-hukum');
+    }
     public function index(Request $request)
     {
         // 1. Cek Update Terakhir (Untuk teks "Update terakhir ...")
@@ -61,18 +85,19 @@ class PpidController extends Controller
     {
         $doc = Ppid::findOrFail($id);
 
-        // Tambah counter download
+        // 1. Tambah angka jumlah unduhan di database
         $doc->increment('jumlah_unduh');
 
-        // Proses download file
-        // Pastikan path file di database sesuai (misal: 'ppid/file.pdf')
-        $filePath = 'public/' . $doc->file_path;
+        // 2. Gunakan jalur path yang terbukti berhasil tadi!
+        $path = public_path('storage/' . $doc->file);
 
-        if (Storage::exists($filePath)) {
-            return Storage::download($filePath, $doc->judul . '.' . pathinfo($doc->file_path, PATHINFO_EXTENSION));
-        } else {
-            return back()->with('error', 'File tidak ditemukan.');
+        // 3. Pengecekan keamanan
+        if (!file_exists($path)) {
+            abort(404, 'Maaf, file dokumen tidak ditemukan di server.');
         }
+
+        // 4. Perintah sakti untuk MEMAKSA browser mengunduh file
+        return response()->download($path);
     }
 
     public function permohonan()

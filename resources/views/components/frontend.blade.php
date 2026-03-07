@@ -144,9 +144,6 @@
             </ul>
         </div>
 
-        <span class="visitor-count">{{ number_format($visitor_stats['hari_ini']) }}</span>
-
-
         <button class="visitor-btn" onclick="toggleVisitor()">
             <div class="visitor-left">
                 <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -249,61 +246,113 @@
 
     </div>
     {{-- desktopNav --}}
-    <footer class="footer-desa hidden md:block">
-        <div class="footer-container">
-            <div class="footer-column">
-                <div class="footer-logo-section">
-                    <img src="assets/img/Logo Ponorogo.png" alt="Logo Kukar" class="footer-logo" />
-                    <div class="footer-identity">
-                        <h3>Pemerintah Desa Bedikulon</h3>
+    <footer class="bg-[#2ac0b4] text-white pt-12 pb-6 hidden md:block">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+
+            {{-- Grid 4 Kolom --}}
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+
+                {{-- Kolom 1: Logo & Identitas --}}
+                <div class="flex items-start gap-4">
+                    <img src="{{ asset('assets/img/Logo Ponorogo.png') }}" alt="Logo Bedikulon" class="w-16 h-auto object-contain" />
+                    <div class="flex flex-col text-sm leading-relaxed">
+                        <h3 class="font-bold text-base mb-1">Pemerintah Desa Bedikulon</h3>
                         <p>Jalan Jl. Ahmad Yani 1</p>
                         <p>Desa Bedikulon, Kecamatan Bungkal,</p>
                         <p>Kabupaten Ponorogo</p>
                         <p>Provinsi Jawa Timur, 63462</p>
-                        <p class="kode-wilayah">Kode Wilayah: 35.02.03.2019</p>
+                        <p class="font-bold mt-2">Kode Wilayah: 35.02.03.2019</p>
                     </div>
                 </div>
+
+                {{-- Kolom 2: Hubungi Kami & Sosial Media --}}
+                <div>
+                    <h4 class="font-bold text-base mb-4">Hubungi Kami</h4>
+                    <ul class="flex flex-col gap-3 text-sm mb-5">
+                        <li class="flex items-center gap-2">
+                            {{-- SVG Telepon --}}
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
+                            </svg>
+                            082150208664
+                        </li>
+                        <li class="flex items-center gap-2">
+                            {{-- SVG Email --}}
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                                <polyline points="22,6 12,13 2,6"></polyline>
+                            </svg>
+                            bedikulon@gmail.com
+                        </li>
+                    </ul>
+
+                    {{-- Ikon Sosial Media SVG --}}
+                    <div class="flex gap-3">
+                        {{-- Instagram --}}
+                        <a href="#" class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center transition-all duration-300 hover:bg-white hover:text-[#1e3a8a]">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+                                <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+                                <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+                            </svg>
+                        </a>
+                        {{-- Facebook --}}
+                        <a href="#" class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center transition-all duration-300 hover:bg-white hover:text-[#1e3a8a]">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"></path>
+                            </svg>
+                        </a>
+                        {{-- X (Twitter) --}}
+                        <a href="#" class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center transition-all duration-300 hover:bg-white hover:text-[#1e3a8a]">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z" /></svg>
+                        </a>
+                        {{-- YouTube --}}
+                        <a href="#" class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center transition-all duration-300 hover:bg-white hover:text-[#1e3a8a]">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22.54 6.42a2.78 2.78 0 0 0-1.94-2C18.88 4 12 4 12 4s-6.88 0-8.6.46a2.78 2.78 0 0 0-1.94 2A29 29 0 0 0 1 11.75a29 29 0 0 0 .46 5.33 2.78 2.78 0 0 0 1.94 2c1.72.46 8.6.46 8.6.46s6.88 0 8.6-.46a2.78 2.78 0 0 0 1.94-2 29 29 0 0 0 .46-5.33 29 29 0 0 0-.46-5.33z"></path>
+                                <polygon points="9.75 15.02 15.5 11.75 9.75 8.48 9.75 15.02"></polygon>
+                            </svg>
+                        </a>
+                        {{-- TikTok --}}
+                        <a href="#" class="w-8 h-8 rounded-full bg-white/10 flex items-center justify-center transition-all duration-300 hover:bg-white hover:text-[#1e3a8a]">
+                            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+                                <path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.89 2.89 0 0 1-5.2 1.74 2.89 2.89 0 0 1 2.31-4.64 2.93 2.93 0 0 1 .88.13V9.4a6.84 6.84 0 0 0-1-.05A6.33 6.33 0 0 0 5 20.1a6.34 6.34 0 0 0 10.86-4.43v-7a8.16 8.16 0 0 0 4.77 1.52v-3.4a4.85 4.85 0 0 1-1.04-.1z" /></svg>
+                        </a>
+                    </div>
+                </div>
+
+                {{-- Kolom 3: Nomor Telepon Penting --}}
+                <div>
+                    <h4 class="font-bold text-base mb-4">Nomor Telepon Penting</h4>
+                    <ul class="flex flex-col gap-3 text-sm">
+                        <li><a href="#" class="hover:underline hover:text-blue-200 transition duration-300">Kades</a></li>
+                        <li><a href="#" class="hover:underline hover:text-blue-200 transition duration-300">Ambulan</a></li>
+                    </ul>
+                </div>
+
+                {{-- Kolom 4: Jelajahi --}}
+                <div>
+                    <h4 class="font-bold text-base mb-4">Jelajahi</h4>
+                    <ul class="flex flex-col gap-3 text-sm">
+                        <li><a href="#" class="hover:underline hover:text-blue-200 transition duration-300">Website Kemendesa</a></li>
+                        <li><a href="#" class="hover:underline hover:text-blue-200 transition duration-300">Website Kemendagri</a></li>
+                        <li><a href="#" class="hover:underline hover:text-blue-200 transition duration-300">Website Kabupaten Ponorogo</a></li>
+                        <li><a href="#" class="hover:underline hover:text-blue-200 transition duration-300">Cek DPT Online</a></li>
+                    </ul>
+                </div>
+
             </div>
 
-            <div class="footer-column">
-                <h4>Hubungi Kami</h4>
-                <ul class="contact-list">
-                    <li><i class="fas fa-phone-alt"></i> 082150208664</li>
-                    <li><i class="fas fa-envelope"></i> bedikulon@gmail.com</li>
-
-                </ul>
-                {{-- <div class="social-icons">
-                    <a href="#"><i class="fab fa-instagram"></i></a>
-                    <a href="#"><i class="fab fa-facebook-f"></i></a>
-                    <a href="#"><i class="fab fa-x-twitter"></i></a>
-                    <a href="#"><i class="fab fa-youtube"></i></a>
-                    <a href="#"><i class="fab fa-tiktok"></i></a>
-                </div> --}}
+            {{-- Footer Bottom (Copyright) --}}
+            <div class="mt-12 pt-6 border-t border-white/20 flex justify-center items-center text-sm">
+                <p>&copy; 2026 Powered by PT Digital Desa Indonesia</p>
             </div>
 
-            <div class="footer-column">
-                <h4>Nomor Telepon Penting</h4>
-                <ul class="emergency-list">
-                    <li><a href="#">Kades </a></li>
-                    <li><a href="#">Ambulan </a></li>
-                </ul>
-            </div>
-
-            <div class="footer-column">
-                <h4>Jelajahi</h4>
-                <ul class="explore-list">
-                    <li><a href="#">Website Kemendesa</a></li>
-                    <li><a href="#">Website Kemendagri</a></li>
-                    <li><a href="#">Website Kabupaten Kutai Kartanegara</a></li>
-                    <li><a href="#">Cek DPT Online</a></li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="footer-bottom" style="align-items: center;display:flex;justify-content:center;">
-            <p class="copyright">&copy; 2026 Powered by PT Digital Desa Indonesia</p>
         </div>
     </footer>
+
+
     {{-- bottomNav --}}
     <footer class="block md:hidden bg-[#2ac0b4] text-white pt-6 pb-[110px] px-6 font-sans">
 

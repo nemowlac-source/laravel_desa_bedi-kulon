@@ -1,11 +1,14 @@
 import "./bootstrap";
 import Alpine from "alpinejs";
 import Chart from "chart.js/auto";
+import ChartDataLabels from "chartjs-plugin-datalabels";
 import "./bootstrap";
 import Swal from "sweetalert2";
 
 window.Alpine = Alpine;
 window.Swal = Swal;
+window.Chart = Chart;
+Chart.register(ChartDataLabels);
 Alpine.start();
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -236,65 +239,98 @@ window.renderWajibPilihChart = (canvasId, labels, data) => {
         },
     });
 };
-const eduCtx = document.getElementById("pendidikanChart").getContext("2d");
+document.addEventListener("DOMContentLoaded", function () {
+    const eduCtx = document.getElementById("pendidikanChart");
+    if (!eduCtx) return;
 
-new Chart(eduCtx, {
-    type: "bar",
-    data: {
-        labels: [
-            "Tidak/Belum Sekolah",
-            "Belum Tamat SD/Sederajat",
-            "Tamat SD/Sederajat",
-            "SLTP/Sederajat",
-            "SLTA/Sederajat",
-            "Diploma I/II",
-            "Diploma III/Sarjana Muda",
-            "Diploma IV/Strata I",
-            "Strata II",
-            "Strata III",
-        ],
-        datasets: [
-            {
-                label: "Jumlah Penduduk",
-                data: [181, 93, 180, 78, 132, 5, 11, 46, 0, 0], // Data sesuai gambar
-                backgroundColor: "#0d2481", // Biru tua sesuai gambar
-                borderRadius: 5,
-                barThickness: 40,
-            },
-        ],
-    },
-    options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        scales: {
-            y: {
-                beginAtZero: true,
-                max: 210, // Menyesuaikan skala y sesuai gambar
-                ticks: {
-                    stepSize: 30,
+    new Chart(eduCtx.getContext("2d"), {
+        type: "bar", // Tetap 'bar' (vertikal)
+        data: {
+            labels: [
+                "Tidak/Belum Sekolah",
+                "Belum Tamat SD",
+                "Tamat SD/Sederajat",
+                "SLTP/Sederajat",
+                "SLTA/Sederajat",
+                "Diploma I/II",
+                "Diploma III/Sarjana",
+                "Diploma IV/Strata I",
+                "Strata II",
+                "Strata III",
+            ],
+            datasets: [
+                {
+                    label: "Jumlah Penduduk",
+                    // Menggunakan data dari referensi gambarmu agar bentuknya sama
+                    data: [178, 202, 289, 140, 289, 21, 14, 26, 2, 0],
+                    backgroundColor: "#428a1e", // Warna Hijau Daun persis seperti di gambar
+                    borderRadius: 2, // Ujung batang sedikit membulat (tidak terlalu tumpul)
+                    barPercentage: 0.7, // Mengatur ketebalan batang
+                },
+            ],
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false, // Wajib agar mengikuti tinggi div HTML
+            layout: {
+                padding: {
+                    top: 20, // Beri ruang ekstra di atas agar angka tertinggi tidak terpotong
                 },
             },
-            x: {
-                ticks: {
+            scales: {
+                y: {
+                    beginAtZero: true,
+                    max: 320, // Dilebihkan dari 300 agar ada sisa ruang di atas grafik
+                    grid: {
+                        color: "#e5e7eb", // Garis horizontal abu-abu tipis
+                        drawBorder: false,
+                    },
+                    ticks: {
+                        stepSize: 50,
+                        color: "#6b7280",
+                        font: { size: 11 },
+                    },
+                },
+                x: {
+                    grid: {
+                        display: false, // Hilangkan garis vertikal agar bersih seperti gambar
+                    },
+                    ticks: {
+                        color: "#4b5563",
+                        font: { size: 10 },
+                        maxRotation: 45, // Miringkan teks 45 derajat agar rapi dan tidak bertabrakan
+                        minRotation: 45,
+                    },
+                },
+            },
+            plugins: {
+                legend: {
+                    display: false, // Sembunyikan legenda (sudah terwakili judul)
+                },
+                // MENGAKTIFKAN ANGKA DI ATAS BATANG
+                datalabels: {
+                    color: "#1f2937", // Warna angka abu-abu gelap/hitam
+                    anchor: "end", // Letakkan patokan di ujung atas batang
+                    align: "top", // Posisikan tulisan di atas patokan
+                    offset: 4, // Jarak angka dari batang
                     font: {
-                        size: 10,
+                        size: 11,
+                        weight: "bold",
+                    },
+                    formatter: function (value) {
+                        return value === 0 ? "" : value; // Jangan tulis angka "0" jika kosong
+                    },
+                },
+                tooltip: {
+                    callbacks: {
+                        label: function (context) {
+                            return context.raw + " Orang";
+                        },
                     },
                 },
             },
         },
-        plugins: {
-            legend: {
-                display: false, // Sembunyikan legenda karena sudah jelas dari judul
-            },
-            tooltip: {
-                callbacks: {
-                    label: function (context) {
-                        return context.raw + " Orang";
-                    },
-                },
-            },
-        },
-    },
+    });
 });
 window.renderDusunChart = (canvasId, labels, data) => {
     const el = document.getElementById(canvasId);

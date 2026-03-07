@@ -26,12 +26,13 @@ use App\Http\Controllers\SdgsController;
 use App\Http\Controllers\PpidController;
 use App\Http\Controllers\PengaduanController;
 
-
+Route::get('/ppid/dokumen/{id}', [App\Http\Controllers\PpidController::class, 'lihatDokumen'])->name('ppid.lihat-dokumen');
+Route::get('/ppid/dasar-hukum', [PpidController::class, 'dasarHukum'])->name('frontend.ppid.dasar-hukum');
 Route::get('/ppid', [PpidController::class, 'index'])->name('frontend.ppid');
 Route::get('/ppid/permohonan', [App\Http\Controllers\PpidController::class, 'permohonan'])->name('frontend.ppid.permohonan');
 Route::post('/ppid/permohonan', [App\Http\Controllers\PpidController::class, 'storePermohonan'])->name('frontend.ppid.permohonan.store');
 Route::get('/ppid/permohonan', [App\Http\Controllers\PpidController::class, 'permohonan'])->name('frontend.ppid.permohonan');
-Route::get('/ppid/download/{id}', [PpidController::class, 'download'])->name('ppid.download');
+Route::get('/ppid/download/{id}', [App\Http\Controllers\PpidController::class, 'download'])->name('ppid.download');
 Route::get('/bansos', [BansosController::class, 'index'])->name('frontend.bansos');
 Route::get('/stunting', [StuntingController::class, 'index'])->name('frontend.stunting');
 Route::get('/apbdes', [ApbdesController::class, 'index'])->name('frontend.apbdes');
@@ -44,7 +45,7 @@ Route::get('/potensi', [HomeController::class, 'potensi'])->name('frontend.poten
 Route::get('/potensi/{id}', [App\Http\Controllers\HomeController::class, 'detailPotensi'])->name('frontend.potensi.detail');
 Route::get('/pemerintahan', [HomeController::class, 'pemerintahan'])->name('frontend.pemerintahan');
 Route::get('/galeri', [HomeController::class, 'galeri'])->name('frontend.galeri');
-Route::get('/infografis', [InfografisController::class, 'index'])->name('frontend.infografis');
+Route::get('/infografis/penduduk', [InfografisController::class, 'index'])->name('frontend.infografis');
 Route::get('/belanja', [HomeController::class, 'belanja'])->name('frontend.belanja');
 Route::get('/belanja/{id}', [App\Http\Controllers\HomeController::class, 'detailBelanja'])->name('frontend.belanja.detail');
 Route::get('/berita', [HomeController::class, 'berita'])->name('frontend.berita');
