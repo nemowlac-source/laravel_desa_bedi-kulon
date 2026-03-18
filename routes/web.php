@@ -58,43 +58,25 @@ Route::get('/profile-desa', function () {
 Route::get('/listing', function () {
     return view('frontend.listing');
 })->name('frontend.listing');
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     // 1. DASHBOARD ADMIN (Hanya untuk role 'admin')
     Route::middleware(['role:admin'])->prefix('admin')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
-
-        // --- Rute IDM DETAIL (Rincian Indikator) ---
-        // 1. Menampilkan daftar indikator
         Route::get('idm/{id}/detail', [\App\Http\Controllers\Admin\IdmDetailController::class, 'index'])
-            ->name('idm.detail.index'); // Hasil akhirnya: admin.idm.detail.index
-
-        // 2. Form Tambah Indikator
+            ->name('idm.detail.index');
         Route::get('idm/{id}/detail/create', [\App\Http\Controllers\Admin\IdmDetailController::class, 'create'])
             ->name('idm.detail.create');
-
-        // 3. Simpan Indikator Baru
         Route::post('idm/{id}/detail', [\App\Http\Controllers\Admin\IdmDetailController::class, 'store'])
             ->name('idm.detail.store');
-
-        // 4. Edit Indikator (Pakai ID Detail)
         Route::get('idm-detail/{id}/edit', [\App\Http\Controllers\Admin\IdmDetailController::class, 'edit'])
             ->name('idm.detail.edit');
-
-        // 5. Update Indikator
         Route::put('idm-detail/{id}', [\App\Http\Controllers\Admin\IdmDetailController::class, 'update'])
             ->name('idm.detail.update');
-
-        // 6. Hapus Indikator
         Route::delete('idm-detail/{id}', [\App\Http\Controllers\Admin\IdmDetailController::class, 'destroy'])
             ->name('idm.detail.destroy');
-        // 1. RUTE KUSTOM (Harus di atas resource!)
         Route::get('/ppid/permohonan-masuk', [\App\Http\Controllers\Admin\PpidController::class, 'permohonanMasuk'])->name('admin.ppid.permohonan');
         Route::delete('/ppid/permohonan-masuk/{id}', [\App\Http\Controllers\Admin\PpidController::class, 'destroyPermohonan'])->name('admin.ppid.permohonan.destroy');
-        // Tambahkan route lain khusus admin di sini (misal: kelola penduduk)
         Route::resource('galeri', GaleriController::class);
         Route::resource('umkm', UmkmController::class);
         Route::resource('berita', BeritaController::class);

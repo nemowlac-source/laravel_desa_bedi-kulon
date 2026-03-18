@@ -81,15 +81,13 @@
             </div>
         </div>
 
-        <div class="sdg-container">
-            <div class="sdg-content-grid">
-
-                <div class="sdg-text-box">
+        <div class="sdg-container hidden md:block">
+            <div class="sdg-content-grid ">
+                <div class="sdg-text-box  ">
                     <h2 class="sdg-subtitle">SDGs Desa</h2>
                     <p class="sdg-desc">
                         SDGs desa mengacu pada upaya yang dilakukan di tingkat desauntuk mencapai Tujuan Pembangunan Berkelanjutan (Sustainable Development Goals/SDGs). SDGs merupakan agenda global yang ditetapkan oleh Perserikatan Bangsa-Bangsa (PBB) untuk mengatasi berbagai tantangan sosial, ekonomi, dan lingkungan di seluruh dunia
                     </p>
-
                     <div class="sdg-score-card">
                         <div class="score-label">
                             Skor SDGs Desa<br>Kersik
@@ -100,7 +98,8 @@
                     </div>
                 </div>
 
-                <div class="sdg-image-box">
+                <div class="sdg-image-box ">
+
                     <img src="{{ asset('assets/img/sdgs.png') }}" alt="Ilustrasi SDGs" onerror="this.src='https://placehold.co/600x500?text=Ilustrasi+3D+SDGs'">
                 </div>
 
@@ -109,50 +108,78 @@
         </div>
 
 
-        <div class="container mx-auto px-4 py-10">
-            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-                {{-- Loop dimulai di sini --}}
-                @forelse($sdgs_items as $item)
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
 
-                <div class="card bg-white shadow-sm border border-gray-100 rounded-2xl overflow-hidden hover:shadow-md transition p-6 flex flex-col justify-between h-full group">
+            {{-- Loop dimulai di sini --}}
+            @forelse($sdgs_items as $item)
 
-                    {{-- 1. Judul di Paling Atas --}}
-                    <h4 class="font-extrabold text-black text-xl mb-6 leading-tight group-hover:text-blue-600 transition">
+            {{-- ========================================== --}}
+            {{-- KARTU DESKTOP (Tampil di Laptop)           --}}
+            {{-- ========================================== --}}
+            <div class="hidden md:flex bg-white shadow-sm border border-gray-100 rounded-2xl overflow-hidden hover:shadow-md transition p-6 flex-col justify-between h-full group">
+
+                {{-- 1. Judul di Paling Atas --}}
+                <h4 class="font-extrabold text-black text-xl mb-6 leading-tight group-hover:text-blue-600 transition">
+                    {{ $item->title }}
+                </h4>
+
+                {{-- 2. Baris Bawah: Ikon/Warna (Kiri) & Nilai (Kanan) --}}
+                <div class="flex justify-between items-end mt-auto">
+                    <div class="flex-shrink-0 w-20 h-20 flex items-center justify-center rounded-xl font-black text-white text-4xl shadow-sm" style="background-color: {{ $item->getColor() }};">
+                        {{ $item->goal_number }}
+                    </div>
+                    <div class="text-right">
+                        <span class="block text-sm text-gray-800 font-medium mb-1">Nilai</span>
+                        <span class="block font-black text-5xl text-black leading-none tracking-tighter">
+                            {{ number_format($item->score, 2) }}
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+            {{-- ========================================== --}}
+            {{-- KARTU MOBILE (Tampil di HP, Menyamping)    --}}
+            {{-- ========================================== --}}
+
+            {{-- INI BAGIAN YANG SAYA EDIT 100% SESUAI GAMBAR TARGETMU --}}
+            <div class="w-full flex md:hidden bg-white shadow-[0_2px_15px_rgba(0,0,0,0.04)] border border-gray-100 rounded-2xl p-4 items-center gap-4">
+
+                {{-- Kiri: Kotak Ikon/Nomor SDGs (Ukurannya 60x60 sesuai gambar) --}}
+                <div class="flex-shrink-0 w-[60px] h-[60px] flex items-center justify-center rounded-xl font-black text-white text-3xl overflow-hidden shadow-sm" style="background-color: {{ $item->getColor() }};">
+                    {{ $item->goal_number }}
+                </div>
+
+                {{-- Tengah: Judul SDGs (Tebal) --}}
+                <div class="flex-1">
+                    <h4 class="font-extrabold text-black text-[14px] leading-snug">
                         {{ $item->title }}
                     </h4>
-
-                    {{-- 2. Baris Bawah: Ikon/Warna (Kiri) & Nilai (Kanan) --}}
-                    <div class="flex justify-between items-end mt-auto">
-
-                        {{-- Kiri: Kotak Nomor SDGs (Ukurannya diperbesar) --}}
-                        <div class="flex-shrink-0 w-20 h-20 flex items-center justify-center rounded-xl font-black text-white text-4xl shadow-sm" style="background-color: {{ $item->getColor() }};">
-                            {{ $item->goal_number }}
-                        </div>
-
-                        {{-- Kanan: Tulisan Nilai dan Angka Besar --}}
-                        <div class="text-right">
-                            <span class="block text-sm text-gray-800 font-medium mb-1">Nilai</span>
-                            <span class="block font-black text-5xl text-black leading-none tracking-tighter">
-                                {{ number_format($item->score, 2) }}
-                            </span>
-                        </div>
-
-                    </div>
-
                 </div>
 
-                @empty
-                {{-- Pesan jika data kosong --}}
-                {{-- Menggunakan col-span-full agar tulisan berada persis di tengah grid --}}
-                <div class="col-span-full text-center py-10 text-gray-500 font-medium">
-                    Data SDGs tahun {{ $tahun_pilih }} belum diinput.
+                {{-- Kanan: Tulisan 'Nilai' dan Angka Skor (Padat Atas Bawah) --}}
+                <div class="flex flex-col items-end flex-shrink-0">
+                    <span class="text-[10px] text-gray-500 font-medium mb-1">Nilai</span>
+                    <span class="font-black text-[22px] text-black leading-none tracking-tight">
+                        {{ number_format($item->score, 2) }}
+                    </span>
                 </div>
-                @endforelse
-                {{-- Loop berakhir --}}
 
             </div>
+
+            @empty
+            {{-- Pesan jika data kosong --}}
+            <div class="col-span-full text-center py-10 text-gray-500 font-medium">
+                Data SDGs tahun {{ $tahun_pilih }} belum diinput.
+            </div>
+            @endforelse
+            {{-- Loop berakhir --}}
+
         </div>
+
+
+
+
 
 
     </section>

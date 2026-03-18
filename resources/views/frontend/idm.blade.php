@@ -80,116 +80,163 @@
 
             </div>
         </div>
+        <div class="idm-top-section">
+            <div class="idm-info mb-6 hidden md:block">
 
-        <div class="idm-main-wrapper">
-            <div class="idm-container">
-                <div class="idm-top-section">
-                    <div class="idm-info">
-                        <h2 class="idm-brand">IDM</h2>
-                        <p class="idm-text">
-                            Indeks Desa Membangun (IDM) Desa Bedi Kulon Tahun {{ $tahun_pilih }}.
-                            Indeks komposit yang dibentuk dari tiga indeks, yaitu
-                            <strong>Indeks Ketahanan Sosial</strong>, <strong>Indeks Ketahanan Ekonomi</strong>, dan
-                            <strong>Indeks Ketahanan Ekologi/Lingkungan</strong>.
-                        </p>
+                <h2 class="idm-brand text-2xl font-bold text-[#2ac0b4] mb-2">IDM</h2>
 
-                        <div class="mt-4">
-                            {{-- Ubah 'idm.index' menjadi 'frontend.idm' ⏺️ --}}
-                            <form action="{{ route('frontend.idm') }}" method="GET">
-                                <select name="tahun" onchange="this.form.submit()" class="pl-4 pr-10 py-2 border rounded bg-white text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none">
-                                    {{-- Tambahkan 'appearance-none' jika kamu ingin menghilangkan panah bawaan dan menggunakan icon kustom ⏺️ --}}
-                                    @forelse($list_tahun as $thn)
-                                    <option value="{{ $thn }}" {{ $tahun_pilih == $thn ? 'selected' : '' }}>
-                                        Tahun {{ $thn }}
-                                    </option>
-                                    @empty
-                                    <option>{{ date('Y') }}</option>
-                                    @endforelse
-                                </select>
-
-                            </form>
-                        </div>
-
-                    </div>
-
-                    @if($idm)
-                    <div class="idm-primary-cards">
-                        <div class="card-large">
-                            <span class="card-label">SKOR IDM {{ $tahun_pilih }}</span>
-                            <span class="card-value-bold text-blue-600">{{ number_format($idm->nilai_idm, 4) }}</span>
-
-                        </div>
-                        <div class="card-large">
-                            <span class="card-label">STATUS IDM {{ $tahun_pilih }}</span>
-                            <span class="card-value-bold 
-                        {{ $idm->status == 'MANDIRI' ? 'text-green-600' : 
-                          ($idm->status == 'MAJU' ? 'text-blue-500' : 
-                          ($idm->status == 'BERKEMBANG' ? 'text-yellow-500' : 'text-red-500')) }}">
-                                {{ $idm->status }}
-                            </span>
-                        </div>
-                    </div>
-                    @else
-                    <div class="idm-primary-cards">
-                        <div class="card-large"><span class="card-value-bold text-gray-400">Belum Ada Data</span></div>
-                    </div>
-                    @endif
+                {{-- PERUBAHAN: Teks ini dibungkus 'hidden md:block' agar hilang di Mobile --}}
+                <div class="hidden md:block">
+                    <p class="idm-text text-sm text-gray-600 mb-4">
+                        Indeks Desa Membangun (IDM) Desa Bedi Kulon Tahun {{ $tahun_pilih }}.
+                        Indeks komposit yang dibentuk dari tiga indeks, yaitu
+                        <strong>Indeks Ketahanan Sosial</strong>, <strong>Indeks Ketahanan Ekonomi</strong>, dan
+                        <strong>Indeks Ketahanan Ekologi/Lingkungan</strong>.
+                    </p>
                 </div>
 
+                <div class="mt-4">
+                    <form action="{{ route('frontend.idm') }}" method="GET">
+                        <select name="tahun" onchange="this.form.submit()" class="pl-4 pr-10 py-2 border rounded bg-white text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none">
+                            @forelse($list_tahun as $thn)
+                            <option value="{{ $thn }}" {{ $tahun_pilih == $thn ? 'selected' : '' }}>
+                                Tahun {{ $thn }}
+                            </option>
+                            @empty
+                            <option>{{ date('Y') }}</option>
+                            @endforelse
+                        </select>
+                    </form>
+                </div>
+            </div>
+
+            {{-- ========================================== --}}
+            {{-- ZONA DESKTOP (Grid Menyamping)             --}}
+            {{-- ========================================== --}}
+            <div class="hidden md:block">
                 @if($idm)
-                <div class="idm-secondary-grid">
-                    <div class="card-small">
-                        <span class="card-label">Target Status</span>
-                        <span class="card-value-small text-green-700">{{ $target_status }}</span>
+                <div class="idm-primary-cards flex gap-4 mb-6">
+                    <div class="card-large flex-1 bg-white p-6 rounded-xl shadow-sm border border-gray-100 text-center">
+                        <span class="card-label block text-sm font-bold text-gray-500 mb-2">SKOR IDM {{ $tahun_pilih }}</span>
+                        <span class="card-value-bold block text-4xl font-extrabold text-blue-600">{{ number_format($idm->nilai_idm, 4) }}</span>
                     </div>
-                    <div class="card-small">
-                        <span class="card-label">Skor Minimal</span>
-                        <span class="card-value-small">{{ number_format($min_skor_target, 4) }}</span>
-                    </div>
-                    <div class="card-small">
-                        <span class="card-label">Penambahan</span>
-                        <span class="card-value-small {{ $penambahan > 0 ? 'text-red-500' : 'text-green-500' }}">
-                            {{ number_format($penambahan, 4) }}
+                    <div class="card-large flex-1 bg-white p-6 rounded-xl shadow-sm border border-gray-100 text-center">
+                        <span class="card-label block text-sm font-bold text-gray-500 mb-2">STATUS IDM {{ $tahun_pilih }}</span>
+                        <span class="card-value-bold block text-3xl font-extrabold {{ $idm->status == 'MANDIRI' ? 'text-green-600' : ($idm->status == 'MAJU' ? 'text-blue-500' : ($idm->status == 'BERKEMBANG' ? 'text-yellow-500' : 'text-red-500')) }}">
+                            {{ $idm->status }}
                         </span>
                     </div>
+                </div>
 
-                    <div class="card-small">
-                        <span class="card-label">Skor IKS (Sosial)</span>
-                        <span class="card-value-small">{{ number_format($details_iks->sum('nilai_plus'), 4) }}</span>
-
-
-
-
-
+                <div class="idm-secondary-grid grid grid-cols-5 gap-4 mb-8">
+                    <div class="card-small bg-white p-4 rounded-xl shadow-sm border border-gray-100 text-center">
+                        <span class="card-label block text-xs text-gray-500 mb-1">Target Status</span>
+                        <span class="card-value-small block text-lg font-bold text-green-700">{{ $target_status }}</span>
                     </div>
-                    <div class="card-small">
-                        <span class="card-label">Skor IKE (Ekonomi)</span>
-                        <span class="card-value-small">{{ number_format($idm->skor_ike, 4) }}</span>
-
-
-
+                    <div class="card-small bg-white p-4 rounded-xl shadow-sm border border-gray-100 text-center">
+                        <span class="card-label block text-xs text-gray-500 mb-1">Skor Minimal</span>
+                        <span class="card-value-small block text-lg font-bold text-gray-800">{{ number_format($min_skor_target, 4) }}</span>
                     </div>
-                    <div class="card-small">
-                        <span class="card-label">Skor IKL (Lingkungan)</span>
-                        <span class="card-value-small">{{ number_format($idm->skor_ikl, 4) }}</span>
-
-
-
+                    <div class="card-small bg-white p-4 rounded-xl shadow-sm border border-gray-100 text-center">
+                        <span class="card-label block text-xs text-gray-500 mb-1">Penambahan</span>
+                        <span class="card-value-small block text-lg font-bold {{ $penambahan > 0 ? 'text-red-500' : 'text-green-500' }}">{{ number_format($penambahan, 4) }}</span>
+                    </div>
+                    <div class="card-small bg-white p-4 rounded-xl shadow-sm border border-gray-100 text-center">
+                        <span class="card-label block text-xs text-gray-500 mb-1">Skor IKS (Sosial)</span>
+                        <span class="card-value-small block text-lg font-bold text-gray-800">{{ number_format($details_iks->sum('nilai_plus'), 4) }}</span>
+                    </div>
+                    <div class="card-small bg-white p-4 rounded-xl shadow-sm border border-gray-100 text-center">
+                        <span class="card-label block text-xs text-gray-500 mb-1">Skor IKE (Ekonomi)</span>
+                        <span class="card-value-small block text-lg font-bold text-gray-800">{{ number_format($idm->skor_ike, 4) }}</span>
+                    </div>
+                    <div class="card-small bg-white p-4 rounded-xl shadow-sm border border-gray-100 text-center col-span-5">
+                        <span class="card-label block text-xs text-gray-500 mb-1">Skor IKL (Lingkungan)</span>
+                        <span class="card-value-small block text-lg font-bold text-gray-800">{{ number_format($idm->skor_ikl, 4) }}</span>
                     </div>
                 </div>
+                @else
+                <div class="idm-primary-cards">
+                    <div class="card-large bg-white p-6 rounded-xl shadow-sm text-center"><span class="card-value-bold text-xl font-bold text-gray-400">Belum Ada Data</span></div>
+                </div>
                 @endif
-
             </div>
-        </div>
-        <div class="idm-container">
-            <h2 class="chart-title-green">Skor IDM Tahun ke Tahun</h2>
 
-            <div class="line-chart-wrapper">
+            {{-- ========================================== --}}
+            {{-- ZONA MOBILE (List Vertikal)                --}}
+            {{-- ========================================== --}}
+
+            <div class="block md:hidden w-full">
+                @if($idm)
+
+                <div class="flex flex-col gap-3 mt-4 w-full">
+
+                    <div class="w-full bg-white rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-gray-100 px-5 py-4 flex justify-between items-center">
+                        <span class="text-[11px] font-bold text-black tracking-wide">Skor IDM {{ $tahun_pilih }}</span>
+                        <span class="text-lg font-extrabold text-black">{{ number_format($idm->nilai_idm, 4) }}</span>
+                    </div>
+
+                    <div class="w-full bg-white rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-gray-100 px-5 py-4 flex justify-between items-center">
+                        <span class="text-[11px] font-bold text-black tracking-wide">STATUS IDM {{ $tahun_pilih }}</span>
+                        <span class="text-lg font-extrabold text-black uppercase">{{ $idm->status }}</span>
+                    </div>
+
+                    <div class="w-full bg-white rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-gray-100 px-5 py-4 flex justify-between items-center">
+                        <span class="text-[11px] font-bold text-black tracking-wide">Target Status</span>
+                        <span class="text-lg font-extrabold text-black uppercase">{{ $target_status }}</span>
+                    </div>
+
+                    <div class="w-full bg-white rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-gray-100 px-5 py-4 flex justify-between items-center">
+                        <span class="text-[11px] font-bold text-black tracking-wide">Skor Minimal</span>
+                        <span class="text-lg font-extrabold text-black">{{ number_format($min_skor_target, 4) }}</span>
+                    </div>
+
+                    <div class="w-full bg-white rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-gray-100 px-5 py-4 flex justify-between items-center">
+                        <span class="text-[11px] font-bold text-black tracking-wide">Penambahan</span>
+                        <span class="text-lg font-extrabold text-black">{{ number_format($penambahan, 4) }}</span>
+                    </div>
+
+                    <div class="w-full bg-white rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-gray-100 px-5 py-4 flex justify-between items-center">
+                        <span class="text-[11px] font-bold text-black tracking-wide">Skor IKS</span>
+                        <span class="text-lg font-extrabold text-black">{{ number_format($details_iks->sum('nilai_plus'), 4) }}</span>
+                    </div>
+
+                    <div class="w-full bg-white rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-gray-100 px-5 py-4 flex justify-between items-center">
+                        <span class="text-[11px] font-bold text-black tracking-wide">Skor IKE</span>
+                        <span class="text-lg font-extrabold text-black">{{ number_format($idm->skor_ike, 4) }}</span>
+                    </div>
+
+                    <div class="w-full bg-white rounded-xl shadow-[0_2px_8px_rgba(0,0,0,0.04)] border border-gray-100 px-5 py-4 flex justify-between items-center">
+                        <span class="text-[11px] font-bold text-black tracking-wide">Skor IKL</span>
+                        <span class="text-lg font-extrabold text-black">{{ number_format($idm->skor_ikl, 4) }}</span>
+                    </div>
+
+                </div>
+
+                @else
+                <div class="w-full bg-white p-5 mt-4 rounded-xl border border-gray-100 text-center shadow-sm">
+                    <span class="font-bold text-gray-400">Belum Ada Data</span>
+                </div>
+                @endif
+            </div>
+
+
+
+
+
+        </div>
+        <div class="idm-container mt-10">
+            {{-- Judul Grafik Responsif --}}
+            <h2 class="text-xl md:text-2xl font-bold text-[#2ac0b4] mb-4 text-center md:text-left">
+                Skor IDM Tahun ke Tahun
+            </h2>
+
+            {{-- Wrapper Grafik yang Responsif (Kuncinya ada di 'h-[...px]') --}}
+            <div class="relative w-full h-[300px] md:h-[450px] bg-white p-2 md:p-6 rounded-xl md:rounded-2xl shadow-sm border border-gray-100">
                 <canvas id="idmTrendChart" data-labels="{{ json_encode($chart_labels) }}" data-scores="{{ json_encode($chart_data) }}">
                 </canvas>
             </div>
-
         </div>
+
         <div class="idm-wrapper" style="margin-top: 50px">
             <div class="table-scroll">
                 <table class="idm-table-final">
@@ -339,14 +386,12 @@
     </section>
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            // Ambil elemen canvas
             const canvas = document.getElementById('idmTrendChart');
             if (!canvas) return;
 
             const ctx = canvas.getContext('2d');
 
-            // Ambil data dari atribut HTML (Anti-Error) ⏺️
-            // Pastikan di Controller datanya sudah di-json_encode
+            // Mengambil data dari atribut HTML
             const labels = JSON.parse(canvas.getAttribute('data-labels') || '[]');
             const scores = JSON.parse(canvas.getAttribute('data-scores') || '[]');
 
@@ -357,55 +402,95 @@
                     , datasets: [{
                         label: 'Skor IDM'
                         , data: scores
-                        , borderColor: '#ff9f89'
-                        , backgroundColor: 'rgba(255, 159, 137, 0.1)'
-                        , fill: true
-                        , borderWidth: 3
-                        , tension: 0.3, // Garis agak melengkung
-                        pointRadius: 6
-                        , pointBackgroundColor: '#fff'
-                        , pointBorderColor: '#ff9f89'
-                        , pointBorderWidth: 2
+                        , borderColor: '#ff8f73', // Warna oranye/coral sesuai contoh
+                        backgroundColor: '#ffffff'
+                        , fill: false, // KUNCI: Menghilangkan blok warna di bawah garis
+                        borderWidth: 2
+                        , tension: 0, // KUNCI: Membuat garis menjadi lurus antar titik (tidak melengkung)
+                        pointRadius: 5
+                        , pointBackgroundColor: '#ffffff', // Bagian tengah titik warna putih
+                        pointBorderColor: '#ff8f73', // Pinggiran titik warna oranye
+                        pointBorderWidth: 2
+                        , pointHoverRadius: 7
                     }]
                 }
                 , options: {
                     responsive: true
                     , maintainAspectRatio: false
+                    , layout: {
+                        padding: {
+                            top: 15
+                            , right: 15
+                            , left: 5
+                            , bottom: 5
+                        }
+                    }
                     , scales: {
                         y: {
                             beginAtZero: true
                             , min: 0
-                            , max: 1, // Skala 0-1 sesuai standar IDM
+                            , max: 1, // Mempertahankan skala 0 sampai 1
                             ticks: {
                                 stepSize: 0.1
-                                , color: '#999'
+                                , color: '#6b7280'
+                                , font: {
+                                    family: "'Poppins', sans-serif"
+                                    , size: 10
+                                }
                             }
                             , grid: {
-                                color: '#f0f0f0'
-                                , borderDash: [5, 5]
+                                color: 'rgba(200, 210, 230, 0.5)', // Warna grid biru muda transparan
+                                borderDash: [5, 5], // Membuat grid putus-putus
+                                drawBorder: false
                             }
                         }
                         , x: {
-                            // INI KUNCINYA! Agar garis tidak nempel di pinggir ⏺️
                             offset: true
-                            , grid: {
-                                display: false
-                            }
                             , ticks: {
-                                color: '#666'
+                                color: '#6b7280'
                                 , font: {
-                                    weight: '600'
+                                    family: "'Poppins', sans-serif"
+                                    , size: 11
+                                    , weight: '500'
                                 }
-                                , padding: 10 // Jarak antara teks tahun dan grafik
+                                , padding: 10
+                            }
+                            , grid: {
+                                display: true, // KUNCI: Menampilkan garis vertikal
+                                color: 'rgba(200, 210, 230, 0.5)', // Warna biru muda putus-putus
+                                borderDash: [5, 5]
+                                , drawBorder: false
                             }
                         }
                     }
                     , plugins: {
                         legend: {
                             display: false
-                        }
-                        , tooltip: {
-                            // ... (kode tooltip bisa ditambahkan di sini jika mau)
+                        },
+
+                        // KUNCI: Mematikan angka yang menempel di garis (karena efek global grafik stunting)
+                        datalabels: {
+                            display: false
+                        },
+
+                        tooltip: {
+                            backgroundColor: 'rgba(0, 0, 0, 0.8)'
+                            , padding: 12
+                            , titleFont: {
+                                family: "'Poppins', sans-serif"
+                                , size: 12
+                            }
+                            , bodyFont: {
+                                family: "'Poppins', sans-serif"
+                                , size: 13
+                                , weight: 'bold'
+                            }
+                            , displayColors: false
+                            , callbacks: {
+                                label: function(context) {
+                                    return 'Skor IDM: ' + context.parsed.y.toFixed(4); // Hover menampilkan 4 desimal
+                                }
+                            }
                         }
                     }
                 }
@@ -413,6 +498,7 @@
         });
 
     </script>
+
 
 
 

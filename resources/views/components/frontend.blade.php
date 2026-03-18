@@ -27,7 +27,7 @@
                 <img src="{{ asset('assets/img/Logo Ponorogo.png') }}" alt="Logo Desa" class="logo-img" />
                 <div class="logo-text">
                     <span class="nama-desa">Desa Bedi Kulon</span>
-                    <span class="sub-nama">Kabupaten Ponorogo</span>
+                    <span class="sub-nama-nav">Kabupaten Ponorogo</span>
                 </div>
             </div>
 
@@ -60,7 +60,7 @@
             <img src="{{ asset('assets/img/Logo Ponorogo.png') }}" alt="Logo Ponorogo" class="w-9 h-auto drop-shadow-sm" />
             <div class="flex flex-col">
                 <span class="font-extrabold text-[15px] leading-tight tracking-wide">Desa Bedi Kulon</span>
-                <span class="text-[11px] font-medium opacity-90 leading-tight">Kabupaten Ponorogo</span>
+                <span class="text-[11px] font-medium leading-tight">Kabupaten Ponorogo</span>
             </div>
         </div>
 
