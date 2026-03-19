@@ -65,37 +65,52 @@
 
             <div class="infografis-container">
 
-                {{-- BAGIAN INI HANYA MUNCUL DI DESKTOP (hidden md:block) --}}
-                <div class="hidden md:block">
-                    <h2 class="text-2xl font-bold text-[#2ac0b4] mb-6">Jumlah Penerima Bansos</h2>
+                {{-- ========================================== --}}
+                {{-- VERSI DESKTOP (100% MIRIP DESA KERSIK)     --}}
+                {{-- ========================================== --}}
+                <div class="hidden md:block w-full max-w-6xl mx-auto mt-16 px-6">
 
-                    <div class="grid grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
-                        @php
-                        $kategori_bansos = [
-                        ['key' => 'bpjs', 'label' => 'BPJS PBI Ketenagakerjaan'],
-                        ['key' => 'pkh', 'label' => 'PKH'],
-                        ['key' => 'bpnt', 'label' => 'BPNT'],
-                        ['key' => 'blt', 'label' => 'BLT 2026'],
-                        ['key' => 'pstn', 'label' => 'PSTN'],
-                        ];
-                        @endphp
+                    {{-- Judul Hijau Terang --}}
+                    <h2 class="text-[#8cdb6e] font-bold text-4xl mb-10 tracking-tight text-left">
+                        Jumlah Penerima Bansos
+                    </h2>
 
+                    @php
+                    $kategori_bansos = [
+                    ['key' => 'bpjs', 'label' => 'BPJS PBI Ketenagakerjaan'],
+                    ['key' => 'pkh', 'label' => 'PKH'],
+                    ['key' => 'bpnt', 'label' => 'BPNT'],
+                    ['key' => 'pstn', 'label' => 'PSTN'],
+                    ['key' => 'blt', 'label' => 'BLT 2024'],
+                    ];
+                    @endphp
+
+                    {{-- Grid Layout: 2 Kolom menyamping --}}
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
                         @foreach($kategori_bansos as $b)
-                        <div class="bg-white rounded-xl shadow-sm border border-gray-100 p-6 flex flex-col items-center justify-center text-center transition-transform hover:-translate-y-1">
-                            <div class="mb-2">
-                                <span class="text-4xl font-extrabold text-gray-800">{{ number_format($summary[$b['key']] ?? 0) }}</span>
-                                <span class="text-sm text-gray-500 font-medium ml-1">Penduduk</span>
+                        <div class="bg-white rounded-xl shadow-[0_2px_10px_rgba(0,0,0,0.05)] border border-gray-100 p-8 flex items-center transition-all duration-300 hover:shadow-md h-[180px]">
+
+                            {{-- 1. Bagian Kiri: Angka & Label Penduduk --}}
+                            <div class="w-1/3 flex flex-col items-center justify-center border-r border-gray-100 pr-4">
+                                <span class="text-gray-900 text-6xl font-black leading-none">
+                                    {{ number_format($summary[$b['key']] ?? 0, 0, ',', '.') }}
+                                </span>
+                                <span class="text-gray-600 text-xl font-bold mt-2 italic">Penduduk</span>
                             </div>
-                            <div>
-                                <p class="text-xs text-gray-400 mb-1">mendapatkan bantuan</p>
-                                <h3 class="text-[15px] font-bold text-[#2ac0b4] leading-tight">{{ $b['label'] }}</h3>
+
+                            {{-- 2. Bagian Kanan: Deskripsi & Nama Bansos --}}
+                            <div class="w-2/3 pl-8 flex flex-col justify-center text-left">
+                                <p class="text-gray-500 text-xl font-medium mb-1">mendapatkan bantuan</p>
+                                <h3 class="text-gray-800 text-2xl font-black uppercase leading-tight">
+                                    {{ $b['label'] }}
+                                </h3>
                             </div>
+
                         </div>
                         @endforeach
                     </div>
-                </div>
-                {{-- AKHIR BAGIAN DESKTOP --}}
 
+                </div>
 
                 {{-- BAGIAN PENCARIAN BANSOS (Muncul di Mobile & Desktop) --}}
 
