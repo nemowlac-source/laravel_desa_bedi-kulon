@@ -109,73 +109,69 @@
 
 
 
-        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-
-            {{-- Loop dimulai di sini --}}
+        {{-- ========================================== --}}
+        {{-- BAGIAN DESKTOP (Tampil di Laptop)          --}}
+        {{-- ========================================== --}}
+        <div class="hidden md:grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 px-6 w-full max-w-7xl mx-auto mt-10">
             @forelse($sdgs_items as $item)
-
-            {{-- ========================================== --}}
-            {{-- KARTU DESKTOP (Tampil di Laptop)           --}}
-            {{-- ========================================== --}}
-            <div class="hidden md:flex bg-white shadow-sm border border-gray-100 rounded-2xl overflow-hidden hover:shadow-md transition p-6 flex-col justify-between h-full group">
-
-                {{-- 1. Judul di Paling Atas --}}
-                <h4 class="font-extrabold text-black text-xl mb-6 leading-tight group-hover:text-blue-600 transition">
-                    {{ $item->title }}
-                </h4>
-
-                {{-- 2. Baris Bawah: Ikon/Warna (Kiri) & Nilai (Kanan) --}}
-                <div class="flex justify-between items-end mt-auto">
-                    <div class="flex-shrink-0 w-20 h-20 flex items-center justify-center rounded-xl font-black text-white text-4xl shadow-sm" style="background-color: {{ $item->getColor() }};">
+            {{-- Kartu Desktop --}}
+            <div class="bg-white shadow-[0_3px_12px_rgba(0,0,0,0.04)] border border-gray-100 rounded-xl p-6 flex flex-col justify-between h-[175px] transition-all duration-300 hover:shadow-md group">
+                <div class="h-12 overflow-hidden">
+                    <h4 class="font-bold text-[#1a1a1a] text-[18px] leading-tight text-left">
+                        {{ $item->title }}
+                    </h4>
+                </div>
+                <div class="flex justify-between items-end mt-4">
+                    <div class="flex-shrink-0 w-[60px] h-[60px] flex items-center justify-center rounded-xl font-black text-white text-3xl shadow-sm" style="background-color: {{ $item->getColor() }};">
                         {{ $item->goal_number }}
                     </div>
+
+
                     <div class="text-right">
-                        <span class="block text-sm text-gray-800 font-medium mb-1">Nilai</span>
-                        <span class="block font-black text-5xl text-black leading-none tracking-tighter">
+                        <span class="block text-[12px] text-gray-500 font-bold uppercase">Nilai</span>
+                        <span class="block font-black text-5xl text-gray-900 leading-none tracking-tighter">
                             {{ number_format($item->score, 2) }}
                         </span>
                     </div>
                 </div>
             </div>
+            @empty
+            <div class="col-span-full py-10 text-center text-gray-400 italic">Data Desktop belum tersedia.</div>
+            @endforelse
+        </div>
 
-            {{-- ========================================== --}}
-            {{-- KARTU MOBILE (Tampil di HP, Menyamping)    --}}
-            {{-- ========================================== --}}
-
-            {{-- INI BAGIAN YANG SAYA EDIT 100% SESUAI GAMBAR TARGETMU --}}
-            <div class="w-full flex md:hidden bg-white shadow-[0_2px_15px_rgba(0,0,0,0.04)] border border-gray-100 rounded-2xl p-4 items-center gap-4">
-
-                {{-- Kiri: Kotak Ikon/Nomor SDGs (Ukurannya 60x60 sesuai gambar) --}}
-                <div class="flex-shrink-0 w-[60px] h-[60px] flex items-center justify-center rounded-xl font-black text-white text-3xl overflow-hidden shadow-sm" style="background-color: {{ $item->getColor() }};">
+        {{-- ========================================== --}}
+        {{-- BAGIAN MOBILE (Tampil di HP Saja)          --}}
+        {{-- ========================================== --}}
+        <div class="flex flex-col md:hidden gap-4 px-4 mt-6">
+            @forelse($sdgs_items as $item)
+            {{-- Kartu Mobile Menyamping --}}
+            <div class="w-full flex bg-white shadow-[0_2px_15px_rgba(0,0,0,0.04)] border border-gray-100 rounded-2xl p-4 items-center gap-4">
+                {{-- Kiri: Kotak Warna --}}
+                <div class="flex-shrink-0 w-[60px] h-[60px] flex items-center justify-center rounded-xl font-black text-white text-3xl shadow-sm" style="background-color: {{ $item->getColor() }};">
                     {{ $item->goal_number }}
                 </div>
 
-                {{-- Tengah: Judul SDGs (Tebal) --}}
+                {{-- Tengah: Judul --}}
                 <div class="flex-1">
                     <h4 class="font-extrabold text-black text-[14px] leading-snug">
                         {{ $item->title }}
                     </h4>
                 </div>
 
-                {{-- Kanan: Tulisan 'Nilai' dan Angka Skor (Padat Atas Bawah) --}}
+                {{-- Kanan: Nilai --}}
                 <div class="flex flex-col items-end flex-shrink-0">
                     <span class="text-[10px] text-gray-500 font-medium mb-1">Nilai</span>
                     <span class="font-black text-[22px] text-black leading-none tracking-tight">
                         {{ number_format($item->score, 2) }}
                     </span>
                 </div>
-
             </div>
-
             @empty
-            {{-- Pesan jika data kosong --}}
-            <div class="col-span-full text-center py-10 text-gray-500 font-medium">
-                Data SDGs tahun {{ $tahun_pilih }} belum diinput.
-            </div>
+            <div class="text-center py-10 text-gray-400 italic">Data Mobile belum tersedia.</div>
             @endforelse
-            {{-- Loop berakhir --}}
-
         </div>
+
 
 
 
