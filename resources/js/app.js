@@ -7,8 +7,13 @@ import ChartDataLabels from "chartjs-plugin-datalabels";
 window.Alpine = Alpine;
 Alpine.start();
 window.Swal = Swal;
-Chart.register(ChartDataLabels);
+
+// DAFTARKAN KEDUANYA KE WINDOW
 window.Chart = Chart;
+window.ChartDataLabels = ChartDataLabels;
+
+// Registrasi plugin secara internal di bundle Vite
+Chart.register(ChartDataLabels);
 
 document.addEventListener("DOMContentLoaded", function () {
     const btn = document.getElementById("readMoreBtn");

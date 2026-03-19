@@ -63,160 +63,171 @@
                 </div>
             </div>
 
-            {{-- KARTU GRAFIK RESPONSIVE --}}
 
-
-            {{-- Judul Khusus Mobile (Muncul hanya di HP) --}}
-            <div class="md:hidden text-center mb-6">
-                <h2 class="text-xl font-extrabold text-[#5ea48a]">Data Stunting</h2>
+            {{-- VERSI DESKTOP (Muncul di PC) --}}
+            <div class="hidden md:block w-full max-w-5xl mx-auto bg-white rounded-xl shadow-sm p-8 mt-8">
+                <h2 class="text-[#8cdb6e] font-black text-2xl mb-6 uppercase tracking-wide">Grafik Stunting Desktop</h2>
+                <div class="relative w-full h-[500px]">
+                    <canvas id="stuntingChartDesktop" data-sasaran="{{ $stunting->keluarga_sasaran ?? 0 }}" data-berisiko="{{ $stunting->berisiko ?? 0 }}" data-baduta="{{ $stunting->baduta ?? 0 }}" data-balita="{{ $stunting->balita ?? 0 }}" data-pus="{{ $stunting->pus ?? 0 }}" data-pushamil="{{ $stunting->pus_hamil ?? 0 }}" data-tahun="{{ $tahun_pilih }}">
+                    </canvas>
+                </div>
             </div>
 
-            {{-- Judul Khusus Desktop (Muncul hanya di Laptop) --}}
-            <div class="hidden md:block text-center mb-8">
-                <h2 class="text-3xl font-extrabold text-[#5ea48a]">Data Stunting Desa Bedikulon</h2>
+            {{-- VERSI MOBILE (Muncul di HP) --}}
+            <div class="block md:hidden w-full p-4 mt-6">
+                <h2 class="text-[#8cdb6e] font-black text-2xl mb-6 uppercase tracking-wide">Grafik Stunting Desktop</h2>
+                <div class="relative w-full h-[500px]">
+
+                    <div class="relative w-full h-[350px]">
+                        <canvas id="stuntingChartMobile" data-sasaran="{{ $stunting->keluarga_sasaran ?? 0 }}" data-berisiko="{{ $stunting->berisiko ?? 0 }}" data-baduta="{{ $stunting->baduta ?? 0 }}" data-balita="{{ $stunting->balita ?? 0 }}" data-pus="{{ $stunting->pus ?? 0 }}" data-pushamil="{{ $stunting->pus_hamil ?? 0 }}" data-tahun="{{ $tahun_pilih }}">
+                        </canvas>
+                    </div>
+                </div>
+
+
+
             </div>
-
-            {{-- Wrapper Canvas (Tinggi otomatis menyesuaikan layar) --}}
-            <div class="relative w-full h-[350px] md:h-[450px]">
-                {{-- Saya menambahkan data dummy tahun sebelumnya agar bisa memunculkan 2 batang grafik seperti digambar --}}
-                <canvas id="stuntingChart" data-sasaran="{{ $stunting->keluarga_sasaran ?? 0 }}" data-berisiko="{{ $stunting->berisiko ?? 0 }}" data-baduta="{{ $stunting->baduta ?? 0 }}" data-balita="{{ $stunting->balita ?? 0 }}" data-pus="{{ $stunting->pus ?? 0 }}" data-pushamil="{{ $stunting->pus_hamil ?? 0 }}" data-tahun="{{ $tahun_pilih }}">
-                </canvas>
-            </div>
-
-
-        </div>
     </section>
 
     <script>
-        // Registrasi plugin datalabels untuk memunculkan angka di atas bar
-        Chart.register(ChartDataLabels);
+        // Objek untuk menyimpan instance chart agar bisa di-reset jika perlu
+        const stuntingChartInstances = {};
 
         document.addEventListener('DOMContentLoaded', function() {
-            const chartCanvas = document.getElementById('stuntingChart');
+            // Pastikan library sudah terload dari app.js
+            if (typeof window.Chart === 'undefined') {
+                console.error("❌ Chart.js tidak ditemukan! Pastikan 'window.Chart = Chart' ada di app.js");
+                return;
+            }
 
-            // Mengambil Data Asli dari Database (Tahun yang dipilih)
-            const chartDataAktual = [
-                chartCanvas.getAttribute('data-sasaran')
-                , chartCanvas.getAttribute('data-berisiko')
-                , chartCanvas.getAttribute('data-baduta')
-                , chartCanvas.getAttribute('data-balita')
-                , chartCanvas.getAttribute('data-pus')
-                , chartCanvas.getAttribute('data-pushamil')
-            ];
+            const chartIds = ['stuntingChartDesktop', 'stuntingChartMobile'];
 
-            // Data Dummy/Simulasi untuk tahun sebelumnya (Agar tampilan 100% mirip gambar)
-            // Jika kamu punya data asli tahun sebelumnya, kamu bisa lempar dari controller juga!
-            const chartDataSebelumnya = [16, 13, 1, 1, 0, 0];
+            chartIds.forEach(id => {
+                const chartCanvas = document.getElementById(id);
+                if (!chartCanvas) return;
 
-            const tahun = parseInt(chartCanvas.getAttribute('data-tahun'));
-
-            new Chart(chartCanvas, {
-                type: 'bar'
-                , data: {
-                    labels: [
-                        'Keluarga Sasaran'
-                        , 'Berisiko'
-                        , 'Baduta'
-                        , 'Balita'
-                        , ['Pasangan Usia', 'Subur (PUS)'], // Teks dipecah jadi 2 baris
-                        'PUS Hamil'
-                    ]
-                    , datasets: [{
-
-                            // BATANG 1 (Hijau Muda)
-                            label: 'Data Tahun ' + (tahun - 1)
-                            , data: chartDataSebelumnya
-                            , backgroundColor: '#aedf7c'
-                            , borderRadius: 6, // Ujung tumpul
-                            borderSkipped: false
-                            , barPercentage: 0.8
-                            , categoryPercentage: 0.7
-                        }
-                        , {
-                            // BATANG 2 (Hijau Tua/Teal)
-                            label: 'Data Tahun ' + tahun
-                            , data: chartDataAktual
-                            , backgroundColor: '#6baf92'
-                            , borderRadius: 6, // Ujung tumpul
-                            borderSkipped: false
-                            , barPercentage: 0.8
-                            , categoryPercentage: 0.7
-                        }
-                    ]
+                // 1. Hancurkan chart lama jika ID yang sama sudah pernah digambar
+                if (stuntingChartInstances[id]) {
+                    stuntingChartInstances[id].destroy();
                 }
-                , options: {
-                    responsive: true
-                    , maintainAspectRatio: false, // Penting agar tinggi bisa diatur lewat CSS Tailwind
-                    layout: {
-                        padding: {
-                            top: 20 // Memberi ruang agar angka tidak terpotong di atas
-                        }
+
+                const isMobile = id.includes('Mobile');
+
+                // 2. Ambil data dari atribut data- canvas
+                const chartDataAktual = [
+                    chartCanvas.getAttribute('data-sasaran')
+                    , chartCanvas.getAttribute('data-berisiko')
+                    , chartCanvas.getAttribute('data-baduta')
+                    , chartCanvas.getAttribute('data-balita')
+                    , chartCanvas.getAttribute('data-pus')
+                    , chartCanvas.getAttribute('data-pushamil')
+                ];
+
+                const chartDataSebelumnya = [16, 13, 1, 1, 0, 0];
+                const tahun = parseInt(chartCanvas.getAttribute('data-tahun')) || 2026;
+
+                // 3. Gambar grafik menggunakan window.Chart
+                stuntingChartInstances[id] = new window.Chart(chartCanvas, {
+                    type: 'bar'
+                    , data: {
+                        labels: [
+                            'Keluarga Sasaran'
+                            , 'Berisiko'
+                            , 'Baduta'
+                            , 'Balita'
+                            , ['Pasangan Usia', 'Subur (PUS)']
+                            , 'PUS Hamil'
+                        ]
+                        , datasets: [{
+                                label: 'Data Tahun ' + (tahun - 1)
+                                , data: chartDataSebelumnya
+                                , backgroundColor: '#aedf7c'
+                                , borderRadius: 6
+                                , barPercentage: 0.8
+                                , categoryPercentage: 0.7
+                            }
+                            , {
+                                label: 'Data Tahun ' + tahun
+                                , data: chartDataAktual
+                                , backgroundColor: '#6baf92'
+                                , borderRadius: 6
+                                , barPercentage: 0.8
+                                , categoryPercentage: 0.7
+                            }
+                        ]
                     }
-                    , plugins: {
-                        legend: {
-                            position: 'bottom'
-                            , labels: {
-                                padding: 20
-                                , usePointStyle: false
-                                , boxWidth: 30, // Mengubah ikon legenda menjadi kotak persegi
-                                boxHeight: 12
+                    , options: {
+                        responsive: true
+                        , maintainAspectRatio: false
+                        , layout: {
+                            padding: {
+                                top: 35
+                                , bottom: 10
+                            }
+                        }
+                        , plugins: {
+                            legend: {
+                                position: 'bottom'
+                                , labels: {
+                                    padding: 25
+                                    , boxWidth: 30
+                                    , boxHeight: 12
+                                    , font: {
+                                        family: "'Poppins', sans-serif"
+                                        , size: isMobile ? 11 : 14
+                                        , weight: '600'
+                                    }
+                                }
+                            }
+                            , datalabels: {
+                                anchor: 'end'
+                                , align: 'top'
+                                , color: '#333'
+                                , offset: 2
                                 , font: {
                                     family: "'Poppins', sans-serif"
-                                    , size: 13
-                                    , weight: '600'
+                                    , weight: 'bold'
+                                    , size: isMobile ? 10 : 13
                                 }
-                                , color: '#555'
+                                , formatter: (value) => value > 0 ? value : ''
                             }
                         }
-                        , datalabels: {
-                            anchor: 'end'
-                            , align: 'top'
-                            , color: '#333'
-                            , font: {
-                                family: "'Poppins', sans-serif"
-                                , weight: 'bold'
-                                , size: 12
-                            }
-                            , formatter: function(value) {
-                                return value > 0 ? value : ''; // Sembunyikan angka 0 agar lebih bersih
-                            }
-                        }
-                    }
-                    , scales: {
-                        x: {
-                            grid: {
-                                display: false // Menghilangkan garis vertikal (mirip di gambar)
-                            }
-                            , ticks: {
-                                // Tambahkan dua baris ini untuk memaksa teks selalu lurus:
-                                maxRotation: 0
-                                , minRotation: 0,
-                                // --------------------------------------------------------
-                                font: {
-                                    family: "'Poppins', sans-serif"
-                                    , size: window.innerWidth < 768 ? 10 : 12
+                        , scales: {
+                            x: {
+                                grid: {
+                                    display: false
+                                }
+                                , ticks: {
+                                    maxRotation: 0
+                                    , minRotation: 0
+                                    , font: {
+                                        family: "'Poppins', sans-serif"
+                                        , size: isMobile ? 9 : 12
+                                    }
                                 }
                             }
-
-                        }
-                        , y: {
-                            beginAtZero: true
-                            , suggestedMax: 18
-                            , grid: {
-                                color: '#f0f0f0', // Garis horizontal tipis
-                                drawBorder: false
-                            }
-                            , ticks: {
-                                stepSize: 3, // Skala loncat kelipatan 3 (0, 3, 6, 9, 12, 15, 18)
-                                font: {
-                                    family: "'Poppins', sans-serif"
+                            , y: {
+                                beginAtZero: true
+                                , suggestedMax: 20
+                                , grid: {
+                                    color: '#f0f0f0'
+                                    , drawBorder: false
+                                }
+                                , ticks: {
+                                    stepSize: 5
+                                    , font: {
+                                        family: "'Poppins', sans-serif"
+                                    }
                                 }
                             }
                         }
                     }
-                }
+                });
             });
         });
 
     </script>
+
+
+
 </x-frontend>
