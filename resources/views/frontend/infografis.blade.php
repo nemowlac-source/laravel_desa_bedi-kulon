@@ -1,4 +1,5 @@
 <x-frontend>
+
     @php
     // Siapkan data di blok PHP agar aman dari formatter JS
     $labels = $wp_labels ?? ['2024', '2025', '2026'];
@@ -45,6 +46,7 @@
     // Default icon
     $defaultAgamaIcon = 'https://cdn-icons-png.flaticon.com/512/1077/1077114.png';
     @endphp
+
     <style>
         /* Trik menyembunyikan garis scrollbar tapi tetap bisa digeser */
         .hide-scroll::-webkit-scrollbar {
@@ -141,7 +143,6 @@
 
             </div>
         </div>
-
         <div class="demografi-content">
 
             <div class="hidden md:block demografi-text">
@@ -155,7 +156,6 @@
             </div>
         </div>
         <div class="w-full">
-
             {{-- ========================================== --}}
             {{-- 1. KHUSUS DESKTOP (Menampilkan Kodingan Lamamu) --}}
             {{-- ========================================== --}}
@@ -280,38 +280,22 @@
 
 
 
-        <div class="w-full">
+        {{-- ========================================== --}}
+        {{-- 1. VERSI DESKTOP (Layar Lebar) --}}
+        {{-- ========================================== --}}
+        <div class="hidden md:block w-full max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-8 mt-2">
 
-            {{-- ========================================== --}}
-            {{-- 1. VERSI DESKTOP (Layar Lebar) --}}
-            {{-- ========================================== --}}
-            <div class="hidden md:block w-full max-w-3xl mx-auto bg-white rounded-xl shadow-[0_4px_15px_rgba(0,0,0,0.05)] border border-gray-100 px-2 py-2">
+            {{-- Judul (Sudah Lurus) --}}
+            <h2 class="text-[#8cdb6e] font-extrabold text-[40px] mb-6 text-left tracking-tight drop-shadow-sm">
+                Berdasarkan Kelompok Umur
+            </h2>
 
-                <h2 class="text-[#8cdb6e] font-black text-lg text-center uppercase mb-1 tracking-wide drop-shadow-sm">
-                    Berdasarkan Kelompok Umur
-                </h2>
+            {{-- KOTAK PUTIH (Pastikan class-nya persis seperti ini, HANYA w-full, jangan ada max-w) --}}
+            <div class="w-full bg-white rounded-2xl shadow-sm border border-gray-100 lg:p-10">
 
-                {{-- Tinggi kotak desktop diset 550px --}}
-                <div class="relative w-full h-[550px]">
-                    <canvas id="piramidaChartDesktop"></canvas>
-                </div>
-
-            </div>
-
-
-
-            {{-- ========================================== --}}
-            {{-- 2. VERSI MOBILE (Layar HP) --}}
-            {{-- ========================================== --}}
-            <div class="block md:hidden w-full bg-white rounded-xl shadow-sm border border-gray-100 p-4">
-
-                <h2 class="text-[#8cdb6e] font-black text-[18px] text-center uppercase mb-4 tracking-wide drop-shadow-sm">
-                    Berdasarkan Kelompok Umur
-                </h2>
-
-                {{-- Tinggi kotak mobile dibuat LEBIH TINGGI (650px) agar batang rentang umur tidak gepeng --}}
+                {{-- Area Canvas Grafik --}}
                 <div class="relative w-full h-[650px]">
-                    <canvas id="piramidaChartMobile"></canvas>
+                    <canvas id="piramidaChartDesktop"></canvas>
                 </div>
 
             </div>
@@ -319,10 +303,175 @@
         </div>
 
 
-        {{-- PASTIKAN DUA SCRIPT INI ADA DI BAWAH HALAMANMU --}}
-        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-        {{-- Ini script tambahan yang wajib ada untuk memunculkan teks angka di ujung bar --}}
-        <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+
+                // Wajib mendaftarkan plugin datalabels agar angkanya muncul
+                Chart.register(ChartDataLabels);
+
+                // 1. Data dari Controller Laravel
+                const labels = @json($categories);
+                const dataLaki = @json($data_laki);
+                const dataPerempuan = @json($data_perempuan);
+
+                // Ubah data laki-laki menjadi negatif agar grafiknya ke kiri
+                const dataLakiNegatif = dataLaki.map(value => -Math.abs(value));
+
+                // 2. Fungsi Utama untuk Membangun Grafik
+                function bangunGrafik(idCanvas) {
+                    const elemenCanvas = document.getElementById(idCanvas);
+
+                    // Jika elemen tidak ditemukan di halaman, hentikan proses
+                    if (!elemenCanvas) return;
+
+                    const ctx = elemenCanvas.getContext('2d');
+
+                    new Chart(ctx, {
+                        type: 'bar'
+                        , data: {
+                            labels: labels
+                            , datasets: [{
+                                    label: 'Laki-Laki'
+                                    , data: dataLakiNegatif
+                                    , backgroundColor: '#6eb098', // Warna Hijau Tosca Pucat
+                                    borderRadius: 3
+                                    , barPercentage: 0.85
+                                    , categoryPercentage: 0.9
+                                }
+                                , {
+                                    label: 'Perempuan'
+                                    , data: dataPerempuan
+                                    , backgroundColor: '#fba995', // Warna Peach / Salem
+                                    borderRadius: 3
+                                    , barPercentage: 0.85
+                                    , categoryPercentage: 0.9
+                                }
+                            ]
+                        }
+                        , options: {
+                            indexAxis: 'y', // Horizontal chart
+                            maintainAspectRatio: false, // Wajib agar mengikuti tinggi div HTML
+
+                            // PERBAIKAN PENTING: Beri ruang agar angka di ujung bar tidak terpotong canvas
+                            layout: {
+                                padding: {
+                                    left: 30
+                                    , right: 30
+                                }
+                            }
+                            , scales: {
+                                x: {
+                                    stacked: true
+                                    , grid: {
+                                        display: false
+                                    }, // Hilangkan garis vertikal
+                                    ticks: {
+                                        callback: function(value) {
+                                            return Math.abs(value); // Hilangkan tanda minus di sumbu bawah
+                                        }
+                                        , color: '#6b7280'
+                                        , font: {
+                                            size: 10
+                                        }
+                                    }
+                                    , border: {
+                                        display: false
+                                    }
+                                }
+                                , y: {
+                                    stacked: true
+                                    , grid: {
+                                        color: '#f3f4f6'
+                                    }, // Garis pemisah antar umur
+                                    ticks: {
+                                        color: '#4b5563'
+                                        , font: {
+                                            size: 11
+                                            , weight: '500'
+                                        }
+                                    }
+                                    , border: {
+                                        display: false
+                                    }
+                                }
+                            }
+                            , plugins: {
+                                datalabels: {
+                                    color: '#1f2937', // Warna angka hitam
+                                    font: {
+                                        weight: 'bold'
+                                        , size: 10
+                                    }
+                                    , formatter: function(value) {
+                                        if (value === 0) return '';
+                                        return Math.abs(value); // Pastikan angka di ujung bar selalu positif
+                                    },
+                                    // Posisi angka: Laki-laki di kiri luar, Perempuan di kanan luar
+                                    anchor: function(context) {
+                                        return context.datasetIndex === 0 ? 'start' : 'end';
+                                    }
+                                    , align: function(context) {
+                                        return context.datasetIndex === 0 ? 'left' : 'right';
+                                    }
+                                    , offset: 6 // Jarak tulisan dari ujung batang
+                                }
+                                , legend: {
+                                    position: 'bottom'
+                                    , labels: {
+                                        usePointStyle: true, // Ikon lingkaran
+                                        boxWidth: 10
+                                        , padding: 20
+                                        , color: '#4b5563'
+                                        , font: {
+                                            size: 12
+                                        }
+                                    }
+                                }
+                                , tooltip: {
+                                    callbacks: {
+                                        label: function(context) {
+                                            let label = context.dataset.label || '';
+                                            if (label) {
+                                                label += ': ';
+                                            }
+                                            label += Math.abs(context.raw) + ' Jiwa';
+                                            return label;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+
+                // 3. Eksekusi Fungsi untuk Desktop
+                bangunGrafik('piramidaChartDesktop');
+
+                // Jika kamu punya canvas untuk mobile, buka komentar di bawah ini:
+                // bangunGrafik('piramidaChartMobile');
+
+            });
+
+        </script>
+
+
+
+
+        {{-- ========================================== --}}
+        {{-- 2. VERSI MOBILE (Layar HP) --}}
+        {{-- ========================================== --}}
+        <div class="block md:hidden w-full bg-white rounded-xl shadow-sm border border-gray-100 p-4">
+
+            <h2 class="text-[#8cdb6e] font-black text-[18px] text-center uppercase mb-4 tracking-wide drop-shadow-sm">
+                Berdasarkan Kelompok Umur
+            </h2>
+
+            {{-- Tinggi kotak mobile dibuat LEBIH TINGGI (650px) agar batang rentang umur tidak gepeng --}}
+            <div class="relative w-full h-[650px]">
+                <canvas id="piramidaChartMobile"></canvas>
+            </div>
+
+        </div>
 
         <div class="narasi-statistik">
             <div class="narasi-item" style="border-bottom: 5px solid #4698db;">
@@ -348,20 +497,149 @@
             </div>
 
         </div>
-        <div class="w-full max-w-md mx-auto bg-white rounded-xl shadow-[0_4px_15px_rgba(0,0,0,0.05)] border border-gray-100 p-6 md:p-8 mt-8">
+        {{-- ========================================== --}}
+        {{-- VERSI DESKTOP (Mirip Referensi Desa Kersik) --}}
+        {{-- ========================================== --}}
+        <div class="hidden md:block w-full max-w-5xl mx-auto mt-16 px-6">
 
-            <h2 class="text-[#8cdb6e] font-black text-[18px] md:text-xl text-center uppercase mb-6 tracking-wide drop-shadow-sm">
+            {{-- Judul Kiri Atas --}}
+            <h2 class="text-[#8cdb6e] font-black text-3xl mb-10 tracking-wide text-left">
                 Berdasarkan Dusun
             </h2>
 
-            {{-- Kotak Canvas dengan tinggi ideal --}}
-            <div class="relative w-full h-[300px] md:h-[350px]">
-                <canvas id="dusunChart"></canvas>
+            {{-- Container Flex (Kiri Grafik, Kanan Teks) --}}
+            <div class="flex items-center justify-between">
+
+                {{-- Bagian Kiri: Kotak Canvas Desktop --}}
+                <div class="w-1/2 relative h-[380px]">
+                    <canvas id="dusunChartDesktop"></canvas>
+                </div>
+
+                {{-- Bagian Kanan: Keterangan Data --}}
+                <div class="w-1/2 pl-10 lg:pl-20">
+                    <h3 class="text-black font-extrabold text-[22px] mb-4">Keterangan:</h3>
+                    <ul class="text-gray-900 text-[17px] space-y-3 font-medium">
+                        {{-- Looping data array dari PHP secara otomatis --}}
+                        @foreach($dusunLabels as $index => $label)
+                        <li>{{ $label }} : {{ $dusunData[$index] }} Jiwa</li>
+                        @endforeach
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+
+
+        {{-- ========================================== --}}
+        {{-- VERSI MOBILE (Muncul di HP, Sembunyi di PC)  --}}
+        {{-- ========================================== --}}
+        <div class="block md:hidden w-full max-w-sm mx-auto bg-white rounded-xl shadow-[0_4px_15px_rgba(0,0,0,0.05)] border border-gray-100 p-6 mt-6">
+            <h2 class="text-[#8cdb6e] font-black text-[18px] text-center uppercase mb-4 tracking-wide drop-shadow-sm">
+                Berdasarkan Dusun
+            </h2>
+            {{-- Kotak Canvas Mobile (Tinggi sedikit dikurangi agar pas di layar HP) --}}
+            <div class="relative w-full h-[250px]">
+                <canvas id="dusunChartMobile"></canvas>
+            </div>
+        </div>
+        {{-- ========================================== --}}
+        {{-- GRAFIK BERDASARKAN PENDIDIKAN              --}}
+        {{-- ========================================== --}}
+        <div class="hidden md:block w-full max-w-6xl mx-auto mt-16 px-4 md:px-6">
+
+            {{-- Judul Kiri Atas --}}
+            <h2 class="text-[#8cdb6e] font-black text-3xl mb-6 tracking-wide text-left">
+                Berdasarkan Pendidikan
+            </h2>
+
+            {{-- Kotak Background Putih untuk Canvas --}}
+            <div class="relative w-full h-[500px] bg-white rounded-2xl shadow-[0_4px_15px_rgba(0,0,0,0.05)] border border-gray-100 p-8">
+                {{-- UBAH ID INI MENJADI DESKTOP --}}
+                <canvas id="pendidikanChartDesktop"></canvas>
+            </div>
+
+
+        </div>
+
+        {{-- ========================================== --}}
+        {{-- VERSI MOBILE (Muncul di HP, Sembunyi di PC)  --}}
+        {{-- ========================================== --}}
+        <div class="block md:hidden w-full max-w-sm mx-auto mt-8 px-4">
+
+            {{-- Judul Kiri Atas (Ukuran teks sedikit dikecilkan untuk HP) --}}
+            <h2 class="text-[#8cdb6e] font-black text-[22px] mb-4 tracking-wide text-left">
+                Berdasarkan Pendidikan
+            </h2>
+
+            {{-- Kotak Background Putih (Tinggi dan padding disesuaikan) --}}
+            <div class="relative w-full h-[350px] bg-white rounded-xl shadow-[0_4px_15px_rgba(0,0,0,0.05)] border border-gray-100 p-4">
+
+                {{-- WAJIB: Gunakan ID khusus mobile agar tidak bentrok --}}
+                <canvas id="pendidikanChartMobile"></canvas>
+
             </div>
 
         </div>
 
-        <div class="w-full max-w-2xl mx-auto bg-white rounded-xl shadow-[0_4px_15px_rgba(0,0,0,0.05)] border border-gray-100 p-5 mt-8">
+
+
+        {{-- ========================================== --}}
+        {{-- VERSI DESKTOP (Sembunyi di HP, Muncul di PC) --}}
+        {{-- ========================================== --}}
+        <div class="hidden md:block w-full max-w-6xl mx-auto mt-16 px-6">
+
+            {{-- Judul Kiri Atas --}}
+            <h2 class="text-[#8cdb6e] font-black text-3xl mb-10 tracking-wide text-left">
+                Berdasarkan Pekerjaan
+            </h2>
+
+            {{-- Container Flex: Kiri untuk Grid Card, Kanan untuk Tabel --}}
+            <div class="flex flex-row gap-10 items-start">
+
+                {{-- BAGIAN KIRI: Kotak/Card Pekerjaan Teratas (Lebar 60%) --}}
+                <div class="w-7/12 grid grid-cols-2 lg:grid-cols-3 gap-6">
+                    @foreach($pekerjaan_top as $item)
+                    <div class="bg-white border border-gray-100 rounded-xl p-6 shadow-sm flex flex-col justify-between min-h-[140px] hover:shadow-md transition-shadow">
+                        <span class="text-gray-600 font-bold text-base leading-snug">
+                            {{ $item->nama_pekerjaan }}
+                        </span>
+                        <span class="text-[#4b5563] font-black text-4xl self-end mt-4">
+                            {{ $item->jumlah }}
+                        </span>
+                    </div>
+                    @endforeach
+                </div>
+
+                {{-- BAGIAN KANAN: Tabel Sisa Pekerjaan (Lebar 40%) --}}
+                <div class="w-5/12 bg-white rounded-xl shadow-[0_4px_15px_rgba(0,0,0,0.05)] border border-gray-100 overflow-hidden">
+                    {{-- Tinggi maksimal tabel diperbesar jadi 450px untuk desktop --}}
+                    <div class="overflow-y-auto h-[400px] xl:h-[450px] relative">
+                        <table class="w-full text-left border-collapse">
+                            <thead class="sticky top-0 z-10 shadow-sm">
+                                <tr>
+                                    <th class="bg-[#a3e678] text-white py-4 px-5 font-bold text-base tracking-wide">Jenis Pekerjaan</th>
+                                    <th class="bg-[#a3e678] text-white py-4 px-5 font-bold text-base text-center w-28 tracking-wide">Jumlah</th>
+                                </tr>
+                            </thead>
+                            <tbody class="text-gray-700 text-[14px] font-medium bg-white">
+                                @foreach($pekerjaan_sisanya as $item)
+                                <tr class="border-b border-gray-100 last:border-0 hover:bg-gray-50 transition-colors">
+                                    <td class="py-3 px-5">{{ $item->nama_pekerjaan }}</td>
+                                    <td class="py-3 px-5 text-center text-gray-800 font-bold">{{ $item->jumlah }}</td>
+                                </tr>
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+
+        {{-- ========================================== --}}
+        {{-- VERSI MOBILE (Muncul di HP, Sembunyi di PC)  --}}
+        {{-- ========================================== --}}
+        <div class="block md:hidden w-full max-w-sm mx-auto bg-white rounded-xl shadow-[0_4px_15px_rgba(0,0,0,0.05)] border border-gray-100 p-5 mt-8">
 
             <h2 class="text-[#8cdb6e] font-black text-[18px] text-center uppercase mb-6 tracking-wide drop-shadow-sm">
                 Berdasarkan Pekerjaan
@@ -369,23 +647,15 @@
 
             <div class="flex flex-col gap-6">
 
-                {{-- ============================================================== --}}
-                {{-- 1. BAGIAN TABEL (Bisa di-scroll vertikal, Header tetap diam) --}}
-                {{-- ============================================================== --}}
-
-                {{-- PERBAIKAN 1: Batasi tinggi maksimal (max-h-80) dan nyalakan scroll vertikal (overflow-y-auto) --}}
+                {{-- 1. BAGIAN TABEL --}}
                 <div class="overflow-y-auto max-h-[320px] rounded-lg border border-gray-200">
                     <table class="w-full text-left border-collapse">
-
-                        {{-- PERBAIKAN 2: Tambahkan sticky top-0 dan z-10 agar kepala tabel menempel di atap --}}
                         <thead class="sticky top-0 z-10 shadow-sm">
                             <tr>
-                                {{-- PERBAIKAN 3: Pindahkan warna bg-[#a3e678] langsung ke dalam tag <th> agar menutupi teks di bawahnya saat di-scroll --}}
                                 <th class="bg-[#a3e678] text-white py-3 px-4 font-bold text-[15px] tracking-wide">Jenis Pekerjaan</th>
                                 <th class="bg-[#a3e678] text-white py-3 px-4 font-bold text-[15px] text-center w-24 tracking-wide">Jumlah</th>
                             </tr>
                         </thead>
-
                         <tbody class="text-gray-700 text-[13px] font-medium bg-white">
                             @foreach($pekerjaan_sisanya as $item)
                             <tr class="border-b border-gray-100 last:border-0 hover:bg-gray-50">
@@ -394,149 +664,214 @@
                             </tr>
                             @endforeach
                         </tbody>
-
                     </table>
                 </div>
 
-
-
-                {{-- ============================================================== --}}
-                {{-- 2. BAGIAN KOTAK/CARD (Sesuai image_3feae8.png) --}}
-                {{-- ============================================================== --}}
+                {{-- 2. BAGIAN KOTAK/CARD --}}
                 <div class="grid grid-cols-2 gap-3">
-
                     @foreach($pekerjaan_top as $item)
                     <div class="bg-white border border-gray-100 rounded-lg p-4 shadow-sm flex flex-col justify-between min-h-[110px]">
-
-                        {{-- Nama Pekerjaan (Kiri Atas) --}}
                         <span class="text-gray-600 font-bold text-[13px] leading-snug">
                             {{ $item->nama_pekerjaan }}
                         </span>
-
-                        {{-- Angka Jumlah (Kanan Bawah) --}}
                         <span class="text-[#4b5563] font-black text-3xl self-end mt-3">
                             {{ $item->jumlah }}
                         </span>
-
                     </div>
                     @endforeach
-
                 </div>
 
             </div>
+        </div>
 
+        {{-- ========================================== --}}
+        {{-- GRAFIK WAJIB PILIH (DESKTOP)               --}}
+        {{-- ========================================== --}}
+        <div class="hidden md:block w-full max-w-6xl mx-auto mt-16 px-6">
+            <h2 class="text-[#8cdb6e] font-black text-3xl mb-6 tracking-wide text-left">
+                Berdasarkan Wajib Pilih
+            </h2>
+            <div class="relative w-full h-[450px] bg-white rounded-xl shadow-[0_4px_15px_rgba(0,0,0,0.05)] border border-gray-100 p-8">
+                <canvas id="wajibPilihDesktop" data-labels='@json($wp_labels)' data-values='@json($wp_values)'>></canvas>
+
+            </div>
         </div>
-        <h2 class="title-green">Berdasarkan Wajib Pilih</h2>
-        <div class="chart-bar-wrapper">
-            <canvas id="wajibPilihChart"></canvas>
+
+        {{-- ========================================== --}}
+        {{-- GRAFIK WAJIB PILIH (MOBILE)                --}}
+        {{-- ========================================== --}}
+        <div class="block md:hidden w-full max-w-sm mx-auto mt-8 px-4">
+            <h2 class="text-[#8cdb6e] font-black text-[22px] mb-4 tracking-wide text-left">
+                Berdasarkan Wajib Pilih
+            </h2>
+            <div class="relative w-full h-[350px] bg-white rounded-xl shadow-[0_4px_15px_rgba(0,0,0,0.05)] border border-gray-100 p-4">
+                <canvas id="wajibPilihMobile" data-labels='@json($wp_labels)' data-values='@json($wp_values)'>></canvas>
+
+            </div>
         </div>
-        <div class="w-full bg-[#f8f9fa] py-10 px-5 mt-8 rounded-xl">
+
+        {{-- ========================================== --}}
+        {{-- VERSI DESKTOP (Mirip Foto Referensi 2)     --}}
+        {{-- ========================================== --}}
+        <div class="hidden md:block w-full max-w-6xl mx-auto mt-16 px-6">
+
+            {{-- Judul Kiri Atas --}}
+            <h2 class="text-[#8cdb6e] font-black text-3xl mb-10 tracking-wide text-left uppercase">
+                Berdasarkan Perkawinan
+            </h2>
+
+            {{-- Grid Kartu Putih: Ganti gap agar lebih rapi --}}
+            <div class="grid grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-6">
+                @foreach($kawin_data as $item)
+
+                {{-- UBAH: Gunakan flex-row, items-center, dan padding disesuaikan --}}
+                <div class="bg-white border border-gray-100 rounded-2xl p-6 shadow-[0_4px_15px_rgba(0,0,0,0.05)] flex flex-row items-center gap-x-6 transition-all duration-300 hover:shadow-lg hover:-translate-y-1 group">
+
+                    {{-- BAGIAN KIRI: Ikon Besar --}}
+                    {{-- UBAH: Ukuran container ikon disesuaikan, mb-6 dihapus --}}
+                    <div class="w-20 h-20 flex-shrink-0 flex items-center justify-center">
+                        <img src="{{ $icons[$item->status] ?? $default_icon }}" alt="{{ $item->status }}" class="max-w-full max-h-full object-contain transition-transform duration-300 group-hover:scale-105">
+                    </div>
+
+                    {{-- BAGIAN KANAN: Teks dan Angka --}}
+                    {{-- TAMBAH: Container flex-col untuk menampung teks di kanan --}}
+                    <div class="flex flex-col flex-grow text-left">
+
+                        {{-- Nama Status (Abu-abu, Semi-bold) --}}
+                        {{-- UBAH: Ukuran teks sedikit diperbesar, mb-2 dikurangi --}}
+                        <h3 class="text-gray-500 font-semibold text-[17px] mb-1 leading-snug">
+                            {{ $item->status }}
+                        </h3>
+
+                        {{-- Angka Besar (Hijau, Font Normal) --}}
+                        {{-- UBAH: text-4xl diturunkan sedikit, font-light jadi font-normal --}}
+                        <span class="text-[#8cdb6e] text-3xl font-normal leading-tight">
+                            {{ number_format($item->jumlah, 0, ',', '.') }}
+                        </span>
+
+                        {{-- Label "Jiwa" kecil di bawah angka (Opsional, sesuai foto 2) --}}
+                        {{-- <span class="text-gray-400 text-xs italic">Jiwa</span> --}}
+                    </div>
+
+                </div>
+                @endforeach
+            </div>
+        </div>
+
+
+        {{-- ========================================== --}}
+        {{-- VERSI MOBILE (Kode kamu yang sudah perfect) --}}
+        {{-- ========================================== --}}
+        <div class="block md:hidden w-full bg-[#f8f9fa] py-10 px-5 mt-8 rounded-xl">
             <div class="max-w-4xl mx-auto">
-
-                {{-- Judul Hijau Terang --}}
-                <h2 class="text-[#8cdb6e] font-black text-[18px] md:text-xl text-center uppercase mb-10 tracking-wide drop-shadow-sm">
+                <h2 class="text-[#8cdb6e] font-black text-[18px] text-center uppercase mb-10 tracking-wide drop-shadow-sm">
                     Berdasarkan Perkawinan
                 </h2>
 
-                {{-- Grid: 2 kolom di HP, 3 kolom di Laptop --}}
-                <div class="grid grid-cols-2 md:grid-cols-3 gap-y-10 gap-x-4">
-
+                <div class="grid grid-cols-2 gap-y-10 gap-x-4">
                     @foreach($kawin_data as $item)
                     <div class="flex flex-col items-center text-center group">
-
-                        {{-- 1. Ikon/Gambar --}}
-                        <img src="{{ $icons[$item->status] ?? $default_icon }}" alt="{{ $item->status }}" class="w-[75px] h-[75px] object-contain mb-3 transition-transform duration-300 group-hover:scale-110">
-
-                        {{-- 2. Label Status (Hitam Gelap) --}}
-                        <span class="text-[#1f2937] text-[13px] md:text-[14px] font-semibold mb-1 leading-snug">
+                        <img src="{{ $icons[$item->status] ?? $default_icon }}" class="w-[75px] h-[75px] object-contain mb-3">
+                        <span class="text-[#1f2937] text-[13px] font-semibold mb-1 leading-snug">
                             {{ $item->status }}
                         </span>
-
-                        {{-- 3. Angka (Hijau Terang & Font lebih tipis) --}}
-                        <span class="text-[#8cdb6e] text-[26px] md:text-[28px] font-normal">
+                        <span class="text-[#8cdb6e] text-[26px] font-normal">
                             {{ number_format($item->jumlah, 0, ',', '.') }}
                         </span>
-
                     </div>
                     @endforeach
+                </div>
+            </div>
+        </div>
+
+        {{-- ========================================== --}}
+        {{-- VERSI DESKTOP (Ukuran Proporsional)        --}}
+        {{-- ========================================== --}}
+        <div class="hidden md:block w-full max-w-6xl mx-auto mt-12 px-6">
+
+            {{-- Judul Hijau Terang (Ukuran Standar) --}}
+            <h2 class="text-[#8cdb6e] font-black text-3xl mb-8 tracking-wide text-left uppercase">
+                Berdasarkan Agama
+            </h2>
+
+            {{-- Grid Layout: 3 Kolom agar pas di layar --}}
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+                @foreach($agama_data as $item)
+                <div class="bg-white border border-gray-100 rounded-lg p-6 shadow-[0_2px_15px_rgba(0,0,0,0.03)] flex items-center transition-all duration-300 hover:shadow-md group">
+
+                    {{-- 1. Bagian Ikon (Dikecilkan ukurannya) --}}
+                    <div class="flex-shrink-0 mr-6">
+                        <img src="{{ $agamaIcons[$item->agama] ?? $defaultAgamaIcon }}" alt="{{ $item->agama }}" class="w-20 h-20 object-contain">
+                    </div>
+
+                    {{-- 2. Bagian Teks (Dikecilkan font-nya) --}}
+                    <div class="flex flex-col justify-center">
+                        {{-- Nama Agama (Size 18-20px) --}}
+                        <span class="text-gray-600 font-bold text-xl mb-0.5">
+                            {{ $item->agama }}
+                        </span>
+
+                        {{-- Angka Hijau (Size 32-36px) --}}
+                        <div class="flex items-baseline">
+                            <span class="text-[#8cdb6e] text-3xl font-medium tracking-tight">
+                                {{ number_format($item->jumlah, 0, ',', '.') }}
+                            </span>
+                        </div>
+                    </div>
 
                 </div>
+                @endforeach
 
             </div>
         </div>
 
-        <div class="w-full bg-[#f8f9fa] py-10 px-5 mt-8 rounded-xl">
-            <div class="max-w-4xl mx-auto">
 
-                {{-- Judul Hijau Terang --}}
-                <h2 class="text-[#8cdb6e] font-black text-[18px] md:text-xl text-center uppercase mb-10 tracking-wide drop-shadow-sm">
+
+
+        {{-- ========================================== --}}
+        {{-- VERSI MOBILE (Kode kamu yang sudah perfect) --}}
+        {{-- ========================================== --}}
+        <div class="block md:hidden w-full bg-[#f8f9fa] py-10 px-5 mt-8 rounded-xl">
+            <div class="max-w-4xl mx-auto">
+                <h2 class="text-[#8cdb6e] font-black text-[18px] text-center uppercase mb-10 tracking-wide drop-shadow-sm">
                     Berdasarkan Agama
                 </h2>
 
-                {{-- Grid: 2 kolom di HP, 3 kolom di Laptop --}}
-                {{-- Kita gunakan format yang sama persis agar rapi --}}
-                <div class="grid grid-cols-2 md:grid-cols-3 gap-y-10 gap-x-4">
-
+                <div class="grid grid-cols-2 gap-y-10 gap-x-4">
                     @foreach($agama_data as $item)
                     <div class="flex flex-col items-center text-center group">
-
-                        {{-- 1. Ikon/Gambar Agama --}}
                         <img src="{{ $agamaIcons[$item->agama] ?? $defaultAgamaIcon }}" alt="{{ $item->agama }}" class="w-[75px] h-[75px] object-contain mb-3 transition-transform duration-300 group-hover:scale-110">
-
-                        {{-- 2. Label Agama (Hitam Gelap) --}}
-                        <span class="text-[#1f2937] text-[13px] md:text-[14px] font-semibold mb-1 leading-snug">
+                        <span class="text-[#1f2937] text-[13px] font-semibold mb-1 leading-snug">
                             {{ $item->agama }}
                         </span>
-
-                        {{-- 3. Angka (Hijau Terang & Font lebih tipis, sesuai image_35e799.png) --}}
-                        <span class="text-[#8cdb6e] text-[26px] md:text-[28px] font-normal">
+                        <span class="text-[#8cdb6e] text-[26px] font-normal">
                             {{ number_format($item->jumlah, 0, ',', '.') }}
                         </span>
-
                     </div>
                     @endforeach
-
                 </div>
-
             </div>
         </div>
 
     </section>
+
     <script>
         document.addEventListener('DOMContentLoaded', function() {
-            const labelsWajibPilih = @json($labels);
-            const dataWajibPilih = @json($values);
 
-            window.renderWajibPilihChart('wajibPilihChart', labelsWajibPilih, dataWajibPilih);
-            const labelsPendidikan = @json($eduLabels);
-            const dataPendidikan = @json($eduData);
+            // 1. Ambil kedua elemen Canvas
+            const canvasDesktop = document.getElementById('dusunChartDesktop');
+            const canvasMobile = document.getElementById('dusunChartMobile');
 
-            window.renderPendidikanChart('pendidikanChart', labelsPendidikan, dataPendidikan);
+            // Jika keduanya tidak ada, hentikan script
+            if (!canvasDesktop && !canvasMobile) return;
+
+            // 2. Siapkan Data dari PHP
             const labelsDusun = @json($dusunLabels);
             const dataDusun = @json($dusunData);
-
-            // Memanggil fungsi dari app.js
-            window.renderDusunChart('dusunChart', labelsDusun, dataDusun);
-            const labels = @json($piramidaLabels);
-            const dataLaki = @json($lakiLaki);
-            const dataPerempuan = @json($perempuan);
-
-            // Jalankan fungsi dari app.js
-            window.renderPiramidaChart('piramidaChart', labels, dataLaki, dataPerempuan);
-        });
-
-    </script>
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-
-            const ctxDusun = document.getElementById('dusunChart');
-            if (!ctxDusun) return;
-
             const warnaDusun = ['#5b7bd5', '#95cc6b', '#fba995', '#f3ce63'];
 
-            // ==============================================================
-            // 🔥 CUSTOM PLUGIN: MENGGAMBAR GARIS PENUNJUK (LEADER LINES)
-            // ==============================================================
+            // 3. Plugin Garis Penunjuk (Leader Lines)
             const garisPenunjukPlugin = {
                 id: 'garisPenunjuk'
                 , afterDraw(chart) {
@@ -545,54 +880,42 @@
 
                     const dataset = chart.data.datasets[0];
                     const meta = chart.getDatasetMeta(0);
-
-                    // Hitung total seluruh jiwa untuk dijadikan persen
                     const total = dataset.data.reduce((a, b) => a + b, 0);
 
                     meta.data.forEach((arc, index) => {
                         const value = dataset.data[index];
-                        if (value === 0) return; // Lewati jika nilainya 0
+                        if (value === 0) return;
 
-                        // Hitung persentase
-                        const percentage = (value * 100 / total).toFixed(2) + '%';
-
-                        // 1. Ambil pusat lingkaran dan jari-jari pie
+                        // Mengambil nama label dan menggabungkannya dengan persentase
+                        const namaLabel = chart.data.labels[index];
+                        const percentage = namaLabel + ' : ' + (value * 100 / total).toFixed(2) + '%';
                         const centerX = arc.x;
                         const centerY = arc.y;
                         const radius = arc.outerRadius;
-
-                        // 2. Tentukan sudut tengah dari potongan pie
                         const angle = (arc.startAngle + arc.endAngle) / 2;
 
-                        // 3. Titik awal garis (Nempel di tepi warna pie)
                         const startX = centerX + Math.cos(angle) * radius;
                         const startY = centerY + Math.sin(angle) * radius;
-
-                        // 4. Titik siku garis (Berada 20px di luar pie)
                         const elbowX = centerX + Math.cos(angle) * (radius + 20);
                         const elbowY = centerY + Math.sin(angle) * (radius + 20);
 
-                        // 5. Titik akhir garis lurus (Tarik 20px ke kanan atau ke kiri)
                         const isRightSide = Math.cos(angle) >= 0;
                         const endX = elbowX + (isRightSide ? 20 : -20);
                         const endY = elbowY;
 
-                        // --- MULA MENGGAMBAR GARIS ---
                         ctx.beginPath();
-                        ctx.moveTo(startX, startY); // Mulai dari tepi
-                        ctx.lineTo(elbowX, elbowY); // Tarik ke titik siku luar
-                        ctx.lineTo(endX, endY); // Tarik lurus horizontal
-                        ctx.strokeStyle = dataset.backgroundColor[index]; // Warna garis = Warna Pie
-                        ctx.lineWidth = 1.5; // Ketebalan garis
+                        ctx.moveTo(startX, startY);
+                        ctx.lineTo(elbowX, elbowY);
+                        ctx.lineTo(endX, endY);
+                        ctx.strokeStyle = dataset.backgroundColor[index];
+                        ctx.lineWidth = 1.5;
                         ctx.stroke();
 
-                        // --- MULA MENGGAMBAR TEKS ANGKA ---
                         ctx.font = 'bold 11px Arial';
-                        ctx.fillStyle = '#1f2937'; // Warna teks hitam gelap
+                        ctx.fillStyle = '#1f2937';
                         ctx.textBaseline = 'middle';
                         ctx.textAlign = isRightSide ? 'left' : 'right';
 
-                        // Beri jarak 5px dari ujung garis sebelum menulis teks
                         const textPadding = isRightSide ? 5 : -5;
                         ctx.fillText(percentage, endX + textPadding, endY);
                     });
@@ -600,72 +923,64 @@
                 }
             };
 
-            // ==============================================================
-            // INISIALISASI CHART DUSUN
-            // ==============================================================
-            new Chart(ctxDusun, {
-                type: 'pie'
-                , data: {
-                    labels: @json($dusun_labels)
-                    , datasets: [{
-                        data: @json($dusun_totals)
-                        , backgroundColor: warnaDusun
-                        , borderWidth: 0
-                        , hoverOffset: 6
-                    }]
-                },
-                // Daftarkan Custom Plugin yang barusan kita buat
-                plugins: [garisPenunjukPlugin]
-                , options: {
-                    responsive: true
-                    , maintainAspectRatio: false
-                    , layout: {
-                        // Beri jarak agak besar (60px) di kiri-kanan agar garis & teks tidak terpotong tepi canvas
-                        padding: {
-                            left: 60
-                            , right: 60
-                            , top: 20
-                            , bottom: 20
-                        }
-                    }
-                    , plugins: {
-                        // MATIKAN datalabels bawaan agar angkanya tidak dobel/bertumpuk
-                        datalabels: {
-                            display: false
-                        },
+            // 4. Buat Fungsi untuk Menggambar Grafik
+            function buatGrafikDusun(elementCanvas) {
+                if (!elementCanvas) return; // Jaga-jaga jika canvas kosong
 
-                        legend: {
-                            position: 'bottom'
-                            , labels: {
-                                usePointStyle: true
-                                , boxWidth: 15
-                                , padding: 20
-                                , color: '#4b5563'
-                                , font: {
-                                    size: 13
-                                    , weight: '500'
-                                }
+                new Chart(elementCanvas, {
+                    type: 'pie'
+                    , data: {
+                        labels: labelsDusun
+                        , datasets: [{
+                            data: dataDusun
+                            , backgroundColor: warnaDusun
+                            , borderWidth: 0
+                            , hoverOffset: 6
+                        }]
+                    }
+                    , plugins: [garisPenunjukPlugin]
+                    , options: {
+                        responsive: true
+                        , maintainAspectRatio: false
+                        , layout: {
+                            padding: {
+                                left: 60
+                                , right: 60
+                                , top: 20
+                                , bottom: 20
                             }
                         }
-                        , tooltip: {
-                            callbacks: {
-                                label: function(context) {
-                                    let label = context.label || '';
-                                    if (label) {
-                                        label += ': ';
+                        , plugins: {
+                            datalabels: {
+                                display: false
+                            }, // Matikan datalabels bawaan
+                            llegend: {
+                                display: false // Ini akan mematikan legend bawaan
+                            }
+
+                            , tooltip: {
+                                callbacks: {
+                                    label: function(context) {
+                                        let label = context.label || '';
+                                        if (label) label += ': ';
+                                        label += context.raw + ' Jiwa';
+                                        return label;
                                     }
-                                    label += context.raw + ' Jiwa';
-                                    return label;
                                 }
                             }
                         }
                     }
-                }
-            });
+                });
+            }
+
+            // 5. Eksekusi Pembuatan Grafik ke Desktop dan Mobile
+            buatGrafikDusun(canvasDesktop);
+            buatGrafikDusun(canvasMobile);
 
         });
 
     </script>
+
 
 
     <script>
@@ -805,6 +1120,5 @@
         });
 
     </script>
-
 
 </x-frontend>

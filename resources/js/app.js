@@ -1,15 +1,14 @@
 import "./bootstrap";
 import Alpine from "alpinejs";
+import Swal from "sweetalert2";
 import Chart from "chart.js/auto";
 import ChartDataLabels from "chartjs-plugin-datalabels";
-import "./bootstrap";
-import Swal from "sweetalert2";
 
 window.Alpine = Alpine;
-window.Swal = Swal;
-window.Chart = Chart;
-Chart.register(ChartDataLabels);
 Alpine.start();
+window.Swal = Swal;
+Chart.register(ChartDataLabels);
+window.Chart = Chart;
 
 document.addEventListener("DOMContentLoaded", function () {
     const btn = document.getElementById("readMoreBtn");
@@ -185,152 +184,179 @@ window.initHeroSlider = (elementSelector, imageList, intervalTime = 5000) => {
  * Fungsi Global untuk Chart Wajib Pilih
  * Memisahkan logika dari file Blade meningkatkan performa caching browser.
  */
-window.renderWajibPilihChart = (canvasId, labels, data) => {
-    const el = document.getElementById(canvasId);
-
-    // Validasi agar script tidak error di halaman yang tidak memiliki chart ini
-    if (!el) return;
-
-    const wpCtx = el.getContext("2d");
-
-    new Chart(wpCtx, {
-        type: "bar",
-        data: {
-            labels: labels, // Tahun dinamis dari database
-            datasets: [
-                {
-                    label: "Jumlah Wajib Pilih",
-                    data: data, // Angka dinamis dari database
-                    backgroundColor: "#2ac0b4", // Hijau tua khas desa
-                    borderRadius: 5,
-                    barThickness: 80,
-                },
-            ],
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    max: 1000,
-                    ticks: {
-                        stepSize: 200,
-                    },
-                },
-                x: {
-                    grid: {
-                        display: false,
-                    },
-                },
-            },
-            plugins: {
-                legend: {
-                    display: false,
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function (context) {
-                            return context.raw + " Jiwa";
-                        },
-                    },
-                },
-            },
-        },
-    });
-};
 document.addEventListener("DOMContentLoaded", function () {
-    const eduCtx = document.getElementById("pendidikanChart");
-    if (!eduCtx) return;
+    const ids = ["wajibPilihDesktop", "wajibPilihMobile"];
 
-    new Chart(eduCtx.getContext("2d"), {
-        type: "bar", // Tetap 'bar' (vertikal)
-        data: {
-            labels: [
-                "Tidak/Belum Sekolah",
-                "Belum Tamat SD",
-                "Tamat SD/Sederajat",
-                "SLTP/Sederajat",
-                "SLTA/Sederajat",
-                "Diploma I/II",
-                "Diploma III/Sarjana",
-                "Diploma IV/Strata I",
-                "Strata II",
-                "Strata III",
-            ],
-            datasets: [
-                {
-                    label: "Jumlah Penduduk",
-                    // Menggunakan data dari referensi gambarmu agar bentuknya sama
-                    data: [178, 202, 289, 140, 289, 21, 14, 26, 2, 0],
-                    backgroundColor: "#428a1e", // Warna Hijau Daun persis seperti di gambar
-                    borderRadius: 2, // Ujung batang sedikit membulat (tidak terlalu tumpul)
-                    barPercentage: 0.7, // Mengatur ketebalan batang
+    ids.forEach((id) => {
+        const canvas = document.getElementById(id);
+        if (!canvas) return;
+
+        // Ambil data yang dikirim dari Blade tadi
+        const labelsWp = JSON.parse(canvas.getAttribute("data-labels") || "[]");
+        const dataWp = JSON.parse(canvas.getAttribute("data-values") || "[]");
+
+        if (labelsWp.length > 0) {
+            new Chart(canvas.getContext("2d"), {
+                type: "bar",
+                data: {
+                    labels: labelsWp,
+                    datasets: [
+                        {
+                            label: "Wajib Pilih",
+                            data: dataWp,
+                            backgroundColor: "#428a1e",
+                            borderRadius: 2,
+                            barPercentage: 0.5,
+                        },
+                    ],
                 },
-            ],
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false, // Wajib agar mengikuti tinggi div HTML
-            layout: {
-                padding: {
-                    top: 20, // Beri ruang ekstra di atas agar angka tertinggi tidak terpotong
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: { display: false },
+                        datalabels: {
+                            display: true,
+                            anchor: "end",
+                            align: "top",
+                            color: "#1f2937",
+                            font: { weight: "bold" },
+                        },
+                    },
+                    scales: {
+                        y: { beginAtZero: true },
+                        x: { grid: { display: false } },
+                    },
                 },
+            });
+        }
+    });
+});
+document.addEventListener("DOMContentLoaded", function () {
+    // 1. Ambil kedua elemen Canvas (Desktop & Mobile)
+    const ctxDesktop = document.getElementById("pendidikanChartDesktop");
+    const ctxMobile = document.getElementById("pendidikanChartMobile");
+
+    // Jika keduanya tidak ada, hentikan script agar tidak error
+    if (!ctxDesktop && !ctxMobile) return;
+
+    // 2. Data Master (Hanya ditulis satu kali)
+    const dataLabels = [
+        "Tidak/Belum Sekolah",
+        "Belum Tamat SD",
+        "Tamat SD/Sederajat",
+        "SLTP/Sederajat",
+        "SLTA/Sederajat",
+        "Diploma I/II",
+        "Diploma III/Sarjana",
+        "Diploma IV/Strata I",
+        "Strata II",
+        "Strata III",
+    ];
+    const dataValues = [178, 202, 289, 140, 289, 21, 14, 26, 2, 0];
+
+    // 3. Fungsi Pembuat Grafik (Agar bisa dipanggil berulang)
+    function buatGrafikPendidikan(elemenCanvas, isMobile = false) {
+        if (!elemenCanvas) return;
+
+        // Trik: Jika di layar HP (Mobile), teks sumbu X miring saja agar tidak nabrak
+        // Jika di layar Desktop, teks lurus dan pakai multi-line
+        const rotasiTeks = isMobile ? 45 : 0;
+
+        new Chart(elemenCanvas.getContext("2d"), {
+            type: "bar",
+            data: {
+                labels: dataLabels,
+                datasets: [
+                    {
+                        label: "Jumlah Penduduk",
+                        data: dataValues,
+                        backgroundColor: "#428a1e",
+                        borderRadius: 2,
+                        barPercentage: 0.7,
+                    },
+                ],
             },
-            scales: {
-                y: {
-                    beginAtZero: true,
-                    max: 320, // Dilebihkan dari 300 agar ada sisa ruang di atas grafik
-                    grid: {
-                        color: "#e5e7eb", // Garis horizontal abu-abu tipis
-                        drawBorder: false,
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                layout: {
+                    padding: { top: 20 },
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 320,
+                        grid: {
+                            color: "#e5e7eb",
+                            drawBorder: false,
+                        },
+                        ticks: {
+                            stepSize: 50,
+                            color: "#6b7280",
+                            font: { size: 11 },
+                        },
                     },
-                    ticks: {
-                        stepSize: 50,
-                        color: "#6b7280",
-                        font: { size: 11 },
+                    x: {
+                        grid: { display: false },
+                        ticks: {
+                            color: "#4b5563",
+                            font: { size: 10 },
+                            maxRotation: rotasiTeks,
+                            minRotation: rotasiTeks,
+                            autoSkip: false,
+                            callback: function (value) {
+                                let label = this.getLabelForValue(value);
+
+                                // Jangan pakai pemisah dua baris kalau sedang di HP
+                                // karena di HP layarnya sempit, mending dimiringkan saja.
+                                if (
+                                    !isMobile &&
+                                    label.length > 12 &&
+                                    label.includes(" ")
+                                ) {
+                                    let kata = label.split(" ");
+                                    let tengah = Math.ceil(kata.length / 2);
+                                    let barisAtas = kata
+                                        .slice(0, tengah)
+                                        .join(" ");
+                                    let barisBawah = kata
+                                        .slice(tengah)
+                                        .join(" ");
+                                    return [barisAtas, barisBawah];
+                                }
+                                return label;
+                            },
+                        },
                     },
                 },
-                x: {
-                    grid: {
-                        display: false, // Hilangkan garis vertikal agar bersih seperti gambar
+                plugins: {
+                    legend: { display: false },
+                    datalabels: {
+                        color: "#1f2937",
+                        anchor: "end",
+                        align: "top",
+                        offset: 4,
+                        font: { size: 11, weight: "bold" },
+                        formatter: function (value) {
+                            return value === 0 ? "" : value;
+                        },
                     },
-                    ticks: {
-                        color: "#4b5563",
-                        font: { size: 10 },
-                        maxRotation: 45, // Miringkan teks 45 derajat agar rapi dan tidak bertabrakan
-                        minRotation: 45,
-                    },
-                },
-            },
-            plugins: {
-                legend: {
-                    display: false, // Sembunyikan legenda (sudah terwakili judul)
-                },
-                // MENGAKTIFKAN ANGKA DI ATAS BATANG
-                datalabels: {
-                    color: "#1f2937", // Warna angka abu-abu gelap/hitam
-                    anchor: "end", // Letakkan patokan di ujung atas batang
-                    align: "top", // Posisikan tulisan di atas patokan
-                    offset: 4, // Jarak angka dari batang
-                    font: {
-                        size: 11,
-                        weight: "bold",
-                    },
-                    formatter: function (value) {
-                        return value === 0 ? "" : value; // Jangan tulis angka "0" jika kosong
-                    },
-                },
-                tooltip: {
-                    callbacks: {
-                        label: function (context) {
-                            return context.raw + " Orang";
+                    tooltip: {
+                        callbacks: {
+                            label: function (context) {
+                                return context.raw + " Orang";
+                            },
                         },
                     },
                 },
             },
-        },
-    });
+        });
+    }
+
+    // 4. Eksekusi! Gambar grafiknya di Desktop dan Mobile
+    buatGrafikPendidikan(ctxDesktop, false); // false = desktop
+    buatGrafikPendidikan(ctxMobile, true); // true = mobile
 });
 window.renderDusunChart = (canvasId, labels, data) => {
     const el = document.getElementById(canvasId);

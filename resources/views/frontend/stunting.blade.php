@@ -87,9 +87,6 @@
         </div>
     </section>
 
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
-
     <script>
         // Registrasi plugin datalabels untuk memunculkan angka di atas bar
         Chart.register(ChartDataLabels);
