@@ -81,85 +81,102 @@
             </div>
         </div>
         <div class="idm-top-section">
-            <div class="idm-info mb-6 hidden md:block">
-
-                <h2 class="idm-brand text-2xl font-bold text-[#2ac0b4] mb-2">IDM</h2>
-
-                {{-- PERUBAHAN: Teks ini dibungkus 'hidden md:block' agar hilang di Mobile --}}
-                <div class="hidden md:block">
-                    <p class="idm-text text-sm text-gray-600 mb-4">
-                        Indeks Desa Membangun (IDM) Desa Bedi Kulon Tahun {{ $tahun_pilih }}.
-                        Indeks komposit yang dibentuk dari tiga indeks, yaitu
-                        <strong>Indeks Ketahanan Sosial</strong>, <strong>Indeks Ketahanan Ekonomi</strong>, dan
-                        <strong>Indeks Ketahanan Ekologi/Lingkungan</strong>.
-                    </p>
-                </div>
-
-                <div class="mt-4">
-                    <form action="{{ route('frontend.idm') }}" method="GET">
-                        <select name="tahun" onchange="this.form.submit()" class="pl-4 pr-10 py-2 border rounded bg-white text-gray-700 shadow-sm focus:outline-none focus:ring-2 focus:ring-blue-500 appearance-none">
-                            @forelse($list_tahun as $thn)
-                            <option value="{{ $thn }}" {{ $tahun_pilih == $thn ? 'selected' : '' }}>
-                                Tahun {{ $thn }}
-                            </option>
-                            @empty
-                            <option>{{ date('Y') }}</option>
-                            @endforelse
-                        </select>
-                    </form>
-                </div>
-            </div>
-
             {{-- ========================================== --}}
-            {{-- ZONA DESKTOP (Grid Menyamping)             --}}
+            {{-- ZONA DESKTOP (PRECISE MIRRORING KERSIK)    --}}
             {{-- ========================================== --}}
-            <div class="hidden md:block">
+            <div class="hidden md:block w-full max-w-7xl mx-auto px-6 mt-10">
+
                 @if($idm)
-                <div class="idm-primary-cards flex gap-4 mb-6">
-                    <div class="card-large flex-1 bg-white p-6 rounded-xl shadow-sm border border-gray-100 text-center">
-                        <span class="card-label block text-sm font-bold text-gray-500 mb-2">SKOR IDM {{ $tahun_pilih }}</span>
-                        <span class="card-value-bold block text-4xl font-extrabold text-blue-600">{{ number_format($idm->nilai_idm, 4) }}</span>
+                {{-- BARIS 1: JUDUL (Kiri) & KARTU UTAMA (Kanan) --}}
+                <div class="flex flex-col lg:flex-row gap-16 items-start mb-6">
+
+                    {{-- Sisi Kiri: Deskripsi --}}
+                    <div class="lg:w-2/5">
+                        <h2 class="text-[#8cdb6e] font-bold text-5xl mb-6 tracking-tight">IDM</h2>
+                        <p class="text-gray-800 text-[19px] leading-[1.6] text-left font-medium">
+                            Indeks Desa Membangun (IDM) merupakan indeks komposit yang dibentuk dari tiga indeks, yaitu
+                            Indeks Ketahanan Sosial, Indeks Ketahanan Ekonomi, dan Indeks Ketahanan Ekologi/Lingkungan.
+                        </p>
+
+                        <div class="mt-10">
+                            <form action="{{ route('frontend.idm') }}" method="GET">
+                                <div class="relative w-44">
+                                    <select name="tahun" onchange="this.form.submit()" class="w-full pl-5 pr-10 py-3 border border-gray-200 rounded-lg bg-white text-gray-700 font-bold shadow-sm focus:outline-none appearance-none cursor-pointer">
+                                        @foreach($list_tahun as $thn)
+                                        <option value="{{ $thn }}" {{ $tahun_pilih == $thn ? 'selected' : '' }}>Tahun {{ $thn }}</option>
+                                        @endforeach
+                                    </select>
+                                    <div class="absolute inset-y-0 right-3 flex items-center pointer-events-none">
+                                        <svg class="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path>
+                                        </svg>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
                     </div>
-                    <div class="card-large flex-1 bg-white p-6 rounded-xl shadow-sm border border-gray-100 text-center">
-                        <span class="card-label block text-sm font-bold text-gray-500 mb-2">STATUS IDM {{ $tahun_pilih }}</span>
-                        <span class="card-value-bold block text-3xl font-extrabold {{ $idm->status == 'MANDIRI' ? 'text-green-600' : ($idm->status == 'MAJU' ? 'text-blue-500' : ($idm->status == 'BERKEMBANG' ? 'text-yellow-500' : 'text-red-500')) }}">
-                            {{ $idm->status }}
-                        </span>
+
+                    {{-- Sisi Kanan: 2 Kartu Utama --}}
+                    <div class="lg:w-3/5 w-full flex flex-col gap-5">
+                        {{-- Skor IDM --}}
+                        <div class="bg-white rounded-lg shadow-[0_1px_10px_rgba(0,0,0,0.03)] border border-gray-100 flex h-32 overflow-hidden">
+                            <div class="w-1/2 p-8 flex items-start">
+                                <span class="text-gray-500 font-bold text-lg uppercase tracking-wide">SKOR IDM {{ $tahun_pilih }}</span>
+                            </div>
+                            <div class="w-1/2 p-8 flex items-end justify-end">
+                                <span class="text-gray-700 text-6xl font-bold tracking-tighter">{{ number_format($idm->nilai_idm, 4) }}</span>
+                            </div>
+                        </div>
+
+                        {{-- Status IDM --}}
+                        <div class="bg-white rounded-lg shadow-[0_1px_10px_rgba(0,0,0,0.03)] border border-gray-100 flex h-32 overflow-hidden">
+                            <div class="w-1/2 p-8 flex items-start">
+                                <span class="text-gray-500 font-bold text-lg uppercase tracking-wide">STATUS IDM {{ $tahun_pilih }}</span>
+                            </div>
+                            <div class="w-1/2 p-8 flex items-end justify-end">
+                                <span class="text-gray-700 text-5xl font-bold uppercase tracking-tighter">{{ $idm->status }}</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
 
-                <div class="idm-secondary-grid grid grid-cols-5 gap-4 mb-8">
-                    <div class="card-small bg-white p-4 rounded-xl shadow-sm border border-gray-100 text-center">
-                        <span class="card-label block text-xs text-gray-500 mb-1">Target Status</span>
-                        <span class="card-value-small block text-lg font-bold text-green-700">{{ $target_status }}</span>
+                {{-- BARIS 2: 6 KOTAK DETAIL (DI BAWAH / FULL WIDTH) --}}
+                {{-- UBAH: div ini sekarang berada di luar div 'flex' di atas --}}
+                <div class="grid grid-cols-3 gap-5 mt-10">
+                    @php
+                    $details = [
+                    ['label' => 'Target Status', 'value' => $target_status, 'is_text' => true],
+                    ['label' => 'Skor Minimal', 'value' => number_format($min_skor_target, 4), 'is_text' => false],
+                    ['label' => 'Penambahan', 'value' => number_format($penambahan, 4), 'is_text' => false],
+                    ['label' => 'Skor IKS', 'value' => number_format($idm->skor_iks, 4), 'is_text' => false],
+                    ['label' => 'Skor IKE', 'value' => number_format($idm->skor_ike, 4), 'is_text' => false],
+                    ['label' => 'Skor IKL', 'value' => number_format($idm->skor_ikl, 4), 'is_text' => false],
+                    ];
+                    @endphp
+
+                    @foreach($details as $detail)
+                    <div class="bg-white rounded-lg shadow-[0_1px_10px_rgba(0,0,0,0.02)] border border-gray-100 flex flex-col justify-between h-32 p-6 overflow-hidden">
+                        <div class="flex items-start">
+                            <span class="text-gray-500 font-bold text-sm uppercase tracking-wider">{{ $detail['label'] }}</span>
+                        </div>
+                        <div class="flex items-end justify-end">
+                            <span class="text-gray-700 font-bold {{ $detail['is_text'] ? 'text-3xl uppercase' : 'text-4xl' }}">
+                                {{ $detail['value'] }}
+                            </span>
+                        </div>
                     </div>
-                    <div class="card-small bg-white p-4 rounded-xl shadow-sm border border-gray-100 text-center">
-                        <span class="card-label block text-xs text-gray-500 mb-1">Skor Minimal</span>
-                        <span class="card-value-small block text-lg font-bold text-gray-800">{{ number_format($min_skor_target, 4) }}</span>
-                    </div>
-                    <div class="card-small bg-white p-4 rounded-xl shadow-sm border border-gray-100 text-center">
-                        <span class="card-label block text-xs text-gray-500 mb-1">Penambahan</span>
-                        <span class="card-value-small block text-lg font-bold {{ $penambahan > 0 ? 'text-red-500' : 'text-green-500' }}">{{ number_format($penambahan, 4) }}</span>
-                    </div>
-                    <div class="card-small bg-white p-4 rounded-xl shadow-sm border border-gray-100 text-center">
-                        <span class="card-label block text-xs text-gray-500 mb-1">Skor IKS (Sosial)</span>
-                        <span class="card-value-small block text-lg font-bold text-gray-800">{{ number_format($details_iks->sum('nilai_plus'), 4) }}</span>
-                    </div>
-                    <div class="card-small bg-white p-4 rounded-xl shadow-sm border border-gray-100 text-center">
-                        <span class="card-label block text-xs text-gray-500 mb-1">Skor IKE (Ekonomi)</span>
-                        <span class="card-value-small block text-lg font-bold text-gray-800">{{ number_format($idm->skor_ike, 4) }}</span>
-                    </div>
-                    <div class="card-small bg-white p-4 rounded-xl shadow-sm border border-gray-100 text-center col-span-5">
-                        <span class="card-label block text-xs text-gray-500 mb-1">Skor IKL (Lingkungan)</span>
-                        <span class="card-value-small block text-lg font-bold text-gray-800">{{ number_format($idm->skor_ikl, 4) }}</span>
-                    </div>
+                    @endforeach
                 </div>
+
                 @else
-                <div class="idm-primary-cards">
-                    <div class="card-large bg-white p-6 rounded-xl shadow-sm text-center"><span class="card-value-bold text-xl font-bold text-gray-400">Belum Ada Data</span></div>
+                {{-- Tampilan jika data kosong --}}
+                <div class="bg-white p-10 rounded-xl border-2 border-dashed border-gray-200 text-center">
+                    <span class="text-gray-400 font-bold text-xl">Data IDM Tahun {{ $tahun_pilih }} Belum Tersedia</span>
                 </div>
                 @endif
             </div>
+
+
 
             {{-- ========================================== --}}
             {{-- ZONA MOBILE (List Vertikal)                --}}
