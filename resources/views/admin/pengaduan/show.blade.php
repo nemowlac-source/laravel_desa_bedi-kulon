@@ -12,7 +12,7 @@
                             <line x1="16" y1="17" x2="8" y2="17"></line>
                             <polyline points="10 9 9 9 8 9"></polyline>
                         </svg>
-                        Detail Pengaduan Masyarakat ⏺️
+                        Detail Pengaduan Masyarakat
                     </h2>
                     <a href="{{ route('admin.pengaduan.index') }}" class="text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg transition flex items-center gap-2">
                         <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -45,7 +45,7 @@
                     </div>
 
                     <div class="bg-gray-50 p-6 rounded-xl border border-gray-100">
-                        <label class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3 block">Update Status Aduan 🛠️</label>
+                        <label class="text-xs font-bold text-gray-500 uppercase tracking-wider mb-3 block">Update Status Aduan </label>
                         <form action="{{ route('admin.pengaduan.update', $pengaduan->id) }}" method="POST" class="mb-4">
                             @csrf
                             @method('PUT')
@@ -90,14 +90,14 @@
                 <hr class="my-8">
 
                 <div class="mb-8">
-                    <label class="text-xs font-bold text-gray-500 uppercase tracking-wider block mb-2">Isi Pengaduan 📝</label>
+                    <label class="text-xs font-bold text-gray-500 uppercase tracking-wider block mb-2">Isi Pengaduan </label>
                     <div class="bg-gray-50 p-6 rounded-lg border border-gray-100 italic text-gray-700 leading-relaxed">
                         "{{ $pengaduan->isi_pengaduan }}"
                     </div>
                 </div>
 
                 <div>
-                    <label class="text-xs font-bold text-gray-500 uppercase tracking-wider block mb-3">Lampiran Bukti 📂</label>
+                    <label class="text-xs font-bold text-gray-500 uppercase tracking-wider block mb-3">Lampiran Bukti </label>
                     @if($pengaduan->lampiran)
                     @php $extension = pathinfo($pengaduan->lampiran, PATHINFO_EXTENSION); @endphp
 
@@ -123,7 +123,7 @@
                     </a>
                     @endif
                     @else
-                    <p class="text-sm text-gray-400 italic">Tidak ada lampiran yang diunggah ⏺️</p>
+                    <p class="text-sm text-gray-400 italic">Tidak ada lampiran yang diunggah </p>
                     @endif
                 </div>
 
@@ -137,7 +137,7 @@
             const statusSelect = document.getElementById('statusSelect');
             const waButton = document.getElementById('waButton');
 
-            // Data dari Laravel 📂
+            // Data dasar dari Laravel 
             const namaWarga = "{{ $pengaduan->nama }}";
             const kategori = "{{ $pengaduan->kategori }}";
             const noHp = "{{ str_starts_with($pengaduan->no_hp, '0') ? '62' . substr($pengaduan->no_hp, 1) : $pengaduan->no_hp }}";
@@ -146,6 +146,7 @@
                 const status = statusSelect.options[statusSelect.selectedIndex].text;
                 const catatan = catatanInput.value;
 
+                // Rakit pesan otomatis 
                 let pesan = `Halo Bapak/Ibu *${namaWarga}*,\n\n`;
                 pesan += `Kami dari *Admin Desa Bedi Kulon* menginformasikan bahwa aduan Anda mengenai *${kategori}* saat ini berstatus: *${status}*.`;
 
@@ -155,50 +156,15 @@
 
                 pesan += `\n\nTerima kasih.\n*Pemerintah Desa Bedi Kulon*`;
 
+                // Update link tombol 
                 waButton.href = `https://wa.me/${noHp}?text=${encodeURIComponent(pesan)}`;
             }
 
-            // Pantau perubahan saat mengetik 🛠️
+            // Jalankan fungsi saat mengetik atau mengubah status 
             catatanInput.addEventListener('input', updateWaLink);
             statusSelect.addEventListener('change', updateWaLink);
 
-            // Jalankan saat pertama kali halaman dimuat 📂
-            updateWaLink();
-        });
-
-        document.addEventListener('DOMContentLoaded', function() {
-            const catatanInput = document.getElementById('catatanAdmin');
-            const statusSelect = document.getElementById('statusSelect');
-            const waButton = document.getElementById('waButton');
-
-            // Data dasar dari Laravel 📂
-            const namaWarga = "{{ $pengaduan->nama }}";
-            const kategori = "{{ $pengaduan->kategori }}";
-            const noHp = "{{ str_starts_with($pengaduan->no_hp, '0') ? '62' . substr($pengaduan->no_hp, 1) : $pengaduan->no_hp }}";
-
-            function updateWaLink() {
-                const status = statusSelect.options[statusSelect.selectedIndex].text;
-                const catatan = catatanInput.value;
-
-                // Rakit pesan otomatis ⏺️
-                let pesan = `Halo Bapak/Ibu *${namaWarga}*,\n\n`;
-                pesan += `Kami dari *Admin Desa Bedi Kulon* menginformasikan bahwa aduan Anda mengenai *${kategori}* saat ini berstatus: *${status}*.`;
-
-                if (catatan) {
-                    pesan += `\n\n*Catatan Admin:*\n${catatan}`;
-                }
-
-                pesan += `\n\nTerima kasih.\n*Pemerintah Desa Bedi Kulon*`;
-
-                // Update link tombol 🛠️
-                waButton.href = `https://wa.me/${noHp}?text=${encodeURIComponent(pesan)}`;
-            }
-
-            // Jalankan fungsi saat mengetik atau mengubah status 📂
-            catatanInput.addEventListener('input', updateWaLink);
-            statusSelect.addEventListener('change', updateWaLink);
-
-            // Jalankan sekali saat halaman pertama kali dimuat ⏺️
+            // Jalankan sekali saat halaman pertama kali dimuat 
             updateWaLink();
         });
 

@@ -21,7 +21,7 @@ class HomeController extends Controller
         // 2. AMBIL 4 PRODUK UMKM TERBARU
         $produk_umkm = Umkm::latest()->take(4)->get();
         // 3. BERITA (3 artikel terbaru)
-        $berita_terbaru = Berita::latest()->take(3)->get();
+        $berita_terbaru = Berita::latest()->take(6)->get();
         // 4. PERANGKAT DESA (Ambil 4 orang)
         $perangkat_desa = PerangkatDesa::take(4)->get();
         // 5. AMBIL DATA POTENSI (Ambil 6 terbaru)
@@ -83,7 +83,7 @@ class HomeController extends Controller
     public function galeri()
     {
         // Ambil semua data, 9 foto per halaman
-        $galeris = Galeri::latest()->paginate(9);
+        $galeris = Galeri::latest()->paginate(6);
 
         return view('frontend.galeri', compact('galeris'));
     }
@@ -170,7 +170,7 @@ class HomeController extends Controller
     public function wisata()
     {
         // Ambil data wisata, 9 item per halaman
-        $wisatas = Wisata::latest()->paginate(9);
+        $wisatas = Wisata::latest()->paginate(6);
 
         return view('frontend.wisata', compact('wisatas'));
     }

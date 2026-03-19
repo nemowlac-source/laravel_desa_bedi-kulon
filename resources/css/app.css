@@ -634,7 +634,6 @@ nav {
 /* Styling Section Sambutan */
 .welcome-section {
     padding: 60px 10%;
-    background-color: #ffffff;
 }
 
 .welcome-container {
@@ -1949,7 +1948,7 @@ nav {
 /* Styling Halaman Infografis - Versi Gabungan & Optimal */
 .infografis-page {
     /* Padding atas-bawah 60px agar lega, padding samping gunakan 5% sebagai cadangan */
-    padding: 2rem 5rem;
+    padding: 2rem 4rem;
 
     /* Gunakan warna background hijau sangat muda agar mata tidak cepat lelah */
     /* Memastikan konten minimal setinggi layar agar footer tidak naik ke tengah */
@@ -6076,12 +6075,6 @@ nav.scrolled {
 .inner-box-gradient {
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-        to right,
-        rgba(0, 0, 0, 0.85) 0%,
-        rgba(0, 0, 0, 0.4) 50%,
-        transparent 100%
-    );
     z-index: 2;
 }
 
@@ -6238,18 +6231,6 @@ nav.scrolled {
     z-index: 1;
 }
 
-.inner-box-gradient {
-    position: absolute;
-    inset: 0;
-    background: linear-gradient(
-        to right,
-        rgba(0, 0, 0, 0.8) 0%,
-        rgba(0, 0, 0, 0.4) 40%,
-        transparent 100%
-    );
-    z-index: 2;
-}
-
 /* Teks Wisata di dalam Kotak */
 .wisata-text-content {
     position: relative;
@@ -6324,7 +6305,7 @@ nav.scrolled {
 .wisata-section-baru {
     width: 100%;
     font-family: "Poppins", sans-serif;
-    background-color: #ffffff;
+    background-color: transparent;
     /* KUNCI: Latar paling luar dikembalikan jadi putih */
     padding: 40px 0;
     /* Memberi jarak putih di atas dan bawah section */
@@ -6332,8 +6313,8 @@ nav.scrolled {
 
 /* INI TAMBAHAN BARUNYA: Pembungkus yang menahan efek blur agar tidak melebar ke ujung layar */
 .wisata-wrapper-utama {
-    max-width: 1200px;
-    height: 550px;
+    max-width: 1165px;
+    height: 560px;
     /* Batas lebar area blur (Sesuaikan dengan lebar navbar Anda jika perlu) */
     margin: 0 auto;
     /* Membuat kotak blur ada di tengah layar */
@@ -6434,12 +6415,6 @@ nav.scrolled {
     left: 0;
     bottom: 0;
     width: 100%;
-    background: linear-gradient(
-        to right,
-        rgba(0, 0, 0, 0.85) 0%,
-        rgba(0, 0, 0, 0.4) 45%,
-        transparent 100%
-    );
     z-index: 2;
 }
 
@@ -6536,6 +6511,14 @@ nav.scrolled {
     max-width: 1250px;
     margin: 0 auto;
     padding: 0 20px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: end;
+    display: flex;
+}
+.wisata-div-bar-wisata {
+    max-width: 1250px;
+    margin: 0 auto;
     display: flex;
     justify-content: flex-end;
     align-items: end;
@@ -6786,6 +6769,30 @@ nav.scrolled {
 
 .btn-lihat-semua:hover {
     color: #2ac0b4;
+}
+
+.btn-lihat-semua-wisata {
+    font-weight: 800; /* font-extrabold */
+    color: #1f2937; /* text-gray-800 */
+    transition-property:
+        color, background-color, border-color, text-decoration-color, fill,
+        stroke, opacity, box-shadow, transform, filter, backdrop-filter;
+    transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+    transition-duration: 150ms; /* transition */
+    display: flex; /* flex */
+    align-items: end; /* items-center */
+    gap: 0.5rem; /* gap-2 */
+    font-size: 0.875rem;
+    justify-content: end;
+    padding: 20px 30px;
+    line-height: 1.25rem; /* text-sm */
+    text-transform: uppercase; /* uppercase */
+    letter-spacing: 0.025em; /* tracking-wide */
+}
+
+/* Untuk efek hover */
+.btn-lihat-semua-wisata:hover {
+    color: #2ac0b4; /* hover:text-[#2ac0b4] */
 }
 
 /* --- GRID LINGKARAN --- */
@@ -8672,3 +8679,12 @@ body {
 }
 
 /* </style> */
+
+/* Menghilangkan scrollbar untuk class scrollbar-hide */
+.scrollbar-hide::-webkit-scrollbar {
+    display: none;
+}
+.scrollbar-hide {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
+}

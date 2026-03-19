@@ -864,7 +864,12 @@
                             var layerDesktop = L.geoJSON(data, {
                                 style: pengaturanGaya
                             }).addTo(mapDesktop);
-                            mapDesktop.fitBounds(layerDesktop.getBounds()); // Peta otomatis menyesuaikan batas
+
+                            // PERBAIKAN: Beri jeda agar kotak render sempurna
+                            setTimeout(function() {
+                                mapDesktop.invalidateSize(); // Hitung ulang ukuran asli
+                                mapDesktop.fitBounds(layerDesktop.getBounds()); // Baru paskan batasnya
+                            }, 500);
                         }
 
                         // Pasang ke Peta Mobile jika ada
@@ -872,14 +877,19 @@
                             var layerMobile = L.geoJSON(data, {
                                 style: pengaturanGaya
                             }).addTo(mapMobile);
-                            mapMobile.fitBounds(layerMobile.getBounds()); // Peta otomatis menyesuaikan batas
+
+                            // PERBAIKAN: Beri jeda agar kotak render sempurna di HP
+                            setTimeout(function() {
+                                mapMobile.invalidateSize(); // Hitung ulang ukuran asli
+                                mapMobile.fitBounds(layerMobile.getBounds()); // Baru paskan batasnya
+                            }, 500);
                         }
                     })
                     .catch(error => console.error("Gagal memuat batas desa:", error));
             } else {
-                // Log ini hanya muncul di Console jika halaman tidak punya peta 📂
                 console.log("Peta tidak dimuat karena elemen Desktop dan Mobile tidak ditemukan.");
             }
+
 
         });
 
