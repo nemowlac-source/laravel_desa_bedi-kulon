@@ -1,5 +1,5 @@
 <x-frontend>
-    <section class="belanja-section-baru" style="background-color: #f7f8fa;" id="belanja-wrapper">
+    <section class="belanja-section-baru" style="background-color: #f7f8fa;margin-top: 20px;" id="belanja-wrapper">
         <div class="bg-[#f9f9f9] pb-1 md:hidden">
             <div class="text-center mb-5">
                 <h2 class="text-[#2ac0b4] font-extrabold text-[20px] mb-1.5 tracking-wide">Beli Dari Desa</h2>
