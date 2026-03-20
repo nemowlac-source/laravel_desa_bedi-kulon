@@ -1,27 +1,19 @@
 <x-frontend>
 
     @php
-    // Siapkan data di blok PHP agar aman dari formatter JS
     $labels = $wp_labels ?? ['2024', '2025', '2026'];
     $values = $wp_data ?? [800, 825, 850];
-    // Data default jika database kosong
     $eduLabels = $pendidikan_labels ?? [
     'Tidak/Belum Sekolah', 'Belum Tamat SD/Sederajat', 'Tamat SD/Sederajat',
     'SLTP/Sederajat', 'SLTA/Sederajat', 'Diploma I/II',
     'Diploma III/Sarjana Muda', 'Diploma IV/Strata I', 'Strata II', 'Strata III'
     ];
     $eduData = $pendidikan_data ?? [181, 93, 180, 78, 132, 5, 11, 46, 0, 0];
-    // Data Dusun dari database atau default
     $dusunLabels = $chart_dusun_labels ?? ['Piasan', 'Mubur Kecil'];
     $dusunData = $chart_dusun_data ?? [470, 256];
-    // Data Default jika variabel dari controller belum ada
     $piramidaLabels = $labels_umur ?? ['0-4', '5-9', '10-14', '15-19', '20-24', '25-29', '30-34', '35-39', '40-44', '45-49', '50-54', '55-59', '60-64', '65-69', '70-74', '75-79', '80-84', '85+'];
-
-    // Pastikan data laki-laki adalah negatif untuk efek piramida
     $lakiLaki = $data_laki ?? [-23, -41, -40, -34, -22, -32, -27, -17, -36, -24, -19, -18, -18, -6, -3, -1, -1, -1];
     $perempuan = $data_perempuan ?? [35, 28, 45, 35, 33, 31, 28, 21, 27, 22, 26, 10, 8, 6, 5, 1, 2, 0];
-
-    // Mapping Icon berdasarkan Nama Status di Database
     $icons = [
     'Belum Kawin' => asset('assets/img/icon-belum-kawin-B6LGf_QT.svg'),
     'Kawin' => asset('assets/img/icon-kawin-DDA193Z5.svg'),
@@ -30,39 +22,23 @@
     'Cerai Hidup' => asset('assets/img/icon-cerai-hidup-c75sVKpW.svg'),
     'Kawin Tidak Tercatat' => asset('assets/img/icon-kawin-tak-tercatat-Ba6jJHqw.svg'),
     ];
-    // Default icon jika nama tidak cocok
     $default_icon = 'https://cdn-icons-png.flaticon.com/512/1077/1077114.png';
-
-    // Mapping Icon berdasarkan Nama Agama di Database
     $agamaIcons = [
     'Islam' => asset('assets/img/icon-islam-CvTs3lrK.svg'),
     'Kristen' => asset('assets/img/icon-kristen-DnmWrutu.svg'),
     'Katolik' => asset('assets/img/icon-katolik-Bh6D2yYr.svg'),
     'Hindu' => asset('assets/img/icon-hindu-O6CRjU7v (1).svg'),
     'Buddha' => asset('assets/img/icon-buddha-4LzubUEG.svg'),
-    'Konghucu' => asset('assets/img/icon-konghuchu-S2zKN_1w.svg'), // Icon Yin Yang
+    'Konghucu' => asset('assets/img/icon-konghuchu-S2zKN_1w.svg'),
     'Kepercayaan Lainnya' => asset('assets/img/icon-kepercayaan-lainnya-CtFL_S6_.svg'),
     ];
-    // Default icon
     $defaultAgamaIcon = 'https://cdn-icons-png.flaticon.com/512/1077/1077114.png';
     @endphp
 
-    <style>
-        /* Trik menyembunyikan garis scrollbar tapi tetap bisa digeser */
-        .hide-scroll::-webkit-scrollbar {
-            display: none;
-        }
-
-        .hide-scroll {
-            -ms-overflow-style: none;
-            /* IE and Edge */
-            scrollbar-width: none;
-            /* Firefox */
-        }
-
-    </style>
-
     <section class="infografis-page">
+        {{-- ========================================== --}}
+        {{-- 1. VERSI MOBILE & DEKSTOP (header) --}}
+        {{-- ========================================== --}}
         <div class="header-infografis">
             <div class="hidden md:block brand-title">
                 <h1>INFOGRAFIS<br>DESA Bedi Kulon</h1>
@@ -143,6 +119,10 @@
 
             </div>
         </div>
+
+        {{-- ========================================== --}}
+        {{-- 1. KHUSUS DEKSTOP (demografi) --}}
+        {{-- ========================================== --}}
         <div class="demografi-content">
 
             <div class="hidden md:block demografi-text">
@@ -155,123 +135,119 @@
                 <img src="{{ asset('assets/img/Infografis.png') }}" alt="Visualisasi Data">
             </div>
         </div>
-        <div class="w-full">
-            {{-- ========================================== --}}
-            {{-- 1. KHUSUS DESKTOP (Menampilkan Kodingan Lamamu) --}}
-            {{-- ========================================== --}}
-            {{-- BUNGKUS LUAR: Tugasnya HANYA untuk menyembunyikan di HP (Tailwind) --}}
-            <div class="hidden md:block w-full">
-                <h2 class="title-green">Jumlah Penduduk dan Kepala Keluarga</h2>
 
-                {{-- KONTEN DALAM: Biarkan CSS buatanmu bekerja murni di sini --}}
-                <div class="stat-penduduk-grid">
-                    <div class="stat-card-penduduk">
-                        <div class="stat-icon-wrapper">
-                            <img src="{{ asset('assets/img/icon-total-penduduk-Du2cCbAO.svg') }}" alt="Icon Total">
-                        </div>
-                        <div class="stat-data">
-                            <span class="stat-label">TOTAL PENDUDUK</span>
-                            <span class="stat-value" style="color: #2ac0b4">
-                                {{ number_format($total_penduduk, 0, ',', '.') }} <small>Jiwa</small>
-                            </span>
-                        </div>
+
+        {{-- ========================================== --}}
+        {{-- 1. KHUSUS DESKTOP (Jumlah Penduduk dan Kepala Keluarga) --}}
+        {{-- ========================================== --}}
+        <div class="hidden md:block w-full">
+            <h2 class="title-green">Jumlah Penduduk dan Kepala Keluarga</h2>
+
+            {{-- KONTEN DALAM: Biarkan CSS buatanmu bekerja murni di sini --}}
+            <div class="stat-penduduk-grid">
+                <div class="stat-card-penduduk">
+                    <div class="stat-icon-wrapper">
+                        <img src="{{ asset('assets/img/icon-total-penduduk-Du2cCbAO.svg') }}" alt="Icon Total">
                     </div>
-
-                    <div class="stat-card-penduduk">
-                        <div class="stat-icon-wrapper">
-                            <img src="{{ asset('assets/img/icon-kepala-keluarga-D4UfE36x.svg') }}" alt="Icon KK">
-                        </div>
-                        <div class="stat-data">
-                            <span class="stat-label">KEPALA KELUARGA</span>
-                            <span class="stat-value" style="color: #2ac0b4">
-                                {{ number_format($total_kk, 0, ',', '.') }} <small>KK</small>
-                            </span>
-                        </div>
-                    </div>
-
-                    <div class="stat-card-penduduk">
-                        <div class="stat-icon-wrapper">
-                            <img src="{{ asset('assets/img/icon-perempuan-BCmUG8mA.svg') }}" alt="Icon Perempuan">
-                        </div>
-                        <div class="stat-data">
-                            <span class="stat-label">PEREMPUAN</span>
-                            <span class="stat-value" style="color: #2ac0b4">
-                                {{ number_format($total_perempuan, 0, ',', '.') }} <small>Jiwa</small>
-                            </span>
-                        </div>
-                    </div>
-
-                    <div class="stat-card-penduduk">
-                        <div class="stat-icon-wrapper">
-                            <img src="{{ asset('assets/img/icon-laki-CmERQRaD.svg') }}" alt="Icon Laki-laki">
-                        </div>
-                        <div class="stat-data">
-                            <span class="stat-label">LAKI-LAKI</span>
-                            <span class="stat-value" style="color: #2ac0b4">
-                                {{ number_format($total_laki, 0, ',', '.') }} <small>Jiwa</small>
-                            </span>
-                        </div>
+                    <div class="stat-data">
+                        <span class="stat-label">TOTAL PENDUDUK</span>
+                        <span class="stat-value" style="color: #2ac0b4">
+                            {{ number_format($total_penduduk, 0, ',', '.') }} <small>Jiwa</small>
+                        </span>
                     </div>
                 </div>
 
+                <div class="stat-card-penduduk">
+                    <div class="stat-icon-wrapper">
+                        <img src="{{ asset('assets/img/icon-kepala-keluarga-D4UfE36x.svg') }}" alt="Icon KK">
+                    </div>
+                    <div class="stat-data">
+                        <span class="stat-label">KEPALA KELUARGA</span>
+                        <span class="stat-value" style="color: #2ac0b4">
+                            {{ number_format($total_kk, 0, ',', '.') }} <small>KK</small>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="stat-card-penduduk">
+                    <div class="stat-icon-wrapper">
+                        <img src="{{ asset('assets/img/icon-perempuan-BCmUG8mA.svg') }}" alt="Icon Perempuan">
+                    </div>
+                    <div class="stat-data">
+                        <span class="stat-label">PEREMPUAN</span>
+                        <span class="stat-value" style="color: #2ac0b4">
+                            {{ number_format($total_perempuan, 0, ',', '.') }} <small>Jiwa</small>
+                        </span>
+                    </div>
+                </div>
+
+                <div class="stat-card-penduduk">
+                    <div class="stat-icon-wrapper">
+                        <img src="{{ asset('assets/img/icon-laki-CmERQRaD.svg') }}" alt="Icon Laki-laki">
+                    </div>
+                    <div class="stat-data">
+                        <span class="stat-label">LAKI-LAKI</span>
+                        <span class="stat-value" style="color: #2ac0b4">
+                            {{ number_format($total_laki, 0, ',', '.') }} <small>Jiwa</small>
+                        </span>
+                    </div>
+                </div>
             </div>
 
+        </div>
+        {{-- ========================================== --}}
+        {{-- 2. KHUSUS MOBILE (Jumlah Penduduk dan Kepala Keluarga) --}}
+        {{-- ========================================== --}}
+        <div class="block md:hidden bg-[#f8f9fa] py-10 px-5">
+            <h2 class="text-[#70d25b] font-black text-xl text-center tracking-wide mb-8">
+                Jumlah Penduduk
+            </h2>
 
-            {{-- ========================================== --}}
-            {{-- 2. KHUSUS MOBILE (Menampilkan Desain Kotak 2x2 yang Baru) --}}
-            {{-- ========================================== --}}
-            <div class="block md:hidden bg-[#f8f9fa] py-10 px-5">
-                <h2 class="text-[#70d25b] font-black text-xl text-center tracking-wide mb-8">
-                    Jumlah Penduduk
-                </h2>
+            {{-- Grid 2 Kolom untuk HP (Sesuai Referensi Gambar) --}}
+            <div class="grid grid-cols-2 gap-y-10 gap-x-2">
 
-                {{-- Grid 2 Kolom untuk HP (Sesuai Referensi Gambar) --}}
-                <div class="grid grid-cols-2 gap-y-10 gap-x-2">
+                {{-- 1. Total Penduduk --}}
+                <div class="flex flex-col items-center text-center">
+                    <img src="https://cdn-icons-png.flaticon.com/512/437/437501.png" alt="Penduduk" class="w-[70px] h-[70px] mb-2 object-contain">
+                    <span class="font-extrabold text-[22px] text-black leading-tight tracking-wide">
+                        {{ number_format($total_penduduk, 0, ',', '.') }}
+                    </span>
+                    <span class="text-[14px] text-gray-900 font-medium mt-0.5">
+                        Penduduk
+                    </span>
+                </div>
 
-                    {{-- 1. Total Penduduk --}}
-                    <div class="flex flex-col items-center text-center">
-                        <img src="https://cdn-icons-png.flaticon.com/512/437/437501.png" alt="Penduduk" class="w-[70px] h-[70px] mb-2 object-contain">
-                        <span class="font-extrabold text-[22px] text-black leading-tight tracking-wide">
-                            {{ number_format($total_penduduk, 0, ',', '.') }}
-                        </span>
-                        <span class="text-[14px] text-gray-900 font-medium mt-0.5">
-                            Penduduk
-                        </span>
-                    </div>
+                {{-- 2. Kepala Keluarga --}}
+                <div class="flex flex-col items-center text-center">
+                    <img src="https://cdn-icons-png.flaticon.com/512/3667/3667325.png" alt="Kepala Keluarga" class="w-[70px] h-[70px] mb-2 object-contain">
+                    <span class="font-extrabold text-[22px] text-black leading-tight tracking-wide">
+                        {{ number_format($total_kk, 0, ',', '.') }}
+                    </span>
+                    <span class="text-[14px] text-gray-900 font-medium mt-0.5">
+                        Kepala Keluarga
+                    </span>
+                </div>
 
-                    {{-- 2. Kepala Keluarga --}}
-                    <div class="flex flex-col items-center text-center">
-                        <img src="https://cdn-icons-png.flaticon.com/512/3667/3667325.png" alt="Kepala Keluarga" class="w-[70px] h-[70px] mb-2 object-contain">
-                        <span class="font-extrabold text-[22px] text-black leading-tight tracking-wide">
-                            {{ number_format($total_kk, 0, ',', '.') }}
-                        </span>
-                        <span class="text-[14px] text-gray-900 font-medium mt-0.5">
-                            Kepala Keluarga
-                        </span>
-                    </div>
+                {{-- 3. Laki-Laki --}}
+                <div class="flex flex-col items-center text-center">
+                    <img src="https://cdn-icons-png.flaticon.com/512/4140/4140037.png" alt="Laki-Laki" class="w-[70px] h-[70px] mb-2 object-contain">
+                    <span class="font-extrabold text-[22px] text-black leading-tight tracking-wide">
+                        {{ number_format($total_laki, 0, ',', '.') }}
+                    </span>
+                    <span class="text-[14px] text-gray-900 font-medium mt-0.5">
+                        Laki-Laki
+                    </span>
+                </div>
 
-                    {{-- 3. Laki-Laki --}}
-                    <div class="flex flex-col items-center text-center">
-                        <img src="https://cdn-icons-png.flaticon.com/512/4140/4140037.png" alt="Laki-Laki" class="w-[70px] h-[70px] mb-2 object-contain">
-                        <span class="font-extrabold text-[22px] text-black leading-tight tracking-wide">
-                            {{ number_format($total_laki, 0, ',', '.') }}
-                        </span>
-                        <span class="text-[14px] text-gray-900 font-medium mt-0.5">
-                            Laki-Laki
-                        </span>
-                    </div>
-
-                    {{-- 4. Perempuan --}}
-                    <div class="flex flex-col items-center text-center">
-                        <img src="https://cdn-icons-png.flaticon.com/512/4140/4140047.png" alt="Perempuan" class="w-[70px] h-[70px] mb-2 object-contain">
-                        <span class="font-extrabold text-[22px] text-black leading-tight tracking-wide">
-                            {{ number_format($total_perempuan, 0, ',', '.') }}
-                        </span>
-                        <span class="text-[14px] text-gray-900 font-medium mt-0.5">
-                            Perempuan
-                        </span>
-                    </div>
-
+                {{-- 4. Perempuan --}}
+                <div class="flex flex-col items-center text-center">
+                    <img src="https://cdn-icons-png.flaticon.com/512/4140/4140047.png" alt="Perempuan" class="w-[70px] h-[70px] mb-2 object-contain">
+                    <span class="font-extrabold text-[22px] text-black leading-tight tracking-wide">
+                        {{ number_format($total_perempuan, 0, ',', '.') }}
+                    </span>
+                    <span class="text-[14px] text-gray-900 font-medium mt-0.5">
+                        Perempuan
+                    </span>
                 </div>
 
             </div>
@@ -279,9 +255,8 @@
         </div>
 
 
-
         {{-- ========================================== --}}
-        {{-- 1. VERSI DESKTOP (Layar Lebar) --}}
+        {{-- 1. VERSI DESKTOP (Berdasarkan Kelompok Umur) --}}
         {{-- ========================================== --}}
         <div class="hidden md:block w-full max-w-8xl mx-auto px-4 sm:px-6 lg:px-8 py-8 mt-2">
 
@@ -301,164 +276,8 @@
             </div>
 
         </div>
-
-
-        <script>
-            document.addEventListener("DOMContentLoaded", function() {
-
-                // Wajib mendaftarkan plugin datalabels agar angkanya muncul
-                Chart.register(ChartDataLabels);
-
-                // 1. Data dari Controller Laravel
-                const labels = @json($categories);
-                const dataLaki = @json($data_laki);
-                const dataPerempuan = @json($data_perempuan);
-
-                // Ubah data laki-laki menjadi negatif agar grafiknya ke kiri
-                const dataLakiNegatif = dataLaki.map(value => -Math.abs(value));
-
-                // 2. Fungsi Utama untuk Membangun Grafik
-                function bangunGrafik(idCanvas) {
-                    const elemenCanvas = document.getElementById(idCanvas);
-
-                    // Jika elemen tidak ditemukan di halaman, hentikan proses
-                    if (!elemenCanvas) return;
-
-                    const ctx = elemenCanvas.getContext('2d');
-
-                    new Chart(ctx, {
-                        type: 'bar'
-                        , data: {
-                            labels: labels
-                            , datasets: [{
-                                    label: 'Laki-Laki'
-                                    , data: dataLakiNegatif
-                                    , backgroundColor: '#6eb098', // Warna Hijau Tosca Pucat
-                                    borderRadius: 3
-                                    , barPercentage: 0.85
-                                    , categoryPercentage: 0.9
-                                }
-                                , {
-                                    label: 'Perempuan'
-                                    , data: dataPerempuan
-                                    , backgroundColor: '#fba995', // Warna Peach / Salem
-                                    borderRadius: 3
-                                    , barPercentage: 0.85
-                                    , categoryPercentage: 0.9
-                                }
-                            ]
-                        }
-                        , options: {
-                            indexAxis: 'y', // Horizontal chart
-                            maintainAspectRatio: false, // Wajib agar mengikuti tinggi div HTML
-
-                            // PERBAIKAN PENTING: Beri ruang agar angka di ujung bar tidak terpotong canvas
-                            layout: {
-                                padding: {
-                                    left: 30
-                                    , right: 30
-                                }
-                            }
-                            , scales: {
-                                x: {
-                                    stacked: true
-                                    , grid: {
-                                        display: false
-                                    }, // Hilangkan garis vertikal
-                                    ticks: {
-                                        callback: function(value) {
-                                            return Math.abs(value); // Hilangkan tanda minus di sumbu bawah
-                                        }
-                                        , color: '#6b7280'
-                                        , font: {
-                                            size: 10
-                                        }
-                                    }
-                                    , border: {
-                                        display: false
-                                    }
-                                }
-                                , y: {
-                                    stacked: true
-                                    , grid: {
-                                        color: '#f3f4f6'
-                                    }, // Garis pemisah antar umur
-                                    ticks: {
-                                        color: '#4b5563'
-                                        , font: {
-                                            size: 11
-                                            , weight: '500'
-                                        }
-                                    }
-                                    , border: {
-                                        display: false
-                                    }
-                                }
-                            }
-                            , plugins: {
-                                datalabels: {
-                                    color: '#1f2937', // Warna angka hitam
-                                    font: {
-                                        weight: 'bold'
-                                        , size: 10
-                                    }
-                                    , formatter: function(value) {
-                                        if (value === 0) return '';
-                                        return Math.abs(value); // Pastikan angka di ujung bar selalu positif
-                                    },
-                                    // Posisi angka: Laki-laki di kiri luar, Perempuan di kanan luar
-                                    anchor: function(context) {
-                                        return context.datasetIndex === 0 ? 'start' : 'end';
-                                    }
-                                    , align: function(context) {
-                                        return context.datasetIndex === 0 ? 'left' : 'right';
-                                    }
-                                    , offset: 6 // Jarak tulisan dari ujung batang
-                                }
-                                , legend: {
-                                    position: 'bottom'
-                                    , labels: {
-                                        usePointStyle: true, // Ikon lingkaran
-                                        boxWidth: 10
-                                        , padding: 20
-                                        , color: '#4b5563'
-                                        , font: {
-                                            size: 12
-                                        }
-                                    }
-                                }
-                                , tooltip: {
-                                    callbacks: {
-                                        label: function(context) {
-                                            let label = context.dataset.label || '';
-                                            if (label) {
-                                                label += ': ';
-                                            }
-                                            label += Math.abs(context.raw) + ' Jiwa';
-                                            return label;
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    });
-                }
-
-                // 3. Eksekusi Fungsi untuk Desktop
-                bangunGrafik('piramidaChartDesktop');
-
-                // Jika kamu punya canvas untuk mobile, buka komentar di bawah ini:
-                // bangunGrafik('piramidaChartMobile');
-
-            });
-
-        </script>
-
-
-
-
         {{-- ========================================== --}}
-        {{-- 2. VERSI MOBILE (Layar HP) --}}
+        {{-- 2. VERSI MOBILE (Berdasarkan Kelompok Umur) --}}
         {{-- ========================================== --}}
         <div class="block md:hidden w-full bg-white rounded-xl shadow-sm border border-gray-100 p-4">
 
@@ -472,7 +291,9 @@
             </div>
 
         </div>
-
+        {{-- ========================================== --}}
+        {{-- 2. VERSI MOBILE & DEKSTOP (Berdasarkan Kelompok Umur)--}}
+        {{-- ========================================== --}}
         <div class="narasi-statistik">
             <div class="narasi-item" style="border-bottom: 5px solid #4698db;">
                 <p>
@@ -497,8 +318,10 @@
             </div>
 
         </div>
+
+
         {{-- ========================================== --}}
-        {{-- VERSI DESKTOP (Mirip Referensi Desa Kersik) --}}
+        {{-- VERSI DESKTOP (Berdasarkan Dusun) --}}
         {{-- ========================================== --}}
         <div class="hidden md:block w-full max-w-5xl mx-auto mt-16 px-6">
 
@@ -528,10 +351,8 @@
 
             </div>
         </div>
-
-
         {{-- ========================================== --}}
-        {{-- VERSI MOBILE (Muncul di HP, Sembunyi di PC)  --}}
+        {{-- VERSI MOBILE (Berdasarkan Dusun)  --}}
         {{-- ========================================== --}}
         <div class="block md:hidden w-full max-w-sm mx-auto bg-white rounded-xl shadow-[0_4px_15px_rgba(0,0,0,0.05)] border border-gray-100 p-6 mt-6">
             <h2 class="text-[#8cdb6e] font-black text-[18px] text-center uppercase mb-4 tracking-wide drop-shadow-sm">
@@ -542,8 +363,10 @@
                 <canvas id="dusunChartMobile"></canvas>
             </div>
         </div>
+
+
         {{-- ========================================== --}}
-        {{-- GRAFIK BERDASARKAN PENDIDIKAN              --}}
+        {{-- VERSI DESKTOP (Berdasarkan Pendidikan)              --}}
         {{-- ========================================== --}}
         <div class="hidden md:block w-full max-w-6xl mx-auto mt-16 px-4 md:px-6">
 
@@ -557,12 +380,9 @@
                 {{-- UBAH ID INI MENJADI DESKTOP --}}
                 <canvas id="pendidikanChartDesktop"></canvas>
             </div>
-
-
         </div>
-
         {{-- ========================================== --}}
-        {{-- VERSI MOBILE (Muncul di HP, Sembunyi di PC)  --}}
+        {{-- VERSI MOBILE (Berdasarkan Pendidikan)  --}}
         {{-- ========================================== --}}
         <div class="block md:hidden w-full max-w-sm mx-auto mt-8 px-4">
 
@@ -582,9 +402,8 @@
         </div>
 
 
-
         {{-- ========================================== --}}
-        {{-- VERSI DESKTOP (Sembunyi di HP, Muncul di PC) --}}
+        {{-- VERSI DESKTOP (Berdasarkan Pekerjaan) --}}
         {{-- ========================================== --}}
         <div class="hidden md:block w-full max-w-6xl mx-auto mt-16 px-6">
 
@@ -635,9 +454,8 @@
 
             </div>
         </div>
-
         {{-- ========================================== --}}
-        {{-- VERSI MOBILE (Muncul di HP, Sembunyi di PC)  --}}
+        {{-- VERSI MOBILE (Berdasarkan Pekerjaan)  --}}
         {{-- ========================================== --}}
         <div class="block md:hidden w-full max-w-sm mx-auto bg-white rounded-xl shadow-[0_4px_15px_rgba(0,0,0,0.05)] border border-gray-100 p-5 mt-8">
 
@@ -684,8 +502,9 @@
             </div>
         </div>
 
+
         {{-- ========================================== --}}
-        {{-- GRAFIK WAJIB PILIH (DESKTOP)               --}}
+        {{-- VERSI DESKTOP (Berdasarkan Wajib Pilih)    --}}
         {{-- ========================================== --}}
         <div class="hidden md:block w-full max-w-6xl mx-auto mt-16 px-6">
             <h2 class="text-[#8cdb6e] font-black text-3xl mb-6 tracking-wide text-left">
@@ -696,10 +515,9 @@
 
             </div>
         </div>
-
-        {{-- ========================================== --}}
-        {{-- GRAFIK WAJIB PILIH (MOBILE)                --}}
-        {{-- ========================================== --}}
+        {{-- ==========================================  --}}
+        {{-- VERSI MOBILE (Berdasarkan Wajib Pilih)--}}
+        {{-- ==========================================  --}}
         <div class="block md:hidden w-full max-w-sm mx-auto mt-8 px-4">
             <h2 class="text-[#8cdb6e] font-black text-[22px] mb-4 tracking-wide text-left">
                 Berdasarkan Wajib Pilih
@@ -710,8 +528,9 @@
             </div>
         </div>
 
+
         {{-- ========================================== --}}
-        {{-- VERSI DESKTOP (Mirip Foto Referensi 2)     --}}
+        {{-- VERSI DESKTOP (Berdasarkan Perkawinan)     --}}
         {{-- ========================================== --}}
         <div class="hidden md:block w-full max-w-6xl mx-auto mt-16 px-6">
 
@@ -757,10 +576,8 @@
                 @endforeach
             </div>
         </div>
-
-
         {{-- ========================================== --}}
-        {{-- VERSI MOBILE (Kode kamu yang sudah perfect) --}}
+        {{-- VERSI MOBILE (Berdasarkan Perkawinan) --}}
         {{-- ========================================== --}}
         <div class="block md:hidden w-full bg-[#f8f9fa] py-10 px-5 mt-8 rounded-xl">
             <div class="max-w-4xl mx-auto">
@@ -784,8 +601,9 @@
             </div>
         </div>
 
+
         {{-- ========================================== --}}
-        {{-- VERSI DESKTOP (Ukuran Proporsional)        --}}
+        {{-- VERSI DESKTOP (Berdasarkan Agama)        --}}
         {{-- ========================================== --}}
         <div class="hidden md:block w-full max-w-6xl mx-auto mt-12 px-6">
 
@@ -825,12 +643,8 @@
 
             </div>
         </div>
-
-
-
-
         {{-- ========================================== --}}
-        {{-- VERSI MOBILE (Kode kamu yang sudah perfect) --}}
+        {{-- VERSI MOBILE (Berdasarkan Agama) --}}
         {{-- ========================================== --}}
         <div class="block md:hidden w-full bg-[#f8f9fa] py-10 px-5 mt-8 rounded-xl">
             <div class="max-w-4xl mx-auto">
@@ -854,8 +668,11 @@
             </div>
         </div>
 
-    </section>
 
+    </section>
+    {{-- ========================================== --}}
+    {{-- Script Dusun --}}
+    {{-- ========================================== --}}
     <script>
         document.addEventListener('DOMContentLoaded', function() {
 
@@ -981,8 +798,9 @@
 
     </script>
 
-
-
+    {{-- ========================================== --}}
+    {{-- Script kelompok umur --}}
+    {{-- ========================================== --}}
     <script>
         document.addEventListener("DOMContentLoaded", function() {
 
