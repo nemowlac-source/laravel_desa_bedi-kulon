@@ -1,6 +1,6 @@
 <x-frontend>
 
-    <section class="berita-detail-section">
+    <section class="berita-detail-section mt-20">
         <div class="berita-container">
 
             <div class="berita-main-content">
@@ -13,7 +13,7 @@
                         </svg>
                     </a>
                     <span class="separator">/</span>
-                    <a href="{{ route('berita.index') }}">Berita Desa Tamang</a>
+                    <a href="{{ route('berita.index') }}">Berita Desa Bedikulon</a>
                 </div>
 
                 <h1 class="berita-title">{{ $berita->judul ?? 'Judul Artikel Akan Muncul Di Sini' }}</h1>
@@ -50,6 +50,24 @@
 
                 <div class="berita-body-text">
                     {!! $berita->isi ?? '<p>Isi detail dari artikel berita desa akan ditampilkan di sini. Kades atau admin desa bisa menuliskan rincian kegiatan, laporan, atau pengumuman panjang di bagian ini.</p>' !!}
+                </div>
+                <div class="mt-8 border-t pt-4 flex items-center gap-3">
+                    <span class="text-gray-600 font-medium text-sm">Bagikan:</span>
+
+                    <div class="flex gap-2">
+                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url()->current()) }}" target="_blank" class="w-9 h-9 flex items-center justify-center rounded-full bg-[#1877F2] text-white hover:opacity-80 transition">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </a>
+
+                        <a href="https://api.whatsapp.com/send?text={{ urlencode($berita->judul . ' - ' . url()->current()) }}" target="_blank" class="w-9 h-9 flex items-center justify-center rounded-full bg-[#25D366] text-white hover:opacity-80 transition">
+                            <i class="fa-brands fa-whatsapp text-lg"></i>
+                        </a>
+
+                        <a href="https://twitter.com/intent/tweet?url={{ urlencode(url()->current()) }}&text={{ urlencode($berita->judul) }}" target="_blank" class="w-9 h-9 flex items-center justify-center rounded-full bg-black text-white hover:opacity-80 transition">
+                            <i class="fa-brands fa-x-twitter"></i>
+                        </a>
+                    </div>
+
                 </div>
 
             </div>

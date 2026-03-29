@@ -2,7 +2,7 @@
     <section class="pemerintahan-section">
 
         <div class="page-header-pemerintahan">
-            <h1 class="page-title-pemerintahan mt-10">STOK</h1>
+            <h1 class="page-title-pemerintahan mt-20">STOK</h1>
             <p>Struktur Organisasi dan Tata Kerja Desa Bedikulon</p>
         </div>
 
@@ -51,7 +51,8 @@
         {{-- Menggunakan grid 2 kolom --}}
         <div class=" block md:hidden page-header-pemerintahan" style="margin-top: 10px;display:flex;justify-content:center;">
 
-            <h1 class="page-title-pemerintahan-p">Aparat Pemerintah Desa</h1>
+            <h1 class="block md:hidden page-title-pemerintahan-p">Aparat Pemerintah Desa</h1>
+
         </div>
 
         <div class="w-full block md:hidden grid grid-cols-2 gap-3 px-1.5">

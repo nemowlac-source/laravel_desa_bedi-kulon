@@ -3,7 +3,8 @@ import Alpine from "alpinejs";
 import Swal from "sweetalert2";
 import Chart from "chart.js/auto";
 import ChartDataLabels from "chartjs-plugin-datalabels";
-
+import Quill from "quill";
+window.Quill = Quill;
 window.Alpine = Alpine;
 Alpine.start();
 window.Swal = Swal;
@@ -209,7 +210,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         {
                             label: "Wajib Pilih",
                             data: dataWp,
-                            backgroundColor: "#428a1e",
+                            backgroundColor: "#2ac0b4",
                             borderRadius: 2,
                             barPercentage: 0.5,
                         },
@@ -276,7 +277,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     {
                         label: "Jumlah Penduduk",
                         data: dataValues,
-                        backgroundColor: "#428a1e",
+                        backgroundColor: "#2ac0b4",
                         borderRadius: 2,
                         barPercentage: 0.7,
                     },

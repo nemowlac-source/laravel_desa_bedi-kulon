@@ -1,6 +1,7 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+@import "quill/dist/quill.snow.css";
 
 @media (max-width: 1024px) {
     .sdgs-grid-wrapper {
@@ -450,7 +451,7 @@
 body {
     font-family: "Poppins", "Outfit", sans-serif;
     overflow-x: hidden;
-    background-color: #f4f4f4;
+    background-color: #fdfafa;
 }
 
 /* Status Awal: Transparan agar gambar hero menyatu */
@@ -1610,7 +1611,7 @@ nav {
 .vision-card,
 .mission-card {
     background: white;
-    padding: 50px;
+    padding: 20px;
     border-radius: 30px; /* Sudut melengkung lebar sesuai gambar */
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.05);
     text-align: center;
@@ -1624,10 +1625,9 @@ nav {
 }
 
 .vision-text {
-    font-size: 1.4rem;
-    font-weight: 600;
-    color: #333;
-    line-height: 1.6;
+    font-weight: 400px;
+    font-size: 1.2rem;
+    line-height: 1.4;
     max-width: 800px;
     margin: 0 auto;
 }
@@ -7307,12 +7307,12 @@ nav.scrolled {
 
 .potensi-breadcrumb {
     font-size: 0.9rem;
-    color: #6b7280;
+    color: gray;
     margin-bottom: 20px;
 }
 
 .potensi-breadcrumb a {
-    color: #7ed957;
+    color: gray;
     text-decoration: none;
     font-weight: 600;
 }
@@ -7323,7 +7323,7 @@ nav.scrolled {
 }
 
 .potensi-breadcrumb .active {
-    color: #111;
+    color: gray;
 }
 
 .potensi-title {
@@ -7389,7 +7389,7 @@ nav.scrolled {
     font-weight: 800;
     margin: 0 0 20px 0;
     padding-bottom: 15px;
-    border-bottom: 2px solid #7ed957;
+    border-bottom: 2px solid #2ac0b4;
     /* Garis hijau */
 }
 
@@ -7775,7 +7775,6 @@ nav.scrolled {
 
 /* --- WADAH UTAMA --- */
 .ppid-section-baru {
-    background-color: #fcfcfc;
     /* Warna latar sangat terang/bersih */
     font-family: "Poppins", sans-serif;
 }
@@ -7969,11 +7968,10 @@ nav.scrolled {
 /* --- REQUEST BOX --- */
 .ppid-request-box {
     text-align: center;
-    margin-top: 30px;
-    padding: 40px;
-    background-color: #ffffff;
+    margin-top: -70px;
+    margin-bottom: 50px;
+    padding: 20px;
     border-radius: 12px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
 }
 
 .ppid-request-box h3 {

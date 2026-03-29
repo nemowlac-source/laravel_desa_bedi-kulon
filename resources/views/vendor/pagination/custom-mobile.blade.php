@@ -23,7 +23,8 @@
     @foreach ($element as $page => $url)
     @if ($page == $paginator->currentPage())
     {{-- Halaman Aktif (Hijau Terang #81d64d) ⏺️ --}}
-    <span class="w-9 h-9 flex items-center justify-center bg-[#81d64d] text-white rounded-lg text-[13px] font-bold shadow-sm">
+    <span class="w-9 h-9 flex items-center justify-center bg-[#2ac0b4] text-white rounded-lg text-[13px] font-bold shadow-sm">
+
         {{ $page }}
     </span>
     @else

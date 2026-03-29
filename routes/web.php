@@ -42,7 +42,7 @@ Route::get('/test-form', [PengaduanController::class, 'index'])->name('frontend.
 Route::post('/pengaduan/kirim', [PengaduanController::class, 'store'])->name('pengaduan.store');
 Route::get('/wisata/{id}', [App\Http\Controllers\HomeController::class, 'show'])->name('frontend.show');
 Route::get('/potensi', [HomeController::class, 'potensi'])->name('frontend.potensi');
-Route::get('/potensi/{id}', [App\Http\Controllers\HomeController::class, 'detailPotensi'])->name('frontend.potensi.detail');
+Route::get('/potensi/{id}', [HomeController::class, 'detailPotensi'])->name('frontend.potensi.detail');
 Route::get('/pemerintahan', [HomeController::class, 'pemerintahan'])->name('frontend.pemerintahan');
 Route::get('/galeri', [HomeController::class, 'galeri'])->name('frontend.galeri');
 Route::get('/infografis/penduduk', [InfografisController::class, 'index'])->name('frontend.infografis');

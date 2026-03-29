@@ -6,7 +6,7 @@
             {{-- HEADER HALAMAN --}}
             {{-- ========================================== --}}
             <div class="mb-6">
-                <h1 class="text-[#8cdb6e] font-black text-[22px] md:text-2xl uppercase tracking-wide drop-shadow-sm">
+                <h1 class="text-[#2ac0b4] font-black text-[22px] md:text-2xl uppercase tracking-wide drop-shadow-sm">
                     Dasar Hukum
                 </h1>
                 <p class="text-gray-700 font-medium mt-1 text-[14px] md:text-[15px]">

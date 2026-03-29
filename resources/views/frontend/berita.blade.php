@@ -297,16 +297,16 @@
 
     </style>
     <section class="news-section-baru">
-        <div class="block md:hidden bg-[#f7f8fa] min-h-screen pb-24">
+        <div class="block md:hidden min-h-screen pb-24">
 
-            <div class="text-center px-6 py-8 bg-white">
+            <div class="text-center">
                 <h2 class="text-[#2ac0b4] font-extrabold text-2xl mb-2">Berita Desa</h2>
                 <p class="text-gray-500 text-[13px] leading-relaxed">
                     Menyajikan informasi terbaru tentang peristiwa, berita terkini, dan artikel-artikel jurnalistik dari Desa Bedi Kulon
                 </p>
             </div>
 
-            <div class="px-4 mt-4 space-y-6">
+            <div class="mt-4 space-y-6">
                 @forelse($beritas as $item)
                 {{-- Tambahkan 'relative' di sini agar link inset-0 bekerja untuk seluruh kartu --}}
                 <div class="relative bg-white rounded-2xl shadow-[0_4px_15px_rgba(0,0,0,0.05)] overflow-hidden border border-gray-100 transition-all active:scale-[0.98]">
@@ -344,7 +344,7 @@
                         </div>
 
 
-                        <div class="absolute bottom-0 right-0 bg-[#70d25b] text-white px-3 py-2 rounded-tl-2xl text-center min-w-[70px] shadow-sm">
+                        <div class="absolute bottom-0 right-0 bg-[#2ac0b4] text-white px-3 py-2 rounded-tl-2xl text-center min-w-[70px] shadow-sm">
                             <span class="block text-[12px] font-black leading-none uppercase">
                                 {{ \Carbon\Carbon::parse($item->created_at)->format('d M') }}
                             </span>
@@ -370,14 +370,19 @@
             </div>
 
         </div>
-        <div class="news-container-baru hidden md:block">
+        <div class="news-container-baru hidden md:block mt-30">
+            <div class="mb-8">
+                {{-- Judul: Hijau terang, font besar & tebal, uppercase, dan drop-shadow --}}
+                <h2 class="text-[#2ac0b4] font-extrabold text-[40px] mt-5 mb-2 text-left tracking-tight drop-shadow-sm uppercase">
+                    BERITA DESA
+                </h2>
 
-
-
-            <div class="news-header-baru">
-                <h1 class="news-title-baru">Berita Desa</h1>
-                <p class="news-subtitle-baru">Menyajikan informasi terbaru tentang peristiwa, berita terkini, dan artikel-artikel jurnalistik dari Desa Bedi Kulon</p>
+                {{-- Deskripsi: Ukuran teks agak besar (text-lg), abu-abu, dan medium --}}
+                <p class="text-lg text-gray-600 font-medium">
+                    Menyajikan informasi terbaru tentang peristiwa, berita terkini, dan artikel-artikel jurnalistik dari Desa Bedi Kulon.
+                </p>
             </div>
+
 
             <div class="news-grid-baru">
 

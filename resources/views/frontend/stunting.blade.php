@@ -1,92 +1,135 @@
 <x-frontend>
     <section class="infografis-page py-6 md:py-10 bg-gray-50/50 min-h-screen">
-        <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
+        {{-- ========================================== --}}
+        {{-- 1. VERSI MOBILE & DESKTOP (Header)         --}}
+        {{-- ========================================== --}}
+        <div class="w-full max-w-7xl mx-auto mt-12 mb-8">
 
-            {{-- HEADER NAVIGASI (Tetap sama, sudah sangat bagus) --}}
-            <div class="header-infografis mb-8">
-                <div class="hidden md:block brand-title mb-4">
-                    <h1 class="text-3xl font-extrabold text-gray-800 tracking-tight">INFOGRAFIS<br>DESA Bedi Kulon</h1>
+            {{-- KODE ASLI KAMU DIMULAI DARI SINI (Tidak ada yang diubah) --}}
+            <div class="header-infografis">
+
+                <div class="hidden md:block brand-title">
+                    <h1>INFOGRAFIS<br>DESA Bedi Kulon</h1>
                 </div>
 
-                <div class="nav-menu flex overflow-x-auto flex-nowrap gap-3 pb-2 hide-scroll scroll-smooth">
+                <div class="nav-menu flex overflow-x-auto flex-nowrap gap-2 pb-2 hide-scroll">
+
                     <a href="{{ route('frontend.infografis') }}" class="nav-item flex-none {{ Route::is('frontend.infografis') ? 'active' : '' }}">
-                        <div class="icon-box"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <div class="icon-box">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="tabler-icon tabler-icon-users" style="overflow: visible;">
                                 <path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"></path>
                                 <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
                                 <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
                                 <path d="M21 21v-2a4 4 0 0 0 -3 -3.85"></path>
-                            </svg></div>
-                        <span class="nav-text font-semibold text-sm">Penduduk</span>
+                            </svg>
+                        </div>
+                        <span class="nav-text">Penduduk</span>
                     </a>
+
                     <a href="{{ route('frontend.apbdes') }}" class="nav-item flex-none {{ Route::is('frontend.apbdes') ? 'active' : '' }}">
-                        <div class="icon-box"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <div class="icon-box">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="tabler-icon tabler-icon-cash" style="overflow: visible;">
                                 <path d="M7 9m0 2a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2z"></path>
                                 <path d="M14 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
                                 <path d="M17 9v-2a2 2 0 0 0 -2 -2h-10a2 2 0 0 0 -2 2v6a2 2 0 0 0 2 2h2"></path>
-                            </svg></div>
-                        <span class="nav-text font-semibold text-sm">APBDes</span>
+                            </svg>
+                        </div>
+                        <span class="nav-text">APBDes</span>
                     </a>
+
                     <a href="{{ route('frontend.stunting') }}" class="nav-item flex-none {{ Route::is('frontend.stunting') ? 'active' : '' }}">
-                        <div class="icon-box"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <div class="icon-box">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="tabler-icon tabler-icon-chart-bar" style="overflow: visible;">
                                 <path d="M3 12m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"></path>
                                 <path d="M9 8m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"></path>
                                 <path d="M15 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"></path>
                                 <path d="M4 20l14 0"></path>
-                            </svg></div>
-                        <span class="nav-text font-semibold text-sm">Stunting</span>
+                            </svg>
+                        </div>
+                        <span class="nav-text">Stunting</span>
                     </a>
+
                     <a href="{{ route('frontend.bansos') }}" class="nav-item flex-none {{ Route::is('frontend.bansos') ? 'active' : '' }}">
-                        <div class="icon-box"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <div class="icon-box">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="tabler-icon tabler-icon-package" style="overflow: visible;">
                                 <path d="M12 3l8 4.5v9l-8 4.5l-8 -4.5v-9l8 -4.5"></path>
                                 <path d="M12 12l8 -4.5"></path>
                                 <path d="M12 12v9"></path>
                                 <path d="M12 12l-8 -4.5"></path>
                                 <path d="M16 5.25l-8 4.5"></path>
-                            </svg></div>
-                        <span class="nav-text font-semibold text-sm">Bansos</span>
+                            </svg>
+                        </div>
+                        <span class="nav-text">Bansos</span>
                     </a>
+
                     <a href="{{ route('frontend.idm') }}" class="nav-item flex-none {{ Route::is('frontend.idm') ? 'active' : '' }}">
-                        <div class="icon-box"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <div class="icon-box">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="tabler-icon tabler-icon-crown">
                                 <path d="M12 6l4 6l5 -4l-2 10h-14l-2 -10l5 4z"></path>
-                            </svg></div>
-                        <span class="nav-text font-semibold text-sm">IDM</span>
+                            </svg>
+                        </div>
+                        <span class="nav-text">IDM</span>
                     </a>
+
                     <a href="{{ route('frontend.sdgs') }}" class="nav-item flex-none {{ Route::is('frontend.sdgs') ? 'active' : '' }}">
-                        <div class="icon-box"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                        <div class="icon-box">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="tabler-icon tabler-icon-numbers" style="overflow: visible;">
                                 <path d="M8 10v-7l-2 2"></path>
                                 <path d="M6 16a2 2 0 1 1 4 0c0 .591 -.601 1.46 -1 2l-3 3h4"></path>
                                 <path d="M15 14a2 2 0 1 0 2 -2a2 2 0 1 0 -2 -2"></path>
                                 <path d="M6.5 10h3"></path>
-                            </svg></div>
-                        <span class="nav-text font-semibold text-sm">SDGs</span>
+                            </svg>
+                        </div>
+                        <span class="nav-text">SDGs</span>
                     </a>
-                </div>
-            </div>
 
-
-            {{-- VERSI DESKTOP (Muncul di PC) --}}
-            <div class="hidden md:block w-full max-w-5xl mx-auto bg-white rounded-xl shadow-sm p-8 mt-8">
-                <h2 class="text-[#8cdb6e] font-black text-2xl mb-6 uppercase tracking-wide">Grafik Stunting Desktop</h2>
-                <div class="relative w-full h-[500px]">
-                    <canvas id="stuntingChartDesktop" data-sasaran="{{ $stunting->keluarga_sasaran ?? 0 }}" data-berisiko="{{ $stunting->berisiko ?? 0 }}" data-baduta="{{ $stunting->baduta ?? 0 }}" data-balita="{{ $stunting->balita ?? 0 }}" data-pus="{{ $stunting->pus ?? 0 }}" data-pushamil="{{ $stunting->pus_hamil ?? 0 }}" data-tahun="{{ $tahun_pilih }}">
-                    </canvas>
-                </div>
-            </div>
-
-            {{-- VERSI MOBILE (Muncul di HP) --}}
-            <div class="block md:hidden w-full p-4 mt-6">
-                <h2 class="text-[#8cdb6e] font-black text-2xl mb-6 uppercase tracking-wide">Grafik Stunting Desktop</h2>
-                <div class="relative w-full h-[500px]">
-
-                    <div class="relative w-full h-[350px]">
-                        <canvas id="stuntingChartMobile" data-sasaran="{{ $stunting->keluarga_sasaran ?? 0 }}" data-berisiko="{{ $stunting->berisiko ?? 0 }}" data-baduta="{{ $stunting->baduta ?? 0 }}" data-balita="{{ $stunting->balita ?? 0 }}" data-pus="{{ $stunting->pus ?? 0 }}" data-pushamil="{{ $stunting->pus_hamil ?? 0 }}" data-tahun="{{ $tahun_pilih }}">
-                        </canvas>
-                    </div>
                 </div>
 
-
-
             </div>
+            {{-- KODE ASLI KAMU BERAKHIR DI SINI --}}
+
+        </div>
+
+        {{-- Catatan: Saya menghapus pembungkus luar <div class="max-w-6xl..."> agar tidak menabrak class max-w-7xl di dalamnya --}}
+
+        {{-- ========================================== --}}
+        {{-- VERSI DESKTOP (Muncul di PC)               --}}
+        {{-- ========================================== --}}
+        <div class="hidden md:block w-full max-w-7xl mx-auto mt-16 mb-10">
+
+            {{-- Styling judul disamakan persis: text-[40px], font-extrabold, drop-shadow-sm --}}
+            <h2 class="text-[#2ac0b4] font-extrabold text-[40px] mb-8 text-left tracking-tight drop-shadow-sm uppercase">
+                Grafik Stunting Desktop
+            </h2>
+
+            {{-- Styling kotak disamakan: bg-white, rounded-2xl, shadow-sm, border, padding --}}
+            <div class="relative w-full h-[500px] bg-white rounded-2xl shadow-sm border border-gray-100 p-8 lg:p-10">
+                {{-- Konten Canvas TIDAK DIRUBAH --}}
+                <canvas id="stuntingChartDesktop" data-sasaran="{{ $stunting->keluarga_sasaran ?? 0 }}" data-berisiko="{{ $stunting->berisiko ?? 0 }}" data-baduta="{{ $stunting->baduta ?? 0 }}" data-balita="{{ $stunting->balita ?? 0 }}" data-pus="{{ $stunting->pus ?? 0 }}" data-pushamil="{{ $stunting->pus_hamil ?? 0 }}" data-tahun="{{ $tahun_pilih }}">
+                </canvas>
+            </div>
+
+        </div>
+
+        {{-- ========================================== --}}
+        {{-- VERSI MOBILE (Muncul di HP)                --}}
+        {{-- ========================================== --}}
+        <div class="block md:hidden w-full max-w-sm mx-auto px-4 mt-8 mb-10">
+
+            {{-- Styling judul Mobile --}}
+            <h2 class="text-[#2ac0b4] font-black text-[22px] mb-4 tracking-wide text-left uppercase">
+                Grafik Stunting Desktop
+            </h2>
+
+            {{-- Styling kotak Mobile --}}
+            <div class="relative w-full h-[350px] bg-white rounded-xl shadow-[0_4px_15px_rgba(0,0,0,0.05)] border border-gray-100 p-4">
+                {{-- Konten Canvas TIDAK DIRUBAH --}}
+                <canvas id="stuntingChartMobile" data-sasaran="{{ $stunting->keluarga_sasaran ?? 0 }}" data-berisiko="{{ $stunting->berisiko ?? 0 }}" data-baduta="{{ $stunting->baduta ?? 0 }}" data-balita="{{ $stunting->balita ?? 0 }}" data-pus="{{ $stunting->pus ?? 0 }}" data-pushamil="{{ $stunting->pus_hamil ?? 0 }}" data-tahun="{{ $tahun_pilih }}">
+                </canvas>
+            </div>
+
+        </div>
+
     </section>
 
     <script>
@@ -130,18 +173,19 @@
                 stuntingChartInstances[id] = new window.Chart(chartCanvas, {
                     type: 'bar'
                     , data: {
+                        // PERBAIKAN: Memecah string menjadi Array agar menjadi 2 baris (Multi-line)
                         labels: [
-                            'Keluarga Sasaran'
+                            ['Keluarga', 'Sasaran']
                             , 'Berisiko'
                             , 'Baduta'
                             , 'Balita'
                             , ['Pasangan Usia', 'Subur (PUS)']
-                            , 'PUS Hamil'
+                            , ['PUS', 'Hamil']
                         ]
                         , datasets: [{
                                 label: 'Data Tahun ' + (tahun - 1)
                                 , data: chartDataSebelumnya
-                                , backgroundColor: '#aedf7c'
+                                , backgroundColor: '#2ac0b4'
                                 , borderRadius: 6
                                 , barPercentage: 0.8
                                 , categoryPercentage: 0.7
@@ -161,8 +205,9 @@
                         , maintainAspectRatio: false
                         , layout: {
                             padding: {
-                                top: 35
-                                , bottom: 10
+                                top: 35,
+                                // Di mobile, padding bawah ditambah karena sekarang banyak label 2 baris
+                                bottom: isMobile ? 25 : 10
                             }
                         }
                         , plugins: {
@@ -198,11 +243,18 @@
                                     display: false
                                 }
                                 , ticks: {
+                                    // KEMBALI DILURUSKAN: 0 derajat baik di mobile maupun desktop
                                     maxRotation: 0
-                                    , minRotation: 0
-                                    , font: {
-                                        family: "'Poppins', sans-serif"
-                                        , size: isMobile ? 9 : 12
+                                    , minRotation: 0,
+
+                                    autoSkip: false,
+
+                                    font: {
+                                        family: "'Poppins', sans-serif",
+                                        // Sedikit diperkecil di mobile agar aman tidak tabrakan
+                                        size: isMobile ? 9 : 12,
+                                        // line-height dikecilkan sedikit agar baris pertama dan kedua tidak terlalu berjarak
+                                        lineHeight: 1.2
                                     }
                                 }
                             }
@@ -227,6 +279,8 @@
         });
 
     </script>
+
+
 
 
 

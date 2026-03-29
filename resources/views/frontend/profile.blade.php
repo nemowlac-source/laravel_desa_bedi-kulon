@@ -17,7 +17,7 @@
                     </div>
                     <div class="mission-card">
                         <h1 class="title-green-bold">Misi</h1>
-                        <ol class="mission-list" id="missionList">
+                        <ol class="mission-list list-decimal list-inside space-y-2 text-gray-700" id="missionList">
                             <li>Mewujudkan tata kelola pemerintahan yang baik</li>
                             <li>Mengembangkan kegiatan keagamaan</li>
                             <li>Meningkatkan kualitas pendidikan dan sumber daya manusia</li>
@@ -32,76 +32,148 @@
                 </div>
             </section>
 
-            {{-- Bagan Desktop --}}
-            <section class="bagan-section">
-                <div class="bagan-container">
-                    <h2 class="title-green">Bagan Desa </h2>
-                    <div class="bagan-grid">
-                        <div class="bagan-item">
-                            <h3>Struktur Organisasi Pemerintahan Desa</h3>
-                            <div class="bagan-image-wrapper">
-                                <img src="{{ asset('assets/img/bagan_1.jpg') }}" alt="Struktur Organisasi Pemerintahan Desa">
-                            </div>
-                        </div>
-                        <div class="bagan-item">
-                            <h3>Struktur Organisasi Badan Permusyawaratan Desa</h3>
-                            <div class="bagan-image-wrapper">
-                                <img src="{{ asset('assets/img/bagan_1.jpg') }}" alt="Struktur Organisasi BPD">
-                            </div>
+            {{-- ========================================== --}}
+            {{-- VERSI DESKTOP (Muncul di Laptop/PC)        --}}
+            {{-- ========================================== --}}
+            <div class="hidden md:block w-full max-w-7xl mx-auto px-6 mt-16 mb-16">
+
+                {{-- Header Bagan Desktop --}}
+                <div class="mb-8">
+                    <h2 class="text-[#2ac0b4] font-extrabold text-[40px] mb-2 text-left tracking-tight drop-shadow-sm uppercase">
+                        BAGAN DESA
+                    </h2>
+                    <p class="text-lg text-gray-600 font-medium">
+                        Struktur Organisasi Pemerintahan dan Badan Permusyawaratan Desa Bedi Kulon.
+                    </p>
+                </div>
+
+                {{-- Grid 2 Kolom untuk Bagan --}}
+                <div class="grid grid-cols-2 gap-8">
+
+                    {{-- Bagan 1 --}}
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col p-6 hover:shadow-md transition-shadow">
+                        <h3 class="font-bold text-gray-800 text-xl mb-5 text-center px-4">
+                            Struktur Organisasi Pemerintahan Desa
+                        </h3>
+                        <div class="w-full bg-gray-50 rounded-xl overflow-hidden border border-gray-100 p-2 flex-grow flex items-center justify-center">
+                            <img src="{{ asset('assets/img/bagan_1.jpg') }}" alt="Struktur Organisasi Pemerintahan Desa" class="w-full h-auto object-contain rounded-lg">
                         </div>
                     </div>
-                </div>
-            </section>
 
-            {{-- Sejarah Desktop --}}
-            <section class="sejarah-konten">
-                <div class="sejarah-wrapper">
-                    <h2 class="title-green">Sejarah Berdirinya Desa Bedi Kulon </h2>
-                    <div class="sejarah-text-container">
-                        <p><strong>Asal-usul Nama:</strong> Nama "Bedi Kulon" diambil dari bahasa lokal yang merujuk pada butiran pasir halus atau suara desir pasir di pesisir pantai. Desa ini pada mulanya merupakan pemukiman kecil para nelayan yang menempati wilayah pesisir di Kecamatan Marang Kayu.</p>
-                        <p>Dahulu, wilayah ini merupakan area hutan bakau yang luas dan pesisir pantai yang kaya akan hasil laut. Seiring dengan berjalannya waktu, migrasi penduduk dari berbagai daerah mulai berdatangan untuk mencari penghidupan sebagai nelayan dan berkebun, sehingga membentuk komunitas masyarakat yang majemuk namun tetap rukun.</p>
-                        <div class="quote-sejarah">"Membangun dari pesisir, menjaga warisan leluhur untuk masa depan yang lebih cerah."</div>
-                        <p>Secara administratif, Desa Bedi Kulon resmi berdiri menjadi desa mandiri di bawah naungan Kabupaten Kutai Kartanegara melalui proses pemekaran wilayah. Fokus utama pembangunan desa sejak awal berdirinya adalah optimalisasi potensi kelautan dan pariwisata bahari, yang kini dikenal dengan destinasi Pantai Biru Bedi Kulon.</p>
-                        <p>Hingga saat ini, sejarah berdirinya desa terus dijaga melalui cerita turun-temurun dari para tokoh adat dan tetua desa, memastikan bahwa generasi muda tidak melupakan akar budaya dan perjuangan para pendahulu dalam membuka wilayah pemukiman ini.</p>
+                    {{-- Bagan 2 --}}
+                    <div class="bg-white rounded-2xl shadow-sm border border-gray-100 overflow-hidden flex flex-col p-6 hover:shadow-md transition-shadow">
+                        <h3 class="font-bold text-gray-800 text-xl mb-5 text-center px-4">
+                            Struktur Organisasi Badan Permusyawaratan Desa
+                        </h3>
+                        <div class="w-full bg-gray-50 rounded-xl overflow-hidden border border-gray-100 p-2 flex-grow flex items-center justify-center">
+                            <img src="{{ asset('assets/img/bagan_1.jpg') }}" alt="Struktur Organisasi BPD" class="w-full h-auto object-contain rounded-lg">
+                        </div>
                     </div>
-                </div>
-            </section>
 
-            {{-- Lokasi Desktop --}}
-            <section class="lokasi-wilayah">
-                <div class="lokasi-container">
-                    <h2 class="title-green">Lokasi & Wilayah Desa</h2>
-                    <div class="lokasi-grid">
-                        <div class="lokasi-data">
-                            <div class="data-statistik">
-                                <div class="stat-box">
-                                    <span class="label">Luas Desa</span>
-                                    <span class="value"> km²</span>
+                </div>
+            </div>
+
+
+            {{-- ========================================== --}}
+            {{-- VERSI DESKTOP (Muncul di Laptop/PC)        --}}
+            {{-- ========================================== --}}
+            <div class="hidden md:block w-full max-w-7xl mx-auto px-6 mt-16 mb-16">
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 lg:p-12 hover:shadow-md transition-shadow">
+
+                    <h2 class="text-[#2ac0b4] font-extrabold text-[40px] mb-8 text-left tracking-tight drop-shadow-sm uppercase">
+                        Sejarah Berdirinya Desa Bedi Kulon
+                    </h2>
+
+                    {{-- space-y-6 otomatis memberi jarak vertikal antar paragraf --}}
+                    <div class="space-y-6 text-lg text-gray-600 font-medium leading-relaxed text-justify">
+                        <p>
+                            <strong class="text-gray-800">Asal-usul Nama:</strong> Nama "Bedi Kulon" diambil dari bahasa lokal yang merujuk pada butiran pasir halus atau suara desir pasir di pesisir pantai. Desa ini pada mulanya merupakan pemukiman kecil para nelayan yang menempati wilayah pesisir di Kecamatan Marang Kayu.
+                        </p>
+
+                        <p>
+                            Dahulu, wilayah ini merupakan area hutan bakau yang luas dan pesisir pantai yang kaya akan hasil laut. Seiring dengan berjalannya waktu, migrasi penduduk dari berbagai daerah mulai berdatangan untuk mencari penghidupan sebagai nelayan dan berkebun, sehingga membentuk komunitas masyarakat yang majemuk namun tetap rukun.
+                        </p>
+
+                        {{-- Desain khusus untuk Quote/Kutipan --}}
+                        <blockquote class="border-l-4 border-[#2ac0b4] bg-emerald-50 py-4 px-6 rounded-r-xl italic text-gray-800 font-semibold text-xl my-8">
+                            "Membangun dari pesisir, menjaga warisan leluhur untuk masa depan yang lebih cerah."
+                        </blockquote>
+
+                        <p>
+                            Secara administratif, Desa Bedi Kulon resmi berdiri menjadi desa mandiri di bawah naungan Kabupaten Kutai Kartanegara melalui proses pemekaran wilayah. Fokus utama pembangunan desa sejak awal berdirinya adalah optimalisasi potensi kelautan dan pariwisata bahari, yang kini dikenal dengan destinasi Pantai Biru Bedi Kulon.
+                        </p>
+
+                        <p>
+                            Hingga saat ini, sejarah berdirinya desa terus dijaga melalui cerita turun-temurun dari para tokoh adat dan tetua desa, memastikan bahwa generasi muda tidak melupakan akar budaya dan perjuangan para pendahulu dalam membuka wilayah pemukiman ini.
+                        </p>
+                    </div>
+
+                </div>
+            </div>
+
+
+            {{-- ========================================== --}}
+            {{-- VERSI DESKTOP (Muncul di Laptop/PC)        --}}
+            {{-- ========================================== --}}
+            <div class="hidden md:block w-full max-w-7xl mx-auto px-6 mt-16 mb-16">
+                <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 lg:p-12 hover:shadow-md transition-shadow">
+
+                    <h2 class="text-[#2ac0b4] font-extrabold text-[40px] mb-8 text-left tracking-tight drop-shadow-sm uppercase">
+                        Lokasi & Wilayah Desa
+                    </h2>
+
+                    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
+
+                        {{-- Kolom Kiri: Data & Batas Wilayah (Porsi 5/12) --}}
+                        <div class="lg:col-span-5 flex flex-col gap-6">
+
+                            {{-- Kotak Statistik (Luas & Penduduk) --}}
+                            <div class="grid grid-cols-2 gap-4">
+                                <div class="bg-gray-50 border border-gray-100 rounded-xl p-5 flex flex-col justify-center items-center text-center">
+                                    <span class="text-xs text-gray-500 font-bold uppercase tracking-widest mb-1">Luas Desa</span>
+                                    <span class="text-2xl text-[#2ac0b4] font-black"> km²</span>
                                 </div>
-                                <div class="stat-box">
-                                    <span class="label">Jumlah Penduduk</span>
-                                    <span class="value">1.479 Jiwa</span>
+                                <div class="bg-gray-50 border border-gray-100 rounded-xl p-5 flex flex-col justify-center items-center text-center">
+                                    <span class="text-xs text-gray-500 font-bold uppercase tracking-widest mb-1">Penduduk</span>
+                                    <span class="text-2xl text-[#2ac0b4] font-black">1.479 Jiwa</span>
                                 </div>
                             </div>
-                            <div class="batas-box">
-                                <h3>Batas Wilayah</h3>
-                                <ul>
-                                    <li><strong>Utara:</strong> </li>
-                                    <li><strong>Selatan:</strong> </li>
-                                    <li><strong>Barat:</strong> </li>
-                                    <li><strong>Timur:</strong> </li>
+
+                            {{-- Kotak Batas Wilayah --}}
+                            <div class="bg-emerald-50 border border-emerald-100 rounded-xl p-6 flex-grow">
+                                <h3 class="font-bold text-emerald-800 text-lg mb-4 uppercase tracking-wider">Batas Wilayah</h3>
+                                <ul class="flex flex-col text-emerald-900 font-medium">
+                                    <li class="flex justify-between py-3 border-b border-emerald-200/50">
+                                        <span class="font-bold">Utara</span>
+                                        <span class="text-emerald-700 text-right">...</span>
+                                    </li>
+                                    <li class="flex justify-between py-3 border-b border-emerald-200/50">
+                                        <span class="font-bold">Selatan</span>
+                                        <span class="text-emerald-700 text-right">...</span>
+                                    </li>
+                                    <li class="flex justify-between py-3 border-b border-emerald-200/50">
+                                        <span class="font-bold">Barat</span>
+                                        <span class="text-emerald-700 text-right">...</span>
+                                    </li>
+                                    <li class="flex justify-between py-3">
+                                        <span class="font-bold">Timur</span>
+                                        <span class="text-emerald-700 text-right">...</span>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
-                        <div class="lokasi-map">
-                            <div class="map-responsive">
-                                {{-- PERHATIKAN ID PETA UNTUK DESKTOP --}}
-                                <div id="mapDesaDesktop" style="width: 100%; height: 100%; border:0;" allowfullscreen="" loading="lazy"></div>
+
+                        {{-- Kolom Kanan: Peta (Porsi 7/12) --}}
+                        <div class="lg:col-span-7">
+                            <div class="w-full h-full min-h-[400px] bg-gray-100 rounded-xl overflow-hidden shadow-inner border border-gray-200 relative z-0">
+                                <div id="mapDesaDesktop" class="absolute inset-0 w-full h-full z-0"></div>
                             </div>
                         </div>
+
                     </div>
                 </div>
-            </section>
+            </div>
+
 
         </div>
 

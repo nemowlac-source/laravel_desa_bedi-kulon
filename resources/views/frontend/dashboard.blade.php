@@ -3,7 +3,7 @@
         <div id="desktopHeroBg" class="hero hidden md:flex h-[500px] md:h-screen items-center justify-center text-center overflow-hidden bg-cover bg-center bg-no-repeat transition-all duration-1000 ease-in-out relative" style="background-image: url('{{ asset('assets/img/background 1.webp') }}');">
 
             {{-- PERBAIKAN: Kabut hitam diganti jadi overlay transparan tipis (bg-black/20) --}}
-            <div class="absolute inset-0 bg-black/20 transition-colors duration-700"></div>
+            <div class="absolute inset-0 bg-black/4 transition-colors duration-700"></div>
 
             {{-- Konten Teks --}}
             <div class="hero-overlay z-10 relative px-4">
@@ -102,7 +102,9 @@
     </header>
 
     <section class="infografis-page">
-
+        {{-- ========================================== --}}
+        {{-- KODE KHUSUS DESKTOP (Jelajahi desa) --}}
+        {{-- ========================================== --}}
         <div class="hidden md:block ">
 
             <div class="explore-container">
@@ -248,7 +250,9 @@
 
             </div>
         </div>
-
+        {{-- ========================================== --}}
+        {{-- KODE KHUSUS DESKTOP (Jelajahi desa) --}}
+        {{-- ========================================== --}}
         <div class="hidden md:block welcome-section">
             <div class="welcome-container">
                 <div class="welcome-image">
@@ -279,7 +283,9 @@
                 </div>
             </div>
         </div>
-
+        {{-- ========================================== --}}
+        {{-- KODE KHUSUS MOBILE (Layar HP) --}}
+        {{-- ========================================== --}}
         <div class="block md:hidden bg-[#f8f9fa] px-6 py-1 pb-20">
 
             <div class="max-w-md mx-auto flex flex-col items-center">
@@ -296,7 +302,7 @@
                 {{-- 2. Bagian Teks Judul & Nama --}}
                 <div class="text-center mb-6 w-full">
                     {{-- Warna hijau disesuaikan dengan contoh --}}
-                    <h2 class="text-[#70d25b] font-bold text-[15px] mb-1">Sambutan Kepala Desa Bedi Kulon</h2>
+                    <h2 class="text-[#2ac0b4] font-bold text-[15px] mb-1">Sambutan Kepala Desa Bedi Kulon</h2>
 
                     {{-- Nama Kades: Diberi tracking-[0.3em] agar hurufnya berjarak (spasi lebar) --}}
                     <h3 class="text-gray-900 font-black text-2xl tracking-[0.3em] mb-1 uppercase">
@@ -354,7 +360,7 @@
         <div class="block md:hidden max-w-3xl mx-auto flex flex-col items-center">
 
 
-            <h2 class="text-[#70d25b] font-black text-2xl uppercase mb-2 text-center tracking-wide">
+            <h2 class="text-[#2ac0b4] font-black text-2xl uppercase mb-2 text-center tracking-wide">
                 Lokasi Desa
             </h2>
 
@@ -372,6 +378,9 @@
 
         </div>
 
+        {{-- ========================================== --}}
+        {{-- KODE KHUSUS DESKTOP (Layar Besar) --}}
+        {{-- ========================================== --}}
 
         <div class="hidden md:block py-16">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -399,7 +408,7 @@
                         </div>
 
                         {{-- Area Info --}}
-                        {{-- PERBAIKAN: Warna diubah menjadi hijau muda #7cce53 sesuai target --}}
+                        {{-- PERBAIKAN: Warna diubah menjadi hijau muda #2ac0b4 sesuai target --}}
                         <div class="bg-[#2ac0b4] py-5 px-4 flex flex-col items-center justify-center text-center flex-1">
                             <h3 class="font-extrabold text-white text-sm lg:text-base uppercase leading-tight mb-1 w-full drop-shadow-sm">
                                 {{ $staf->nama }}
@@ -420,7 +429,7 @@
 
                 {{-- Footer Link (Rata Kanan) --}}
                 <div class="mt-10 flex justify-end">
-                    <a href="{{ route('frontend.pemerintahan') }}" class="font-extrabold text-gray-800 hover:text-[#7cce53] transition flex items-center gap-2 text-sm uppercase tracking-wide">
+                    <a href="{{ route('frontend.pemerintahan') }}" class="font-extrabold text-gray-800 hover:text-[#2ac0b4] transition flex items-center gap-2 text-sm uppercase tracking-wide">
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M9 5H7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2V7a2 2 0 0 0 -2 -2h-2"></path>
                             <rect x="9" y="3" width="6" height="4" rx="2"></rect>
@@ -436,12 +445,16 @@
         </div>
 
 
+        {{-- ========================================== --}}
+        {{-- KODE KHUSUS MOBILE (Layar HP) --}}
+        {{-- ========================================== --}}
 
-        <div class="block md:hidden max-w-md mx-auto">
+
+        <div class="block md:hidden max-w-md mx-auto mt-10">
 
 
             {{-- Judul & Subjudul --}}
-            <h2 class="text-[#70d25b] font-black text-2xl uppercase mb-1 text-center tracking-wide">
+            <h2 class="text-[#2ac0b4] font-black text-2xl uppercase mb-1 text-center tracking-wide">
                 SOTK
             </h2>
             <p class="text-gray-800 text-[13px] font-medium text-center mb-6">
@@ -450,13 +463,13 @@
 
             {{-- Navigasi Anak Panah --}}
             <div class="flex justify-between items-center mb-4 px-2">
-                <button id="btnPrevSotk" class="text-black hover:text-[#70d25b] transition-colors p-2 active:scale-95">
+                <button id="btnPrevSotk" class="text-black hover:text-[#2ac0b4] transition-colors p-2 active:scale-95">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="19" y1="12" x2="5" y2="12"></line>
                         <polyline points="12 19 5 12 12 5"></polyline>
                     </svg>
                 </button>
-                <button id="btnNextSotk" class="text-black hover:text-[#70d25b] transition-colors p-2 active:scale-95">
+                <button id="btnNextSotk" class="text-black hover:text-[#2ac0b4] transition-colors p-2 active:scale-95">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="5" y1="12" x2="19" y2="12"></line>
                         <polyline points="12 5 19 12 12 19"></polyline>
@@ -477,7 +490,7 @@
                     </div>
 
                     {{-- Info Kotak Hijau di Bawah --}}
-                    <div class="bg-[#70d25b] p-3 flex-1 flex flex-col justify-center items-center text-center">
+                    <div class="bg-[#2ac0b4] p-3 flex-1 flex flex-col justify-center items-center text-center">
                         <h3 class="text-white font-black text-[12px] leading-tight mb-1">
                             {{ strtoupper($staf->nama) }}
                         </h3>
@@ -498,12 +511,15 @@
 
             {{-- Tombol Lihat Semua --}}
             <div class="mt-4 px-2">
-                <a href="{{ route('frontend.pemerintahan') }}" class="block w-full border-2 border-[#70d25b] text-[#70d25b] hover:bg-[#70d25b] hover:text-white font-bold text-[14px] text-center py-3 rounded-xl transition-all">
+                <a href="{{ route('frontend.pemerintahan') }}" class="block w-full border-2 border-[#2ac0b4] text-[#2ac0b4] hover:bg-[#2ac0b4] hover:text-white font-bold text-[14px] text-center py-3 rounded-xl transition-all">
                     Lihat Semua
                 </a>
             </div>
 
         </div>
+        {{-- ========================================== --}}
+        {{-- KODE KHUSUS DESKTOP (Layar Besar) --}}
+        {{-- ========================================== --}}
 
         <div class="hidden md:block py-10">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -591,10 +607,15 @@
             </div>
         </div>
 
+        {{-- ========================================== --}}
+        {{-- KODE KHUSUS MOBILE (Layar HP) --}}
+        {{-- ========================================== --}}
 
-        <div class="block md:hidden max-w-md mx-auto">
+
+        <div class="block md:hidden max-w-md mx-auto mt-10">
+
             {{-- Judul & Subjudul --}}
-            <h2 class="text-[#70d25b] font-black text-2xl mb-1 text-center tracking-wide">
+            <h2 class="text-[#2ac0b4] font-black text-2xl mb-1 text-center tracking-wide">
                 Administrasi Penduduk
             </h2>
             <p class="text-gray-800 text-[13px] font-medium text-center mb-10 leading-relaxed px-2">
@@ -687,6 +708,9 @@
             </div>
 
         </div>
+        {{-- ========================================== --}}
+        {{-- KODE KHUSUS DESKTOP (Layar Besar) --}}
+        {{-- ========================================== --}}
 
         <div class="hidden md:block py-16">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -732,7 +756,7 @@
 
                         {{-- Footer Link --}}
                         <div class="flex justify-end">
-                            <a href="#" class="font-extrabold text-gray-800 hover:text-[#2ac0b4] transition flex items-center gap-2 text-sm uppercase tracking-wide">
+                            <a href="{{ route('frontend.apbdes') }}" class="font-extrabold text-gray-800 hover:text-[#2ac0b4] transition flex items-center gap-2 text-sm uppercase tracking-wide">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                                     <polyline points="14 2 14 8 20 8"></polyline>
@@ -750,10 +774,12 @@
             </div>
         </div>
 
+        {{-- ========================================== --}}
+        {{-- KODE KHUSUS MOBILE (Layar HP) --}}
+        {{-- ========================================== --}}
 
-        <div class="block md:hidden max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-8">
 
-
+        <div class="block md:hidden max-w-4xl mx-auto flex flex-col md:flex-row items-center gap-8 mt-10">
             {{-- Kolom Gambar (Sembunyi di HP, Muncul di Desktop) --}}
             <div class="hidden md:block w-full md:w-1/2">
                 <img src="{{ asset('assets/img/asset-dashboard-apbd.png') }}" alt="Ilustrasi APB Desa" class="w-full h-auto rounded-2xl shadow-lg object-cover" onerror="this.src='https://placehold.co/600x400?text=Grafik+APBD'">
@@ -763,7 +789,7 @@
             <div class="w-full md:w-1/2 flex flex-col items-center">
 
                 {{-- Judul & Subjudul --}}
-                <h2 class="text-[#70d25b] font-black text-2xl uppercase mb-1 text-center tracking-wide">
+                <h2 class="text-[#2ac0b4] font-black text-2xl uppercase mb-1 text-center tracking-wide">
                     APB DESA {{ $tahun_ini ?? date('Y') }}
                 </h2>
                 <p class="text-gray-800 text-[13px] font-medium text-center mb-6 leading-snug px-2">
@@ -846,13 +872,16 @@
 
                 {{-- Tombol Lihat Detail --}}
                 <div class="w-full max-w-md px-1">
-                    <a href="{{ route('frontend.apbdes') }}" class="block w-full border-2 border-[#70d25b] text-[#70d25b] hover:bg-[#70d25b] hover:text-white font-bold text-[14px] text-center py-3 rounded-xl transition-all active:scale-95">
+                    <a href="{{ route('frontend.apbdes') }}" class="block w-full border-2 border-[#2ac0b4] text-[#2ac0b4] hover:bg-[#2ac0b4] hover:text-white font-bold text-[14px] text-center py-3 rounded-xl transition-all active:scale-95">
                         Lihat Detail
                     </a>
                 </div>
 
             </div>
         </div>
+        {{-- ========================================== --}}
+        {{-- KODE KHUSUS DESKTOP (Layar Besar) --}}
+        {{-- ========================================== --}}
 
         <div class="hidden md:block py-16">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -944,13 +973,14 @@
 
             </div>
         </div>
+        {{-- ========================================== --}}
+        {{-- KODE KHUSUS MOBILE (Layar HP) --}}
+        {{-- ========================================== --}}
 
-
-        <div class="block md:hidden max-w-md mx-auto">
-
+        <div class="block md:hidden max-w-md mx-auto mt-10">
 
             {{-- Judul & Subjudul --}}
-            <h2 class="text-[#70d25b] font-black text-2xl mb-2 text-center tracking-wide">
+            <h2 class="text-[#2ac0b4] font-black text-2xl mb-2 text-center tracking-wide">
                 Berita Desa
             </h2>
             <p class="text-gray-800 text-[13px] font-medium text-center mb-6 leading-relaxed px-2">
@@ -959,13 +989,13 @@
 
             {{-- Navigasi Anak Panah --}}
             <div class="flex justify-between items-center mb-4 px-2">
-                <button id="btnPrevBerita" class="text-black hover:text-[#70d25b] transition-colors p-2 active:scale-95">
+                <button id="btnPrevBerita" class="text-black hover:text-[#2ac0b4] transition-colors p-2 active:scale-95">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="19" y1="12" x2="5" y2="12"></line>
                         <polyline points="12 19 5 12 12 5"></polyline>
                     </svg>
                 </button>
-                <button id="btnNextBerita" class="text-black hover:text-[#70d25b] transition-colors p-2 active:scale-95">
+                <button id="btnNextBerita" class="text-black hover:text-[#2ac0b4] transition-colors p-2 active:scale-95">
                     <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                         <line x1="5" y1="12" x2="19" y2="12"></line>
                         <polyline points="12 5 19 12 12 19"></polyline>
@@ -978,20 +1008,21 @@
 
                 @forelse($berita_terbaru as $berita)
                 {{-- Card Individual: Lebar 85% agar kartu selanjutnya terlihat mengintip --}}
-                <div class="snap-start shrink-0 w-[85%] bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.08)] border border-gray-100 flex flex-col">
+                {{-- UBAH 1: Membungkus seluruh card dengan tag <a> agar bisa diklik di mana saja --}}
+                <a href="{{ route('frontend.berita.detail', $berita->id) }}" class="snap-start shrink-0 w-[85%] bg-white rounded-2xl overflow-hidden shadow-[0_4px_20px_rgba(0,0,0,0.08)] border border-gray-100 flex flex-col group transition-transform active:scale-95">
 
                     {{-- Foto Berita --}}
-                    <div class="h-[180px] w-full bg-gray-100 relative">
-                        <img src="{{ asset('storage/' . $berita->gambar) }}" alt="{{ $berita->judul }}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/600x400?text=Berita+Desa'" />
+                    <div class="h-[180px] w-full bg-gray-100 relative overflow-hidden">
+                        {{-- Tambahan efek gambar sedikit membesar saat disentuh/di-hover --}}
+                        <img src="{{ asset('storage/' . $berita->gambar) }}" alt="{{ $berita->judul }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 group-active:scale-110" onerror="this.src='https://placehold.co/600x400?text=Berita+Desa'" />
                     </div>
 
                     {{-- Konten Berita --}}
                     <div class="p-5 flex-1 flex flex-col justify-between">
                         {{-- Judul: Dibatasi 3 baris (line-clamp-3) dan kapital semua --}}
-                        <h3 class="text-gray-900 font-black text-[14px] leading-snug mb-4 uppercase line-clamp-3">
-                            <a href="#" class="hover:text-[#70d25b] transition-colors">
-                                {{ $berita->judul }}
-                            </a>
+                        <h3 class="text-gray-900 font-black text-[14px] leading-snug mb-4 uppercase line-clamp-3 group-hover:text-[#2ac0b4] group-active:text-[#2ac0b4] transition-colors">
+                            {{-- UBAH 2: Tag <a> di sini dihapus karena card utamanya sudah menjadi <a> --}}
+                            {{ $berita->judul }}
                         </h3>
 
                         {{-- Meta Info (Tanggal & Tayangan) --}}
@@ -1015,12 +1046,13 @@
                             </div>
                         </div>
                     </div>
-                </div>
+                </a>
                 @empty
                 <div class="w-full text-center text-gray-400 py-10 text-sm font-medium">
                     Belum ada berita terbaru saat ini.
                 </div>
                 @endforelse
+
 
                 {{-- Spacer Akhir --}}
                 <div class="shrink-0 w-2"></div>
@@ -1028,12 +1060,16 @@
 
             {{-- Tombol Lihat Semua --}}
             <div class="mt-2 px-2">
-                <a href="{{ route('frontend.berita') }}" class="block w-full border-2 border-[#70d25b] text-[#70d25b] hover:bg-[#70d25b] hover:text-white font-bold text-[14px] text-center py-3 rounded-xl transition-all active:scale-95">
+                <a href="{{ route('frontend.berita') }}" class="block w-full border-2 border-[#2ac0b4] text-[#2ac0b4] hover:bg-[#2ac0b4] hover:text-white font-bold text-[14px] text-center py-3 rounded-xl transition-all active:scale-95">
                     Lihat Semua
                 </a>
             </div>
 
         </div>
+        {{-- ========================================== --}}
+        {{-- KODE KHUSUS DESKTOP (Layar Besar) --}}
+        {{-- ========================================== --}}
+
 
         <div class="hidden md:block py-16">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1051,7 +1087,7 @@
 
                     {{-- Kanan: Tombol Lihat Semua --}}
                     <div class="md:w-1/3 flex md:justify-end">
-                        <a href="{{ route('frontend.wisata') ?? '#' }}" class="font-extrabold text-gray-800 hover:text-[#2ac0b4] transition flex items-center gap-2.5 text-sm uppercase tracking-wider">
+                        <a href="{{ route('frontend.potensi') ?? '#' }}" class="font-extrabold text-gray-800 hover:text-[#2ac0b4] transition flex items-center gap-2.5 text-sm uppercase tracking-wider">
                             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
                                 <polyline points="14 2 14 8 20 8"></polyline>
@@ -1065,118 +1101,160 @@
                 </div>
 
                 {{-- BAGIAN BAWAH: Grid Lingkaran Potensi (Ubah jadi 3 Kolom) --}}
-                <div class="grid grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-8 gap-y-12">
 
-                    @forelse($wisata_desa ?? [] as $item)
+                    @forelse($potensis ?? [] as $item)
                     <div class="flex flex-col items-center justify-start text-center group">
-                        <a href="{{ route('frontend.potensi.detail', $item->id) }}" class="flex flex-col items-center gap-6 transition duration-300 group-hover:scale-[1.03] w-full">
+                        {{-- Link membungkus seluruh elemen agar bisa di-klik --}}
+                        <a href="{{ route('frontend.potensi.detail', $item->id ?? '#') }}" class="flex flex-col items-center gap-6 transition duration-300 group-hover:scale-[1.03] w-full">
+
 
                             {{-- Lingkaran Raksasa 280px --}}
-                            <div class="potensi-circle-wrapper" style="width: 280px; height: 280px; position: relative; border-radius: 50%; overflow: hidden; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin: 0 auto;">
+                            {{-- Menggunakan class Tailwind untuk w/h agar responsif di HP --}}
+                            <div class="relative w-[240px] h-[240px] sm:w-[280px] sm:h-[280px] rounded-full overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.1)] mx-auto border-4 border-white">
 
-                                {{-- Gambar --}}
-                                <img src="{{ asset('storage/' . ($item->gambar ?? '')) }}" alt="{{ $item->nama_wisata }}" style="width: 100%; height: 100%; object-fit: cover;">
+                                {{-- Gambar Potensi --}}
+                                <img src="{{ asset('storage/' . ($item->gambar ?? '')) }}" alt="{{ $item->judul }}" class="w-full h-full object-cover" onerror="this.src='https://placehold.co/300x300?text=Gambar+Potensi'">
+
+                                {{-- Overlay gelap tipis saat hover (Opsional) --}}
+                                <div class="absolute inset-0 bg-black/0 group-hover:bg-black/10 transition-colors duration-300"></div>
                             </div>
 
-                            {{-- Nama Potensi --}}
-                            <h3 class="font-extrabold text-gray-800 text-base uppercase tracking-wider leading-snug group-hover:text-[#2ac0b4] transition-colors mt-2">
-                                {{ $item->nama_wisata }}
-                            </h3>
+                            {{-- Info Teks --}}
+                            <div class="flex flex-col items-center">
+                                {{-- Judul Potensi --}}
+                                <h3 class="font-extrabold text-gray-800 text-lg uppercase tracking-wider leading-snug group-hover:text-[#2ac0b4] transition-colors line-clamp-2">
+                                    {{ $item->judul }}
+                                </h3>
+
+                                {{-- Lokasi (Jika ada) --}}
+                                @if($item->lokasi)
+                                <div class="flex items-center gap-1.5 text-emerald-500 text-sm font-medium mt-2">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                        <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
+                                        <circle cx="12" cy="10" r="3"></circle>
+                                    </svg>
+                                    <span>{{ $item->lokasi }}</span>
+                                </div>
+                                @endif
+                            </div>
+
                         </a>
                     </div>
+
                     @empty
-                    {{-- PERUBAHAN: col-span diubah jadi 3 --}}
-                    <div class="col-span-3 text-center text-gray-500 py-12 bg-gray-50 rounded-xl border border-gray-100">
-                        Belum ada data potensi desa.
-                    </div>
-                    @endforelse
-
-                </div>
-
-            </div>
-        </div>
-
-        <div class="block md:hidden bg-[#f8f9fa] px-5 py-10">
-
-            <div class="max-w-md mx-auto">
-
-                {{-- Judul & Subjudul --}}
-                <h2 class="text-[#70d25b] font-black text-2xl uppercase mb-2 text-center tracking-wide">
-                    Potensi Desa
-                </h2>
-                <p class="text-gray-800 text-[13px] font-medium text-center mb-6 leading-relaxed px-2">
-                    Potensi dan kemajuan desa di berbagai bidang (ekonomi, pariwisata, dan lain-lain)
-                </p>
-
-                {{-- Navigasi Anak Panah (Sama dengan fitur Berita) --}}
-                <div class="flex justify-between items-center mb-4 px-2">
-                    <button id="btnPrevPotensi" class="text-black hover:text-[#70d25b] transition-colors p-2 active:scale-95">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="19" y1="12" x2="5" y2="12"></line>
-                            <polyline points="12 19 5 12 12 5"></polyline>
-                        </svg>
-                    </button>
-                    <button id="btnNextPotensi" class="text-black hover:text-[#70d25b] transition-colors p-2 active:scale-95">
-                        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
-                            <line x1="5" y1="12" x2="19" y2="12"></line>
-                            <polyline points="12 5 19 12 12 19"></polyline>
-                        </svg>
-                    </button>
-                </div>
-
-                {{-- Container Slider Potensi --}}
-                <div id="sliderPotensi" class="flex overflow-x-auto snap-x snap-mandatory gap-4 px-2 pb-6 scrollbar-hide scroll-smooth">
-
-                    @forelse($wisata_desa ?? [] as $item)
-                    {{-- Card Individual: Lebar 240px agar pas dan menyisakan intipan --}}
-                    <a href="{{ route('frontend.potensi.detail', $item->id) }}" class="snap-start shrink-0 relative w-[240px] h-[340px] bg-gray-200 rounded-[2rem] overflow-hidden shadow-lg group block">
-
-                        {{-- Gambar Latar Belakang --}}
-                        <img src="{{ asset('storage/' . ($item->gambar ?? '')) }}" alt="{{ $item->nama_wisata }}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" onerror="this.src='https://placehold.co/400x600?text=Potensi+Desa'">
-
-                        {{-- OVERLAY GEOMETRIS (Sesuai image_aa1c23.png) --}}
-
-                        {{-- 1. Segitiga Gelap di Kanan Atas --}}
-                        <div class="absolute top-0 right-0 w-[65%] h-[40%] bg-[#2b2c33]/95" style="clip-path: polygon(100% 0, 100% 100%, 0 0);"></div>
-
-                        {{-- 2. Poligon Gelap di Bagian Bawah --}}
-                        <div class="absolute bottom-0 left-0 w-full h-[50%] bg-[#2b2c33]/95" style="clip-path: polygon(0 45%, 100% 0, 100% 100%, 0 100%);"></div>
-
-                        {{-- 3. Aksen Merah Geometris di Kiri --}}
-                        <div class="absolute bottom-[18%] left-0 w-[45%] h-[25%] bg-[#e30a13]" style="clip-path: polygon(0 0, 100% 40%, 40% 100%, 0 100%);"></div>
-
-                        {{-- Konten Teks --}}
-                        <div class="absolute bottom-6 left-5 right-5 z-10">
-                            <h3 class="text-white font-black text-xl tracking-wide uppercase drop-shadow-md">
-                                {{ $item->nama_wisata ?? 'PARIWISATA' }}
-                            </h3>
+                    {{-- Tampilan Kosong --}}
+                    <div class="col-span-1 sm:col-span-2 lg:col-span-3 mt-8 flex justify-center">
+                        <div class="flex items-center gap-3 px-8 py-5 bg-gray-100 rounded-xl text-gray-500 w-full max-w-lg justify-center border border-gray-200">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"></path>
+                                <line x1="9" y1="14" x2="15" y2="14"></line>
+                            </svg>
+                            <span class="font-medium text-[15px]">Belum ada data potensi tersedia.</span>
                         </div>
-                    </a>
-                    @empty
-                    <div class="w-full text-center text-gray-400 py-10 text-sm font-medium">
-                        Belum ada data potensi desa.
                     </div>
                     @endforelse
 
-                    {{-- Spacer Akhir --}}
-                    <div class="shrink-0 w-2"></div>
-                </div>
-
-                {{-- Tombol Lihat Semua --}}
-                <div class="mt-2 px-2">
-                    <a href="{{ route('frontend.wisata') ?? '#' }}" class="block w-full border-2 border-[#70d25b] text-[#70d25b] hover:bg-[#70d25b] hover:text-white font-bold text-[14px] text-center py-3 rounded-xl transition-all active:scale-95">
-                        Lihat Semua
-                    </a>
                 </div>
 
             </div>
         </div>
+        {{-- ========================================== --}}
+        {{-- KODE KHUSUS MOBILE (Layar HP) --}}
+        {{-- ========================================== --}}
+
+
+        <div class="block md:hidden max-w-md mx-auto mt-10">
+
+
+
+            {{-- Judul & Subjudul --}}
+            <h2 class="text-[#2ac0b4] font-black text-2xl uppercase mb-2 text-center tracking-wide">
+                Potensi Desa
+            </h2>
+            <p class="text-gray-800 text-[13px] font-medium text-center mb-6 leading-relaxed px-2">
+                Potensi dan kemajuan desa di berbagai bidang (ekonomi, pariwisata, dan lain-lain)
+            </p>
+
+            {{-- Navigasi Anak Panah (Sesuai fungsi asli Potensi Desa) --}}
+            <div class="flex justify-between items-center mb-4 px-2">
+                <button id="btnPrevPotensi" class="text-black hover:text-[#2ac0b4] transition-colors p-2 active:scale-95">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="19" y1="12" x2="5" y2="12"></line>
+                        <polyline points="12 19 5 12 12 5"></polyline>
+                    </svg>
+                </button>
+                <button id="btnNextPotensi" class="text-black hover:text-[#2ac0b4] transition-colors p-2 active:scale-95">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                        <line x1="5" y1="12" x2="19" y2="12"></line>
+                        <polyline points="12 5 19 12 12 19"></polyline>
+                    </svg>
+                </button>
+            </div>
+
+            {{-- Container Slider Potensi --}}
+            <div id="sliderPotensi" class="flex overflow-x-auto snap-x snap-mandatory gap-4 px-2 pb-6 scrollbar-hide scroll-smooth">
+
+                @forelse($potensis ?? [] as $item)
+                {{-- Card Individual: Disesuaikan dengan style Wisata (lebar 85%, tinggi 400px, rounded-1.5rem) --}}
+                <a href="{{ route('frontend.potensi.detail', $item->id ?? '#') }}" class="snap-start shrink-0 relative w-[85%] h-[400px] rounded-[1.5rem] overflow-hidden shadow-[0_8px_25px_rgba(0,0,0,0.1)] block group">
+
+                    {{-- Foto Background (Full Cover) --}}
+                    <img src="{{ asset('storage/' . ($item->gambar ?? '')) }}" alt="{{ $item->judul }}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" onerror="this.src='https://placehold.co/400x600?text=Potensi+Desa'">
+
+                    {{-- Gradient Overlay (Hitam pekat di bawah, pudar ke atas) --}}
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>
+
+                    {{-- Konten Teks --}}
+                    <div class="absolute bottom-0 left-0 w-full p-6 z-10">
+                        <h3 class="text-white font-black text-xl mb-2 drop-shadow-md leading-tight">
+                            {{ $item->judul ?? 'PARIWISATA' }}
+                        </h3>
+
+                        {{-- Deskripsi dibatasi maksimal 3 baris --}}
+                        <p class="text-white/90 text-[11px] font-medium leading-relaxed line-clamp-3">
+                            {{ Str::limit(strip_tags($item->deskripsi), 120) }}
+
+                        </p>
+                    </div>
+                </a>
+                @empty
+                <div class="w-full text-center text-gray-400 py-10 text-sm font-medium">
+                    Belum ada data potensi desa.
+                </div>
+                @endforelse
+
+                {{-- Spacer Akhir agar card terakhir bisa di-scroll sampai mentok --}}
+                <div class="shrink-0 w-2"></div>
+            </div>
+
+            {{-- Tombol Lihat Semua --}}
+            <div class="mt-2 px-2">
+                <a href="{{ route('frontend.wisata') ?? '#' }}" class="block w-full border-2 border-[#2ac0b4] text-[#2ac0b4] hover:bg-[#2ac0b4] hover:text-white font-bold text-[14px] text-center py-3 rounded-xl transition-all active:scale-95">
+                    Lihat Semua
+                </a>
+            </div>
+
+        </div>
+
+
+        {{-- ========================================== --}}
+        {{-- KODE KHUSUS DESKTOP (Layar Besar) --}}
+        {{-- ========================================== --}}
 
 
         <div class=" hidden md:block wisata-section-baru">
+            @php
+            // Mencari wisata khusus dengan ID 1 dari data yang dikirim controller
+            // Jika ID 1 kebetulan terhapus, kita ambil data pertama yang ada sebagai cadangan (fallback)
+            $wisata_unggulan = $wisata_desa->firstWhere('id', 1) ?? $wisata_desa->first();
+            @endphp
+
             <div class="wisata-wrapper-utama">
 
-                <div class="slide-bg-luar" style="background-image: url('{{ asset('storage/' . ($wisata_desa->first()->gambar ?? '')) }}');"></div>
+                @if($wisata_unggulan)
+                {{-- Background Luar mengambil dari gambar wisata unggulan --}}
+                <div class="slide-bg-luar" style="background-image: url('{{ asset('storage/' . $wisata_unggulan->gambar) }}');"></div>
                 {{-- <div class="slide-bg-overlay"></div> --}}
 
                 <div class="wisata-container-tengah">
@@ -1187,30 +1265,41 @@
                     </div>
 
                     <div class="wisata-inner-slider">
-                        @forelse($wisata_desa as $key => $item)
-                        <a href="#" class="wisata-slide fade" style="display: {{ $key == 0 ? 'block' : 'none' }};">
 
-                            <img src="{{ asset('storage/' . $item->gambar) }}" class="inner-image" alt="{{ $item->nama_wisata }}">
+                        {{-- Tanpa looping, langsung tampilkan 1 blok data --}}
+                        {{-- Ganti rute sesuai rute detail wisata kamu --}}
+                        <a href="{{ route('frontend.show', $wisata_unggulan->id) }}" class="wisata-slide fade" style="display: block;">
+
+                            <img src="{{ asset('storage/' . $wisata_unggulan->gambar) }}" class="inner-image" alt="{{ $wisata_unggulan->nama_wisata }}">
                             <div class="inner-box-gradient"></div>
 
-                            <button class="slide-arrow-btn left" onclick="plusSlides(-1); event.preventDefault();">❮</button>
+                            {{-- Tombol arrow KIRI dihapus --}}
 
                             <div class="wisata-text-content">
-                                <h3>{{ $item->nama_wisata }}</h3>
-                                <p>{{ Str::limit($item->deskripsi, 150) }}</p>
+                                <h3>{{ $wisata_unggulan->nama_wisata }}</h3>
+
+                                {{-- strip_tags berguna jika deskripsi kamu mengandung tag HTML dari Quill.js --}}
+                                <p>{{ Str::limit(strip_tags($wisata_unggulan->deskripsi), 150) }}</p>
                             </div>
 
-                            <button class="slide-arrow-btn right" onclick="plusSlides(1); event.preventDefault();">❯</button>
+                            {{-- Tombol arrow KANAN dihapus --}}
                         </a>
-                        @empty
-                        <div class="wisata-slide" style="background-color: #333; display: flex; align-items: center; justify-content: center; color: white;">
-                            Belum ada data wisata.
-                        </div>
-                        @endforelse
+
+                    </div>
+
+                </div>
+                @else
+                {{-- Tampilan jika database wisata benar-benar kosong --}}
+                <div class="wisata-container-tengah" style="min-height: 300px; display: flex; align-items: center; justify-content: center;">
+                    <div style="background-color: rgba(0,0,0,0.5); color: white; padding: 20px; border-radius: 8px;">
+                        Belum ada data wisata.
                     </div>
                 </div>
+                @endif
 
             </div>
+
+
             <a href="{{ route('frontend.wisata') }}" class="btn-lihat-semua-wisata">
                 <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
@@ -1225,12 +1314,14 @@
 
         </div>
 
+        {{-- ========================================== --}}
+        {{-- KODE KHUSUS MOBILE (Layar HP) --}}
+        {{-- ========================================== --}}
 
-        <div class="block md:hidden max-w-md mx-auto">
-
+        <div class="block md:hidden max-w-md mx-auto mt-10">
 
             {{-- Judul & Subjudul --}}
-            <h2 class="text-[#70d25b] font-black text-2xl uppercase mb-3 text-center tracking-wide">
+            <h2 class="text-[#2ac0b4] font-black text-2xl uppercase mb-3 text-center tracking-wide">
                 Wisata
             </h2>
             <p class="text-gray-800 text-[13px] font-medium text-center mb-8 leading-relaxed px-2">
@@ -1274,12 +1365,16 @@
 
             {{-- Tombol Lihat Semua --}}
             <div class="mt-2 px-2">
-                <a href="{{ route('frontend.wisata') ?? '#' }}" class="block w-full border-2 border-[#70d25b] text-[#70d25b] bg-transparent hover:bg-[#70d25b] hover:text-white font-bold text-[14px] text-center py-3 rounded-xl transition-all active:scale-95">
+                <a href="{{ route('frontend.wisata') ?? '#' }}" class="block w-full border-2 border-[#2ac0b4] text-[#2ac0b4] bg-transparent hover:bg-[#2ac0b4] hover:text-white font-bold text-[14px] text-center py-3 rounded-xl transition-all active:scale-95">
                     Lihat Semua
                 </a>
             </div>
 
         </div>
+
+        {{-- ========================================== --}}
+        {{-- KODE KHUSUS DESKTOP (Layar Besar) --}}
+        {{-- ========================================== --}}
 
         <div class="hidden md:block py-16">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -1370,13 +1465,17 @@
             </div>
         </div>
 
+        {{-- ========================================== --}}
+        {{-- KODE KHUSUS MOBILE (Layar HP) --}}
+        {{-- ========================================== --}}
+
 
         <div class="block md:hidden bg-[#f8f9fa] px-5 py-10">
 
             <div class="max-w-md mx-auto">
 
                 {{-- Judul & Subjudul --}}
-                <h2 class="text-[#70d25b] font-black text-2xl uppercase mb-2 text-center tracking-wide">
+                <h2 class="text-[#2ac0b4] font-black text-2xl uppercase mb-2 text-center tracking-wide">
                     Beli Dari Desa
                 </h2>
                 <p class="text-gray-800 text-[13px] font-medium text-center mb-6 leading-relaxed px-2">
@@ -1385,13 +1484,13 @@
 
                 {{-- Navigasi Anak Panah --}}
                 <div class="flex justify-between items-center mb-4 px-2">
-                    <button id="btnPrevUmkm" class="text-black hover:text-[#70d25b] transition-colors p-2 active:scale-95">
+                    <button id="btnPrevUmkm" class="text-black hover:text-[#2ac0b4] transition-colors p-2 active:scale-95">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="19" y1="12" x2="5" y2="12"></line>
                             <polyline points="12 19 5 12 12 5"></polyline>
                         </svg>
                     </button>
-                    <button id="btnNextUmkm" class="text-black hover:text-[#70d25b] transition-colors p-2 active:scale-95">
+                    <button id="btnNextUmkm" class="text-black hover:text-[#2ac0b4] transition-colors p-2 active:scale-95">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
                             <line x1="5" y1="12" x2="19" y2="12"></line>
                             <polyline points="12 5 19 12 12 19"></polyline>
@@ -1404,7 +1503,8 @@
 
                     @forelse($produk_umkm as $produk)
                     {{-- Card Individual: Lebar 200px agar berbentuk portrait yang rapi --}}
-                    <a href="#" class="snap-start shrink-0 w-[200px] bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col group">
+                    {{-- UBAH DI SINI: Ganti href="#" menjadi route ke halaman detail belanja --}}
+                    <a href="{{ route('frontend.belanja.detail', $produk->id) }}" class="snap-start shrink-0 w-[200px] bg-white rounded-2xl overflow-hidden shadow-[0_4px_15px_rgba(0,0,0,0.05)] border border-gray-100 flex flex-col group active:scale-95 transition-transform">
 
                         {{-- Foto Produk --}}
                         <div class="h-[180px] w-full bg-gray-100 relative overflow-hidden">
@@ -1414,7 +1514,7 @@
                         {{-- Info Produk --}}
                         <div class="p-4 flex-1 flex flex-col justify-between">
                             {{-- Nama Produk --}}
-                            <h3 class="text-gray-800 font-bold text-[14px] leading-snug mb-3 line-clamp-2 group-hover:text-[#70d25b] transition-colors">
+                            <h3 class="text-gray-800 font-bold text-[14px] leading-snug mb-3 line-clamp-2 group-hover:text-[#2ac0b4] transition-colors">
                                 {{ $produk->nama_produk }}
                             </h3>
 
@@ -1437,20 +1537,25 @@
                     </div>
                     @endforelse
 
+
                     {{-- Spacer Akhir --}}
                     <div class="shrink-0 w-2"></div>
                 </div>
 
                 {{-- Tombol Lihat Semua --}}
                 <div class="mt-2 px-2">
-                    <a href="{{ route('frontend.belanja') ?? '#' }}" class="block w-full border-2 border-[#70d25b] text-[#70d25b] bg-transparent hover:bg-[#70d25b] hover:text-white font-bold text-[14px] text-center py-3 rounded-xl transition-all active:scale-95">
+                    <a href="{{ route('frontend.belanja') ?? '#' }}" class="block w-full border-2 border-[#2ac0b4] text-[#2ac0b4] bg-transparent hover:bg-[#2ac0b4] hover:text-white font-bold text-[14px] text-center py-3 rounded-xl transition-all active:scale-95">
                         Lihat Semua
                     </a>
                 </div>
             </div>
         </div>
+        {{-- ========================================== --}}
+        {{-- KODE KHUSUS DESKTOP (Layar Besar) --}}
+        {{-- ========================================== --}}
 
-        <div class="hidden md:block py-16">
+
+        <div class="hidden md:block py-16 relative">
             <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
                 {{-- Header --}}
@@ -1467,9 +1572,8 @@
                     {{-- Ambil 6 data agar pas menjadi 2 baris penuh --}}
                     @forelse($galeri_terbaru->take(6) as $foto)
 
-                    {{-- SEMUA KOTAK UKURANNYA SAMA --}}
-                    {{-- aspect-[4/3] memastikan semua foto konsisten bentuknya (sedikit lanskap) tanpa peduli ukuran aslinya --}}
-                    <div class="rounded-2xl overflow-hidden relative group aspect-[4/3] shadow-sm transition-all duration-300 hover:shadow-lg border border-gray-100 bg-gray-100">
+                    {{-- Tambahkan cursor-pointer dan onclick panggil fungsi JS --}}
+                    <div onclick="openLightbox('{{ asset('storage/' . $foto->gambar) }}', '{{ $foto->judul }}')" class="cursor-pointer overflow-hidden relative group aspect-[4/3] shadow-sm transition-all duration-300 hover:shadow-lg border border-gray-100 bg-gray-100">
                         <img src="{{ asset('storage/' . $foto->gambar) }}" alt="{{ $foto->judul }}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" onerror="this.src='https://placehold.co/600x400?text=No+Photo'" />
 
                         {{-- Overlay Hitam Transparan & Teks Judul --}}
@@ -1502,38 +1606,97 @@
 
             </div>
         </div>
+        {{-- MODAL / LIGHTBOX CONTAINER (Hidden by default) --}}
+        <div id="lightboxModal" class="fixed inset-0 z-[9999] hidden bg-black/90 backdrop-blur-sm flex items-center justify-center p-4 transition-opacity duration-300 opacity-0" onclick="closeLightbox()">
+            {{-- Tombol Close --}}
+            <button class="absolute top-6 right-8 text-white/70 hover:text-white text-5xl font-light transition-colors focus:outline-none">&times;</button>
 
-        <div class="block md:hidden max-w-md mx-auto">
+            {{-- Gambar yang diperbesar --}}
+            <img id="lightboxImage" src="" class="max-w-full max-h-[85vh] object-contain rounded-md shadow-2xl scale-95 transition-transform duration-300" alt="Preview Gambar">
 
+            {{-- Judul Gambar di bawah --}}
+            <p id="lightboxCaption" class="absolute bottom-8 text-white text-lg md:text-xl font-semibold tracking-wide drop-shadow-lg text-center px-4"></p>
+        </div>
+
+        {{-- SCRIPT UNTUK MENJALANKAN LIGHTBOX --}}
+        <script>
+            function openLightbox(imageSrc, captionText) {
+                const modal = document.getElementById('lightboxModal');
+                const modalImg = document.getElementById('lightboxImage');
+                const modalCaption = document.getElementById('lightboxCaption');
+
+                // Set src gambar dan teks judul
+                modalImg.src = imageSrc;
+                modalCaption.textContent = captionText;
+
+                // Tampilkan modal dengan menghapus class hidden
+                modal.classList.remove('hidden');
+
+                // Animasi fade in & scale in
+                setTimeout(() => {
+                    modal.classList.remove('opacity-0');
+                    modalImg.classList.remove('scale-95');
+                    modalImg.classList.add('scale-100');
+                }, 10);
+            }
+
+            function closeLightbox() {
+                const modal = document.getElementById('lightboxModal');
+                const modalImg = document.getElementById('lightboxImage');
+
+                // Animasi fade out & scale out
+                modal.classList.add('opacity-0');
+                modalImg.classList.remove('scale-100');
+                modalImg.classList.add('scale-95');
+
+                // Sembunyikan sepenuhnya setelah animasi selesai (300ms)
+                setTimeout(() => {
+                    modal.classList.add('hidden');
+                    modalImg.src = ''; // Kosongkan src agar tidak memori bocor
+                }, 300);
+            }
+
+        </script>
+
+
+        {{-- ========================================== --}}
+        {{-- KODE KHUSUS MOBILE (Layar HP) --}}
+        {{-- ========================================== --}}
+
+        <div class="block md:hidden max-w-md mx-auto py-10">
 
             {{-- Judul & Subjudul --}}
-            <h2 class="text-[#70d25b] font-black text-2xl uppercase mb-2 text-center tracking-wide">
+            <h2 class="text-[#2ac0b4] font-black text-2xl uppercase mb-2 text-center tracking-wide">
                 Galeri Desa
             </h2>
             <p class="text-gray-800 text-[13px] font-medium text-center mb-8 leading-relaxed px-4">
                 Menampilkan kegiatan-kegiatan yang berlangsung di desa
             </p>
 
-            {{-- Grid Galeri: 3 Kolom --}}
-            <div class="grid grid-cols-3 gap-3 mb-6">
+            {{-- Grid Galeri: Ubah jadi 1 Kolom saja --}}
+            <div class="grid grid-cols-1 gap-4 mb-6 px-4">
 
-                @forelse($galeri_terbaru as $foto)
-                {{-- Item Galeri (Rasio Persegi/Square otomatis) --}}
-                {{-- Ditambahkan efek hover agar lebih interaktif --}}
-                <a href="#" class="relative aspect-square overflow-hidden rounded-md shadow-sm block group">
+                {{-- Ubah limit pengambilan foto menjadi 2 saja --}}
+                @forelse($galeri_terbaru->take(2) ?? [] as $foto)
+
+                {{-- Rasio diubah jadi aspect-[4/3] agar lebih estetik saat full-width dan sudut agak melengkung (rounded-xl) --}}
+                <div onclick="openLightbox('{{ asset('storage/' . $foto->gambar) }}', '{{ addslashes($foto->judul) }}')" class="cursor-pointer relative aspect-[4/3] overflow-hidden rounded-xl shadow-sm block group">
 
                     {{-- Foto Kegiatan --}}
-                    <img src="{{ asset('storage/' . $foto->gambar) }}" alt="{{ $foto->judul }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" onerror="this.src='https://placehold.co/400x400?text=Galeri'" />
+                    <img src="{{ asset('storage/' . $foto->gambar) }}" alt="{{ $foto->judul }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" onerror="this.src='https://placehold.co/600x450?text=Galeri'" />
 
-                    {{-- Overlay Judul: Akan muncul hanya saat foto disentuh/di-hover --}}
-                    <div class="absolute inset-0 bg-black/60 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center p-2 text-center z-10">
-                        <span class="text-white text-[10px] font-bold line-clamp-3 leading-tight drop-shadow-md">
+                    {{-- Overlay Judul: Karena gambar lebih besar, kita buat ada gradient hitam agar teks lebih terbaca --}}
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-90 active:opacity-100 transition-opacity duration-300 flex items-end justify-center p-4 text-center z-10">
+
+                        {{-- Ukuran teks dibesarkan menjadi text-sm --}}
+                        <span class="text-white text-sm font-bold line-clamp-2 leading-tight drop-shadow-md">
                             {{ $foto->judul }}
                         </span>
                     </div>
-                </a>
+
+                </div>
                 @empty
-                <div class="col-span-3 text-center py-10 text-gray-400 text-sm font-medium border-2 border-dashed border-gray-200 rounded-lg">
+                <div class="text-center py-10 text-gray-400 text-sm font-medium border-2 border-dashed border-gray-200 rounded-lg">
                     Belum ada foto kegiatan yang diunggah.
                 </div>
                 @endforelse
@@ -1541,8 +1704,8 @@
             </div>
 
             {{-- Tombol Lihat Semua (Gaya Outline) --}}
-            <div class="px-1 mt-2">
-                <a href="{{ route('frontend.galeri') ?? '#' }}" class="block w-full border-2 border-[#70d25b] text-[#70d25b] bg-transparent hover:bg-[#70d25b] hover:text-white font-bold text-[14px] text-center py-3 rounded-xl transition-all active:scale-95">
+            <div class="px-5 mt-4">
+                <a href="{{ route('frontend.galeri') ?? '#' }}" class="block w-full border-2 border-[#2ac0b4] text-[#2ac0b4] bg-transparent hover:bg-[#2ac0b4] hover:text-white font-bold text-[14px] text-center py-3 rounded-xl transition-all active:scale-95">
                     Lihat Semua
                 </a>
             </div>

@@ -28,6 +28,7 @@ class HomeController extends Controller
         $potensi_desa = Potensi::latest()->take(6)->get();
         // 6. AMBIL DATA WISATA (Ambil 5 untuk slider)
         $wisata_desa = Wisata::latest()->take(5)->get();
+        $potensis = Potensi::latest()->take(6)->get();
         // 7. HITUNG STATISTIK PENDUDUK
         // Menghitung total Laki-laki & Perempuan
         $total_laki = Penduduk::sum('laki_laki');
@@ -67,6 +68,7 @@ class HomeController extends Controller
             'berita_terbaru',
             'perangkat_desa',
             'potensi_desa',
+            'potensis',
             'wisata_desa',
             'total_penduduk',
             'total_laki',
@@ -155,10 +157,10 @@ class HomeController extends Controller
     {
         // 1. Cari data potensi berdasarkan ID 
         // (Sesuaikan "Wisata" dengan nama Model database yang Anda gunakan)
-        $potensi = Wisata::findOrFail($id);
+        $potensi = Potensi::findOrFail($id);
 
         // 2. Ambil 4 potensi lainnya untuk di Sidebar Kanan (selain yang sedang dibuka)
-        $potensi_lain = Wisata::where('id', '!=', $id)
+        $potensi_lain = Potensi::where('id', '!=', $id)
             ->latest()
             ->take(4)
             ->get();

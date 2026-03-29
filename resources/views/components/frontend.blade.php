@@ -12,7 +12,9 @@
     <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="preload" as="image" href="{{ asset('assets/img/background 1.webp') }}" fetchpriority="high">
+
     @stack('styles')
 </head>
 
@@ -125,7 +127,7 @@
 
     </nav>
 
-    <main class="pt-0 md:pt-0 md:pb-0 bg-[#f9f9f9]">
+    <main class="pt-0 md:pt-0 md:pb-0 ">
 
         {{ $slot }}
     </main>
@@ -777,14 +779,16 @@
             var lokasiPenting = [{
                     nama: "Gelora Rajawali"
                     , deskripsi: "Gelora"
-                    , gambar: "https://lh3.googleusercontent.com/gps-cs-s/AHVAwepxTn57gT7vTJ_Q3AZDIC7VK6gaqdyO6mqkRd8FRVLpWvDDqSIyvUJ5uFRaBWJyzmceyPeYqwwpdM6DTNdnYLx3YXkdmN-JtQyiCXQbSAEW8wpWEfVZC-xrhm4XAYgARmnuTGqh=w408-h306-k-no"
+                    , gambar: "https://lh3.googleusercontent.com/gps-cs-s/AHVAwer2l79aX2JyKUuxkjyfLhJ1MiKQYr0NnhiqcE6TQyo03M7g2WHFXpgbROrM0ApGxFOK7WAoS5qhChn8yyvpBGehBbI0iJciOLMJzvPpRpVa5NvwSPXCDxqKZNJRpjLOVT6ESlgs=w408-h306-k-no"
+
                     , lat: -7.9748593905406295
                     , lng: 111.45163579512406
                 }
                 , {
                     nama: "Balai desa"
                     , deskripsi: "Balai"
-                    , gambar: "https://lh3.googleusercontent.com/gps-cs-s/AHVAwerKgSaxViDeMa3HeBdunXD3auv5HGqTjFQngjsTLf5pywhCUlPkex5KEVgPQIYoCTJf0YsesR3C0-Z9OtxRBQfMornpP8WmYl5uWaOOu4LBNAKpRPkDreqNx-vBDTjAtpHPYJgX=w408-h306-k-no"
+                    , gambar: "https://lh3.googleusercontent.com/gps-cs-s/AHVAwepOl_IaIWuPNy9IvYEXQR8QDBO5SqIgHP6iiMmPKpGexycro_nB0fzrY2o3t8urADawdgHCh13olZImz9zCTzH7KVkNfGyd6nAuCJTtRvTxFRaWrH2430j-SESSuscx8ZEFCaClyA=w408-h306-k-no"
+
                     , lat: -7.9741553901755555
                     , lng: 111.45198039512412
                 }
@@ -888,6 +892,12 @@
             } else {
                 console.log("Peta tidak dimuat karena elemen Desktop dan Mobile tidak ditemukan.");
             }
+
+            setTimeout(function() {
+                if (mapDesktop) mapDesktop.invalidateSize();
+                if (mapMobile) mapMobile.invalidateSize();
+            }, 500);
+
 
 
         });

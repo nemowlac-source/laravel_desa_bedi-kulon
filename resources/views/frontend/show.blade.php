@@ -1,46 +1,109 @@
 <x-frontend>
-    <section class="wisata-detail-section py-10">
-        <div class="container mx-auto px-4 flex flex-col lg:flex-row gap-8">
+    <section class="berita-detail-section mt-20">
+        <div class="berita-container">
 
-            <div class="lg:w-2/3" style="background-color:white;padding:20px;">
-                <div class="text-sm mb-4 text-gray-500">
-                    <a href="/" class="hover:text-green-600">🏠</a> /
-                    <a href="{{ route('frontend.wisata') }}" class="hover:text-green-600">Wisata Desa</a> /
-                    <span class="font-bold">{{ $wisata->nama_wisata }}</span>
+            <div class="berita-main-content">
+
+                <div class="berita-breadcrumb">
+                    <a href="/">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M3 9l9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"></path>
+                            <polyline points="9 22 9 12 15 12 15 22"></polyline>
+                        </svg>
+                    </a>
+                    <span class="separator">/</span>
+                    <a href="{{ route('frontend.wisata') }}">Wisata Desa</a>
                 </div>
 
-                <h1 class="text-4xl font-extrabold mb-4 text-gray-800">{{ $wisata->nama_wisata }}</h1>
+                <h1 class="berita-title">{{ $wisata->nama_wisata ?? 'Nama Wisata' }}</h1>
 
-                <div class="flex items-center gap-4 text-gray-500 text-sm mb-6">
-                    <span><i class="ph ph-calendar"></i> {{ $wisata->created_at->format('d M Y') }}</span>
-                    <span><i class="ph ph-user"></i> Ditulis oleh Administrator</span>
-                    <span><i class="ph ph-eye"></i> Dilihat {{ $wisata->views ?? 0 }} kali</span>
+                <div class="berita-meta-info">
+                    <span class="meta-item">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                        {{ \Carbon\Carbon::parse($wisata->created_at ?? now())->isoFormat('D MMMM Y') }}
+                    </span>
+
+                    <span class="meta-item">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"></path>
+                            <circle cx="12" cy="7" r="4"></circle>
+                        </svg>
+                        Ditulis oleh Administrator
+                    </span>
+
+                    <span class="meta-item meta-views">
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                        Dilihat {{ $wisata->views ?? 0 }} kali
+                    </span>
                 </div>
 
-                <img src="{{ asset('storage/' . $wisata->gambar) }}" class="w-full rounded-xl shadow-lg mb-6" alt="{{ $wisata->nama_wisata }}">
+                <div class="berita-featured-image">
+                    <img src="{{ asset('storage/' . ($wisata->gambar ?? '')) }}" alt="{{ $wisata->nama_wisata ?? 'Gambar Wisata' }}" onerror="this.src='https://placehold.co/800x400?text=Gambar+Wisata'">
+                </div>
 
-                <div class="prose max-w-none text-gray-700 leading-relaxed">
+                <div class="berita-body-text">
                     {!! $wisata->deskripsi !!}
                 </div>
-            </div>
 
-            <div class="lg:w-1/3">
-                <div class="bg-white p-6 rounded-xl shadow-sm border border-gray-100">
-                    <h2 class="text-xl font-bold mb-6 border-b-2 border-green-500 pb-2 inline-block" style="color: black">Wisata Lainnya</h2>
-                    <div class="space-y-6 mt-4">
-                        @foreach($wisataLainnya as $lain)
-                        <a href="{{ route('frontend.wisata.show', $lain->id) }}" class="flex gap-4 group">
-                            <img src="{{ asset('storage/' . $lain->gambar) }}" class="w-20 h-20 object-cover rounded-lg" alt="{{ $lain->nama_wisata }}">
-                            <div>
-                                <h4 class="font-bold text-gray-800 group-hover:text-green-600 transition-colors">{{ $lain->nama_wisata }}</h4>
-                                <span class="text-xs text-gray-400 block mt-1">{{ $lain->created_at->format('d M Y') }}</span>
-                                <span class="text-xs text-gray-400">Dilihat {{ $lain->views ?? 0 }} kali</span>
-                            </div>
+                <div class="mt-8 border-t pt-4 flex items-center gap-3">
+                    <span class="text-gray-600 font-medium text-sm">Bagikan:</span>
+                    <div class="flex gap-2">
+                        <a href="https://www.facebook.com/sharer/sharer.php?u={{ urlencode(url()->current()) }}" target="_blank" class="w-9 h-9 flex items-center justify-center rounded-full bg-[#1877F2] text-white hover:opacity-80 transition">
+                            <i class="fa-brands fa-facebook-f"></i>
                         </a>
-                        @endforeach
+                        <a href="https://api.whatsapp.com/send?text={{ urlencode($wisata->nama_wisata . ' - ' . url()->current()) }}" target="_blank" class="w-9 h-9 flex items-center justify-center rounded-full bg-[#25D366] text-white hover:opacity-80 transition">
+                            <i class="fa-brands fa-whatsapp text-lg"></i>
+                        </a>
+                        <a href="https://twitter.com/intent/tweet?url={{ urlencode(url()->current()) }}&text={{ urlencode($wisata->nama_wisata) }}" target="_blank" class="w-9 h-9 flex items-center justify-center rounded-full bg-black text-white hover:opacity-80 transition">
+                            <i class="fa-brands fa-x-twitter"></i>
+                        </a>
                     </div>
                 </div>
+
             </div>
+
+            <aside class="berita-sidebar">
+                <div class="sidebar-widget">
+                    <h3 class="sidebar-widget-title">Wisata Lainnya</h3>
+
+                    <div class="latest-news-list">
+                        @forelse($wisataLainnya ?? [] as $lain)
+                        <a href="{{ route('frontend.show', $lain->id) }}" class="latest-news-item">
+                            <img src="{{ asset('storage/' . $lain->gambar) }}" class="latest-news-img" alt="{{ $lain->nama_wisata }}" onerror="this.src='https://placehold.co/100x100?text=Wisata'">
+
+                            <div class="latest-news-details">
+                                <h4 class="latest-news-title">{{ Str::limit($lain->nama_wisata, 45) }}</h4>
+
+                                <div class="latest-news-meta">
+                                    <span>
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <circle cx="12" cy="12" r="10"></circle>
+                                            <polyline points="12 6 12 12 16 14"></polyline>
+                                        </svg> {{ \Carbon\Carbon::parse($lain->created_at)->isoFormat('D MMMM Y') }}
+                                    </span>
+
+                                    <span style="margin-top: 2px;">
+                                        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                            <circle cx="12" cy="12" r="3"></circle>
+                                        </svg> Dilihat {{ $lain->views ?? 0 }} kali
+                                    </span>
+                                </div>
+                            </div>
+                        </a>
+                        @empty
+                        <p style="color: #888; font-size: 0.9rem;">Belum ada wisata lainnya.</p>
+                        @endforelse
+                    </div>
+
+                </div>
+            </aside>
 
         </div>
     </section>

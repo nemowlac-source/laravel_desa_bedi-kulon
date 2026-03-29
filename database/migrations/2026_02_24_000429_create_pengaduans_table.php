@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('no_hp');
             $table->string('kategori');
             $table->text('isi_pengaduan');
-            $table->string('lampiran')->nullable(); // Untuk menyimpan path foto/PDF ⏺️
+            $table->string('lampiran')->nullable();
             $table->enum('status', ['pending', 'proses', 'selesai'])->default('pending');
             $table->timestamps();
         });

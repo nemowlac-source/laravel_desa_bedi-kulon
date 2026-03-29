@@ -1,90 +1,101 @@
 <x-frontend>
     <section class="infografis-page">
-        <div class="header-infografis">
-            <div class="hidden md:block brand-title">
-                <h1>INFOGRAFIS<br>DESA Bedi Kulon</h1>
+        {{-- ========================================== --}}
+        {{-- 1. VERSI MOBILE & DESKTOP (Header)         --}}
+        {{-- ========================================== --}}
+        <div class="w-full max-w-7xl mx-auto mt-12 mb-8">
+
+            {{-- KODE ASLI KAMU DIMULAI DARI SINI (Tidak ada yang diubah) --}}
+            <div class="header-infografis">
+
+                <div class="hidden md:block brand-title">
+                    <h1>INFOGRAFIS<br>DESA Bedi Kulon</h1>
+                </div>
+
+                <div class="nav-menu flex overflow-x-auto flex-nowrap gap-2 pb-2 hide-scroll">
+
+                    <a href="{{ route('frontend.infografis') }}" class="nav-item flex-none {{ Route::is('frontend.infografis') ? 'active' : '' }}">
+                        <div class="icon-box">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="tabler-icon tabler-icon-users" style="overflow: visible;">
+                                <path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"></path>
+                                <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
+                                <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
+                                <path d="M21 21v-2a4 4 0 0 0 -3 -3.85"></path>
+                            </svg>
+                        </div>
+                        <span class="nav-text">Penduduk</span>
+                    </a>
+
+                    <a href="{{ route('frontend.apbdes') }}" class="nav-item flex-none {{ Route::is('frontend.apbdes') ? 'active' : '' }}">
+                        <div class="icon-box">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="tabler-icon tabler-icon-cash" style="overflow: visible;">
+                                <path d="M7 9m0 2a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2z"></path>
+                                <path d="M14 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
+                                <path d="M17 9v-2a2 2 0 0 0 -2 -2h-10a2 2 0 0 0 -2 2v6a2 2 0 0 0 2 2h2"></path>
+                            </svg>
+                        </div>
+                        <span class="nav-text">APBDes</span>
+                    </a>
+
+                    <a href="{{ route('frontend.stunting') }}" class="nav-item flex-none {{ Route::is('frontend.stunting') ? 'active' : '' }}">
+                        <div class="icon-box">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="tabler-icon tabler-icon-chart-bar" style="overflow: visible;">
+                                <path d="M3 12m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"></path>
+                                <path d="M9 8m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"></path>
+                                <path d="M15 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"></path>
+                                <path d="M4 20l14 0"></path>
+                            </svg>
+                        </div>
+                        <span class="nav-text">Stunting</span>
+                    </a>
+
+                    <a href="{{ route('frontend.bansos') }}" class="nav-item flex-none {{ Route::is('frontend.bansos') ? 'active' : '' }}">
+                        <div class="icon-box">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="tabler-icon tabler-icon-package" style="overflow: visible;">
+                                <path d="M12 3l8 4.5v9l-8 4.5l-8 -4.5v-9l8 -4.5"></path>
+                                <path d="M12 12l8 -4.5"></path>
+                                <path d="M12 12v9"></path>
+                                <path d="M12 12l-8 -4.5"></path>
+                                <path d="M16 5.25l-8 4.5"></path>
+                            </svg>
+                        </div>
+                        <span class="nav-text">Bansos</span>
+                    </a>
+
+                    <a href="{{ route('frontend.idm') }}" class="nav-item flex-none {{ Route::is('frontend.idm') ? 'active' : '' }}">
+                        <div class="icon-box">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="tabler-icon tabler-icon-crown">
+                                <path d="M12 6l4 6l5 -4l-2 10h-14l-2 -10l5 4z"></path>
+                            </svg>
+                        </div>
+                        <span class="nav-text">IDM</span>
+                    </a>
+
+                    <a href="{{ route('frontend.sdgs') }}" class="nav-item flex-none {{ Route::is('frontend.sdgs') ? 'active' : '' }}">
+                        <div class="icon-box">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="tabler-icon tabler-icon-numbers" style="overflow: visible;">
+                                <path d="M8 10v-7l-2 2"></path>
+                                <path d="M6 16a2 2 0 1 1 4 0c0 .591 -.601 1.46 -1 2l-3 3h4"></path>
+                                <path d="M15 14a2 2 0 1 0 2 -2a2 2 0 1 0 -2 -2"></path>
+                                <path d="M6.5 10h3"></path>
+                            </svg>
+                        </div>
+                        <span class="nav-text">SDGs</span>
+                    </a>
+
+                </div>
+
             </div>
+            {{-- KODE ASLI KAMU BERAKHIR DI SINI --}}
 
-            {{-- PERBAIKAN: Tambahkan flex, overflow-x-auto, dan hide-scroll --}}
-            <div class="nav-menu flex overflow-x-auto flex-nowrap gap-2 pb-2 hide-scroll">
-
-                {{-- PERBAIKAN: Tambahkan flex-none pada setiap <a> agar tombolnya tidak menyusut/gepeng --}}
-                <a href="{{ route('frontend.infografis') }}" class="nav-item flex-none {{ Route::is('frontend.infografis') ? 'active' : '' }}">
-                    <div class="icon-box">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="tabler-icon tabler-icon-users" style="overflow: visible;">
-                            <path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"></path>
-                            <path d="M3 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2"></path>
-                            <path d="M16 3.13a4 4 0 0 1 0 7.75"></path>
-                            <path d="M21 21v-2a4 4 0 0 0 -3 -3.85"></path>
-                        </svg>
-                    </div>
-                    <span class="nav-text">Penduduk</span>
-                </a>
-
-                <a href="{{ route('frontend.apbdes') }}" class="nav-item flex-none {{ Route::is('frontend.apbdes') ? 'active' : '' }}">
-                    <div class="icon-box">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="tabler-icon tabler-icon-cash" style="overflow: visible;">
-                            <path d="M7 9m0 2a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2z"></path>
-                            <path d="M14 14m-2 0a2 2 0 1 0 4 0a2 2 0 1 0 -4 0"></path>
-                            <path d="M17 9v-2a2 2 0 0 0 -2 -2h-10a2 2 0 0 0 -2 2v6a2 2 0 0 0 2 2h2"></path>
-                        </svg>
-                    </div>
-                    <span class="nav-text">APBDes</span>
-                </a>
-
-                <a href="{{ route('frontend.stunting') }}" class="nav-item flex-none {{ Route::is('frontend.stunting') ? 'active' : '' }}">
-                    <div class="icon-box">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="tabler-icon tabler-icon-chart-bar" style="overflow: visible;">
-                            <path d="M3 12m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"></path>
-                            <path d="M9 8m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v10a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"></path>
-                            <path d="M15 4m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v14a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"></path>
-                            <path d="M4 20l14 0"></path>
-                        </svg>
-                    </div>
-                    <span class="nav-text">Stunting</span>
-                </a>
-
-                <a href="{{ route('frontend.bansos') }}" class="nav-item flex-none {{ Route::is('frontend.bansos') ? 'active' : '' }}">
-                    <div class="icon-box">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="tabler-icon tabler-icon-package" style="overflow: visible;">
-                            <path d="M12 3l8 4.5v9l-8 4.5l-8 -4.5v-9l8 -4.5"></path>
-                            <path d="M12 12l8 -4.5"></path>
-                            <path d="M12 12v9"></path>
-                            <path d="M12 12l-8 -4.5"></path>
-                            <path d="M16 5.25l-8 4.5"></path>
-                        </svg>
-                    </div>
-                    <span class="nav-text">Bansos</span>
-                </a>
-
-                <a href="{{ route('frontend.idm') }}" class="nav-item flex-none {{ Route::is('frontend.idm') ? 'active' : '' }}">
-                    <div class="icon-box">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="tabler-icon tabler-icon-crown">
-                            <path d="M12 6l4 6l5 -4l-2 10h-14l-2 -10l5 4z"></path>
-                        </svg>
-                    </div>
-                    <span class="nav-text">IDM</span>
-                </a>
-
-                <a href="{{ route('frontend.sdgs') }}" class="nav-item flex-none {{ Route::is('frontend.sdgs') ? 'active' : '' }}">
-                    <div class="icon-box">
-                        <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="tabler-icon tabler-icon-numbers" style="overflow: visible;">
-                            <path d="M8 10v-7l-2 2"></path>
-                            <path d="M6 16a2 2 0 1 1 4 0c0 .591 -.601 1.46 -1 2l-3 3h4"></path>
-                            <path d="M15 14a2 2 0 1 0 2 -2a2 2 0 1 0 -2 -2"></path>
-                            <path d="M6.5 10h3"></path>
-                        </svg>
-                    </div>
-                    <span class="nav-text">SDGs</span>
-                </a>
-
-            </div>
         </div>
+
+
         <div class="idm-top-section">
             {{-- ========================================== --}}
             {{-- ZONA DESKTOP (PRECISE MIRRORING KERSIK)    --}}
             {{-- ========================================== --}}
-            <div class="hidden md:block w-full max-w-7xl mx-auto px-6 mt-10">
+            <div class="hidden md:block w-full max-w-7xl mx-auto mt-10">
 
                 @if($idm)
                 {{-- BARIS 1: JUDUL (Kiri) & KARTU UTAMA (Kanan) --}}
@@ -92,7 +103,7 @@
 
                     {{-- Sisi Kiri: Deskripsi --}}
                     <div class="lg:w-2/5">
-                        <h2 class="text-[#8cdb6e] font-bold text-5xl mb-6 tracking-tight">IDM</h2>
+                        <h2 class="text-[#2ac0b4] font-bold text-5xl mb-6 tracking-tight">IDM</h2>
                         <p class="text-gray-800 text-[19px] leading-[1.6] text-left font-medium">
                             Indeks Desa Membangun (IDM) merupakan indeks komposit yang dibentuk dari tiga indeks, yaitu
                             Indeks Ketahanan Sosial, Indeks Ketahanan Ekonomi, dan Indeks Ketahanan Ekologi/Lingkungan.
@@ -241,280 +252,439 @@
 
 
         </div>
-        <div class="idm-container mt-10">
-            {{-- Judul Grafik Responsif --}}
-            <h2 class="text-xl md:text-2xl font-bold text-[#2ac0b4] mb-4 text-center md:text-left">
+        {{-- ========================================== --}}
+        {{-- VERSI DESKTOP (Muncul di Laptop/PC)        --}}
+        {{-- ========================================== --}}
+        <div class="hidden md:block w-full max-w-7xl mx-auto mt-16 mb-10">
+
+            <h2 class="text-[#2ac0b4] font-extrabold text-[40px] mb-8 text-left tracking-tight drop-shadow-sm uppercase">
                 Skor IDM Tahun ke Tahun
             </h2>
 
-            {{-- Wrapper Grafik yang Responsif (Kuncinya ada di 'h-[...px]') --}}
-            <div class="relative w-full h-[300px] md:h-[450px] bg-white p-2 md:p-6 rounded-xl md:rounded-2xl shadow-sm border border-gray-100">
-                <canvas id="idmTrendChart" data-labels="{{ json_encode($chart_labels) }}" data-scores="{{ json_encode($chart_data) }}">
-                </canvas>
+            <div class="relative w-full h-[450px] bg-white rounded-2xl shadow-sm border border-gray-100 p-8 lg:p-10">
+                <canvas id="idmTrendChartDesktop" data-labels="{{ json_encode($chart_labels) }}" data-scores="{{ json_encode($chart_data) }}"></canvas>
+            </div>
+
+        </div>
+
+        {{-- ========================================== --}}
+        {{-- VERSI MOBILE (Muncul di HP)                --}}
+        {{-- ========================================== --}}
+        <div class="block md:hidden w-full mt-6">
+
+            <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
+                <h2 class="text-[#2ac0b4] font-extrabold text-[20px] mb-4 leading-tight tracking-tight uppercase">
+                    Skor IDM Tahun ke Tahun
+                </h2>
+
+                <div class="relative w-full h-[300px]">
+                    <canvas id="idmTrendChartMobile" data-labels="{{ json_encode($chart_labels) }}" data-scores="{{ json_encode($chart_data) }}"></canvas>
+                </div>
+            </div>
+
+        </div>
+
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                const chartIds = ['idmTrendChartDesktop', 'idmTrendChartMobile'];
+
+                chartIds.forEach(id => {
+                    const canvas = document.getElementById(id);
+                    if (!canvas) return;
+
+                    const ctx = canvas.getContext('2d');
+                    const isMobile = id.includes('Mobile');
+
+                    // Mengambil data dari atribut HTML masing-masing canvas
+                    const labels = JSON.parse(canvas.getAttribute('data-labels') || '[]');
+                    const scores = JSON.parse(canvas.getAttribute('data-scores') || '[]');
+
+                    new Chart(ctx, {
+                        type: 'line'
+                        , data: {
+                            labels: labels
+                            , datasets: [{
+                                label: 'Skor IDM'
+                                , data: scores
+                                , borderColor: '#ff8f73', // Warna oranye/coral
+                                backgroundColor: '#ffffff'
+                                , fill: false
+                                , borderWidth: isMobile ? 2 : 3, // Garis sedikit lebih tipis di HP
+                                tension: 0, // Garis lurus antar titik
+                                pointRadius: isMobile ? 4 : 5
+                                , pointBackgroundColor: '#ffffff'
+                                , pointBorderColor: '#ff8f73'
+                                , pointBorderWidth: 2
+                                , pointHoverRadius: isMobile ? 6 : 7
+                            }]
+                        }
+                        , options: {
+                            responsive: true
+                            , maintainAspectRatio: false
+                            , layout: {
+                                padding: {
+                                    top: 15
+                                    , right: 15
+                                    , left: isMobile ? 0 : 5
+                                    , bottom: 5
+                                }
+                            }
+                            , scales: {
+                                y: {
+                                    beginAtZero: true
+                                    , min: 0
+                                    , max: 1, // Mempertahankan skala 0 sampai 1
+                                    ticks: {
+                                        stepSize: 0.1
+                                        , color: '#6b7280'
+                                        , font: {
+                                            family: "'Poppins', sans-serif"
+                                            , size: isMobile ? 9 : 11 // Ukuran font disesuaikan
+                                        }
+                                    }
+                                    , grid: {
+                                        color: 'rgba(200, 210, 230, 0.5)'
+                                        , borderDash: [5, 5]
+                                        , drawBorder: false
+                                    }
+                                }
+                                , x: {
+                                    offset: true
+                                    , ticks: {
+                                        color: '#6b7280'
+                                        , font: {
+                                            family: "'Poppins', sans-serif"
+                                            , size: isMobile ? 9 : 12, // Font dikecilkan di HP agar tahun tidak tabrakan
+                                            weight: '500'
+                                        }
+                                        , padding: 10
+                                    }
+                                    , grid: {
+                                        display: true
+                                        , color: 'rgba(200, 210, 230, 0.5)'
+                                        , borderDash: [5, 5]
+                                        , drawBorder: false
+                                    }
+                                }
+                            }
+                            , plugins: {
+                                legend: {
+                                    display: false
+                                },
+                                // Mematikan angka yang menempel di garis (karena efek global grafik stunting)
+                                datalabels: {
+                                    display: false
+                                }
+                                , tooltip: {
+                                    backgroundColor: 'rgba(0, 0, 0, 0.8)'
+                                    , padding: isMobile ? 10 : 12
+                                    , titleFont: {
+                                        family: "'Poppins', sans-serif"
+                                        , size: isMobile ? 11 : 12
+                                    }
+                                    , bodyFont: {
+                                        family: "'Poppins', sans-serif"
+                                        , size: isMobile ? 12 : 13
+                                        , weight: 'bold'
+                                    }
+                                    , displayColors: false
+                                    , callbacks: {
+                                        label: function(context) {
+                                            return 'Skor IDM: ' + context.parsed.y.toFixed(4); // Hover menampilkan 4 desimal
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    });
+                });
+            });
+
+        </script>
+
+
+
+
+        {{-- ========================================== --}}
+        {{-- VERSI DESKTOP (Styling Asli Tidak Dirubah) --}}
+        {{-- ========================================== --}}
+        <div class="hidden lg:block w-full">
+            <div class="idm-wrapper" style="margin-top: 50px">
+                <div class="table-scroll">
+                    <table class="idm-table-final">
+                        <thead>
+                            <tr>
+                                <th rowspan="2" class="col-no">No</th>
+                                <th rowspan="2" class="col-indikator">Indikator IDM</th>
+                                <th rowspan="2" class="col-skor">Skor</th>
+                                <th rowspan="2" class="col-ket">Keterangan</th>
+                                <th rowspan="2" class="col-kegiatan">Kegiatan yang dapat dilakukan</th>
+                                <th rowspan="2" class="col-nilai">Nilai+</th>
+                                <th colspan="6" class="col-pelaksana">Yang dapat melaksanakan kegiatan</th>
+                            </tr>
+                            <tr>
+                                <th class="mini-th">Pusat</th>
+                                <th class="mini-th">Provinsi</th>
+                                <th class="mini-th">Kab </th>
+                                <th class="mini-th">Desa</th>
+                                <th class="mini-th">CSR</th>
+                                <th class="mini-th">Lainnya</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+
+                            {{-- 1. IKS --}}
+                            @forelse($details_iks as $item)
+                            <tr>
+                                <td class="text-center">{{ $loop->iteration }}</td>
+                                <td>{{ $item->indikator }}</td>
+                                <td class="text-center">{{ $item->skor }}</td>
+                                <td>{{ $item->keterangan }}</td>
+                                <td>{{ $item->kegiatan ?? '-' }}</td>
+                                <td class="font-bold">{{ number_format($item->nilai_plus, 4) }}</td>
+                                <td>{{ $item->pelaksana_pusat ? '✓' : '' }}</td>
+                                <td>{{ $item->pelaksana_provinsi ? '✓' : '' }}</td>
+                                <td>{{ $item->pelaksana_kabupaten }}</td>
+                                <td>{{ $item->pelaksana_desa ? '✓' : '' }}</td>
+                                <td>{{ $item->pelaksana_csr ? '✓' : '' }}</td>
+                                <td>{{ $item->pelaksana_lainnya }}</td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="12" class="text-center text-gray-400">Data IKS Kosong</td>
+                            </tr>
+                            @endforelse
+
+                            {{-- FOOTER IKS --}}
+                            @if($idm)
+                            <tr class="bg-blue-50 font-bold text-blue-800">
+                                <td colspan="5" class="text-right">IKS {{ $tahun_pilih }}</td>
+                                <td>{{ number_format($details_iks->sum('nilai_plus'), 4) }}</td>
+                                <td colspan="6"></td>
+                            </tr>
+                            @endif
+
+
+                            {{-- 2. IKE --}}
+                            @forelse($details_ike as $item)
+                            <tr>
+                                <td class="text-center">{{ $loop->iteration }}</td>
+                                <td>{{ $item->indikator }}</td>
+                                <td class="text-center">{{ $item->skor }}</td>
+                                <td>{{ $item->keterangan }}</td>
+                                <td>{{ $item->kegiatan ?? '-' }}</td>
+                                <td class="font-bold">{{ number_format($item->nilai_plus, 4) }}</td>
+                                <td>{{ $item->pelaksana_pusat ? '✓' : '' }}</td>
+                                <td>{{ $item->pelaksana_provinsi ? '✓' : '' }}</td>
+                                <td>{{ $item->pelaksana_kabupaten }}</td>
+                                <td>{{ $item->pelaksana_desa ? '✓' : '' }}</td>
+                                <td>{{ $item->pelaksana_csr ? '✓' : '' }}</td>
+                                <td>{{ $item->pelaksana_lainnya }}</td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="12" class="text-center text-gray-400">Data IKE Kosong</td>
+                            </tr>
+                            @endforelse
+
+                            {{-- FOOTER IKE --}}
+                            @if($idm)
+                            <tr class="bg-green-50 font-bold text-green-800">
+                                <td colspan="5" class="text-right">IKE {{ $tahun_pilih }}</td>
+                                <td>{{ number_format($idm->skor_ike, 4) }}</td>
+                                <td colspan="6"></td>
+                            </tr>
+                            @endif
+
+
+                            {{-- 3. IKL --}}
+                            @forelse($details_ikl as $item)
+                            <tr>
+                                <td class="text-center">{{ $loop->iteration }}</td>
+                                <td>{{ $item->indikator }}</td>
+                                <td class="text-center">{{ $item->skor }}</td>
+                                <td>{{ $item->keterangan }}</td>
+                                <td>{{ $item->kegiatan ?? '-' }}</td>
+                                <td class="font-bold">{{ number_format($item->nilai_plus, 4) }}</td>
+                                <td>{{ $item->pelaksana_pusat ? '✓' : '' }}</td>
+                                <td>{{ $item->pelaksana_provinsi ? '✓' : '' }}</td>
+                                <td>{{ $item->pelaksana_kabupaten }}</td>
+                                <td>{{ $item->pelaksana_desa ? '✓' : '' }}</td>
+                                <td>{{ $item->pelaksana_csr ? '✓' : '' }}</td>
+                                <td>{{ $item->pelaksana_lainnya }}</td>
+                            </tr>
+                            @empty
+                            <tr>
+                                <td colspan="12" class="text-center text-gray-400">Data IKL Kosong</td>
+                            </tr>
+                            @endforelse
+
+                            {{-- FOOTER IKL --}}
+                            @if($idm)
+                            <tr class="bg-yellow-50 font-bold text-yellow-800">
+                                <td colspan="5" class="text-right">IKL {{ $tahun_pilih }}</td>
+                                <td>{{ number_format($idm->skor_ikl, 4) }}</td>
+                                <td colspan="6"></td>
+                            </tr>
+                            {{-- TOTAL IDM --}}
+                            <tr class="bg-gray-200 font-bold">
+                                <td colspan="5" class="text-right">IDM {{ $tahun_pilih }}</td>
+                                <td>{{ number_format($idm->nilai_idm, 4) }}</td>
+                                <td colspan="6"></td>
+                            </tr>
+                            {{-- STATUS IDM --}}
+                            <tr class="bg-gray-200 font-bold">
+                                <td colspan="5" class="text-right font-bold">Skor STATUS IDM {{ $tahun_pilih }}</td>
+                                <td>{{ ($idm->status) }}</td>
+                                <td colspan="6"></td>
+                            </tr>
+                            @endif
+
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
 
-        <div class="idm-wrapper" style="margin-top: 50px">
-            <div class="table-scroll">
-                <table class="idm-table-final">
+        {{-- ========================================== --}}
+        {{-- VERSI MOBILE (Tabel bisa digeser ke kanan) --}}
+        {{-- ========================================== --}}
+        <div class="block lg:hidden w-full mt-10 ">
+
+            <p class="text-[11px] text-gray-500 mb-2 italic">Geser ke kanan untuk melihat tabel detail ➔</p>
+
+            <div class="w-full overflow-x-auto shadow-sm border border-gray-200 rounded-lg bg-white pb-2">
+                {{-- KUNCI MOBILE: Class whitespace-nowrap dan font dikecilkan agar muat di HP --}}
+                <table class="idm-table-final whitespace-nowrap text-[11px]" style="min-width: 800px;">
                     <thead>
                         <tr>
-                            <th rowspan="2" class="col-no">No</th>
-                            <th rowspan="2" class="col-indikator">Indikator IDM</th>
-                            <th rowspan="2" class="col-skor">Skor</th>
-                            <th rowspan="2" class="col-ket">Keterangan</th>
-                            <th rowspan="2" class="col-kegiatan">Kegiatan yang dapat dilakukan</th>
-                            <th rowspan="2" class="col-nilai">Nilai+</th>
-                            <th colspan="6" class="col-pelaksana">Yang dapat melaksanakan kegiatan</th>
+                            <th rowspan="2" class="col-no py-2 px-3">No</th>
+                            <th rowspan="2" class="col-indikator py-2 px-3">Indikator IDM</th>
+                            <th rowspan="2" class="col-skor py-2 px-3">Skor</th>
+                            <th rowspan="2" class="col-ket py-2 px-3">Keterangan</th>
+                            <th rowspan="2" class="col-kegiatan py-2 px-3">Kegiatan yang dapat dilakukan</th>
+                            <th rowspan="2" class="col-nilai py-2 px-3">Nilai+</th>
+                            <th colspan="6" class="col-pelaksana py-1 px-2 border-b">Yang dapat melaksanakan kegiatan</th>
                         </tr>
                         <tr>
-                            <th class="mini-th">Pusat</th>
-                            <th class="mini-th">Provinsi</th>
-                            <th class="mini-th">Kab </th>
-                            <th class="mini-th">Desa</th>
-                            <th class="mini-th">CSR</th>
-                            <th class="mini-th">Lainnya</th>
+                            <th class="mini-th py-1 px-2 text-[10px]">Pusat</th>
+                            <th class="mini-th py-1 px-2 text-[10px]">Provinsi</th>
+                            <th class="mini-th py-1 px-2 text-[10px]">Kab </th>
+                            <th class="mini-th py-1 px-2 text-[10px]">Desa</th>
+                            <th class="mini-th py-1 px-2 text-[10px]">CSR</th>
+                            <th class="mini-th py-1 px-2 text-[10px]">Lainnya</th>
                         </tr>
                     </thead>
                     <tbody>
 
-                        {{-- 1. IKS --}}
+                        {{-- 1. IKS MOBILE --}}
                         @forelse($details_iks as $item)
                         <tr>
-                            <td class="text-center">{{ $loop->iteration }}</td>
-                            <td>{{ $item->indikator }}</td>
-                            <td class="text-center">{{ $item->skor }}</td>
-                            <td>{{ $item->keterangan }}</td>
-                            <td>{{ $item->kegiatan ?? '-' }}</td>
-                            <td class="font-bold">{{ number_format($item->nilai_plus, 4) }}</td>
-
-                            {{-- Pelaksana (Ceklis jika ada isinya) --}}
-                            <td>{{ $item->pelaksana_pusat ? '✓' : '' }}</td>
-                            <td>{{ $item->pelaksana_provinsi ? '✓' : '' }}</td>
-                            <td>{{ $item->pelaksana_kabupaten }}</td>
-                            <td>{{ $item->pelaksana_desa ? '✓' : '' }}</td>
-                            <td>{{ $item->pelaksana_csr ? '✓' : '' }}</td>
-                            <td>{{ $item->pelaksana_lainnya }}</td>
+                            <td class="text-center py-2 px-3">{{ $loop->iteration }}</td>
+                            <td class="py-2 px-3 whitespace-normal min-w-[200px]">{{ $item->indikator }}</td>
+                            <td class="text-center py-2 px-3">{{ $item->skor }}</td>
+                            <td class="py-2 px-3 whitespace-normal min-w-[200px]">{{ $item->keterangan }}</td>
+                            <td class="py-2 px-3 whitespace-normal min-w-[200px]">{{ $item->kegiatan ?? '-' }}</td>
+                            <td class="font-bold py-2 px-3">{{ number_format($item->nilai_plus, 4) }}</td>
+                            <td class="text-center">{{ $item->pelaksana_pusat ? '✓' : '' }}</td>
+                            <td class="text-center">{{ $item->pelaksana_provinsi ? '✓' : '' }}</td>
+                            <td class="text-center">{{ $item->pelaksana_kabupaten }}</td>
+                            <td class="text-center">{{ $item->pelaksana_desa ? '✓' : '' }}</td>
+                            <td class="text-center">{{ $item->pelaksana_csr ? '✓' : '' }}</td>
+                            <td class="text-center">{{ $item->pelaksana_lainnya }}</td>
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="12" class="text-center text-gray-400">Data IKS Kosong</td>
+                            <td colspan="12" class="text-center py-3 text-gray-400">Data IKS Kosong</td>
                         </tr>
                         @endforelse
 
-                        {{-- FOOTER IKS --}}
                         @if($idm)
                         <tr class="bg-blue-50 font-bold text-blue-800">
-                            <td colspan="5" class="text-right">IKS {{ $tahun_pilih }}</td>
-
-                            <td>{{ number_format($details_iks->sum('nilai_plus'), 4) }}</td>
+                            <td colspan="5" class="text-right py-2 px-3">IKS {{ $tahun_pilih }}</td>
+                            <td class="py-2 px-3">{{ number_format($details_iks->sum('nilai_plus'), 4) }}</td>
                             <td colspan="6"></td>
                         </tr>
                         @endif
 
-
-                        {{-- 2. IKE --}}
+                        {{-- 2. IKE MOBILE --}}
                         @forelse($details_ike as $item)
                         <tr>
-                            <td class="text-center">{{ $loop->iteration }}</td>
-                            <td>{{ $item->indikator }}</td>
-                            <td class="text-center">{{ $item->skor }}</td>
-                            <td>{{ $item->keterangan }}</td>
-                            <td>{{ $item->kegiatan ?? '-' }}</td>
-                            <td class="font-bold">{{ number_format($item->nilai_plus, 4) }}</td>
-
-                            <td>{{ $item->pelaksana_pusat ? '✓' : '' }}</td>
-                            <td>{{ $item->pelaksana_provinsi ? '✓' : '' }}</td>
-                            <td>{{ $item->pelaksana_kabupaten }}</td>
-                            <td>{{ $item->pelaksana_desa ? '✓' : '' }}</td>
-                            <td>{{ $item->pelaksana_csr ? '✓' : '' }}</td>
-                            <td>{{ $item->pelaksana_lainnya }}</td>
+                            <td class="text-center py-2 px-3">{{ $loop->iteration }}</td>
+                            <td class="py-2 px-3 whitespace-normal min-w-[200px]">{{ $item->indikator }}</td>
+                            <td class="text-center py-2 px-3">{{ $item->skor }}</td>
+                            <td class="py-2 px-3 whitespace-normal min-w-[200px]">{{ $item->keterangan }}</td>
+                            <td class="py-2 px-3 whitespace-normal min-w-[200px]">{{ $item->kegiatan ?? '-' }}</td>
+                            <td class="font-bold py-2 px-3">{{ number_format($item->nilai_plus, 4) }}</td>
+                            <td class="text-center">{{ $item->pelaksana_pusat ? '✓' : '' }}</td>
+                            <td class="text-center">{{ $item->pelaksana_provinsi ? '✓' : '' }}</td>
+                            <td class="text-center">{{ $item->pelaksana_kabupaten }}</td>
+                            <td class="text-center">{{ $item->pelaksana_desa ? '✓' : '' }}</td>
+                            <td class="text-center">{{ $item->pelaksana_csr ? '✓' : '' }}</td>
+                            <td class="text-center">{{ $item->pelaksana_lainnya }}</td>
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="12" class="text-center text-gray-400">Data IKE Kosong</td>
+                            <td colspan="12" class="text-center py-3 text-gray-400">Data IKE Kosong</td>
                         </tr>
                         @endforelse
 
-                        {{-- FOOTER IKE --}}
                         @if($idm)
                         <tr class="bg-green-50 font-bold text-green-800">
-                            <td colspan="5" class="text-right">IKE {{ $tahun_pilih }}</td>
-
-                            <td>{{ number_format($idm->skor_ike, 4) }}</td>
+                            <td colspan="5" class="text-right py-2 px-3">IKE {{ $tahun_pilih }}</td>
+                            <td class="py-2 px-3">{{ number_format($idm->skor_ike, 4) }}</td>
                             <td colspan="6"></td>
                         </tr>
                         @endif
 
-
-                        {{-- 3. IKL --}}
+                        {{-- 3. IKL MOBILE --}}
                         @forelse($details_ikl as $item)
                         <tr>
-                            <td class="text-center">{{ $loop->iteration }}</td>
-                            <td>{{ $item->indikator }}</td>
-                            <td class="text-center">{{ $item->skor }}</td>
-                            <td>{{ $item->keterangan }}</td>
-                            <td>{{ $item->kegiatan ?? '-' }}</td>
-                            <td class="font-bold">{{ number_format($item->nilai_plus, 4) }}</td>
-
-                            <td>{{ $item->pelaksana_pusat ? '✓' : '' }}</td>
-                            <td>{{ $item->pelaksana_provinsi ? '✓' : '' }}</td>
-                            <td>{{ $item->pelaksana_kabupaten }}</td>
-                            <td>{{ $item->pelaksana_desa ? '✓' : '' }}</td>
-                            <td>{{ $item->pelaksana_csr ? '✓' : '' }}</td>
-                            <td>{{ $item->pelaksana_lainnya }}</td>
+                            <td class="text-center py-2 px-3">{{ $loop->iteration }}</td>
+                            <td class="py-2 px-3 whitespace-normal min-w-[200px]">{{ $item->indikator }}</td>
+                            <td class="text-center py-2 px-3">{{ $item->skor }}</td>
+                            <td class="py-2 px-3 whitespace-normal min-w-[200px]">{{ $item->keterangan }}</td>
+                            <td class="py-2 px-3 whitespace-normal min-w-[200px]">{{ $item->kegiatan ?? '-' }}</td>
+                            <td class="font-bold py-2 px-3">{{ number_format($item->nilai_plus, 4) }}</td>
+                            <td class="text-center">{{ $item->pelaksana_pusat ? '✓' : '' }}</td>
+                            <td class="text-center">{{ $item->pelaksana_provinsi ? '✓' : '' }}</td>
+                            <td class="text-center">{{ $item->pelaksana_kabupaten }}</td>
+                            <td class="text-center">{{ $item->pelaksana_desa ? '✓' : '' }}</td>
+                            <td class="text-center">{{ $item->pelaksana_csr ? '✓' : '' }}</td>
+                            <td class="text-center">{{ $item->pelaksana_lainnya }}</td>
                         </tr>
                         @empty
                         <tr>
-                            <td colspan="12" class="text-center text-gray-400">Data IKL Kosong</td>
+                            <td colspan="12" class="text-center py-3 text-gray-400">Data IKL Kosong</td>
                         </tr>
                         @endforelse
 
-                        {{-- FOOTER IKL --}}
                         @if($idm)
                         <tr class="bg-yellow-50 font-bold text-yellow-800">
-                            <td colspan="5" class="text-right">IKL {{ $tahun_pilih }}</td>
-
-                            <td>{{ number_format($idm->skor_ikl, 4) }}</td>
+                            <td colspan="5" class="text-right py-2 px-3">IKL {{ $tahun_pilih }}</td>
+                            <td class="py-2 px-3">{{ number_format($idm->skor_ikl, 4) }}</td>
                             <td colspan="6"></td>
                         </tr>
-                        {{-- TOTAL IDM --}}
                         <tr class="bg-gray-200 font-bold">
-                            <td colspan="5" class="text-right">IDM {{ $tahun_pilih }}</td>
-
-                            <td>{{ number_format($idm->nilai_idm, 4) }}</td>
-
+                            <td colspan="5" class="text-right py-2 px-3">IDM {{ $tahun_pilih }}</td>
+                            <td class="py-2 px-3">{{ number_format($idm->nilai_idm, 4) }}</td>
                             <td colspan="6"></td>
                         </tr>
-                        {{-- TOTAL IDM --}}
                         <tr class="bg-gray-200 font-bold">
-                            <td colspan="5" class="text-right font-bold">Skor STATUS IDM {{ $tahun_pilih }}</td>
-                            <td>{{ ($idm->status) }}</td>
-
+                            <td colspan="5" class="text-right font-bold py-2 px-3">Skor STATUS IDM {{ $tahun_pilih }}</td>
+                            <td class="py-2 px-3">{{ ($idm->status) }}</td>
                             <td colspan="6"></td>
                         </tr>
-
                         @endif
 
                     </tbody>
                 </table>
             </div>
         </div>
+
+
     </section>
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const canvas = document.getElementById('idmTrendChart');
-            if (!canvas) return;
 
-            const ctx = canvas.getContext('2d');
-
-            // Mengambil data dari atribut HTML
-            const labels = JSON.parse(canvas.getAttribute('data-labels') || '[]');
-            const scores = JSON.parse(canvas.getAttribute('data-scores') || '[]');
-
-            new Chart(ctx, {
-                type: 'line'
-                , data: {
-                    labels: labels
-                    , datasets: [{
-                        label: 'Skor IDM'
-                        , data: scores
-                        , borderColor: '#ff8f73', // Warna oranye/coral sesuai contoh
-                        backgroundColor: '#ffffff'
-                        , fill: false, // KUNCI: Menghilangkan blok warna di bawah garis
-                        borderWidth: 2
-                        , tension: 0, // KUNCI: Membuat garis menjadi lurus antar titik (tidak melengkung)
-                        pointRadius: 5
-                        , pointBackgroundColor: '#ffffff', // Bagian tengah titik warna putih
-                        pointBorderColor: '#ff8f73', // Pinggiran titik warna oranye
-                        pointBorderWidth: 2
-                        , pointHoverRadius: 7
-                    }]
-                }
-                , options: {
-                    responsive: true
-                    , maintainAspectRatio: false
-                    , layout: {
-                        padding: {
-                            top: 15
-                            , right: 15
-                            , left: 5
-                            , bottom: 5
-                        }
-                    }
-                    , scales: {
-                        y: {
-                            beginAtZero: true
-                            , min: 0
-                            , max: 1, // Mempertahankan skala 0 sampai 1
-                            ticks: {
-                                stepSize: 0.1
-                                , color: '#6b7280'
-                                , font: {
-                                    family: "'Poppins', sans-serif"
-                                    , size: 10
-                                }
-                            }
-                            , grid: {
-                                color: 'rgba(200, 210, 230, 0.5)', // Warna grid biru muda transparan
-                                borderDash: [5, 5], // Membuat grid putus-putus
-                                drawBorder: false
-                            }
-                        }
-                        , x: {
-                            offset: true
-                            , ticks: {
-                                color: '#6b7280'
-                                , font: {
-                                    family: "'Poppins', sans-serif"
-                                    , size: 11
-                                    , weight: '500'
-                                }
-                                , padding: 10
-                            }
-                            , grid: {
-                                display: true, // KUNCI: Menampilkan garis vertikal
-                                color: 'rgba(200, 210, 230, 0.5)', // Warna biru muda putus-putus
-                                borderDash: [5, 5]
-                                , drawBorder: false
-                            }
-                        }
-                    }
-                    , plugins: {
-                        legend: {
-                            display: false
-                        },
-
-                        // KUNCI: Mematikan angka yang menempel di garis (karena efek global grafik stunting)
-                        datalabels: {
-                            display: false
-                        },
-
-                        tooltip: {
-                            backgroundColor: 'rgba(0, 0, 0, 0.8)'
-                            , padding: 12
-                            , titleFont: {
-                                family: "'Poppins', sans-serif"
-                                , size: 12
-                            }
-                            , bodyFont: {
-                                family: "'Poppins', sans-serif"
-                                , size: 13
-                                , weight: 'bold'
-                            }
-                            , displayColors: false
-                            , callbacks: {
-                                label: function(context) {
-                                    return 'Skor IDM: ' + context.parsed.y.toFixed(4); // Hover menampilkan 4 desimal
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-        });
-
-    </script>
 
 
 

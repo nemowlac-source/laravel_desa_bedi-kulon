@@ -71,17 +71,22 @@
 
         </div>
         {{-- Container Desktop --}}
-        <div class="hidden md:block container mx-auto px-6 lg:px-10 py-12">
+        <div class="hidden md:block w-full max-w-7xl mx-auto mt-1 mb-10 px-10">
 
             {{-- Header: Warna Hijau Terang Sesuai Referensi --}}
-            <div class="text-center mb-12">
-                <h1 class="text-[#70d25b] font-extrabold text-4xl mb-4 tracking-tight">Beli Dari Desa</h1>
-                <p class="text-gray-500 text-lg max-w-2xl mx-auto leading-relaxed">
-                    Layanan yang disediakan promosi produk UMKM desa sehingga mampu meningkatkan perekonomian masyarakat desa
+            <div class="mb-8">
+                {{-- Judul: Sama seperti Lokasi Desa (Huruf besar, tebal, ada drop-shadow tipis) --}}
+                <h2 class="text-[#2ac0b4] font-extrabold text-[40px] mb-2 text-left tracking-tight drop-shadow-sm uppercase">
+                    BELI DARI DESA
+                </h2>
+
+                {{-- Deskripsi: Sama seperti Lokasi Desa (Teks abu-abu, ukuran lg) --}}
+                <p class="text-lg text-gray-600 font-medium">
+                    Layanan yang disediakan promosi produk UMKM desa sehingga mampu meningkatkan perekonomian masyarakat desa.
                 </p>
             </div>
 
-            {{-- Grid Produk: 4 Kolom di Layar Besar --}}
+            {{-- Grid Produk: 3 Kolom di Layar Besar --}}
             <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 @forelse($products as $item)
                 <div class="group bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden">
@@ -119,7 +124,6 @@
                                 </div>
                             </div>
 
-
                             {{-- Footer Card: Rating & Harga --}}
                             <div class="flex justify-between items-center pt-4 border-t border-gray-50">
                                 <div class="flex gap-0.5">
@@ -128,7 +132,7 @@
                                         </svg>
                                         @endfor
                                 </div>
-                                <span class="text-[#70d25b] font-black text-lg">
+                                <span class="text-[#2ac0b4] font-black text-lg">
                                     Rp{{ number_format($item->harga, 0, ',', '.') }}
                                 </span>
                             </div>
@@ -146,6 +150,7 @@
                 @endforelse
             </div>
         </div>
+
 
         <div id="pagination-container" class="mt-5 mb-1 px-5 flex justify-center">
             {{ $products->links('vendor.pagination.custom-mobile') }}
