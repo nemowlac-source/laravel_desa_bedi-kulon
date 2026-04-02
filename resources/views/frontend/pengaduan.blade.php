@@ -18,6 +18,33 @@
             <div class="mb-2 text-center md:text-left">
                 <h2 class="text-2xl font-black text-gray-800 mb-2">FORM PENGADUAN</h2>
             </div>
+            @if(session('success_pengaduan'))
+            <div class="mb-4 p-4 bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-xl flex items-center gap-2">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path>
+                </svg>
+                <span class="font-bold">{{ session('success_pengaduan') }}</span>
+            </div>
+            @endif
+
+
+            @if($errors->any())
+            <div class="mb-6 p-4 rounded-xl bg-red-50 border border-red-100 text-red-700 shadow-sm">
+                <div class="flex items-center gap-2 mb-1">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <circle cx="12" cy="12" r="10"></circle>
+                        <line x1="12" y1="8" x2="12" y2="12"></line>
+                        <line x1="12" y1="16" x2="12.01" y2="16"></line>
+                    </svg>
+                    <span class="text-sm font-bold">Gagal Mengirim:</span>
+                </div>
+                <ul class="list-disc list-inside text-xs opacity-90">
+                    @foreach($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
 
             <form action="{{ route('pengaduan.store') }}" method="POST" enctype="multipart/form-data" class="space-y-1">
                 @csrf

@@ -10,7 +10,8 @@
                 </p>
             </div>
 
-            <div id="product-list-container" class="space-y-1"> {{-- Jarak antar card dirapatkan --}}
+            <div id="product-list-container" class="space-y-1 px-3"> {{-- Ditambahkan px-3 agar ujung kotak tidak terlalu menempel ke layar HP --}}
+
                 @forelse($products as $item)
                 <a href="{{ route('frontend.belanja.detail', $item->id) }}" class="flex bg-white p-2 rounded-lg border border-gray-100 shadow-[0_1px_3px_rgba(0,0,0,0.05)] active:scale-[0.99] transition-all">
                     {{-- rounded-lg membuat sudut tidak terlalu bulat seperti sebelumnya --}}
@@ -61,15 +62,24 @@
                         </div>
                     </div>
                 </a>
+
                 @empty
-                <div class="text-center py-20 text-gray-400 text-xs font-medium">Belum ada produk</div>
+                {{-- Tampilan Placeholder (Empty State) Mobile Standar --}}
+                <div class="flex flex-col items-center justify-center w-full h-[250px] bg-white rounded-lg border-2 border-dashed border-gray-200 p-4 mb-4">
+                    {{-- Ikon Tas Belanja --}}
+                    <svg class="w-12 h-12 text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                    </svg>
+                    <p class="text-gray-500 text-base font-semibold tracking-wide text-center">Belum Ada Produk</p>
+                    <p class="text-gray-400 text-xs mt-1 text-center leading-relaxed">
+                        Saat ini belum ada produk unggulan UMKM desa yang ditawarkan.
+                    </p>
+                </div>
                 @endforelse
+
             </div>
-
-
-
-
         </div>
+
         {{-- Container Desktop --}}
         <div class="hidden md:block w-full max-w-7xl mx-auto mt-1 mb-10 px-10">
 
@@ -140,16 +150,21 @@
                     </a>
                 </div>
                 @empty
-                {{-- State Kosong (Grid span full) --}}
-                <div class="col-span-full py-20 text-center">
-                    <div class="inline-flex items-center justify-center w-20 h-20 bg-gray-50 rounded-full mb-4">
-                        <i class="ph ph-shopping-bag-open text-4xl text-gray-300"></i>
-                    </div>
-                    <h3 class="text-gray-400 font-medium italic">Belum ada produk yang ditawarkan.</h3>
+                {{-- Tampilan Placeholder (Empty State) Standar & Minimalis (Grid span full) --}}
+                <div class="col-span-full flex flex-col items-center justify-center w-full h-[350px] bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200 mt-2">
+                    {{-- Ikon Tas Belanja --}}
+                    <svg class="w-16 h-16 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                    </svg>
+                    <p class="text-gray-500 text-lg font-semibold tracking-wide">Belum Ada Produk</p>
+                    <p class="text-gray-400 text-sm mt-2 text-center max-w-md">
+                        Saat ini belum ada produk unggulan UMKM desa yang ditawarkan atau dipublikasikan.
+                    </p>
                 </div>
                 @endforelse
             </div>
         </div>
+
 
 
         <div id="pagination-container" class="mt-5 mb-1 px-5 flex justify-center">

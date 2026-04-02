@@ -109,11 +109,6 @@
 
             </div>
 
-
-
-
-
-
             {{-- ============================================================== --}}
             {{-- 1. VERSI DESKTOP (Kode Asli Milikmu) --}}
             {{-- ============================================================== --}}
@@ -178,19 +173,38 @@
 
                     </div>
                     @empty
-                    <div style="text-align: center; padding: 40px 0;">
-                        <p style="color: #888;">Belum ada dokumen yang tersedia untuk kategori ini.</p>
+                    {{-- Tampilan Placeholder (Empty State) Standar & Minimalis --}}
+                    <div class="flex flex-col items-center justify-center w-full h-[300px] bg-gray-50 rounded-xl border-2 border-dashed border-gray-200 p-8 mt-4">
+                        {{-- Ikon Folder/Dokumen --}}
+                        <svg class="w-16 h-16 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path>
+                        </svg>
+                        <p class="text-gray-500 text-lg font-semibold tracking-wide text-center">Belum Ada Dokumen</p>
+                        <p class="text-gray-400 text-sm mt-2 text-center max-w-md">
+                            @if(request('kategori'))
+                            Dokumen informasi publik untuk kategori <strong>{{ strtoupper(request('kategori')) }}</strong> saat ini belum tersedia.
+                            @else
+                            Saat ini belum ada dokumen informasi publik yang diunggah oleh pihak desa.
+                            @endif
+                        </p>
+
                         @if(request('kategori'))
-                        <a href="{{ route('ppid.index') }}" style="color: #2ac0b4; font-weight: bold; text-decoration: none;">Tampilkan Semua</a>
+                        <a href="{{ route('ppid.index') }}" class="mt-6 px-6 py-2 bg-[#2ac0b4] hover:bg-[#23a399] text-white font-semibold rounded-full shadow-sm transition-colors duration-200">
+                            Tampilkan Semua Dokumen
+                        </a>
                         @endif
                     </div>
                     @endforelse
                 </div>
 
+                {{-- Sembunyikan pagination jika dokumen kosong --}}
+                @if($documents->count() > 0)
                 <div style="margin-top: 40px; display: flex; justify-content: center;">
                     {{ $documents->links() }}
                 </div>
+                @endif
             </div>
+
         </div>
 
 
@@ -267,22 +281,39 @@
                 </div>
 
                 @empty
-                {{-- Kondisi jika dokumen kosong (Mobile) --}}
-                <div class="bg-gray-50 rounded-xl border border-gray-100 p-8 text-center">
-                    <p class="text-gray-500 text-[13px] mb-2">Belum ada dokumen yang tersedia untuk kategori ini.</p>
+                {{-- Tampilan Placeholder (Empty State) Mobile Standar --}}
+                <div class="flex flex-col items-center justify-center w-full bg-gray-50 rounded-xl border-2 border-dashed border-gray-200 p-6 mt-2 text-center">
+                    {{-- Ikon Folder/Dokumen --}}
+                    <svg class="w-12 h-12 text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z"></path>
+                    </svg>
+                    <p class="text-gray-500 text-base font-semibold tracking-wide">Belum Ada Dokumen</p>
+                    <p class="text-gray-400 text-xs mt-1 leading-relaxed">
+                        @if(request('kategori'))
+                        Dokumen informasi publik kategori <strong>{{ strtoupper(request('kategori')) }}</strong> belum tersedia.
+                        @else
+                        Belum ada dokumen informasi publik yang diunggah.
+                        @endif
+                    </p>
+
                     @if(request('kategori'))
-                    <a href="{{ route('ppid.index') }}" class="text-[#2ac0b4] font-bold text-[13px] underline">Tampilkan Semua</a>
+                    <a href="{{ route('ppid.index') }}" class="mt-4 px-5 py-2 bg-[#2ac0b4] text-white text-[12px] font-bold rounded-full shadow-sm">
+                        Tampilkan Semua
+                    </a>
                     @endif
                 </div>
                 @endforelse
             </div>
 
-            {{-- Navigasi Paginasi --}}
+            {{-- Sembunyikan pagination jika dokumen kosong --}}
+            @if($documents->count() > 0)
             <div class="mt-8 flex justify-center">
                 {{ $documents->links() }}
             </div>
+            @endif
 
         </div>
+
 
 
 

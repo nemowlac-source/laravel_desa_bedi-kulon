@@ -29,6 +29,9 @@ class InfografisController extends Controller
         $data_perempuan = $usia_data->pluck('perempuan');
 
         // 2. Hitung Narasi (Tertinggi & Terendah)
+        // Simpan total sum ke dalam variabel agar tidak dipanggil berkali-kali
+        $sum_laki = $usia_data->sum('laki_laki');
+        $sum_cewe = $usia_data->sum('perempuan');
 
         // Analisa Laki-laki
         $max_laki = $usia_data->sortByDesc('laki_laki')->first();
@@ -38,12 +41,14 @@ class InfografisController extends Controller
         $max_cewe = $usia_data->sortByDesc('perempuan')->first();
         $min_cewe = $usia_data->sortBy('perempuan')->first();
 
-        // Helper hitung persentase
-        $persen_max_laki = ($max_laki->laki_laki / $usia_data->sum('laki_laki')) * 100;
-        $persen_min_laki = ($min_laki->laki_laki / $usia_data->sum('laki_laki')) * 100;
+        // Helper hitung persentase (DENGAN PENANGANAN ERROR)
+        // Cek apakah $max_laki ada (tidak null) DAN $sum_laki lebih dari 0 untuk menghindari Division by Zero
+        $persen_max_laki = ($max_laki && $sum_laki > 0) ? ($max_laki->laki_laki / $sum_laki) * 100 : 0;
+        $persen_min_laki = ($min_laki && $sum_laki > 0) ? ($min_laki->laki_laki / $sum_laki) * 100 : 0;
 
-        $persen_max_cewe = ($max_cewe->perempuan / $usia_data->sum('perempuan')) * 100;
-        $persen_min_cewe = ($min_cewe->perempuan / $usia_data->sum('perempuan')) * 100;
+        $persen_max_cewe = ($max_cewe && $sum_cewe > 0) ? ($max_cewe->perempuan / $sum_cewe) * 100 : 0;
+        $persen_min_cewe = ($min_cewe && $sum_cewe > 0) ? ($min_cewe->perempuan / $sum_cewe) * 100 : 0;
+
         // --- LOGIKA CHART DUSUN (BARU) ---
         $dusun_list = Penduduk::all(); // Mengambil semua data wilayah
 
@@ -69,30 +74,23 @@ class InfografisController extends Controller
 
         // --- LOGIKA CHART PENDIDIKAN (BARU) ---
         $pendidikan_data = PendudukPendidikan::all();
-
         $pendidikan_labels = $pendidikan_data->pluck('tingkat_pendidikan');
         $pendidikan_values = $pendidikan_data->pluck('jumlah');
 
         // --- LOGIKA PEKERJAAN (BARU) ---
-        // Ambil semua data diurutkan dari yang terbanyak
         $pekerjaan_all = PendudukPekerjaan::orderBy('jumlah', 'desc')->get();
-
-        // Ambil 6 Terbanyak untuk ditampilkan di KARTU (Grid)
         $pekerjaan_top = $pekerjaan_all->take(6);
-
-        // Sisanya ditampilkan di TABEL
         $pekerjaan_sisanya = $pekerjaan_all->skip(6);
 
         // --- LOGIKA WAJIB PILIH (BARU) ---
         $wajib_pilih_data = PendudukWajibPilih::all();
-
         $wp_labels = $wajib_pilih_data->pluck('kategori');
         $wp_values = $wajib_pilih_data->pluck('jumlah');
 
         // --- LOGIKA PERKAWINAN (BARU) ---
         $kawin_data = PendudukKawin::all();
 
-        // / --- LOGIKA AGAMA (BARU) ---
+        // --- LOGIKA AGAMA (BARU) ---
         $agama_data = PendudukAgama::all();
 
         return view('frontend.infografis', compact(
@@ -100,11 +98,9 @@ class InfografisController extends Controller
             'total_laki',
             'total_perempuan',
             'total_kk',
-            // Data Chart
             'categories',
             'data_laki',
             'data_perempuan',
-            // Data Narasi
             'max_laki',
             'min_laki',
             'persen_max_laki',
@@ -117,18 +113,13 @@ class InfografisController extends Controller
             'dusun_labels',
             'dusun_totals',
             'chart_colors',
-            // Variable Pendidikan Baru
             'pendidikan_labels',
             'pendidikan_values',
-            // Variabel Pekerjaan Baru
             'pekerjaan_top',
             'pekerjaan_sisanya',
-            // Variabel Wajib Pilih Baru
             'wp_labels',
             'wp_values',
-            // Variabel Kawin Baru
             'kawin_data',
-            // Variabel Agama Baru
             'agama_data'
         ));
     }

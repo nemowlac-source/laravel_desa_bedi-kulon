@@ -71,17 +71,7 @@
                         <span class="nav-text">IDM</span>
                     </a>
 
-                    <a href="{{ route('frontend.sdgs') }}" class="nav-item flex-none {{ Route::is('frontend.sdgs') ? 'active' : '' }}">
-                        <div class="icon-box">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="tabler-icon tabler-icon-numbers" style="overflow: visible;">
-                                <path d="M8 10v-7l-2 2"></path>
-                                <path d="M6 16a2 2 0 1 1 4 0c0 .591 -.601 1.46 -1 2l-3 3h4"></path>
-                                <path d="M15 14a2 2 0 1 0 2 -2a2 2 0 1 0 -2 -2"></path>
-                                <path d="M6.5 10h3"></path>
-                            </svg>
-                        </div>
-                        <span class="nav-text">SDGs</span>
-                    </a>
+
 
                 </div>
 
@@ -261,11 +251,33 @@
                 Skor IDM Tahun ke Tahun
             </h2>
 
-            <div class="relative w-full h-[450px] bg-white rounded-2xl shadow-sm border border-gray-100 p-8 lg:p-10">
-                <canvas id="idmTrendChartDesktop" data-labels="{{ json_encode($chart_labels) }}" data-scores="{{ json_encode($chart_data) }}"></canvas>
+            {{-- KOTAK PUTIH UTAMA --}}
+            <div class="w-full bg-white rounded-2xl shadow-sm border border-gray-100 p-8 lg:p-10">
+
+                {{-- Pengecekan ketersediaan data IDM --}}
+                @if(isset($chart_labels) && count($chart_labels) > 0)
+                {{-- Area Canvas --}}
+                <div class="relative w-full h-[450px]">
+                    <canvas id="idmTrendChartDesktop" data-labels="{{ json_encode($chart_labels) }}" data-scores="{{ json_encode($chart_data) }}"></canvas>
+                </div>
+                @else
+                {{-- Tampilan Placeholder (Empty State) Standar & Minimalis --}}
+                <div class="flex flex-col items-center justify-center w-full h-[450px] bg-gray-50 rounded-xl border-2 border-dashed border-gray-200">
+                    {{-- Ikon Grafik Tren --}}
+                    <svg class="w-16 h-16 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                    </svg>
+                    <p class="text-gray-500 text-lg font-semibold tracking-wide">Data IDM Belum Tersedia</p>
+                    <p class="text-gray-400 text-sm mt-2 text-center max-w-md">
+                        Riwayat skor Indeks Desa Membangun (IDM) dari tahun ke tahun belum diinput. Grafik akan otomatis muncul setelah data tersedia.
+                    </p>
+                </div>
+                @endif
+
             </div>
 
         </div>
+
 
         {{-- ========================================== --}}
         {{-- VERSI MOBILE (Muncul di HP)                --}}
@@ -277,12 +289,29 @@
                     Skor IDM Tahun ke Tahun
                 </h2>
 
+                {{-- Pengecekan ketersediaan data IDM --}}
+                @if(isset($chart_labels) && count($chart_labels) > 0)
                 <div class="relative w-full h-[300px]">
                     <canvas id="idmTrendChartMobile" data-labels="{{ json_encode($chart_labels) }}" data-scores="{{ json_encode($chart_data) }}"></canvas>
                 </div>
+                @else
+                {{-- Tampilan Placeholder (Empty State) Mobile Standar --}}
+                <div class="flex flex-col items-center justify-center w-full h-[300px] bg-gray-50 rounded-lg border-2 border-dashed border-gray-200 p-4">
+                    {{-- Ikon Grafik Tren --}}
+                    <svg class="w-12 h-12 text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                    </svg>
+                    <p class="text-gray-500 text-base font-semibold tracking-wide text-center">Belum Ada Data</p>
+                    <p class="text-gray-400 text-xs mt-1 text-center leading-relaxed">
+                        Riwayat skor Indeks Desa Membangun (IDM) dari tahun ke tahun belum diinput.
+                    </p>
+                </div>
+                @endif
+
             </div>
 
         </div>
+
 
         <script>
             document.addEventListener('DOMContentLoaded', function() {

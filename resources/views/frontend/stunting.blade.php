@@ -71,17 +71,7 @@
                         <span class="nav-text">IDM</span>
                     </a>
 
-                    <a href="{{ route('frontend.sdgs') }}" class="nav-item flex-none {{ Route::is('frontend.sdgs') ? 'active' : '' }}">
-                        <div class="icon-box">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="tabler-icon tabler-icon-numbers" style="overflow: visible;">
-                                <path d="M8 10v-7l-2 2"></path>
-                                <path d="M6 16a2 2 0 1 1 4 0c0 .591 -.601 1.46 -1 2l-3 3h4"></path>
-                                <path d="M15 14a2 2 0 1 0 2 -2a2 2 0 1 0 -2 -2"></path>
-                                <path d="M6.5 10h3"></path>
-                            </svg>
-                        </div>
-                        <span class="nav-text">SDGs</span>
-                    </a>
+
 
                 </div>
 
@@ -102,14 +92,33 @@
                 Grafik Stunting Desktop
             </h2>
 
-            {{-- Styling kotak disamakan: bg-white, rounded-2xl, shadow-sm, border, padding --}}
-            <div class="relative w-full h-[500px] bg-white rounded-2xl shadow-sm border border-gray-100 p-8 lg:p-10">
-                {{-- Konten Canvas TIDAK DIRUBAH --}}
-                <canvas id="stuntingChartDesktop" data-sasaran="{{ $stunting->keluarga_sasaran ?? 0 }}" data-berisiko="{{ $stunting->berisiko ?? 0 }}" data-baduta="{{ $stunting->baduta ?? 0 }}" data-balita="{{ $stunting->balita ?? 0 }}" data-pus="{{ $stunting->pus ?? 0 }}" data-pushamil="{{ $stunting->pus_hamil ?? 0 }}" data-tahun="{{ $tahun_pilih }}">
-                </canvas>
+            {{-- KOTAK PUTIH UTAMA (Pengecekan dilakukan di dalam kotak ini) --}}
+            <div class="w-full bg-white rounded-2xl shadow-sm border border-gray-100 p-8 lg:p-10">
+
+                @if(isset($hasStuntingData) && $hasStuntingData)
+                {{-- Area Canvas Grafik (Hanya tampil jika ada data) --}}
+                <div class="relative w-full h-[500px]">
+                    <canvas id="stuntingChartDesktop" data-sasaran="{{ $stunting->keluarga_sasaran ?? 0 }}" data-berisiko="{{ $stunting->berisiko ?? 0 }}" data-baduta="{{ $stunting->baduta ?? 0 }}" data-balita="{{ $stunting->balita ?? 0 }}" data-pus="{{ $stunting->pus ?? 0 }}" data-pushamil="{{ $stunting->pus_hamil ?? 0 }}" data-tahun="{{ $tahun_pilih }}">
+                    </canvas>
+                </div>
+                @else
+                {{-- Tampilan Placeholder (Empty State) Standar & Minimalis --}}
+                <div class="flex flex-col items-center justify-center w-full h-[500px] bg-gray-50 rounded-xl border-2 border-dashed border-gray-200">
+                    {{-- Ikon Keluarga/Masyarakat --}}
+                    <svg class="w-16 h-16 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                    </svg>
+                    <p class="text-gray-500 text-lg font-semibold tracking-wide">Data Stunting Belum Tersedia</p>
+                    <p class="text-gray-400 text-sm mt-2 text-center max-w-md">
+                        Statistik sasaran pencegahan dan penanganan stunting untuk tahun <strong>{{ $tahun_pilih }}</strong> belum diinput ke dalam sistem.
+                    </p>
+                </div>
+                @endif
+
             </div>
 
         </div>
+
 
         {{-- ========================================== --}}
         {{-- VERSI MOBILE (Muncul di HP)                --}}
@@ -118,14 +127,30 @@
 
             {{-- Styling judul Mobile --}}
             <h2 class="text-[#2ac0b4] font-black text-[22px] mb-4 tracking-wide text-left uppercase">
-                Grafik Stunting Desktop
+                Grafik Stunting
             </h2>
 
             {{-- Styling kotak Mobile --}}
             <div class="relative w-full h-[350px] bg-white rounded-xl shadow-[0_4px_15px_rgba(0,0,0,0.05)] border border-gray-100 p-4">
+
+                @if(isset($hasStuntingData) && $hasStuntingData)
                 {{-- Konten Canvas TIDAK DIRUBAH --}}
                 <canvas id="stuntingChartMobile" data-sasaran="{{ $stunting->keluarga_sasaran ?? 0 }}" data-berisiko="{{ $stunting->berisiko ?? 0 }}" data-baduta="{{ $stunting->baduta ?? 0 }}" data-balita="{{ $stunting->balita ?? 0 }}" data-pus="{{ $stunting->pus ?? 0 }}" data-pushamil="{{ $stunting->pus_hamil ?? 0 }}" data-tahun="{{ $tahun_pilih }}">
                 </canvas>
+                @else
+                {{-- Tampilan Placeholder (Empty State) Mobile Standar --}}
+                <div class="flex flex-col items-center justify-center w-full h-full bg-gray-50 rounded-lg border-2 border-dashed border-gray-200 p-4">
+                    {{-- Ikon Keluarga/Masyarakat --}}
+                    <svg class="w-12 h-12 text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                    </svg>
+                    <p class="text-gray-500 text-base font-semibold tracking-wide text-center">Belum Ada Data</p>
+                    <p class="text-gray-400 text-xs mt-1 text-center leading-relaxed">
+                        Statistik sasaran penanganan stunting tahun <strong>{{ $tahun_pilih }}</strong> belum diinput.
+                    </p>
+                </div>
+                @endif
+
             </div>
 
         </div>

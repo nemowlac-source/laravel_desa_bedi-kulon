@@ -151,11 +151,6 @@
                     </a>
                 </li>
                 <li class="mb-1">
-                    <a href="{{ route('sdgs.index') }}" class="{{ request()->routeIs('admin.sdgs.*') ? 'active bg-blue-600' : 'hover:bg-gray-700' }}">
-                        <i class="ph ph-globe-hemisphere-east text-xl"></i> SDGs Desa
-                    </a>
-                </li>
-                <li class="mb-1">
                     <a href="{{ route('ppid.index') }}" class="{{ request()->routeIs('admin.ppid.*') ? 'active bg-blue-600' : 'hover:bg-gray-700' }}">
                         <i class="ph ph-file-text text-xl"></i> Dokumen PPID
                     </a>

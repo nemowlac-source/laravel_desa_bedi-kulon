@@ -46,7 +46,6 @@
                 <li><a href="{{ route('frontend.profile') }}">Profil Desa</a></li>
                 <li><a href="{{ route('frontend.infografis') }}">Infografis</a></li>
                 <li><a href="{{ route('frontend.listing') }}">Listing</a></li>
-                <li><a href="{{ route('frontend.sdgs') }}">IDM</a></li>
                 <li><a href="{{ route('frontend.berita') }}">Berita</a></li>
                 <li><a href="{{ route('frontend.belanja') }}">Belanja</a></li>
 
@@ -129,6 +128,7 @@
 
     <main class="pt-0 md:pt-0 md:pb-0 ">
 
+
         {{ $slot }}
     </main>
 
@@ -166,86 +166,129 @@
             </div>
         </button>
     </div>
+
+    {{-- Di layout utama, bungkus widget pengaduan desktop Anda --}}
+    @if(!Route::is('frontend.pengaduan'))
     <div class="right-widget-container hidden md:block">
+        <div class="right-widget-container hidden md:block">
 
+            <div class="pengaduan-popup" id="pengaduanPopup">
+                <form action="{{ route('pengaduan.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
 
-        <div class="pengaduan-popup" id="pengaduanPopup">
-            <form action="{{ route('pengaduan.store') }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                <div class="form-group">
-                    <label>Nama <span class="text-red">*</span></label>
-                    <input type="text" name="nama" class="input-outline-green" placeholder="Masukkan nama Anda" required>
-
-                </div>
-
-                <div class="form-group">
-                    <label>Nomor Telepon/WA <span class="text-red">*</span></label>
-                    <input type="text" name="no_hp" class="input-gray" placeholder="Masukkan nomor HP/WhatsApp" required>
-
-                </div>
-
-                <div class="form-group">
-                    <label>Kategori Pengaduan <span class="text-red">*</span></label>
-                    <select name="kategori" class="input-gray" required>
-                        <option value="" disabled selected>Pilih kategori pengaduan</option>
-                        <option value="Infrastruktur">Infrastruktur</option>
-                        <option value="Pelayanan">Pelayanan Masyarakat</option>
-                        <option value="Lainnya">Lainnya</option>
-                    </select>
-                </div>
-
-                <div class="form-group">
-                    <label>Pengaduan <span class="text-red">*</span></label>
-                    <textarea name="isi_pengaduan" class="input-gray" rows="3" placeholder="Masukkan kesan, informasi, atau detail aduan Anda" required></textarea>
-
-                </div>
-
-                <div class="form-group">
-                    <label>Lampiran</label>
-                    <div class="file-upload-container">
-                        <input type="file" name="lampiran" id="input-file-aduan" class="hidden-input" accept=".jpg,.jpeg,.png,.pdf" style="display: none;">
-
-                        <label for="input-file-aduan" class="file-upload-box cursor-pointer flex flex-col items-center justify-center border-2 border-dashed border-gray-200 p-6 rounded-lg hover:bg-gray-50 transition">
-                            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mb-2 text-gray-400">
-                                <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
-                                <polyline points="13 2 13 9 20 9"></polyline>
-                            </svg>
-                            <span id="text-nama-file" class="text-sm text-gray-500 font-medium">Unggah foto/PDF</span>
-                            <p class="text-[10px] text-gray-400 mt-2 text-center">
-                                *Jika foto lebih dari satu, mohon masukkan ke dalam satu file PDF
-                            </p>
-                        </label>
-                    </div>
-                </div>
-
-
-
-                <div class="form-action mt-4">
-                    <button type="submit" class="btn-kirim w-full flex items-center justify-center">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-2">
-                            <line x1="22" y1="2" x2="11" y2="13"></line>
-                            <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                    {{-- 1. NOTIFIKASI SUKSES --}}
+                    @if(session('success_pengaduan'))
+                    <div class="mb-5 p-3 rounded-lg bg-emerald-50 border border-emerald-200 text-emerald-700 text-sm flex items-start gap-2 shadow-sm">
+                        <svg class="w-5 h-5 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
                         </svg>
-                        Kirim Aduan
-                    </button>
-                </div>
+                        <span class="font-medium">{{ session('success_pengaduan') }}</span>
+                    </div>
+                    @endif
 
+                    {{-- 2. NOTIFIKASI ERROR VALIDASI --}}
+                    @if($errors->any())
+                    <div class="mb-5 p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm flex items-start gap-2 shadow-sm">
+                        <svg class="w-5 h-5 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <div class="flex flex-col">
+                            <span class="font-bold mb-1">Gagal mengirim pengaduan:</span>
+                            <ul class="list-disc list-inside mt-1">
+                                @foreach($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    </div>
+                    @endif
 
-            </form>
+                    {{-- KUMPULAN INPUT FORM (Sudah dikembalikan!) --}}
+                    <div class="form-group">
+                        <label>Nama <span class="text-red-500">*</span></label>
+                        <input type="text" name="nama" class="input-outline-green w-full" placeholder="Masukkan nama Anda" value="{{ old('nama') }}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Nomor Telepon/WA <span class="text-red-500">*</span></label>
+                        <input type="text" name="no_hp" class="input-gray w-full" placeholder="Masukkan nomor HP/WhatsApp" value="{{ old('no_hp') }}" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Kategori Pengaduan <span class="text-red-500">*</span></label>
+                        <select name="kategori" class="input-gray w-full" required>
+                            <option value="" disabled {{ old('kategori') ? '' : 'selected' }}>Pilih kategori pengaduan</option>
+                            <option value="Infrastruktur" {{ old('kategori') == 'Infrastruktur' ? 'selected' : '' }}>Infrastruktur</option>
+                            <option value="Pelayanan" {{ old('kategori') == 'Pelayanan' ? 'selected' : '' }}>Pelayanan Masyarakat</option>
+                            <option value="Lainnya" {{ old('kategori') == 'Lainnya' ? 'selected' : '' }}>Lainnya</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Pengaduan <span class="text-red-500">*</span></label>
+                        <textarea name="isi_pengaduan" class="input-gray w-full" rows="3" placeholder="Masukkan kesan, informasi, atau detail aduan Anda" required>{{ old('isi_pengaduan') }}</textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Lampiran</label>
+                        <div class="file-upload-container">
+                            <input type="file" name="lampiran" id="input-file-aduan" class="hidden-input" accept=".jpg,.jpeg,.png,.pdf" style="display: none;">
+
+                            <label for="input-file-aduan" class="file-upload-box cursor-pointer flex flex-col items-center justify-center border-2 border-dashed border-gray-200 p-6 rounded-lg hover:bg-gray-50 transition">
+                                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mb-2 text-gray-400">
+                                    <path d="M13 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V9z"></path>
+                                    <polyline points="13 2 13 9 20 9"></polyline>
+                                </svg>
+                                <span id="text-nama-file" class="text-sm text-gray-500 font-medium">Unggah foto/PDF</span>
+                                <p class="text-[10px] text-gray-400 mt-2 text-center">
+                                    *Jika foto lebih dari satu, mohon masukkan ke dalam satu file PDF
+                                </p>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-action mt-4">
+                        <button type="submit" class="btn-kirim w-full flex items-center justify-center">
+                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" class="mr-2">
+                                <line x1="22" y1="2" x2="11" y2="13"></line>
+                                <polygon points="22 2 15 22 11 13 2 9 22 2"></polygon>
+                            </svg>
+                            Kirim Aduan
+                        </button>
+                    </div>
+
+                </form>
+            </div>
+
+            <div class="right-buttons-row">
+                <button class="btn-pengaduan" onclick="togglePengaduan()">
+                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
+                        <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
+                    </svg>
+                    Pengaduan
+                </button>
+            </div>
+
         </div>
-
-        <div class="right-buttons-row">
-            <button class="btn-pengaduan" onclick="togglePengaduan()">
-                <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M3 18v-6a9 9 0 0 1 18 0v6"></path>
-                    <path d="M21 19a2 2 0 0 1-2 2h-1a2 2 0 0 1-2-2v-3a2 2 0 0 1 2-2h3zM3 19a2 2 0 0 0 2 2h1a2 2 0 0 0 2-2v-3a2 2 0 0 0-2-2H3z"></path>
-                </svg>
-                Pengaduan
-            </button>
-        </div>
-
 
     </div>
+
+    {{-- Script auto-open juga harus dibungkus agar tidak jalan di mobile --}}
+    @if(session('success_pengaduan') || $errors->any())
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let popup = document.getElementById('pengaduanPopup');
+            if (popup) {
+                popup.classList.add('active');
+            }
+        });
+
+    </script>
+    @endif
+    @endif
+
+
     {{-- desktopNav --}}
     <footer class="bg-[#2ac0b4] text-white pt-12 pb-6 hidden md:block">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

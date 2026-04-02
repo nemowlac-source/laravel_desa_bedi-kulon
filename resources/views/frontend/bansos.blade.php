@@ -71,17 +71,7 @@
                         <span class="nav-text">IDM</span>
                     </a>
 
-                    <a href="{{ route('frontend.sdgs') }}" class="nav-item flex-none {{ Route::is('frontend.sdgs') ? 'active' : '' }}">
-                        <div class="icon-box">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="tabler-icon tabler-icon-numbers" style="overflow: visible;">
-                                <path d="M8 10v-7l-2 2"></path>
-                                <path d="M6 16a2 2 0 1 1 4 0c0 .591 -.601 1.46 -1 2l-3 3h4"></path>
-                                <path d="M15 14a2 2 0 1 0 2 -2a2 2 0 1 0 -2 -2"></path>
-                                <path d="M6.5 10h3"></path>
-                            </svg>
-                        </div>
-                        <span class="nav-text">SDGs</span>
-                    </a>
+
 
                 </div>
 

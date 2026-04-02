@@ -22,7 +22,6 @@ use App\Http\Controllers\ApbdesController;
 use App\Http\Controllers\StuntingController;
 use App\Http\Controllers\BansosController;
 use App\Http\Controllers\IdmController;
-use App\Http\Controllers\SdgsController;
 use App\Http\Controllers\PpidController;
 use App\Http\Controllers\PengaduanController;
 
@@ -51,7 +50,6 @@ Route::get('/belanja/{id}', [App\Http\Controllers\HomeController::class, 'detail
 Route::get('/berita', [HomeController::class, 'berita'])->name('frontend.berita');
 Route::get('/berita/{id}', [HomeController::class, 'bacaBerita'])->name('frontend.berita.detail');
 Route::get('/idm', [IdmController::class, 'index'])->name('frontend.idm');
-Route::get('/sdgs', [SdgsController::class, 'index'])->name('frontend.sdgs');
 Route::get('/profile-desa', function () {
     return view('frontend.profile');
 })->name('frontend.profile');
@@ -93,7 +91,6 @@ Route::middleware('auth')->group(function () {
         Route::resource('wajibpilih', \App\Http\Controllers\Admin\PendudukWajibPilihController::class);
         Route::resource('bansos', \App\Http\Controllers\Admin\BansosController::class);
         Route::resource('stunting', \App\Http\Controllers\Admin\StuntingController::class);
-        Route::resource('sdgs', \App\Http\Controllers\Admin\SdgsDesaController::class);
         Route::resource('ppid', \App\Http\Controllers\Admin\PpidController::class);
         Route::resource('idm', \App\Http\Controllers\Admin\IdmController::class);
         Route::resource('pengaduan', \App\Http\Controllers\Admin\PengaduanController::class)->names('admin.pengaduan');

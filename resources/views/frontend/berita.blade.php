@@ -343,7 +343,6 @@
                             </div>
                         </div>
 
-
                         <div class="absolute bottom-0 right-0 bg-[#2ac0b4] text-white px-3 py-2 rounded-tl-2xl text-center min-w-[70px] shadow-sm">
                             <span class="block text-[12px] font-black leading-none uppercase">
                                 {{ \Carbon\Carbon::parse($item->created_at)->format('d M') }}
@@ -358,18 +357,29 @@
 
                 </div>
                 @empty
-                <div class="text-center py-20">
-                    <p class="text-gray-400 text-sm italic font-medium">Belum ada berita terbaru saat ini.</p>
+                {{-- Tampilan Placeholder (Empty State) Standar untuk Berita Mobile --}}
+                <div class="flex flex-col items-center justify-center w-full h-[300px] bg-gray-50 rounded-xl border-2 border-dashed border-gray-200 p-4 mt-6">
+                    {{-- Ikon Koran/Berita --}}
+                    <svg class="w-12 h-12 text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
+                    </svg>
+                    <p class="text-gray-500 text-base font-semibold tracking-wide text-center">Belum Ada Berita</p>
+                    <p class="text-gray-400 text-xs mt-1 text-center leading-relaxed">
+                        Saat ini belum ada artikel atau berita terbaru yang dipublikasikan.
+                    </p>
                 </div>
                 @endforelse
             </div>
 
-
+            {{-- Sembunyikan pagination jika berita kosong --}}
+            @if($beritas->count() > 0)
             <div id="pagination-container" class="mt-8 mb-10 flex justify-center">
                 {{ $beritas->links('vendor.pagination.custom-mobile') }}
             </div>
+            @endif
 
         </div>
+
         <div class="news-container-baru hidden md:block mt-30">
             <div class="mb-8">
                 {{-- Judul: Hijau terang, font besar & tebal, uppercase, dan drop-shadow --}}
@@ -382,7 +392,6 @@
                     Menyajikan informasi terbaru tentang peristiwa, berita terkini, dan artikel-artikel jurnalistik dari Desa Bedi Kulon.
                 </p>
             </div>
-
 
             <div class="news-grid-baru">
 
@@ -430,26 +439,30 @@
                 </div>
 
                 @empty
-                <div style="grid-column: 1 / -1; text-align: center; padding: 60px;">
-                    <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="#ccc" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" style="margin-bottom: 15px;">
-                        <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
-                        <polyline points="14 2 14 8 20 8"></polyline>
-                        <line x1="16" y1="13" x2="8" y2="13"></line>
-                        <line x1="16" y1="17" x2="8" y2="17"></line>
-                        <polyline points="10 9 9 9 8 9"></polyline>
+                {{-- Tampilan Placeholder (Empty State) Standar & Minimalis --}}
+                <div style="grid-column: 1 / -1;" class="flex flex-col items-center justify-center w-full h-[400px] bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200 mt-2">
+                    {{-- Ikon Koran/Berita --}}
+                    <svg class="w-16 h-16 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"></path>
                     </svg>
-                    <h3 style="color: #888;">Belum ada berita yang diterbitkan.</h3>
+                    <p class="text-gray-500 text-lg font-semibold tracking-wide">Belum Ada Berita</p>
+                    <p class="text-gray-400 text-sm mt-2 text-center max-w-md">
+                        Saat ini belum ada artikel atau berita terbaru yang dipublikasikan oleh administrator desa.
+                    </p>
                 </div>
                 @endforelse
 
             </div>
 
+            {{-- Sembunyikan pagination jika berita kosong --}}
+            @if($beritas->count() > 0)
             <div id="pagination-container" class="mt-8 mb-10 flex justify-center">
                 {{ $beritas->links('vendor.pagination.custom-mobile') }}
             </div>
-
+            @endif
 
         </div>
+
     </section>
 
 

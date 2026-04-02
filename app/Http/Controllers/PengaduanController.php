@@ -14,12 +14,11 @@ class PengaduanController extends Controller
     public function store(Request $request)
     {
 
-
         $request->validate([
             'nama' => 'required|string|max:255',
             'no_hp' => 'required|numeric',
             'kategori' => 'required',
-            'isi_pengaduan' => 'required|min:10',
+            'isi_pengaduan' => 'required|min:1',
             'lampiran' => 'nullable|file|mimes:jpg,jpeg,png,pdf|max:2048',
         ]);
 
@@ -30,6 +29,13 @@ class PengaduanController extends Controller
         }
 
         Pengaduan::create($data);
-        return redirect()->back()->with('success_pengaduan', 'Aduan berhasil dikirim!');
+        // Jika datang dari halaman mobile (test-form)
+        if ($request->header('referer') && str_contains($request->header('referer'), 'test-form')) {
+            // Ganti 'frontend.pengaduan.mobile' dengan nama route mobile Anda
+            return redirect()->route('frontend.pengaduan')->with('success_pengaduan', 'Aduan berhasil dikirim!');
+        }
+
+        // Jika dari desktop
+        return redirect()->route('frontend.dashboard')->with('success_pengaduan', 'Aduan berhasil dikirim!');
     }
 }

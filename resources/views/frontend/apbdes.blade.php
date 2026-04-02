@@ -38,8 +38,6 @@
         {{-- 1. VERSI MOBILE & DESKTOP (Header)         --}}
         {{-- ========================================== --}}
         <div class="w-full max-w-7xl mx-auto mt-12 mb-8">
-
-            {{-- KODE ASLI KAMU DIMULAI DARI SINI (Tidak ada yang diubah) --}}
             <div class="header-infografis">
 
                 <div class="hidden md:block brand-title">
@@ -105,25 +103,11 @@
                         <span class="nav-text">IDM</span>
                     </a>
 
-                    <a href="{{ route('frontend.sdgs') }}" class="nav-item flex-none {{ Route::is('frontend.sdgs') ? 'active' : '' }}">
-                        <div class="icon-box">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="tabler-icon tabler-icon-numbers" style="overflow: visible;">
-                                <path d="M8 10v-7l-2 2"></path>
-                                <path d="M6 16a2 2 0 1 1 4 0c0 .591 -.601 1.46 -1 2l-3 3h4"></path>
-                                <path d="M15 14a2 2 0 1 0 2 -2a2 2 0 1 0 -2 -2"></path>
-                                <path d="M6.5 10h3"></path>
-                            </svg>
-                        </div>
-                        <span class="nav-text">SDGs</span>
-                    </a>
+
 
                 </div>
 
             </div>
-            {{-- KODE ASLI KAMU BERAKHIR DI SINI --}}
-
-
-
 
             {{-- ========================================== --}}
             {{-- VERSI DESKTOP (Muncul di PC/Laptop)        --}}
@@ -198,9 +182,8 @@
             {{-- ========================================== --}}
             <div class="block md:hidden w-full px-3 mt-6 mb-12">
 
-                {{-- Info Header --}}
-                {{-- PERBAIKAN: px-2 ditambahkan untuk header agar text tidak menempel pinggir --}}
-                <div class="mb-6">
+                {{-- Info Header (Tetap Tampil) --}}
+                <div class="mb-6 px-2">
                     <h2 class="text-[#2ac0b4] font-black text-[28px] mb-3 leading-tight tracking-tight">
                         APB Desa Bedi Kulon Tahun {{ $tahun_pilih ?? date('Y') }}
                     </h2>
@@ -209,7 +192,7 @@
                     </p>
                 </div>
 
-                {{-- Year Selector (Pilih Tahun) --}}
+                {{-- Year Selector / Pilih Tahun (Tetap Tampil agar user bisa ganti tahun) --}}
                 <div class="mb-4">
                     <form action="{{ url()->current() }}" method="GET" id="formTahunStatsMobile">
                         <div class="relative">
@@ -232,10 +215,12 @@
                     </form>
                 </div>
 
+                {{-- Pengecekan Data: Jika total keseluruhan > 0, tampilkan data --}}
+                @if(($pendapatan + $belanja + $pembiayaan_penerimaan + $pembiayaan_pengeluaran) > 0)
+
                 {{-- Kotak Pendapatan & Belanja --}}
                 <div class="flex flex-col gap-3 mb-3">
                     {{-- Pendapatan --}}
-                    {{-- PERBAIKAN: p-5 diganti p-4 agar lebih rapat ke pinggir --}}
                     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
                         <div class="flex items-center gap-1.5 text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1.5">
                             <span class="text-emerald-500 text-[10px]">▲</span> Pendapatan
@@ -246,7 +231,6 @@
                     </div>
 
                     {{-- Belanja --}}
-                    {{-- PERBAIKAN: p-5 diganti p-4 agar lebih rapat ke pinggir --}}
                     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
                         <div class="flex items-center gap-1.5 text-[11px] font-bold text-gray-500 uppercase tracking-wider mb-1.5">
                             <span class="text-red-500 text-[10px]">♥</span> Belanja
@@ -262,7 +246,6 @@
                     <div class="bg-gray-50 px-5 py-3 border-b border-gray-100 text-[11px] font-bold text-gray-500 uppercase tracking-wider">
                         Pembiayaan
                     </div>
-                    {{-- PERBAIKAN: p-5 diganti p-4 agar lebih rapat ke pinggir --}}
                     <div class="p-4 flex flex-col gap-5">
                         {{-- Penerimaan --}}
                         <div>
@@ -290,7 +273,6 @@
                 </div>
 
                 {{-- Kotak Surplus / Defisit --}}
-                {{-- PERBAIKAN: p-5 diganti p-4 agar lebih rapat ke pinggir --}}
                 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4 flex justify-between items-center gap-4">
                     <span class="text-xs font-bold text-gray-600 uppercase tracking-wider flex-shrink-0">Surplus/Defisit</span>
                     <span class="font-black text-lg tracking-tight {{ $surplus_defisit < 0 ? 'text-red-600' : 'text-gray-800' }} text-right">
@@ -298,7 +280,22 @@
                     </span>
                 </div>
 
+                @else
+                {{-- Tampilan Placeholder (Empty State) Standar & Minimalis --}}
+                <div class="flex flex-col items-center justify-center w-full h-[350px] bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200 p-6 mt-2">
+                    {{-- Ikon Dompet/Keuangan --}}
+                    <svg class="w-14 h-14 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                    </svg>
+                    <p class="text-gray-500 text-lg font-semibold tracking-wide text-center">Data APBDes Belum Tersedia</p>
+                    <p class="text-gray-400 text-sm mt-2 text-center leading-relaxed">
+                        Rincian Anggaran Pendapatan dan Belanja Desa (APBDes) untuk tahun <strong>{{ $tahun_pilih ?? date('Y') }}</strong> belum diinput ke dalam sistem.
+                    </p>
+                </div>
+                @endif
+
             </div>
+
 
 
             <style>
@@ -333,11 +330,29 @@
             {{-- ========================================== --}}
             <div class="hidden md:block w-full max-w-7xl mx-auto mt-16 mb-10">
                 <div class="apbdes-card-keren">
+
                     <h2 class="apbdes-title-keren">Pendapatan dan Belanja Desa dari Tahun ke Tahun</h2>
-                    <div class="chart-container-keren">
+
+                    {{-- Pengecekan data tren APBDes --}}
+                    @if(isset($hasApbdesTrendData) && $hasApbdesTrendData)
+                    <div class="chart-container-keren mt-6">
                         {{-- ID Khusus Desktop --}}
                         <canvas id="apbdesTrendChartDesktop"></canvas>
                     </div>
+                    @else
+                    {{-- Tampilan Placeholder (Empty State) Standar & Minimalis --}}
+                    <div class="flex flex-col items-center justify-center w-full h-[400px] bg-gray-50 rounded-xl border-2 border-dashed border-gray-200 mt-6">
+                        {{-- Ikon Grafik Tren --}}
+                        <svg class="w-16 h-16 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                        </svg>
+                        <p class="text-gray-500 text-lg font-semibold tracking-wide">Data Tren APBDes Belum Tersedia</p>
+                        <p class="text-gray-400 text-sm mt-2 text-center max-w-md">
+                            Data riwayat pendapatan dan belanja desa dari tahun ke tahun belum diinput. Grafik tren akan muncul setelah data ditambahkan.
+                        </p>
+                    </div>
+                    @endif
+
                 </div>
             </div>
 
@@ -346,17 +361,35 @@
             {{-- ========================================== --}}
             <div class="block md:hidden w-full px-3 mt-6 mb-12">
                 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
+
                     {{-- Judul disesuaikan ukurannya untuk HP --}}
                     <h2 class="text-[#2ac0b4] font-extrabold text-[20px] mb-4 leading-tight tracking-tight">
                         Pendapatan & Belanja
                     </h2>
+
+                    @if(isset($hasApbdesTrendData) && $hasApbdesTrendData)
                     {{-- Tinggi container diturunkan sedikit agar pas di layar HP --}}
                     <div class="relative w-full h-[350px]">
                         {{-- ID Khusus Mobile --}}
                         <canvas id="apbdesTrendChartMobile"></canvas>
                     </div>
+                    @else
+                    {{-- Tampilan Placeholder (Empty State) Mobile Standar --}}
+                    <div class="flex flex-col items-center justify-center w-full h-[350px] bg-gray-50 rounded-lg border-2 border-dashed border-gray-200 p-4">
+                        {{-- Ikon Grafik Tren --}}
+                        <svg class="w-12 h-12 text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                        </svg>
+                        <p class="text-gray-500 text-base font-semibold tracking-wide text-center">Belum Ada Data</p>
+                        <p class="text-gray-400 text-xs mt-1 text-center leading-relaxed">
+                            Riwayat pendapatan dan belanja desa dari tahun ke tahun belum diinput.
+                        </p>
+                    </div>
+                    @endif
+
                 </div>
             </div>
+
 
 
             <style>
@@ -366,6 +399,7 @@
                     border-radius: 12px;
                     box-shadow: 0 10px 25px rgba(0, 0, 0, 0.05);
                     margin-top: 20px;
+                    height: auto;
                     border: 1px solid #f0f0f0;
                 }
 
@@ -390,10 +424,28 @@
             {{-- ========================================== --}}
             <div class="hidden md:block w-full max-w-7xl mx-auto mb-10">
                 <div class="chart-box-white">
+
                     <h2 class="chart-title-green">Pendapatan Desa {{ $tahun_pilih }}</h2>
-                    <div class="canvas-container-cat">
+
+                    {{-- Pengecekan data kategori pendapatan --}}
+                    @if(isset($hasPendapatanData) && $hasPendapatanData)
+                    <div class="canvas-container-cat mt-6">
                         <canvas id="pendapatanCategoryChartDesktop"></canvas>
                     </div>
+                    @else
+                    {{-- Tampilan Placeholder (Empty State) Standar & Minimalis --}}
+                    <div class="flex flex-col items-center justify-center w-full h-[400px] bg-gray-50 rounded-xl border-2 border-dashed border-gray-200 mt-6">
+                        {{-- Ikon Uang/Koin untuk Pendapatan --}}
+                        <svg class="w-16 h-16 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <p class="text-gray-500 text-lg font-semibold tracking-wide">Data Pendapatan Belum Tersedia</p>
+                        <p class="text-gray-400 text-sm mt-2 text-center max-w-md">
+                            Rincian sumber pendapatan desa untuk tahun <strong>{{ $tahun_pilih }}</strong> belum diinput. Grafik akan otomatis muncul setelah data tersedia.
+                        </p>
+                    </div>
+                    @endif
+
                 </div>
             </div>
 
@@ -402,15 +454,34 @@
             {{-- ========================================== --}}
             <div class="block md:hidden w-full px-3 mb-12">
                 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
+
                     <h2 class="text-[#2ac0b4] font-extrabold text-[20px] mb-4 leading-tight tracking-tight">
                         Pendapatan Desa {{ $tahun_pilih }}
                     </h2>
+
+                    {{-- Pengecekan data kategori pendapatan --}}
+                    @if(isset($hasPendapatanData) && $hasPendapatanData)
                     {{-- Tinggi container diturunkan sedikit agar pas di layar HP --}}
                     <div class="relative w-full h-[300px]">
                         <canvas id="pendapatanCategoryChartMobile"></canvas>
                     </div>
+                    @else
+                    {{-- Tampilan Placeholder (Empty State) Mobile Standar --}}
+                    <div class="flex flex-col items-center justify-center w-full h-[300px] bg-gray-50 rounded-lg border-2 border-dashed border-gray-200 p-4">
+                        {{-- Ikon Uang/Koin --}}
+                        <svg class="w-12 h-12 text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+                        </svg>
+                        <p class="text-gray-500 text-base font-semibold tracking-wide text-center">Belum Ada Data</p>
+                        <p class="text-gray-400 text-xs mt-1 text-center leading-relaxed">
+                            Rincian sumber pendapatan desa untuk tahun <strong>{{ $tahun_pilih }}</strong> belum diinput.
+                        </p>
+                    </div>
+                    @endif
+
                 </div>
             </div>
+
 
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
@@ -972,27 +1043,66 @@
             {{-- ========================================== --}}
             <div class="hidden md:block w-full max-w-7xl mx-auto mb-10">
                 <div class="chart-box-white">
+
                     <h2 class="chart-title-green">Belanja Desa {{ $tahun_pilih }}</h2>
-                    <div class="canvas-container-belanja">
+
+                    {{-- Pengecekan data kategori belanja --}}
+                    @if(isset($hasBelanjaData) && $hasBelanjaData)
+                    <div class="canvas-container-belanja mt-6">
                         <canvas id="belanjaCategoryChartDesktop"></canvas>
                     </div>
+                    @else
+                    {{-- Tampilan Placeholder (Empty State) Standar & Minimalis --}}
+                    <div class="flex flex-col items-center justify-center w-full h-[400px] bg-gray-50 rounded-xl border-2 border-dashed border-gray-200 mt-6">
+                        {{-- Ikon Tas Belanja/Pengeluaran --}}
+                        <svg class="w-16 h-16 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                        </svg>
+                        <p class="text-gray-500 text-lg font-semibold tracking-wide">Data Belanja Belum Tersedia</p>
+                        <p class="text-gray-400 text-sm mt-2 text-center max-w-md">
+                            Rincian pengeluaran atau belanja desa untuk tahun <strong>{{ $tahun_pilih }}</strong> belum diinput. Grafik akan otomatis muncul setelah data tersedia.
+                        </p>
+                    </div>
+                    @endif
+
                 </div>
             </div>
+
+
 
             {{-- ========================================== --}}
             {{-- VERSI MOBILE (Muncul di HP)                --}}
             {{-- ========================================== --}}
             <div class="block md:hidden w-full px-3 mb-12">
                 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
+
                     <h2 class="text-[#2ac0b4] font-extrabold text-[20px] mb-4 leading-tight tracking-tight">
                         Belanja Desa {{ $tahun_pilih }}
                     </h2>
+
+                    {{-- Pengecekan data kategori belanja --}}
+                    @if(isset($hasBelanjaData) && $hasBelanjaData)
                     {{-- Tinggi container diturunkan sedikit agar pas di layar HP --}}
                     <div class="relative w-full h-[300px]">
                         <canvas id="belanjaCategoryChartMobile"></canvas>
                     </div>
+                    @else
+                    {{-- Tampilan Placeholder (Empty State) Mobile Standar --}}
+                    <div class="flex flex-col items-center justify-center w-full h-[300px] bg-gray-50 rounded-lg border-2 border-dashed border-gray-200 p-4">
+                        {{-- Ikon Tas Belanja/Pengeluaran --}}
+                        <svg class="w-12 h-12 text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path>
+                        </svg>
+                        <p class="text-gray-500 text-base font-semibold tracking-wide text-center">Belum Ada Data</p>
+                        <p class="text-gray-400 text-xs mt-1 text-center leading-relaxed">
+                            Rincian pengeluaran atau belanja desa untuk tahun <strong>{{ $tahun_pilih }}</strong> belum diinput.
+                        </p>
+                    </div>
+                    @endif
+
                 </div>
             </div>
+
 
             <script>
                 document.addEventListener('DOMContentLoaded', function() {
@@ -1468,27 +1578,67 @@
             {{-- VERSI DESKTOP (Muncul di Laptop/PC)        --}}
             {{-- ========================================== --}}
             <div class="hidden md:block w-full max-w-7xl mx-auto mb-10">
-                <div class="chart-box-white">
+
+                {{-- PERBAIKAN: Ditambahkan !h-auto flex flex-col agar kotak putih bisa membesar otomatis dan tidak memotong isi di dalamnya --}}
+                <div class="chart-box-white !h-auto flex flex-col">
+
                     <h2 class="chart-title-green">Pembiayaan Desa {{ $tahun_pilih }}</h2>
-                    <div style="position: relative; height: 300px; width: 100%;">
+
+                    {{-- Pengecekan data pembiayaan --}}
+                    @if(isset($hasPembiayaanData) && $hasPembiayaanData)
+                    <div style="position: relative; height: 300px; width: 100%;" class="mt-6">
                         <canvas id="pembiayaanChartDesktop"></canvas>
                     </div>
+                    @else
+                    {{-- Tampilan Placeholder (Empty State) Standar & Minimalis --}}
+                    <div class="flex flex-col items-center justify-center w-full h-[300px] bg-gray-50 rounded-xl border-2 border-dashed border-gray-200 mt-6">
+                        {{-- Ikon Dompet/Keuangan untuk Pembiayaan --}}
+                        <svg class="w-16 h-16 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                        </svg>
+                        <p class="text-gray-500 text-lg font-semibold tracking-wide">Data Pembiayaan Belum Tersedia</p>
+                        <p class="text-gray-400 text-sm mt-2 text-center max-w-md">
+                            Rincian penerimaan dan pengeluaran pembiayaan desa untuk tahun <strong>{{ $tahun_pilih }}</strong> belum diinput. Grafik akan otomatis muncul setelah data tersedia.
+                        </p>
+                    </div>
+                    @endif
+
                 </div>
             </div>
+
 
             {{-- ========================================== --}}
             {{-- VERSI MOBILE (Muncul di HP)                --}}
             {{-- ========================================== --}}
             <div class="block md:hidden w-full px-3 mb-12">
                 <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-4">
+
                     <h2 class="text-[#2ac0b4] font-extrabold text-[20px] mb-4 leading-tight tracking-tight">
                         Pembiayaan Desa {{ $tahun_pilih }}
                     </h2>
+
+                    {{-- Pengecekan data pembiayaan --}}
+                    @if(isset($hasPembiayaanData) && $hasPembiayaanData)
                     <div style="position: relative; height: 280px; width: 100%;">
                         <canvas id="pembiayaanChartMobile"></canvas>
                     </div>
+                    @else
+                    {{-- Tampilan Placeholder (Empty State) Mobile Standar --}}
+                    <div class="flex flex-col items-center justify-center w-full h-[280px] bg-gray-50 rounded-lg border-2 border-dashed border-gray-200 p-4">
+                        {{-- Ikon Dompet/Keuangan untuk Pembiayaan --}}
+                        <svg class="w-12 h-12 text-gray-300 mb-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z"></path>
+                        </svg>
+                        <p class="text-gray-500 text-base font-semibold tracking-wide text-center">Belum Ada Data</p>
+                        <p class="text-gray-400 text-xs mt-1 text-center leading-relaxed">
+                            Rincian pembiayaan desa untuk tahun <strong>{{ $tahun_pilih }}</strong> belum diinput.
+                        </p>
+                    </div>
+                    @endif
+
                 </div>
             </div>
+
 
             <script>
                 document.addEventListener('DOMContentLoaded', function() {

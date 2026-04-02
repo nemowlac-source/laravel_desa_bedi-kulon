@@ -26,7 +26,7 @@ class PerangkatDesaController extends Controller
         $request->validate([
             'nama' => 'required',
             'jabatan' => 'required',
-            'foto' => 'required|image|max:2048', // Maks 2MB
+            'foto' => 'required|image|max:10048', // Maks 2MB
         ]);
 
         $path = $request->file('foto')->store('perangkat', 'public');
