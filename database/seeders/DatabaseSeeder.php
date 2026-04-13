@@ -24,7 +24,6 @@ class DatabaseSeeder extends Seeder
             'password' => Hash::make('password'),
         ]);
 
-        // 2. Akun Anggota (Perpustakaan)
         User::create([
             'name' => 'Budi Anggota',
             'email' => 'budi@desa.com',

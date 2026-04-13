@@ -5,6 +5,8 @@ namespace App\Providers;
 use App\Models\Visitor;
 use Illuminate\Support\Facades\View; // Tambahkan ini
 use Illuminate\Support\ServiceProvider;
+use Illuminate\Support\Facades\URL;
+
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -15,6 +17,9 @@ class AppServiceProvider extends ServiceProvider
 
     public function boot(): void
     {
+        if (config('app.env') === 'production') {
+            URL::forceScheme('https');
+        }
         // Gunakan View Composer agar query HANYA jalan saat file layout frontend dipanggil ⏺️
         View::composer('components.frontend', function ($view) {
             $visitor_stats = [
