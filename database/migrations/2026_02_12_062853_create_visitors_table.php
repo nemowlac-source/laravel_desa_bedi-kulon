@@ -17,6 +17,7 @@ return new class extends Migration
             $table->string('user_agent')->nullable();
             $table->date('date'); // Tanggal kunjungan
             $table->timestamps();
+            $table->index('date'); // Untuk query lebih cepat
         });
     }
 

@@ -10,12 +10,19 @@ use App\Models\Potensi;
 use App\Models\Wisata;
 use App\Models\Penduduk;
 use App\Models\Apbd;
+use App\Models\Visitor;
 
 
 class HomeController extends Controller
 {
     public function index()
     {
+        // RECORD VISITOR
+        Visitor::recordVisit();
+
+        // GET VISITOR STATS
+        $visitor_stats = Visitor::getStats();
+
         // 2. Ambil 6 foto terbaru dari database
         $galeri_terbaru = Galeri::latest()->take(6)->get();
         // 2. AMBIL 4 PRODUK UMKM TERBARU
@@ -30,56 +37,42 @@ class HomeController extends Controller
         $wisata_desa = Wisata::latest()->take(5)->get();
         $potensis = Potensi::latest()->take(6)->get();
         // 7. HITUNG STATISTIK PENDUDUK
-        // Menghitung total Laki-laki & Perempuan
         $total_laki = Penduduk::sum('laki_laki');
         $total_perempuan = Penduduk::sum('perempuan');
         $total_penduduk = $total_laki + $total_perempuan;
-
-        // Menghitung Kepala Keluarga
         $total_kk = Penduduk::sum('kk');
-
-        // Menghitung Penduduk Sementara
         $total_sementara = Penduduk::sum('penduduk_sementara');
-
-        // Menghitung Total Mutasi (Lahir + Mati + Masuk + Keluar)
-        // Ini menggambarkan total aktivitas administrasi bulan ini
-        $total_mutasi = Penduduk::sum('kelahiran') +
-            Penduduk::sum('kematian') +
-            Penduduk::sum('mutasi_masuk') +
-            Penduduk::sum('mutasi_keluar');
+        $total_mutasi = Penduduk::sum('kelahiran');
 
         // 8. DATA APBD (Tahun Ini)
-        $tahun_ini = date('Y'); // Mengambil tahun otomatis (2025/2026 dst)
-
-        // Hitung Total Pendapatan Tahun Ini
+        $tahun_ini = date('Y');
         $apbd_pendapatan = Apbd::where('tahun', $tahun_ini)
             ->where('jenis', 'Pendapatan')
             ->sum('anggaran');
-
-        // Hitung Total Belanja Tahun Ini
         $apbd_belanja = Apbd::where('tahun', $tahun_ini)
             ->where('jenis', 'Belanja')
             ->sum('anggaran');
 
-        // 3. Kirim data ke view (welcome / home)
-        return view('frontend.dashboard', compact(
-            'galeri_terbaru',
-            'produk_umkm',
-            'berita_terbaru',
-            'perangkat_desa',
-            'potensi_desa',
-            'potensis',
-            'wisata_desa',
-            'total_penduduk',
-            'total_laki',
-            'total_perempuan',
-            'total_kk',
-            'total_sementara',
-            'total_mutasi',
-            'apbd_pendapatan',
-            'apbd_belanja',
-            'tahun_ini'
-        ));
+        // 3. Kirim data ke view
+        return view('frontend.dashboard', [
+            'galeri_terbaru' => $galeri_terbaru,
+            'produk_umkm' => $produk_umkm,
+            'berita_terbaru' => $berita_terbaru,
+            'perangkat_desa' => $perangkat_desa,
+            'potensi_desa' => $potensi_desa,
+            'potensis' => $potensis,
+            'wisata_desa' => $wisata_desa,
+            'total_penduduk' => $total_penduduk,
+            'total_laki' => $total_laki,
+            'total_perempuan' => $total_perempuan,
+            'total_kk' => $total_kk,
+            'total_sementara' => $total_sementara,
+            'total_mutasi' => $total_mutasi,
+            'apbd_pendapatan' => $apbd_pendapatan,
+            'apbd_belanja' => $apbd_belanja,
+            'tahun_ini' => $tahun_ini,
+            'visitor_stats' => $visitor_stats,
+        ]);
     }
 
     public function galeri()
@@ -189,5 +182,14 @@ class HomeController extends Controller
         $wisata->increment('views');
 
         return view('frontend.show', compact('wisata', 'wisataLainnya'));
+    }
+
+    public function dashboard()
+    {
+        Visitor::recordVisit(); // Catat setiap kunjungan
+
+        return view('frontend.dashboard', [
+            'visitor_stats' => Visitor::getStats(),
+        ]);
     }
 }

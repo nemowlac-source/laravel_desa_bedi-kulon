@@ -14,6 +14,7 @@
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
     <link rel="preload" as="image" href="{{ asset('assets/img/background 1.webp') }}" fetchpriority="high">
+    <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
     @stack('styles')
 </head>
@@ -436,39 +437,34 @@
 
                 <div class="pb-6 pt-2 pl-9">
                     <div class="grid grid-cols-2 gap-y-5 gap-x-4">
-
                         <div>
                             <p class="text-[11px] font-semibold opacity-90 mb-0.5">Hari Ini</p>
-                            <p class="text-base font-bold tracking-wide">515</p>
+                            <p class="text-base font-bold tracking-wide">{{ number_format($visitor_stats['hari_ini'] ?? 0) }}</p>
                         </div>
                         <div>
                             <p class="text-[11px] font-semibold opacity-90 mb-0.5">Kemarin</p>
-                            <p class="text-base font-bold tracking-wide">386</p>
+                            <p class="text-base font-bold tracking-wide">{{ number_format($visitor_stats['kemarin'] ?? 0) }}</p>
                         </div>
-
                         <div>
                             <p class="text-[11px] font-semibold opacity-90 mb-0.5">Minggu Ini</p>
-                            <p class="text-base font-bold tracking-wide">1.643</p>
+                            <p class="text-base font-bold tracking-wide">{{ number_format($visitor_stats['minggu_ini'] ?? 0) }}</p>
                         </div>
                         <div>
                             <p class="text-[11px] font-semibold opacity-90 mb-0.5">Minggu Lalu</p>
-                            <p class="text-base font-bold tracking-wide">2.681</p>
+                            <p class="text-base font-bold tracking-wide">{{ number_format($visitor_stats['minggu_lalu'] ?? 0) }}</p>
                         </div>
-
                         <div>
                             <p class="text-[11px] font-semibold opacity-90 mb-0.5">Bulan Ini</p>
-                            <p class="text-base font-bold tracking-wide">9.406</p>
+                            <p class="text-base font-bold tracking-wide">{{ number_format($visitor_stats['bulan_ini'] ?? 0) }}</p>
                         </div>
                         <div>
                             <p class="text-[11px] font-semibold opacity-90 mb-0.5">Bulan Lalu</p>
-                            <p class="text-base font-bold tracking-wide">21.497</p>
+                            <p class="text-base font-bold tracking-wide">{{ number_format($visitor_stats['bulan_lalu'] ?? 0) }}</p>
                         </div>
-
                     </div>
-
                     <div class="mt-5">
                         <p class="text-[11px] font-semibold opacity-90 mb-0.5">Total Kunjungan</p>
-                        <p class="text-base font-bold tracking-wide">472.991</p>
+                        <p class="text-base font-bold tracking-wide">{{ number_format($visitor_stats['total'] ?? 0) }}</p>
                     </div>
                 </div>
             </details>
