@@ -302,7 +302,7 @@
             <div class="text-center">
                 <h2 class="text-[#2ac0b4] font-extrabold text-2xl mb-2">Berita Desa</h2>
                 <p class="text-gray-500 text-[13px] leading-relaxed">
-                    Menyajikan informasi terbaru tentang peristiwa, berita terkini, dan artikel-artikel jurnalistik dari Desa Bedi Kulon
+                    Menyajikan informasi terbaru tentang peristiwa, berita terkini, dan artikel-artikel jurnalistik dari Desa Bedikulon
                 </p>
             </div>
 
@@ -389,7 +389,7 @@
 
                 {{-- Deskripsi: Ukuran teks agak besar (text-lg), abu-abu, dan medium --}}
                 <p class="text-lg text-gray-600 font-medium">
-                    Menyajikan informasi terbaru tentang peristiwa, berita terkini, dan artikel-artikel jurnalistik dari Desa Bedi Kulon.
+                    Menyajikan informasi terbaru tentang peristiwa, berita terkini, dan artikel-artikel jurnalistik dari Desa Bedikulon.
                 </p>
             </div>
 

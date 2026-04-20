@@ -11,7 +11,7 @@
                     LOKASI DESA
                 </h2>
                 <p class="text-lg text-gray-600 font-medium">
-                    Temukan lokasi strategis dan batas wilayah Desa Bedi Kulon melalui peta berikut.
+                    Temukan lokasi strategis dan batas wilayah Desa Bedikulon melalui peta berikut.
                 </p>
             </div>
 
@@ -33,7 +33,7 @@
                     LOKASI DESA
                 </h2>
                 <p class="text-[14px] text-gray-800 leading-relaxed font-medium">
-                    Temukan lokasi strategis dan batas wilayah Desa Bedi Kulon melalui peta berikut.
+                    Temukan lokasi strategis dan batas wilayah Desa Bedikulon melalui peta berikut.
                 </p>
             </div>
 

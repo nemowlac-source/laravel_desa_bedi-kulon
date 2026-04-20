@@ -61,17 +61,12 @@
         {{-- 1. VERSI MOBILE & DESKTOP (Header)         --}}
         {{-- ========================================== --}}
         <div class="w-full max-w-7xl mx-auto mt-12 mb-8 ">
-
-
-            {{-- KODE ASLI KAMU DIMULAI DARI SINI (Tidak ada yang diubah) --}}
             <div class="header-infografis flex justify-between items-center w-full">
-
-
                 <div class="hidden md:block brand-title mr-40">
-                    <h1>INFOGRAFIS<br>DESA Bedi Kulon</h1>
+                    <h1>INFOGRAFIS<br>DESA Bedikulon</h1>
                 </div>
 
-                <div class="nav-menu flex w-full justify-end overflow-x-auto flex-nowrap gap-8 pb-2 hide-scroll">
+                <div class="nav-menu flex w-full justify-end overflow-x-auto flex-nowrap gap-12 pb-2 hide-scroll">
 
                     <a href="{{ route('frontend.infografis') }}" class="nav-item flex-none {{ Route::is('frontend.infografis') ? 'active' : '' }}">
                         <div class="icon-box">
@@ -121,14 +116,7 @@
                         <span class="nav-text">Bansos</span>
                     </a>
 
-                    <a href="{{ route('frontend.idm') }}" class="nav-item flex-none {{ Route::is('frontend.idm') ? 'active' : '' }}">
-                        <div class="icon-box">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="tabler-icon tabler-icon-crown">
-                                <path d="M12 6l4 6l5 -4l-2 10h-14l-2 -10l5 4z"></path>
-                            </svg>
-                        </div>
-                        <span class="nav-text">IDM</span>
-                    </a>
+
 
 
 
@@ -136,8 +124,6 @@
                 </div>
 
             </div>
-            {{-- KODE ASLI KAMU BERAKHIR DI SINI --}}
-
         </div>
 
 

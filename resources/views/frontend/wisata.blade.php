@@ -20,8 +20,8 @@
             </h2>
             <p class="text-[14px] md:text-[18px] font-medium text-gray-700 md:text-gray-800 leading-snug md:leading-relaxed">
                 <span class="md:hidden block">Segala hal mengenai destinasi dan</span>
-                <span class="md:hidden block">potensi wisata Desa Bedi Kulon</span>
-                <span class="hidden md:block">Segala hal mengenai destinasi dan potensi wisata Desa Bedi Kulon.</span>
+                <span class="md:hidden block">potensi wisata Desa Bedikulon</span>
+                <span class="hidden md:block">Segala hal mengenai destinasi dan potensi wisata Desa Bedikulon.</span>
             </p>
         </div>
 

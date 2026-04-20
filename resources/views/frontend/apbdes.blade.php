@@ -41,10 +41,10 @@
             <div class="header-infografis">
 
                 <div class="hidden md:block brand-title">
-                    <h1>INFOGRAFIS<br>DESA Bedi Kulon</h1>
+                    <h1>INFOGRAFIS<br>DESA Bedikulon</h1>
                 </div>
 
-                <div class="nav-menu flex overflow-x-auto flex-nowrap gap-2 pb-2 hide-scroll">
+                <div class="nav-menu flex w-full justify-end overflow-x-auto flex-nowrap gap-8 pb-2 hide-scroll">
 
                     <a href="{{ route('frontend.infografis') }}" class="nav-item flex-none {{ Route::is('frontend.infografis') ? 'active' : '' }}">
                         <div class="icon-box">
@@ -94,18 +94,13 @@
                         <span class="nav-text">Bansos</span>
                     </a>
 
-                    <a href="{{ route('frontend.idm') }}" class="nav-item flex-none {{ Route::is('frontend.idm') ? 'active' : '' }}">
-                        <div class="icon-box">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="tabler-icon tabler-icon-crown">
-                                <path d="M12 6l4 6l5 -4l-2 10h-14l-2 -10l5 4z"></path>
-                            </svg>
-                        </div>
-                        <span class="nav-text">IDM</span>
-                    </a>
+
+
 
 
 
                 </div>
+
 
             </div>
 
@@ -116,8 +111,8 @@
                 {{-- KODE ASLI KAMU UNTUK DESKTOP (TIDAK DIRUBAH) --}}
                 <div class="apbdes-layout">
                     <div class="apbdes-info">
-                        <h2 class="title-green-big">APB Desa Bedi Kulon Tahun {{ $tahun_pilih ?? date('Y') }}</h2>
-                        <p class="apbdes-location">Desa Bedi Kulon, Kecamatan Marang Kayu, Kabupaten Kutai Kartanegara, Provinsi Kalimantan Timur</p>
+                        <h2 class="title-green-big">APB Desa Bedikulon Tahun {{ $tahun_pilih ?? date('Y') }}</h2>
+                        <p class="apbdes-location">Desa Bedikulon, Kecamatan Marang Kayu, Kabupaten Kutai Kartanegara, Provinsi Kalimantan Timur</p>
                     </div>
                     <div class="apbdes-stats">
                         <div class="year-selector">
@@ -185,10 +180,10 @@
                 {{-- Info Header (Tetap Tampil) --}}
                 <div class="mb-6 px-2">
                     <h2 class="text-[#2ac0b4] font-black text-[28px] mb-3 leading-tight tracking-tight">
-                        APB Desa Bedi Kulon Tahun {{ $tahun_pilih ?? date('Y') }}
+                        APB Desa Bedikulon Tahun {{ $tahun_pilih ?? date('Y') }}
                     </h2>
                     <p class="text-sm text-gray-600 leading-relaxed font-medium">
-                        Desa Bedi Kulon, Kecamatan Marang Kayu, Kabupaten Kutai Kartanegara, Provinsi Kalimantan Timur
+                        Desa Bedikulon, Kecamatan Marang Kayu, Kabupaten Kutai Kartanegara, Provinsi Kalimantan Timur
                     </p>
                 </div>
 

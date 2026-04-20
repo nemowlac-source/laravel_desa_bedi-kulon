@@ -21,7 +21,6 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\ApbdesController;
 use App\Http\Controllers\StuntingController;
 use App\Http\Controllers\BansosController;
-use App\Http\Controllers\IdmController;
 use App\Http\Controllers\PpidController;
 use App\Http\Controllers\PengaduanController;
 
@@ -49,9 +48,13 @@ Route::get('/belanja', [HomeController::class, 'belanja'])->name('frontend.belan
 Route::get('/belanja/{id}', [App\Http\Controllers\HomeController::class, 'detailBelanja'])->name('frontend.belanja.detail');
 Route::get('/berita', [HomeController::class, 'berita'])->name('frontend.berita');
 Route::get('/berita/{id}', [HomeController::class, 'bacaBerita'])->name('frontend.berita.detail');
-Route::get('/idm', [IdmController::class, 'index'])->name('frontend.idm');
 Route::get('/profile-desa', function () {
-    return view('frontend.profile');
+    $total_laki = \App\Models\Penduduk::sum('laki_laki');
+    $total_perempuan = \App\Models\Penduduk::sum('perempuan');
+    $total_penduduk = $total_laki + $total_perempuan;
+    $total_kk = \App\Models\Penduduk::sum('kk');
+
+    return view('frontend.profile', compact('total_penduduk', 'total_kk'));
 })->name('frontend.profile');
 Route::get('/listing', function () {
     return view('frontend.listing');
@@ -61,18 +64,6 @@ Route::middleware('auth')->group(function () {
     // 1. DASHBOARD ADMIN (Hanya untuk role 'admin')
     Route::middleware(['role:admin'])->prefix('admin')->group(function () {
         Route::get('/dashboard', [DashboardController::class, 'index'])->name('admin.dashboard');
-        Route::get('idm/{id}/detail', [\App\Http\Controllers\Admin\IdmDetailController::class, 'index'])
-            ->name('idm.detail.index');
-        Route::get('idm/{id}/detail/create', [\App\Http\Controllers\Admin\IdmDetailController::class, 'create'])
-            ->name('idm.detail.create');
-        Route::post('idm/{id}/detail', [\App\Http\Controllers\Admin\IdmDetailController::class, 'store'])
-            ->name('idm.detail.store');
-        Route::get('idm-detail/{id}/edit', [\App\Http\Controllers\Admin\IdmDetailController::class, 'edit'])
-            ->name('idm.detail.edit');
-        Route::put('idm-detail/{id}', [\App\Http\Controllers\Admin\IdmDetailController::class, 'update'])
-            ->name('idm.detail.update');
-        Route::delete('idm-detail/{id}', [\App\Http\Controllers\Admin\IdmDetailController::class, 'destroy'])
-            ->name('idm.detail.destroy');
         Route::get('/ppid/permohonan-masuk', [\App\Http\Controllers\Admin\PpidController::class, 'permohonanMasuk'])->name('admin.ppid.permohonan');
         Route::delete('/ppid/permohonan-masuk/{id}', [\App\Http\Controllers\Admin\PpidController::class, 'destroyPermohonan'])->name('admin.ppid.permohonan.destroy');
         Route::resource('galeri', GaleriController::class);
@@ -92,7 +83,6 @@ Route::middleware('auth')->group(function () {
         Route::resource('bansos', \App\Http\Controllers\Admin\BansosController::class);
         Route::resource('stunting', \App\Http\Controllers\Admin\StuntingController::class);
         Route::resource('ppid', \App\Http\Controllers\Admin\PpidController::class);
-        Route::resource('idm', \App\Http\Controllers\Admin\IdmController::class);
         Route::resource('pengaduan', \App\Http\Controllers\Admin\PengaduanController::class)->names('admin.pengaduan');
     });
 

@@ -1,3 +1,6 @@
+import Chart from "chart.js/auto";
+import ChartDataLabels from "chartjs-plugin-datalabels";
+
 // Pengecekan aman apakah Chart.js sudah dimuat sebelum didaftarkan ke window
 if (typeof Chart !== "undefined") {
     window.Chart = Chart;
@@ -557,9 +560,9 @@ document.addEventListener("DOMContentLoaded", function () {
     // Pastikan syntax asset() ini digunakan di dalam file Blade (.blade.php),
     // jika di file .js terpisah ini tidak akan terbaca oleh Laravel.
     const myImages = [
-        "{{ asset('assets/img/background 1.webp') }}",
-        "{{ asset('assets/img/background 2.webp') }}",
-        "{{ asset('assets/img/background 3.webp') }}",
+        "/assets/img/background-1.webp",
+        "/assets/img/background-2.webp",
+        "/assets/img/background-3.webp",
     ];
 
     myImages.forEach((src) => {

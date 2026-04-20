@@ -48,7 +48,6 @@ class DatabaseSeeder extends Seeder
         // PendudukPendidikanSeeder::class, // Statistik Pendidikan
         // PendudukUsiaSeeder::class,      // Statistik Umur (Piramida)
         // PendudukWajibPilihSeeder::class, // Statistik Wajib Pilih
-        // Tambahkan seeder lain jika ada (misal: IdmSeeder)
         // ]);
     }
 }

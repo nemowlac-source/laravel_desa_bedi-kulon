@@ -6,7 +6,7 @@
                 <h1 class="text-4xl font-extrabold text-[#2ac0b4] mb-4 uppercase tracking-tight">Galeri Desa</h1>
                 <div class="w-20 h-1 bg-[#2ac0b4] mx-auto mb-4 rounded-full"></div>
                 <p class="text-gray-600 text-lg font-medium max-w-2xl mx-auto">
-                    Dokumentasi kegiatan, pembangunan, dan potensi wisata Desa Bedi Kulon.
+                    Dokumentasi kegiatan, pembangunan, dan potensi wisata Desa Bedikulon.
                 </p>
             </div>
 

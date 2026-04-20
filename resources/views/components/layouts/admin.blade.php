@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Desa Bedi Kulon</title>
+    <title>Admin Desa Bedikulon</title>
 
     <link href="https://cdn.jsdelivr.net/npm/daisyui@4.7.2/dist/full.min.css" rel="stylesheet" type="text/css" />
     <script src="https://cdn.tailwindcss.com"></script>
@@ -46,7 +46,7 @@
 
                 <li class="mb-6">
                     <div class="flex flex-col items-start gap-1 hover:bg-transparent">
-                        <span class="text-xl font-bold text-blue-400">BEDI KULON</span>
+                        <span class="text-xl font-bold text-blue-400">Bedikulon</span>
                         <span class="text-xs text-gray-400">Panel Administrator</span>
                     </div>
                 </li>
@@ -161,11 +161,7 @@
                     </a>
                 </li>
 
-                <li class="mb-1">
-                    <a href="{{ route('idm.index') }}" class="{{ request()->routeIs('admin.idm.*') ? 'active bg-blue-600' : 'hover:bg-gray-700' }}">
-                        <i class="ph ph-chart-line-up text-xl"></i> Status IDM
-                    </a>
-                </li>
+
                 <li class="mb-1">
                     <a href="{{ route('admin.pengaduan.index') }}" class="{{ request()->routeIs('admin.pengaduan.*') ? 'active bg-blue-600' : 'hover:bg-gray-700' }}">
                         <i class="ph ph-chat-centered-text text-xl"></i> Pengaduan Masyarakat

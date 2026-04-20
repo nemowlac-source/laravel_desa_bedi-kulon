@@ -8,7 +8,7 @@
                 POTENSI DESA
             </h1>
             <p class="text-[14px] md:text-[18px] text-gray-800 font-medium leading-relaxed">
-                Menjelajahi kekayaan alam, budaya, dan inovasi Desa Bedi Kulon.
+                Menjelajahi kekayaan alam, budaya, dan inovasi Desa Bedikulon.
             </p>
         </div>
 

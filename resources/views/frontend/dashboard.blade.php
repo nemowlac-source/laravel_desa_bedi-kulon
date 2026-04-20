@@ -1,6 +1,6 @@
 <x-frontend>
     <header class="w-full">
-        <div id="desktopHeroBg" class="hero hidden md:flex h-[500px] md:h-screen items-center justify-center text-center overflow-hidden bg-cover bg-center bg-no-repeat transition-all duration-1000 ease-in-out relative" style="background-image: url('{{ asset('assets/img/background 1.webp') }}');">
+        <div id="desktopHeroBg" class="hero hidden md:flex h-[500px] md:h-screen items-center justify-center text-center overflow-hidden bg-cover bg-center bg-no-repeat transition-all duration-1000 ease-in-out relative" style="background-image: url('{{ asset('assets/img/background-1.webp') }}');">
 
             {{-- PERBAIKAN: Kabut hitam diganti jadi overlay transparan tipis (bg-black/20) --}}
             <div class="absolute inset-0 bg-black/4 transition-colors duration-700"></div>
@@ -8,10 +8,10 @@
             {{-- Konten Teks --}}
             <div class="hero-overlay z-10 relative px-4">
                 <h1 class="text-white text-4xl md:text-6xl font-black drop-shadow-[0_4px_4px_rgba(0,0,0,0.8)] leading-tight">
-                    Selamat Datang di <br />Website Resmi Desa Bedi Kulon
+                    Selamat Datang di <br />Website Resmi Desa Bedikulon
                 </h1>
                 <p class="text-white/90 text-lg md:text-xl mt-5 drop-shadow-[0_2px_2px_rgba(0,0,0,0.8)] font-medium max-w-2xl mx-auto">
-                    Sumber informasi terbaru tentang pemerintahan di Desa Bedi Kulon
+                    Sumber informasi terbaru tentang pemerintahan di Desa Bedikulon
                 </p>
             </div>
         </div>
@@ -26,9 +26,9 @@
 
             // Daftar gambar (PASTIKAN NAMA FILE DAN EKSTENSINYA BENAR ADA DI FOLDER)
             const slideImages = [
-                "{{ asset('assets/img/background 1.webp') }}"
-                , "{{ asset('assets/img/background 2.webp') }}", // Pastikan file ini ada
-                "{{ asset('assets/img/background 3.webp') }}" // Pastikan file ini ada
+                "{{ asset('assets/img/background-1.webp') }}"
+                , "{{ asset('assets/img/background-2.webp') }}", // Pastikan file ini ada
+                "{{ asset('assets/img/background-3.webp') }}" // Pastikan file ini ada
             ];
 
             // Preload gambar agar tidak blank/kedip saat berganti
@@ -58,7 +58,7 @@
 
             {{-- Slide 1 --}}
             <div class="snap-start shrink-0 w-[98%] relative aspect-[16/10] overflow-hidden rounded-[8px] shadow-md shadow-black/10">
-                <img src="{{ asset('assets/img/background 1.webp') }}" class="w-full h-full object-cover" alt="Hero 1">
+                <img src="{{ asset('assets/img/background-1.webp') }}" class="w-full h-full object-cover" alt="Hero 1">
 
                 {{-- Gradient Overlay --}}
                 <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10"></div>
@@ -67,17 +67,17 @@
                 <div class="absolute inset-0 flex flex-col justify-end p-5 pb-6">
                     <h2 class="text-white font-extrabold text-[22px] leading-tight drop-shadow-md">
                         Selamat Datang<br>
-                        Website Resmi Desa Bedi Kulon
+                        Website Resmi Desa Bedikulon
                     </h2>
                     <p class="text-white/90 text-[12px] font-semibold mt-2 leading-relaxed drop-shadow-md">
-                        Sumber informasi terbaru tentang pemerintahan di Desa Bedi Kulon
+                        Sumber informasi terbaru tentang pemerintahan di Desa Bedikulon
                     </p>
                 </div>
             </div>
 
             {{-- Slide 2 --}}
             <div class="snap-start shrink-0 w-[98%] relative aspect-[16/10] overflow-hidden rounded-[8px] shadow-md shadow-black/10">
-                <img src="{{ asset('assets/img/background 2.webp') }}" class="w-full h-full object-cover" alt="Hero 2">
+                <img src="{{ asset('assets/img/background-2.webp') }}" class="w-full h-full object-cover" alt="Hero 2">
 
                 <div class="absolute inset-0 bg-gradient-to-t from-black/80 via-black/30 to-black/10"></div>
 
@@ -87,7 +87,7 @@
                         Potensi & Wisata Lokal
                     </h2>
                     <p class="text-white/90 text-[12px] font-semibold mt-2 leading-relaxed drop-shadow-md">
-                        Temukan keindahan alam dan kearifan lokal budaya Desa Bedi Kulon.
+                        Temukan keindahan alam dan kearifan lokal budaya Desa Bedikulon.
                     </p>
                 </div>
             </div>
@@ -135,12 +135,6 @@
                         <h3>INFOGRAFIS</h3>
                     </div>
 
-                    <div class="explore-card" onclick="window.location='{{ route('frontend.idm') }}'">
-                        <div class="icon-box-dashboard">
-                            <img src="{{ asset('assets/img/idm.svg') }}" alt="IDM" />
-                        </div>
-                        <h3>IDM</h3>
-                    </div>
 
                     <div class="explore-card" onclick="window.location='{{ route('frontend.ppid') }}'">
                         <div class="icon-box-dashboard">
@@ -157,7 +151,7 @@
             {{-- Grid Container: 4 lajur (kolom) --}}
             <div class="grid grid-cols-4 gap-y-7 gap-x-2">
 
-                <a href="#" class="flex flex-col items-center group">
+                <a href="{{ route('frontend.profile') }}" class="flex flex-col items-center group">
                     <div class="w-[60px] h-[60px] bg-[#eefaf2] rounded-[1.2rem] flex items-center justify-center text-[#40b869] group-hover:bg-[#40b869] group-hover:text-white transition-all duration-300 shadow-sm">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M3 21h18"></path>
@@ -172,7 +166,7 @@
                     <span class="mt-2.5 text-[10px] font-bold text-gray-700 text-center leading-tight">Profil<br>Desa</span>
                 </a>
 
-                <a href="#" class="flex flex-col items-center group">
+                <a href="{{ route('frontend.infografis') }}" class="flex flex-col items-center group">
                     <div class="w-[60px] h-[60px] bg-[#eefaf2] rounded-[1.2rem] flex items-center justify-center text-[#40b869] group-hover:bg-[#40b869] group-hover:text-white transition-all duration-300 shadow-sm">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M3 3v18h18"></path>
@@ -184,16 +178,17 @@
                     <span class="mt-2.5 text-[10px] font-bold text-gray-700 text-center leading-tight">Infografis</span>
                 </a>
 
-                <a href="#" class="flex flex-col items-center group">
+                <a href="{{ route('frontend.wisata') }}" class="flex flex-col items-center group">
                     <div class="w-[60px] h-[60px] bg-[#eefaf2] rounded-[1.2rem] flex items-center justify-center text-[#40b869] group-hover:bg-[#40b869] group-hover:text-white transition-all duration-300 shadow-sm">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M14 10h4.764a2 2 0 0 1 1.789 2.894l-3.5 7A2 2 0 0 1 15.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 0 0-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 0 1-2-2v-6a2 2 0 0 1 2-2h2.5"></path>
                         </svg>
                     </div>
-                    <span class="mt-2.5 text-[10px] font-bold text-gray-700 text-center leading-tight">IDM</span>
+                    <span class="mt-2.5 text-[10px] font-bold text-gray-700 text-center leading-tight">Wisata</span>
                 </a>
 
-                <a href="#" class="flex flex-col items-center group">
+                <a href="{{ route('frontend.ppid') }}" class="flex flex-col items-center group">
+
                     <div class="w-[60px] h-[60px] bg-[#eefaf2] rounded-[1.2rem] flex items-center justify-center text-[#40b869] group-hover:bg-[#40b869] group-hover:text-white transition-all duration-300 shadow-sm">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"></path>
@@ -206,7 +201,7 @@
                     <span class="mt-2.5 text-[10px] font-bold text-gray-700 text-center leading-tight">PPID</span>
                 </a>
 
-                <a href="#" class="flex flex-col items-center group">
+                <a href="{{ route('frontend.berita') }}" class="flex flex-col items-center group">
                     <div class="w-[60px] h-[60px] bg-[#eefaf2] rounded-[1.2rem] flex items-center justify-center text-[#40b869] group-hover:bg-[#40b869] group-hover:text-white transition-all duration-300 shadow-sm">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M11 6.54l-3-3a1 1 0 0 0-1.4 0L4 6a2 2 0 0 0 0 2.83l9.17 9.17a2 2 0 0 0 2.83 0l2.45-2.6a1 1 0 0 0 0-1.4l-3-3M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z"></path>
@@ -215,7 +210,8 @@
                     <span class="mt-2.5 text-[10px] font-bold text-gray-700 text-center leading-tight">Berita</span>
                 </a>
 
-                <a href="#" class="flex flex-col items-center group">
+                <a href="{{ route('frontend.belanja') }}" class="flex flex-col items-center group">
+
                     <div class="w-[60px] h-[60px] bg-[#eefaf2] rounded-[1.2rem] flex items-center justify-center text-[#40b869] group-hover:bg-[#40b869] group-hover:text-white transition-all duration-300 shadow-sm">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z"></path>
@@ -226,7 +222,8 @@
                     <span class="mt-2.5 text-[10px] font-bold text-gray-700 text-center leading-tight">Belanja</span>
                 </a>
 
-                <a href="#" class="flex flex-col items-center group">
+                <a href="{{ route('frontend.bansos') }}" class="flex flex-col items-center group">
+
                     <div class="w-[60px] h-[60px] bg-[#eefaf2] rounded-[1.2rem] flex items-center justify-center text-[#40b869] group-hover:bg-[#40b869] group-hover:text-white transition-all duration-300 shadow-sm">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                             <path d="M21 16V8a2 2 0 0 0-1-1.73l-7-4a2 2 0 0 0-2 0l-7 4A2 2 0 0 0 3 8v8a2 2 0 0 0 1 1.73l7 4a2 2 0 0 0 2 0l7-4A2 2 0 0 0 21 16z"></path>
@@ -237,7 +234,7 @@
                     <span class="mt-2.5 text-[10px] font-bold text-gray-700 text-center leading-tight">Bansos</span>
                 </a>
 
-                <a href="#" class="flex flex-col items-center group">
+                <a href="{{ route('frontend.galeri') }}" class="flex flex-col items-center group">
                     <div class="w-[60px] h-[60px] bg-[#eefaf2] rounded-[1.2rem] flex items-center justify-center text-[#40b869] group-hover:bg-[#40b869] group-hover:text-white transition-all duration-300 shadow-sm">
                         <svg xmlns="http://www.w3.org/2000/svg" class="w-7 h-7" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
                             <rect x="3" y="3" width="18" height="18" rx="2" ry="2"></rect>
@@ -257,27 +254,21 @@
             <div class="welcome-container">
                 <div class="welcome-image">
                     <div class="circle-bg">
-                        <img src="assets/img/Logo Ponorogo.png" alt="Logo Kabupaten Ponorogo" />
+                        <img src="assets/img/Logo-Ponorogo.png" alt="Logo Kabupaten Ponorogo" />
 
                     </div>
                 </div>
 
                 <div class="welcome-text">
-                    <h2 class="title-green">Sambutan Kepala Desa Bedi Kulon</h2>
+                    <h2 class="title-green">Sambutan Kepala Desa Bedikulon</h2>
                     <h3 class="name-head">LUKMANUL HADI</h3>
 
-                    <p class="position-head">Kepala Desa Bedi Kulon</p>
+                    <p class="position-head">Kepala Desa Bedikulon</p>
 
                     <div class="scroll-box">
                         <p><strong>Assalamu Alaikum Warohmatullahi Wabarakatu.</strong></p>
                         <p>
-                            Website ini hadir sebagai wujud transformasi desa Bedi Kulon menjadi
-                            desa yang mampu memanfaatkan teknologi informasi dan komunikasi,
-                            terintegrasi kedalam sistem online. Keterbukaan informasi publik,
-                            pelayanan publik dan kegiatan perekonomian di desa, guna
-                            mewujudkan desa Bedi Kulon sebagai desa wisata yang berkelanjutan,
-                            adaptasi dan mitigasi terhadap perubahan iklim serta menjadi desa
-                            yang mandiri.
+                            Situs web ini merupakan langkah nyata transformasi Desa Bedikulon menuju digitalisasi berbasis teknologi informasi. Melalui integrasi sistem daring, kami berkomitmen meningkatkan transparansi informasi publik, efisiensi layanan, dan penguatan ekonomi lokal. Inisiatif ini dirancang untuk mewujudkan Bedikulon sebagai desa wisata mandiri yang berkelanjutan serta tangguh terhadap perubahan iklim.
                         </p>
                     </div>
                 </div>
@@ -295,21 +286,21 @@
                     {{-- Lingkaran putih dengan shadow lembut di belakang logo --}}
                     <div class="w-60 h-60 bg-white rounded-full shadow-[0_8px_30px_rgb(0,0,0,0.08)] flex items-center justify-center p-4">
                         {{-- Pastikan path gambarnya benar menggunakan asset() Laravel --}}
-                        <img src="{{ asset('assets/img/Logo Ponorogo.png') }}" alt="Logo Kabupaten Ponorogo" class="w-full h-full object-contain" />
+                        <img src="{{ asset('assets/img/Logo-Ponorogo.png') }}" alt="Logo Kabupaten Ponorogo" class="w-full h-full object-contain" />
                     </div>
                 </div>
 
                 {{-- 2. Bagian Teks Judul & Nama --}}
                 <div class="text-center mb-6 w-full">
                     {{-- Warna hijau disesuaikan dengan contoh --}}
-                    <h2 class="text-[#2ac0b4] font-bold text-[15px] mb-1">Sambutan Kepala Desa Bedi Kulon</h2>
+                    <h2 class="text-[#2ac0b4] font-bold text-[15px] mb-1">Sambutan Kepala Desa Bedikulon</h2>
 
                     {{-- Nama Kades: Diberi tracking-[0.3em] agar hurufnya berjarak (spasi lebar) --}}
                     <h3 class="text-gray-900 font-black text-2xl tracking-[0.3em] mb-1 uppercase">
                         LUKMANUL HADI
                     </h3>
 
-                    <p class="text-gray-900 font-bold text-[13px]">Kepala Desa Bedi Kulon</p>
+                    <p class="text-gray-900 font-bold text-[13px]">Kepala Desa Bedikulon</p>
                 </div>
 
                 {{-- 3. Bagian Teks Sambutan (Scrollable) --}}
@@ -317,11 +308,11 @@
                 <div class="w-full text-left text-gray-800 text-[13px] leading-relaxed max-h-[220px] overflow-y-auto pr-4 scrollbar-custom">
                     <p class="font-bold mb-2">Assalamu Alaikum Warohmatullahi Wabarakatu.</p>
                     <p class="text-justify">
-                        Website ini hadir sebagai wujud transformasi desa Bedi Kulon menjadi
+                        Website ini hadir sebagai wujud transformasi desa Bedikulon menjadi
                         desa yang mampu memanfaatkan teknologi informasi dan komunikasi,
                         terintegrasi kedalam sistem online. Keterbukaan informasi publik,
                         pelayanan publik dan kegiatan perekonomian di desa, guna
-                        mewujudkan desa Bedi Kulon sebagai desa wisata yang berkelanjutan,
+                        mewujudkan desa Bedikulon sebagai desa wisata yang berkelanjutan,
                         adaptasi dan mitigasi terhadap perubahan iklim serta menjadi desa
                         yang mandiri.
                     </p>
@@ -340,7 +331,7 @@
                 <div class="mb-6 text-left">
                     <h2 class="text-4xl font-extrabold text-[#2ac0b4] uppercase mb-2">LOKASI DESA</h2>
                     <p class="text-gray-700 text-lg">
-                        Temukan lokasi strategis dan batas wilayah Desa Bedi Kulon melalui peta berikut.
+                        Temukan lokasi strategis dan batas wilayah Desa Bedikulon melalui peta berikut.
                     </p>
                 </div>
 
@@ -365,7 +356,7 @@
             </h2>
 
             <p class="text-gray-800 text-[13px] font-medium text-center mb-6 leading-relaxed max-w-[90%]">
-                Temukan lokasi strategis dan batas wilayah Desa Bedi Kulon melalui peta berikut.
+                Temukan lokasi strategis dan batas wilayah Desa Bedikulon melalui peta berikut.
             </p>
 
             <div class="w-full relative h-[400px] md:h-[500px] border-[6px] border-gray-200 rounded-lg overflow-hidden shadow-sm bg-gray-100 flex items-center justify-center">
@@ -390,7 +381,7 @@
                     <h2 class="text-4xl font-extrabold text-[#2ac0b4] uppercase mb-2 tracking-tight">SOTK</h2>
 
                     <p class="text-gray-800 text-lg font-medium">
-                        Struktur Organisasi dan Tata Kerja Desa Bedi Kulon
+                        Struktur Organisasi dan Tata Kerja Desa Bedikulon
                     </p>
                 </div>
 
@@ -475,7 +466,7 @@
                 SOTK
             </h2>
             <p class="text-gray-800 text-[13px] font-medium text-center mb-6 px-4">
-                Struktur Organisasi dan Tata Kerja Desa Bedi Kulon
+                Struktur Organisasi dan Tata Kerja Desa Bedikulon
             </p>
 
             {{-- Pengecekan Data Utama --}}
@@ -576,7 +567,7 @@
 
                     {{-- 1. Penduduk --}}
                     <div class="flex h-[80px] rounded-md overflow-hidden shadow-sm border border-gray-100">
-                        {{-- PERUBAHAN: Background diubah jadi gradient (bg-gradient-to-r) --}}
+                        {{-- PERUBAHAN: background-diubah jadi gradient (bg-gradient-to-r) --}}
                         <div class="w-5/12 bg-gradient-to-r from-[#2ac0b4] to-[#94dfd9] flex items-center justify-center">
                             {{-- PERUBAHAN: Font dibuat font-black dengan sedikit drop shadow agar menyala --}}
                             <span class="text-white font-black text-[40px] drop-shadow-sm tracking-tight leading-none">{{ number_format($total_penduduk, 0, ',', '.') }}</span>
@@ -929,7 +920,7 @@
                 <div class="mb-10 text-left">
                     <h2 class="text-4xl font-extrabold text-[#2ac0b4] mb-3">Berita Desa</h2>
                     <p class="text-gray-800 text-lg font-medium leading-relaxed max-w-5xl">
-                        Menyajikan informasi terbaru tentang peristiwa, berita terkini, dan artikel-artikel jurnalistik dari Desa Bedi Kulon
+                        Menyajikan informasi terbaru tentang peristiwa, berita terkini, dan artikel-artikel jurnalistik dari Desa Bedikulon
                     </p>
                 </div>
 
@@ -1043,7 +1034,7 @@
                 Berita Desa
             </h2>
             <p class="text-gray-800 text-[13px] font-medium text-center mb-6 leading-relaxed px-4">
-                Menyajikan informasi terbaru tentang peristiwa, berita terkini, dan artikel-artikel jurnalistik dari Desa Bedi Kulon
+                Menyajikan informasi terbaru tentang peristiwa, berita terkini, dan artikel-artikel jurnalistik dari Desa Bedikulon
             </p>
 
             {{-- Pengecekan Ketersediaan Data Berita --}}
@@ -1286,7 +1277,7 @@
                 {{-- Card Individual: Handling route detail --}}
                 <a href="{{ Route::has('frontend.potensi.detail') ? route('frontend.potensi.detail', $item->id) : '#' }}" class="snap-start shrink-0 relative w-[85%] h-[400px] rounded-[1.5rem] overflow-hidden shadow-[0_8px_25px_rgba(0,0,0,0.1)] block group bg-gray-200">
 
-                    {{-- Foto Background dengan Error Handling --}}
+                    {{-- Foto background-dengan Error Handling --}}
                     @php
                     $gambarFallback = 'https://placehold.co/400x600?text=Potensi+Desa';
                     $gambarUrl = !empty($item->gambar) ? asset('storage/' . $item->gambar) : $gambarFallback;
@@ -1363,13 +1354,13 @@
                 {{-- Wrapper slider HANYA dirender jika data wisata ADA --}}
                 <div class="wisata-wrapper-utama relative">
 
-                    {{-- Fallback gambar background --}}
+                    {{-- Fallback gambar background---}}
                     @php
                     $gambarBgFallback = 'https://placehold.co/1920x1080?text=Wisata+Desa';
                     $gambarBgUrl = !empty($wisata_unggulan->gambar) ? asset('storage/' . $wisata_unggulan->gambar) : $gambarBgFallback;
                     @endphp
 
-                    {{-- Background Luar mengambil dari gambar wisata unggulan --}}
+                    {{-- background-Luar mengambil dari gambar wisata unggulan --}}
                     <div class="slide-bg-luar" style="background-image: url('{{ $gambarBgUrl }}');" onerror="this.style.backgroundImage='url({{ $gambarBgFallback }})'"></div>
                     {{-- <div class="slide-bg-overlay"></div> --}}
 
@@ -1411,7 +1402,7 @@
                 </div>
                 @else
                 {{-- Tampilan Kosong dipindah ke LUAR .wisata-wrapper-utama --}}
-                {{-- Ini akan membuat background di belakang kotak ini transparan/mengikuti warna dasar website --}}
+                {{-- Ini akan membuat background-di belakang kotak ini transparan/mengikuti warna dasar website --}}
                 <div class="flex flex-col items-center justify-center w-full py-20 bg-gray-50 rounded-2xl border-2 border-dashed border-gray-200 mt-8 mb-8">
                     <svg class="w-16 h-16 text-gray-300 mb-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 21v-4m22 4v-4m-3-6l-4-4-4 4-4-4-4 4-4-4m22 14H1"></path>
@@ -1469,7 +1460,7 @@
                 {{-- PERBAIKAN: Menggunakan route('frontend.show') sesuai standar detail Wisata Desktop --}}
                 <a href="{{ Route::has('frontend.show') ? route('frontend.show', $item->id) : '#' }}" class="snap-start shrink-0 relative w-[85%] h-[400px] rounded-[1.5rem] overflow-hidden shadow-[0_8px_25px_rgba(0,0,0,0.1)] block group bg-gray-200">
 
-                    {{-- Foto Background dengan Error Handling --}}
+                    {{-- Foto background-dengan Error Handling --}}
                     @php
                     $gambarFallback = 'https://placehold.co/400x600?text=Wisata+Desa';
                     $gambarUrl = !empty($item->gambar) ? asset('storage/' . $item->gambar) : $gambarFallback;

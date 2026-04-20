@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Website Resmi Desa Bedi Kulon</title>
+    <title>Website Resmi Desa Bedikulon</title>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    <link rel="preload" as="image" href="{{ asset('assets/img/background 1.webp') }}" fetchpriority="high">
+    <link rel="preload" as="image" href="{{ asset('assets/img/background-1.webp') }}" fetchpriority="high">
     <meta http-equiv="Content-Security-Policy" content="upgrade-insecure-requests">
 
     @stack('styles')
@@ -26,9 +26,9 @@
     <nav id="desktopNav" class="hidden md:block fixed top-0 w-full z-[1000] transition-all duration-300">
         <div class="nav-container">
             <div class="logo-section">
-                <img src="{{ asset('assets/img/Logo Ponorogo.png') }}" alt="Logo Desa" class="logo-img" />
+                <img src="{{ asset('assets/img/Logo-Ponorogo.png') }}" alt="Logo Desa" class="logo-img" />
                 <div class="logo-text">
-                    <span class="nama-desa">Desa Bedi Kulon</span>
+                    <span class="nama-desa">Desa Bedikulon</span>
                     <span class="sub-nama-nav">Kabupaten Ponorogo</span>
                 </div>
             </div>
@@ -58,9 +58,9 @@
     {{-- bottomNav --}}
     <nav class="block md:hidden fixed top-0 left-0 right-0 h-[68px] bg-[#2ac0b4] text-white z-[9999] px-3 flex justify-between items-center shadow-md">
         <div class="flex items-center gap-3">
-            <img src="{{ asset('assets/img/Logo Ponorogo.png') }}" alt="Logo Ponorogo" class="w-9 h-auto drop-shadow-sm" />
+            <img src="{{ asset('assets/img/Logo-Ponorogo.png') }}" alt="Logo Ponorogo" class="w-9 h-auto drop-shadow-sm" />
             <div class="flex flex-col">
-                <span class="font-extrabold text-[15px] leading-tight tracking-wide">Desa Bedi Kulon</span>
+                <span class="font-extrabold text-[15px] leading-tight tracking-wide">Desa Bedikulon</span>
                 <span class="text-[11px] font-medium leading-tight">Kabupaten Ponorogo</span>
             </div>
         </div>
@@ -188,7 +188,7 @@
                     @endif
 
                     {{-- 2. NOTIFIKASI ERROR VALIDASI --}}
-                    @if($errors->any())
+                    @if(isset($errors) && $errors->any())
                     <div class="mb-5 p-3 rounded-lg bg-red-50 border border-red-200 text-red-700 text-sm flex items-start gap-2 shadow-sm">
                         <svg class="w-5 h-5 shrink-0 mt-0.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
@@ -276,7 +276,7 @@
     </div>
 
     {{-- Script auto-open juga harus dibungkus agar tidak jalan di mobile --}}
-    @if(session('success_pengaduan') || $errors->any())
+    @if(session('success_pengaduan') || (isset($errors) && $errors->any()))
     <script>
         document.addEventListener("DOMContentLoaded", function() {
             let popup = document.getElementById('pengaduanPopup');
@@ -299,7 +299,7 @@
 
                 {{-- Kolom 1: Logo & Identitas --}}
                 <div class="flex items-start gap-4">
-                    <img src="{{ asset('assets/img/Logo Ponorogo.png') }}" alt="Logo Bedikulon" class="w-16 h-auto object-contain" />
+                    <img src="{{ asset('assets/img/Logo-Ponorogo.png') }}" alt="Logo Bedikulon" class="w-16 h-auto object-contain" />
                     <div class="flex flex-col text-sm leading-relaxed">
                         <h3 class="font-bold text-base mb-1">Pemerintah Desa Bedikulon</h3>
                         <p>Jalan Jl. Ahmad Yani 1</p>
@@ -327,7 +327,7 @@
                                 <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
                                 <polyline points="22,6 12,13 2,6"></polyline>
                             </svg>
-                            bedikulon@gmail.com
+                            Bedikulon@gmail.com
                         </li>
                     </ul>
 
@@ -402,9 +402,9 @@
     <footer class="block md:hidden bg-[#2ac0b4] text-white pt-6 pb-[110px] px-6 font-sans">
 
         <div class="flex items-center gap-4 mb-6">
-            <img src="{{ asset('assets/img/Logo Ponorogo.png') }}" alt="Logo Ponorogo" class="w-14 h-auto" />
+            <img src="{{ asset('assets/img/Logo-Ponorogo.png') }}" alt="Logo Ponorogo" class="w-14 h-auto" />
             <div>
-                <h3 class="font-extrabold text-[15px] leading-tight mb-1">Desa Bedi Kulon</h3>
+                <h3 class="font-extrabold text-[15px] leading-tight mb-1">Desa Bedikulon</h3>
                 <p class="text-[11px] leading-tight font-medium opacity-90">
                     Kecamatan Bungkal<br>
                     Kabupaten Ponorogo<br>
@@ -499,7 +499,7 @@
                             <path d="M3 7a2 2 0 0 1 2 -2h14a2 2 0 0 1 2 2v10a2 2 0 0 1 -2 2h-14a2 2 0 0 1 -2 -2v-10z"></path>
                             <path d="M3 7l9 6l9 -6"></path>
                         </svg>
-                        <span class="text-[11px] font-semibold tracking-wide opacity-95 leading-relaxed">bedikulon@gmail.com</span>
+                        <span class="text-[11px] font-semibold tracking-wide opacity-95 leading-relaxed">Bedikulon@gmail.com</span>
                     </div>
 
                     <div class="flex items-start gap-3">
@@ -543,12 +543,12 @@
                 <div class="pb-6 pt-2 pl-9 space-y-4">
 
                     <div>
-                        <p class="text-[11px] font-bold tracking-wide opacity-95 mb-0.5">Kades Bedi Kulon</p>
+                        <p class="text-[11px] font-bold tracking-wide opacity-95 mb-0.5">Kades Bedikulon</p>
                         <p class="text-[11px] font-bold tracking-wide opacity-95">081242368478</p>
                     </div>
 
                     <div>
-                        <p class="text-[11px] font-bold tracking-wide opacity-95 mb-0.5">Ambulan Bedi Kulon</p>
+                        <p class="text-[11px] font-bold tracking-wide opacity-95 mb-0.5">Ambulan Bedikulon</p>
                         <p class="text-[11px] font-bold tracking-wide opacity-95">085392095123</p>
                     </div>
 
@@ -670,9 +670,6 @@
             <a href="{{ route('frontend.listing') }}" class="flex items-center gap-4 p-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors font-semibold text-sm">
 
                 <i class="ph ph-file-text text-xl text-[#2ac0b4]"></i> Listing
-            </a>
-            <a href="{{ route('frontend.idm') }}" class="flex items-center gap-4 p-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors font-semibold text-sm">
-                <i class="ph ph-house text-xl text-[#2ac0b4]"></i> IDM
             </a>
             <a href="{{ route('frontend.berita') }}" class="flex items-center gap-4 p-3 text-gray-700 hover:bg-gray-100 rounded-lg transition-colors font-semibold text-sm">
                 <i class="ph ph-user text-xl text-[#2ac0b4]"></i> Berita
