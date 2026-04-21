@@ -135,6 +135,13 @@
                         <h3>INFOGRAFIS</h3>
                     </div>
 
+                    <div class="explore-card" onclick="window.location='{{ route('frontend.wisata') }}'">
+                        <div class="icon-box-dashboard">
+                            <img src="{{ asset('assets/img/idm.svg') }}" alt="IDM" />
+                        </div>
+                        <h3>WISATA</h3>
+                    </div>
+
 
                     <div class="explore-card" onclick="window.location='{{ route('frontend.ppid') }}'">
                         <div class="icon-box-dashboard">
