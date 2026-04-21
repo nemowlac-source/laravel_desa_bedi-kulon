@@ -391,7 +391,7 @@
 
             {{-- Footer Bottom (Copyright) --}}
             <div class="mt-12 pt-6 border-t border-white/20 flex justify-center items-center text-sm">
-                <p>&copy; 2026 Powered by PT Digital Desa Indonesia</p>
+                <p>&copy; 2026 Powered by Kelompok 6 TA Rekayasa Perangkat Lunak SMK PGRI 2 PONOROGO</p>
             </div>
 
         </div>
