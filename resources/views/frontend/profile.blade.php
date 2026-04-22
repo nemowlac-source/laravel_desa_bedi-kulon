@@ -255,7 +255,6 @@
                             "Membangun Ponorogo Hebat."
                         </div>
                         <p>Desa Bedikulon sendiri terdiri dari 3 dhukuhan (dusun), yakni Bogem, Krajan dan Mayi. Penamaan Bedi ini diriwayatkan oleh warga setidaknya dalam tiga versi. Pertama, dari kata "medhi", Kedua, adalah karena dulu terdapat sebuah langgar (musholla) yang berdebu karena pasir (jw. wedhi). Sedangkan versi ketiga, yaitu karena banyak sungai yang membawa endapan pasir. Meskipun agak berbeda, namun ketiganya sama-sama berkaitan dengan pasir atau wedhi.</p>
-                        <p>Buku ini ditulis mengacu pada penelitian dan fakta-fakta sejarah berdasarkan memori kolektif-kolegial yang masih tersimpan rapi dalam ingatan para sesepuh desa dengan memaparkan kronologi sejarah Desa Bediwetan secara sistematis.</p>
                     </div>
                 </details>
 
