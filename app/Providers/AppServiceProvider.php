@@ -20,7 +20,7 @@ class AppServiceProvider extends ServiceProvider
         if (config('app.env') === 'production') {
             URL::forceScheme('https');
         }
-        // Gunakan View Composer agar query HANYA jalan saat file layout frontend dipanggil ⏺️
+        // Gunakan View Composer agar query HANYA jalan saat file layout frontend dipanggil 
         View::composer('components.frontend', function ($view) {
             $visitor_stats = [
                 'hari_ini'    => Visitor::whereDate('date', today())->count(),

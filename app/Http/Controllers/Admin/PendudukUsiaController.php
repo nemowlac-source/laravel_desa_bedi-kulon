@@ -10,7 +10,6 @@ class PendudukUsiaController extends Controller
 {
     public function index()
     {
-        // Urutkan berdasarkan ID agar urutan umurnya (0-4, 5-9) tidak berantakan
         $usia = PendudukUsia::all();
         return view('admin.usia.index', compact('usia'));
     }
@@ -58,5 +57,18 @@ class PendudukUsiaController extends Controller
     {
         PendudukUsia::findOrFail($id)->delete();
         return redirect()->route('usia.index')->with('success', 'Data dihapus');
+    }
+
+    public function bulkDestroy(Request $request)
+    {
+        $request->validate([
+            'ids' => 'required|array',
+            'ids.*' => 'integer|exists:penduduk_usias,id',
+        ]);
+
+        $count = PendudukUsia::whereIn('id', $request->ids)->delete();
+
+        return redirect()->route('usia.index')
+            ->with('success', $count . ' data kelompok umur berhasil dihapus');
     }
 }

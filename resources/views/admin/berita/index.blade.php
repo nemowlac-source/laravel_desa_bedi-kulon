@@ -8,24 +8,44 @@
     <div class="alert alert-success mb-4 text-white">{{ session('success') }}</div>
     @endif
 
-    <div class="card bg-white shadow p-4">
-        <div class="overflow-x-auto">
+    <form id="bulk-delete-form" action="{{ route('berita.bulk-destroy') }}" method="POST">
+        @csrf
+        @method('DELETE')
+
+        <div class="card bg-white shadow p-4 overflow-x-auto">
+            <div class="flex justify-between items-center mb-3">
+                <label class="flex items-center gap-2 cursor-pointer">
+                    <input type="checkbox" id="select-all" class="checkbox checkbox-sm">
+                    <span class="text-sm font-semibold">Pilih Semua</span>
+                </label>
+                <button type="submit" id="bulk-delete-btn" class="btn btn-sm btn-error text-white hidden" onclick="return confirm('Yakin ingin menghapus berita yang dipilih?')">
+                    Hapus Terpilih (<span id="selected-count">0</span>)
+                </button>
+            </div>
             <table class="table w-full">
                 <thead class="bg-gray-100">
                     <tr>
+                        <th class="w-12 text-center">
+                            <input type="checkbox" id="select-all-header" class="checkbox checkbox-sm">
+                        </th>
                         <th>Gambar</th>
                         <th>Judul</th>
+                        <th>Penulis</th>
                         <th>Tanggal</th>
                         <th>Aksi</th>
                     </tr>
                 </thead>
                 <tbody>
                     @forelse($beritas as $item)
-                    <tr>
+                    <tr class="hover">
+                        <td class="text-center">
+                            <input type="checkbox" name="ids[]" value="{{ $item->id }}" class="row-checkbox checkbox checkbox-sm checkbox-primary">
+                        </td>
                         <td>
                             <img src="{{ asset('storage/' . $item->gambar) }}" class="w-16 h-12 object-cover rounded">
                         </td>
-                        <td class="font-bold max-w-xs truncate">{{ $item->judul }}</td>
+                        <td class="font-bold">{{ $item->judul }}</td>
+                        <td>{{ $item->penulis }}</td>
                         <td>{{ $item->created_at->format('d M Y') }}</td>
                         <td class="flex gap-2">
                             <a href="{{ route('berita.edit', $item->id) }}" class="btn btn-sm btn-warning">Edit</a>
@@ -37,11 +57,51 @@
                     </tr>
                     @empty
                     <tr>
-                        <td colspan="4" class="text-center p-4">Belum ada berita.</td>
+                        <td colspan="6" class="text-center py-8 text-gray-500">Belum ada berita.</td>
                     </tr>
                     @endforelse
                 </tbody>
             </table>
         </div>
-    </div>
+    </form>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const selectAll = document.getElementById('select-all');
+            const selectAllHeader = document.getElementById('select-all-header');
+            const rowCheckboxes = document.querySelectorAll('.row-checkbox');
+            const bulkDeleteBtn = document.getElementById('bulk-delete-btn');
+            const selectedCount = document.getElementById('selected-count');
+
+            function updateSelectedCount() {
+                const checked = document.querySelectorAll('.row-checkbox:checked').length;
+                selectedCount.textContent = checked;
+                if (checked > 0) {
+                    bulkDeleteBtn.classList.remove('hidden');
+                } else {
+                    bulkDeleteBtn.classList.add('hidden');
+                }
+            }
+
+            function toggleAll(checked) {
+                rowCheckboxes.forEach(cb => cb.checked = checked);
+                updateSelectedCount();
+            }
+
+            selectAll.addEventListener('change', function() {
+                toggleAll(this.checked);
+                selectAllHeader.checked = this.checked;
+            });
+
+            selectAllHeader.addEventListener('change', function() {
+                toggleAll(this.checked);
+                selectAll.checked = this.checked;
+            });
+
+            rowCheckboxes.forEach(cb => {
+                cb.addEventListener('change', updateSelectedCount);
+            });
+        });
+
+    </script>
 </x-layouts.admin>

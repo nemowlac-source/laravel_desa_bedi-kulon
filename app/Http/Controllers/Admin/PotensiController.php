@@ -82,4 +82,24 @@ class PotensiController extends Controller
 
         return redirect()->route('potensi.index')->with('success', 'Data dihapus!');
     }
+
+    public function bulkDestroy(Request $request)
+    {
+        $request->validate([
+            'ids' => 'required|array',
+            'ids.*' => 'integer|exists:potensis,id',
+        ]);
+
+        $items = Potensi::whereIn('id', $request->ids)->get();
+
+        foreach ($items as $item) {
+            if (Storage::disk('public')->exists($item->gambar)) {
+                Storage::disk('public')->delete($item->gambar);
+            }
+            $item->delete();
+        }
+
+        return redirect()->route('potensi.index')
+            ->with('success', $items->count() . ' data potensi berhasil dihapus');
+    }
 }

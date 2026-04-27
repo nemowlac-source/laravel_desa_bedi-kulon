@@ -56,4 +56,17 @@ class PendudukAgamaController extends Controller
         PendudukAgama::findOrFail($id)->delete();
         return redirect()->route('agama.index')->with('success', 'Data dihapus');
     }
+
+    public function bulkDestroy(Request $request)
+    {
+        $request->validate([
+            'ids' => 'required|array',
+            'ids.*' => 'integer|exists:penduduk_agamas,id',
+        ]);
+
+        $count = PendudukAgama::whereIn('id', $request->ids)->delete();
+
+        return redirect()->route('agama.index')
+            ->with('success', $count . ' data agama berhasil dihapus');
+    }
 }

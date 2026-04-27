@@ -6,5 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class PendudukWajibPilih extends Model
 {
-    //
+    protected $fillable = [
+        'tahun',
+        'jumlah_pemilih',
+    ];
 }

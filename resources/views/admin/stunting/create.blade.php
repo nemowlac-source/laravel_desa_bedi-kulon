@@ -4,7 +4,7 @@
     </div>
 
     <div class="card bg-white shadow max-w-3xl mx-auto p-6">
-        <h2 class="text-xl font-bold mb-6">Input Statistik Stunting Tahunan 📊</h2>
+        <h2 class="text-xl font-bold mb-6">Input Statistik Stunting Tahunan </h2>
 
         <form action="{{ route('stunting.store') }}" method="POST">
             @csrf
@@ -12,7 +12,7 @@
             <div class="form-control mb-6">
                 <label class="label font-bold">Tahun Anggaran</label>
                 <input type="number" name="tahun" class="input input-bordered w-full md:w-1/3" value="{{ date('Y') }}" required>
-                <span class="text-xs text-gray-500 mt-1">Data akan diperbarui jika tahun yang sama sudah ada ⏺️</span>
+                <span class="text-xs text-gray-500 mt-1">Data akan diperbarui jika tahun yang sama sudah ada </span>
             </div>
 
             <div class="divider text-primary font-bold">Data Sasaran & Risiko</div>
@@ -54,7 +54,7 @@
                 </div>
             </div>
 
-            <button class="btn btn-primary w-full text-white">Simpan Statistik Tahunan ⏺️</button>
+            <button class="btn btn-primary w-full text-white">Simpan Statistik Tahunan </button>
         </form>
     </div>
 </x-layouts.admin>

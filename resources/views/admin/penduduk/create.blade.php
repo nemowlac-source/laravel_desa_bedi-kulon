@@ -9,6 +9,16 @@
         <form action="{{ route('penduduk.store') }}" method="POST">
             @csrf
 
+            @if ($errors->any())
+            <div class="alert alert-error mb-4 text-white">
+                <ul class="list-disc list-inside">
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
+
             <div class="form-control mb-4">
                 <label class="label font-bold">Nama Wilayah / Dusun / RT</label>
                 <input type="text" name="nama_wilayah" class="input input-bordered" placeholder="Contoh: Dusun Krajan RW 01" required>

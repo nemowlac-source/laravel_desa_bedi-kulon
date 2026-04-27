@@ -5,14 +5,13 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Berita;
 use Illuminate\Http\Request;
-use Illuminate\Support\Str; // PENTING: Untuk bikin slug
+use Illuminate\Support\Str;
 use Illuminate\Support\Facades\Storage;
 
 class BeritaController extends Controller
 {
     public function index()
     {
-        // Tampilkan berita terbaru di atas
         $beritas = Berita::latest()->get();
         return view('admin.berita.index', compact('beritas'));
     }
@@ -34,10 +33,10 @@ class BeritaController extends Controller
 
         Berita::create([
             'judul' => $request->judul,
-            'slug' => Str::slug($request->judul), // Otomatis bikin slug
+            'slug' => Str::slug($request->judul),
             'isi' => $request->isi,
             'gambar' => $path,
-            'penulis' => 'Admin', // Bisa diganti auth()->user()->name
+            'penulis' => 'Admin',
         ]);
 
         return redirect()->route('berita.index')->with('success', 'Berita berhasil diterbitkan!');
@@ -61,7 +60,7 @@ class BeritaController extends Controller
 
         $data = [
             'judul' => $request->judul,
-            'slug' => Str::slug($request->judul), // Update slug jika judul berubah
+            'slug' => Str::slug($request->judul),
             'isi' => $request->isi,
         ];
 
@@ -88,5 +87,25 @@ class BeritaController extends Controller
         $berita->delete();
 
         return redirect()->route('berita.index')->with('success', 'Berita dihapus!');
+    }
+
+    public function bulkDestroy(Request $request)
+    {
+        $request->validate([
+            'ids' => 'required|array',
+            'ids.*' => 'integer|exists:beritas,id',
+        ]);
+
+        $items = Berita::whereIn('id', $request->ids)->get();
+
+        foreach ($items as $item) {
+            if (Storage::disk('public')->exists($item->gambar)) {
+                Storage::disk('public')->delete($item->gambar);
+            }
+            $item->delete();
+        }
+
+        return redirect()->route('berita.index')
+            ->with('success', $items->count() . ' berita berhasil dihapus');
     }
 }

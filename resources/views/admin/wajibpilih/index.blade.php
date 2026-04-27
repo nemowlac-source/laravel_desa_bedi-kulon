@@ -1,6 +1,6 @@
 <x-layouts.admin>
     <div class="flex justify-between items-center mb-6">
-        <h1 class="text-2xl font-bold">Statistik Wajib Pilih</h1>
+        <h1 class="text-2xl font-bold">Statistik Wajib Pemilih</h1>
         <a href="{{ route('wajibpilih.create') }}" class="btn btn-primary text-white">Tambah Data</a>
     </div>
 
@@ -8,30 +8,90 @@
     <div class="alert alert-success mb-4 text-white">{{ session('success') }}</div>
     @endif
 
-    <div class="card bg-white shadow p-4">
-        <table class="table w-full">
-            <thead class="bg-gray-100">
-                <tr>
-                    <th>Kategori</th>
-                    <th>Jumlah</th>
-                    <th>Aksi</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($wajibpilih as $item)
-                <tr class="hover">
-                    <td class="font-bold">{{ $item->kategori }}</td>
-                    <td>{{ number_format($item->jumlah, 0, ',', '.') }} Jiwa</td>
-                    <td class="flex gap-2">
-                        <a href="{{ route('wajibpilih.edit', $item->id) }}" class="btn btn-sm btn-warning">Edit</a>
-                        <form action="{{ route('wajibpilih.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Hapus data ini?');">
-                            @csrf @method('DELETE')
-                            <button class="btn btn-sm btn-error text-white">Hapus</button>
-                        </form>
-                    </td>
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
-    </div>
+    <form id="bulk-delete-form" action="{{ route('wajibpilih.bulk-destroy') }}" method="POST">
+        @csrf
+        @method('DELETE')
+
+        <div class="card bg-white shadow p-4">
+            <div class="flex justify-between items-center mb-3">
+                <label class="flex items-center gap-2 cursor-pointer">
+                    <input type="checkbox" id="select-all" class="checkbox checkbox-sm">
+                    <span class="text-sm font-semibold">Pilih Semua</span>
+                </label>
+                <button type="submit" id="bulk-delete-btn" class="btn btn-sm btn-error text-white hidden" onclick="return confirm('Yakin ingin menghapus data yang dipilih?')">
+                    Hapus Terpilih (<span id="selected-count">0</span>)
+                </button>
+            </div>
+            <table class="table w-full">
+                <thead class="bg-gray-100">
+                    <tr>
+                        <th class="w-12 text-center">
+                            <input type="checkbox" id="select-all-header" class="checkbox checkbox-sm">
+                        </th>
+                        <th>Tahun</th>
+                        <th>Jumlah Wajib Pemilih</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach($wajibpilih as $item)
+                    <tr class="hover">
+                        <td class="text-center">
+                            <input type="checkbox" name="ids[]" value="{{ $item->id }}" class="row-checkbox checkbox checkbox-sm checkbox-primary">
+                        </td>
+                        <td class="font-bold">{{ $item->tahun }}</td>
+                        <td>{{ number_format($item->jumlah_pemilih, 0, ',', '.') }} Orang</td>
+                        <td class="flex gap-2">
+                            <a href="{{ route('wajibpilih.edit', $item->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                            <form action="{{ route('wajibpilih.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Hapus data ini?');">
+                                @csrf @method('DELETE')
+                                <button class="btn btn-sm btn-error text-white">Hapus</button>
+                            </form>
+                        </td>
+                    </tr>
+                    @endforeach
+                </tbody>
+            </table>
+        </div>
+    </form>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const selectAll = document.getElementById('select-all');
+            const selectAllHeader = document.getElementById('select-all-header');
+            const rowCheckboxes = document.querySelectorAll('.row-checkbox');
+            const bulkDeleteBtn = document.getElementById('bulk-delete-btn');
+            const selectedCount = document.getElementById('selected-count');
+
+            function updateSelectedCount() {
+                const checked = document.querySelectorAll('.row-checkbox:checked').length;
+                selectedCount.textContent = checked;
+                if (checked > 0) {
+                    bulkDeleteBtn.classList.remove('hidden');
+                } else {
+                    bulkDeleteBtn.classList.add('hidden');
+                }
+            }
+
+            function toggleAll(checked) {
+                rowCheckboxes.forEach(cb => cb.checked = checked);
+                updateSelectedCount();
+            }
+
+            selectAll.addEventListener('change', function() {
+                toggleAll(this.checked);
+                selectAllHeader.checked = this.checked;
+            });
+
+            selectAllHeader.addEventListener('change', function() {
+                toggleAll(this.checked);
+                selectAll.checked = this.checked;
+            });
+
+            rowCheckboxes.forEach(cb => {
+                cb.addEventListener('change', updateSelectedCount);
+            });
+        });
+
+    </script>
 </x-layouts.admin>

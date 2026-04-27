@@ -6,5 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class PendudukPendidikan extends Model
 {
-    //
+    protected $fillable = [
+        'tingkat_pendidikan',
+        'jumlah',
+    ];
 }

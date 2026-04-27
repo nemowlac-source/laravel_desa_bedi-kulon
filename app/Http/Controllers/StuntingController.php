@@ -42,6 +42,6 @@ class StuntingController extends Controller
             $validated                    // Data yang diupdate/simpan
         );
 
-        return redirect()->back()->with('success', 'Data Statistik Stunting berhasil diperbarui ⏺️');
+        return redirect()->back()->with('success', 'Data Statistik Stunting berhasil diperbarui ');
     }
 }

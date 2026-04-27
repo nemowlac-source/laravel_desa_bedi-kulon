@@ -56,4 +56,17 @@ class PendudukKawinController extends Controller
         PendudukKawin::findOrFail($id)->delete();
         return redirect()->route('kawin.index')->with('success', 'Data dihapus');
     }
+
+    public function bulkDestroy(Request $request)
+    {
+        $request->validate([
+            'ids' => 'required|array',
+            'ids.*' => 'integer|exists:penduduk_kawins,id',
+        ]);
+
+        $count = PendudukKawin::whereIn('id', $request->ids)->delete();
+
+        return redirect()->route('kawin.index')
+            ->with('success', $count . ' data status kawin berhasil dihapus');
+    }
 }

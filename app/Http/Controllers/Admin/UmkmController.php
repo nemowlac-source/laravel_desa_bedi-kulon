@@ -9,20 +9,17 @@ use Illuminate\Support\Facades\Storage;
 
 class UmkmController extends Controller
 {
-    // 1. DAFTAR PRODUK
     public function index()
     {
         $products = Umkm::latest()->get();
         return view('admin.umkm.index', compact('products'));
     }
 
-    // 2. FORM TAMBAH
     public function create()
     {
         return view('admin.umkm.create');
     }
 
-    // 3. PROSES SIMPAN BARU
     public function store(Request $request)
     {
         $request->validate([
@@ -47,14 +44,12 @@ class UmkmController extends Controller
         return redirect()->route('umkm.index')->with('success', 'Produk berhasil ditambahkan');
     }
 
-    // 4. FORM EDIT
     public function edit($id)
     {
         $product = Umkm::findOrFail($id);
         return view('admin.umkm.edit', compact('product'));
     }
 
-    // 5. PROSES UPDATE
     public function update(Request $request, $id)
     {
         $product = Umkm::findOrFail($id);
@@ -67,13 +62,10 @@ class UmkmController extends Controller
 
         $data = $request->except('gambar');
 
-        // Cek jika ada upload gambar baru
         if ($request->hasFile('gambar')) {
-            // Hapus gambar lama
             if (Storage::disk('public')->exists($product->gambar)) {
                 Storage::disk('public')->delete($product->gambar);
             }
-            // Upload gambar baru
             $data['gambar'] = $request->file('gambar')->store('umkm', 'public');
         }
 
@@ -82,7 +74,6 @@ class UmkmController extends Controller
         return redirect()->route('umkm.index')->with('success', 'Produk berhasil diperbarui');
     }
 
-    // 6. HAPUS
     public function destroy($id)
     {
         $product = Umkm::findOrFail($id);
@@ -94,5 +85,25 @@ class UmkmController extends Controller
         $product->delete();
 
         return redirect()->route('umkm.index')->with('success', 'Produk dihapus');
+    }
+
+    public function bulkDestroy(Request $request)
+    {
+        $request->validate([
+            'ids' => 'required|array',
+            'ids.*' => 'integer|exists:umkms,id',
+        ]);
+
+        $items = Umkm::whereIn('id', $request->ids)->get();
+
+        foreach ($items as $item) {
+            if (Storage::disk('public')->exists($item->gambar)) {
+                Storage::disk('public')->delete($item->gambar);
+            }
+            $item->delete();
+        }
+
+        return redirect()->route('umkm.index')
+            ->with('success', $items->count() . ' produk berhasil dihapus');
     }
 }

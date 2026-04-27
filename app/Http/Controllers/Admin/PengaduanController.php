@@ -10,8 +10,7 @@ class PengaduanController extends Controller
 {
     public function index()
     {
-        // Mengambil aduan terbaru ⏺️
-        $pengaduans = Pengaduan::latest()->paginate(10);
+        $pengaduans = Pengaduan::latest()->get();
         return view('admin.pengaduan.index', compact('pengaduans'));
     }
 
@@ -24,14 +23,33 @@ class PengaduanController extends Controller
     public function update(Request $request, $id)
     {
         $pengaduan = Pengaduan::findOrFail($id);
-        $pengaduan->update($request->all()); // Ini akan mengambil status & catatan_admin sekaligus
 
-        return back()->with('success', 'Data berhasil diperbarui!');
+        $request->validate([
+            'status' => 'required|in:baru,diproses,selesai,ditolak',
+            'catatan_admin' => 'nullable|string',
+        ]);
+
+        $pengaduan->update($request->all());
+
+        return redirect()->route('admin.pengaduan.index')->with('success', 'Status pengaduan diperbarui');
     }
+
     public function destroy($id)
     {
-        $pengaduan = Pengaduan::findOrFail($id);
-        $pengaduan->delete();
-        return back()->with('success', 'Aduan berhasil dihapus! 🛠️');
+        Pengaduan::findOrFail($id)->delete();
+        return redirect()->route('admin.pengaduan.index')->with('success', 'Pengaduan dihapus');
+    }
+
+    public function bulkDestroy(Request $request)
+    {
+        $request->validate([
+            'ids' => 'required|array',
+            'ids.*' => 'integer|exists:pengaduans,id',
+        ]);
+
+        $count = Pengaduan::whereIn('id', $request->ids)->delete();
+
+        return redirect()->route('admin.pengaduan.index')
+            ->with('success', $count . ' pengaduan berhasil dihapus');
     }
 }

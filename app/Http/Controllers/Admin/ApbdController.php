@@ -64,4 +64,17 @@ class ApbdController extends Controller
         Apbd::findOrFail($id)->delete();
         return redirect()->route('apbd.index')->with('success', 'Data dihapus');
     }
+
+    public function bulkDestroy(Request $request)
+    {
+        $request->validate([
+            'ids' => 'required|array',
+            'ids.*' => 'integer|exists:apbds,id',
+        ]);
+
+        $count = Apbd::whereIn('id', $request->ids)->delete();
+
+        return redirect()->route('apbd.index')
+            ->with('success', $count . ' data APBD berhasil dihapus');
+    }
 }

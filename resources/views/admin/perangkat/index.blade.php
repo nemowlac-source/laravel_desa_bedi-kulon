@@ -1,35 +1,107 @@
 <x-layouts.admin>
     <div class="flex justify-between items-center mb-6">
-        <h1 class="text-2xl font-bold">Struktur Organisasi Desa</h1>
-        <a href="{{ route('perangkat.create') }}" class="btn btn-primary text-white">Tambah Perangkat</a>
+        <h1 class="text-2xl font-bold">Perangkat Desa</h1>
+        <a href="{{ route('perangkat.create') }}" class="btn btn-primary text-white">+ Tambah Perangkat</a>
     </div>
 
     @if(session('success'))
     <div class="alert alert-success mb-4 text-white">{{ session('success') }}</div>
     @endif
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-        @foreach($perangkats as $item)
-        <div class="card bg-white shadow border border-gray-100 flex flex-row p-4 items-center gap-4">
-            <div class="avatar">
-                <div class="w-20 h-20 rounded-full ring ring-primary ring-offset-base-100 ring-offset-2">
-                    <img src="{{ asset('storage/' . $item->foto) }}" alt="{{ $item->nama }}" />
-                </div>
-            </div>
-            <div class="flex-1">
-                <h2 class="font-bold text-lg">{{ $item->nama }}</h2>
-                <p class="text-blue-600 text-sm font-semibold uppercase">{{ $item->jabatan }}</p>
-                <p class="text-xs text-gray-500 mt-1">NIAP: {{ $item->niap ?? '-' }}</p>
+    <form id="bulk-delete-form" action="{{ route('perangkat.bulk-destroy') }}" method="POST">
+        @csrf
+        @method('DELETE')
 
-                <div class="flex gap-2 mt-3">
-                    <a href="{{ route('perangkat.edit', $item->id) }}" class="btn btn-xs btn-warning">Edit</a>
-                    <form action="{{ route('perangkat.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Hapus data ini?');">
-                        @csrf @method('DELETE')
-                        <button class="btn btn-xs btn-error text-white">Hapus</button>
-                    </form>
-                </div>
+        <div class="card bg-white shadow p-4 overflow-x-auto">
+            <div class="flex justify-between items-center mb-3">
+                <label class="flex items-center gap-2 cursor-pointer">
+                    <input type="checkbox" id="select-all" class="checkbox checkbox-sm">
+                    <span class="text-sm font-semibold">Pilih Semua</span>
+                </label>
+                <button type="submit" id="bulk-delete-btn" class="btn btn-sm btn-error text-white hidden" onclick="return confirm('Yakin ingin menghapus data yang dipilih?')">
+                    Hapus Terpilih (<span id="selected-count">0</span>)
+                </button>
             </div>
+            <table class="table w-full">
+                <thead class="bg-gray-100">
+                    <tr>
+                        <th class="w-12 text-center">
+                            <input type="checkbox" id="select-all-header" class="checkbox checkbox-sm">
+                        </th>
+                        <th>Foto</th>
+                        <th>Nama</th>
+                        <th>Jabatan</th>
+                        <th>NIAP</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @forelse($perangkats as $item)
+                    <tr class="hover">
+                        <td class="text-center">
+                            <input type="checkbox" name="ids[]" value="{{ $item->id }}" class="row-checkbox checkbox checkbox-sm checkbox-primary">
+                        </td>
+                        <td>
+                            <img src="{{ asset('storage/' . $item->foto) }}" class="w-12 h-12 rounded object-cover">
+                        </td>
+                        <td class="font-bold">{{ $item->nama }}</td>
+                        <td>{{ $item->jabatan }}</td>
+                        <td>{{ $item->niap ?? '-' }}</td>
+                        <td class="flex gap-2">
+                            <a href="{{ route('perangkat.edit', $item->id) }}" class="btn btn-sm btn-warning">Edit</a>
+                            <form action="{{ route('perangkat.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Hapus data ini?');">
+                                @csrf @method('DELETE')
+                                <button class="btn btn-sm btn-error text-white">Hapus</button>
+                            </form>
+                        </td>
+                    </tr>
+                    @empty
+                    <tr>
+                        <td colspan="6" class="text-center py-8 text-gray-500">Belum ada data perangkat desa.</td>
+                    </tr>
+                    @endforelse
+                </tbody>
+            </table>
         </div>
-        @endforeach
-    </div>
+    </form>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const selectAll = document.getElementById('select-all');
+            const selectAllHeader = document.getElementById('select-all-header');
+            const rowCheckboxes = document.querySelectorAll('.row-checkbox');
+            const bulkDeleteBtn = document.getElementById('bulk-delete-btn');
+            const selectedCount = document.getElementById('selected-count');
+
+            function updateSelectedCount() {
+                const checked = document.querySelectorAll('.row-checkbox:checked').length;
+                selectedCount.textContent = checked;
+                if (checked > 0) {
+                    bulkDeleteBtn.classList.remove('hidden');
+                } else {
+                    bulkDeleteBtn.classList.add('hidden');
+                }
+            }
+
+            function toggleAll(checked) {
+                rowCheckboxes.forEach(cb => cb.checked = checked);
+                updateSelectedCount();
+            }
+
+            selectAll.addEventListener('change', function() {
+                toggleAll(this.checked);
+                selectAllHeader.checked = this.checked;
+            });
+
+            selectAllHeader.addEventListener('change', function() {
+                toggleAll(this.checked);
+                selectAll.checked = this.checked;
+            });
+
+            rowCheckboxes.forEach(cb => {
+                cb.addEventListener('change', updateSelectedCount);
+            });
+        });
+
+    </script>
 </x-layouts.admin>

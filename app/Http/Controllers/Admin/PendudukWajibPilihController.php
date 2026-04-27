@@ -22,8 +22,8 @@ class PendudukWajibPilihController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'kategori' => 'required',
-            'jumlah' => 'required|numeric',
+            'tahun' => 'required|integer|min:1900|max:' . date('Y'),
+            'jumlah_pemilih' => 'required|numeric|min:0',
         ]);
 
         PendudukWajibPilih::create($request->all());
@@ -42,8 +42,8 @@ class PendudukWajibPilihController extends Controller
         $wajibpilih = PendudukWajibPilih::findOrFail($id);
 
         $request->validate([
-            'kategori' => 'required',
-            'jumlah' => 'required|numeric',
+            'tahun' => 'required|integer|min:1900|max:' . date('Y'),
+            'jumlah_pemilih' => 'required|numeric|min:0',
         ]);
 
         $wajibpilih->update($request->all());
@@ -55,5 +55,18 @@ class PendudukWajibPilihController extends Controller
     {
         PendudukWajibPilih::findOrFail($id)->delete();
         return redirect()->route('wajibpilih.index')->with('success', 'Data dihapus');
+    }
+
+    public function bulkDestroy(Request $request)
+    {
+        $request->validate([
+            'ids' => 'required|array',
+            'ids.*' => 'integer|exists:penduduk_wajib_pilihs,id',
+        ]);
+
+        $count = PendudukWajibPilih::whereIn('id', $request->ids)->delete();
+
+        return redirect()->route('wajibpilih.index')
+            ->with('success', $count . ' data pemilih berhasil dihapus');
     }
 }

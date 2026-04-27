@@ -11,7 +11,6 @@ class PerangkatDesaController extends Controller
 {
     public function index()
     {
-        // Urutkan berdasarkan yang terbaru
         $perangkats = PerangkatDesa::latest()->get();
         return view('admin.perangkat.index', compact('perangkats'));
     }
@@ -26,7 +25,7 @@ class PerangkatDesaController extends Controller
         $request->validate([
             'nama' => 'required',
             'jabatan' => 'required',
-            'foto' => 'required|image|max:10048', // Maks 2MB
+            'foto' => 'required|image|max:10048',
         ]);
 
         $path = $request->file('foto')->store('perangkat', 'public');
@@ -59,13 +58,10 @@ class PerangkatDesaController extends Controller
 
         $data = $request->except('foto');
 
-        // Cek jika ganti foto
         if ($request->hasFile('foto')) {
-            // Hapus foto lama
             if ($perangkat->foto && Storage::disk('public')->exists($perangkat->foto)) {
                 Storage::disk('public')->delete($perangkat->foto);
             }
-            // Upload baru
             $data['foto'] = $request->file('foto')->store('perangkat', 'public');
         }
 
@@ -85,5 +81,25 @@ class PerangkatDesaController extends Controller
         $perangkat->delete();
 
         return redirect()->route('perangkat.index')->with('success', 'Data dihapus');
+    }
+
+    public function bulkDestroy(Request $request)
+    {
+        $request->validate([
+            'ids' => 'required|array',
+            'ids.*' => 'integer|exists:perangkat_desas,id',
+        ]);
+
+        $items = PerangkatDesa::whereIn('id', $request->ids)->get();
+
+        foreach ($items as $item) {
+            if ($item->foto && Storage::disk('public')->exists($item->foto)) {
+                Storage::disk('public')->delete($item->foto);
+            }
+            $item->delete();
+        }
+
+        return redirect()->route('perangkat.index')
+            ->with('success', $items->count() . ' data perangkat berhasil dihapus');
     }
 }

@@ -9,6 +9,16 @@
         <form action="{{ route('perangkat.update', $perangkat->id) }}" method="POST" enctype="multipart/form-data">
             @csrf @method('PUT')
 
+            @if ($errors->any())
+            <div class="alert alert-error mb-4 text-white">
+                <ul class="list-disc list-inside">
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
+
             <div class="form-control mb-4">
                 <label class="label font-bold">Nama Lengkap</label>
                 <input type="text" name="nama" value="{{ $perangkat->nama }}" class="input input-bordered" required>

@@ -83,9 +83,9 @@ class InfografisController extends Controller
         $pekerjaan_sisanya = $pekerjaan_all->skip(6);
 
         // --- LOGIKA WAJIB PILIH (BARU) ---
-        $wajib_pilih_data = PendudukWajibPilih::all();
-        $wp_labels = $wajib_pilih_data->pluck('kategori');
-        $wp_values = $wajib_pilih_data->pluck('jumlah');
+        $wajib_pilih_data = PendudukWajibPilih::orderBy('tahun')->get();
+        $wp_labels = $wajib_pilih_data->pluck('tahun');
+        $wp_values = $wajib_pilih_data->pluck('jumlah_pemilih');
 
         // --- LOGIKA PERKAWINAN (BARU) ---
         $kawin_data = PendudukKawin::all();

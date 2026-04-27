@@ -67,23 +67,51 @@ Route::middleware('auth')->group(function () {
         Route::get('/ppid/permohonan-masuk', [\App\Http\Controllers\Admin\PpidController::class, 'permohonanMasuk'])->name('admin.ppid.permohonan');
         Route::delete('/ppid/permohonan-masuk/{id}', [\App\Http\Controllers\Admin\PpidController::class, 'destroyPermohonan'])->name('admin.ppid.permohonan.destroy');
         Route::resource('galeri', GaleriController::class);
+        Route::delete('galeri/bulk-destroy', [GaleriController::class, 'bulkDestroy'])->name('galeri.bulk-destroy');
         Route::resource('umkm', UmkmController::class);
+        Route::delete('umkm/bulk-destroy', [UmkmController::class, 'bulkDestroy'])->name('umkm.bulk-destroy');
         Route::resource('berita', BeritaController::class);
+        Route::delete('berita/bulk-destroy', [BeritaController::class, 'bulkDestroy'])->name('berita.bulk-destroy');
         Route::resource('perangkat', PerangkatDesaController::class);
+        Route::delete('perangkat/bulk-destroy', [PerangkatDesaController::class, 'bulkDestroy'])->name('perangkat.bulk-destroy');
         Route::resource('potensi', PotensiController::class);
+        Route::delete('potensi/bulk-destroy', [PotensiController::class, 'bulkDestroy'])->name('potensi.bulk-destroy');
         Route::resource('wisata', WisataController::class);
+        Route::delete('wisata/bulk-destroy', [WisataController::class, 'bulkDestroy'])->name('wisata.bulk-destroy');
+
+        // Penduduk routes dengan import
+        Route::get('penduduk/import', [PendudukController::class, 'import'])->name('penduduk.import');
+        Route::post('penduduk/import-store', [PendudukController::class, 'importStore'])->name('penduduk.import-store');
+        Route::get('penduduk/download-template', [PendudukController::class, 'downloadTemplate'])->name('penduduk.download-template');
+        Route::delete('penduduk/bulk-destroy', [PendudukController::class, 'bulkDestroy'])->name('penduduk.bulk-destroy');
         Route::resource('penduduk', PendudukController::class);
+
         Route::resource('apbd', ApbdController::class);
+        Route::delete('apbd/bulk-destroy', [ApbdController::class, 'bulkDestroy'])->name('apbd.bulk-destroy');
         Route::resource('agama', PendudukAgamaController::class);
+        Route::delete('agama/bulk-destroy', [PendudukAgamaController::class, 'bulkDestroy'])->name('agama.bulk-destroy');
         Route::resource('kawin', controller: PendudukKawinController::class);
+        Route::delete('kawin/bulk-destroy', [PendudukKawinController::class, 'bulkDestroy'])->name('kawin.bulk-destroy');
         Route::resource('pekerjaan', PendudukPekerjaanController::class);
+        Route::delete('pekerjaan/bulk-destroy', [PendudukPekerjaanController::class, 'bulkDestroy'])->name('pekerjaan.bulk-destroy');
         Route::resource('pendidikan', PendudukPendidikanController::class);
+        Route::delete('pendidikan/bulk-destroy', [PendudukPendidikanController::class, 'bulkDestroy'])->name('pendidikan.bulk-destroy');
         Route::resource('usia', PendudukUsiaController::class);
+        Route::delete('usia/bulk-destroy', [PendudukUsiaController::class, 'bulkDestroy'])->name('usia.bulk-destroy');
         Route::resource('wajibpilih', \App\Http\Controllers\Admin\PendudukWajibPilihController::class);
+        Route::delete('wajibpilih/bulk-destroy', [\App\Http\Controllers\Admin\PendudukWajibPilihController::class, 'bulkDestroy'])->name('wajibpilih.bulk-destroy');
+        // Bansos routes dengan import
+        Route::get('bansos/import', [\App\Http\Controllers\Admin\BansosController::class, 'import'])->name('bansos.import');
+        Route::post('bansos/import-store', [\App\Http\Controllers\Admin\BansosController::class, 'importStore'])->name('bansos.import-store');
+        Route::get('bansos/download-template', [\App\Http\Controllers\Admin\BansosController::class, 'downloadTemplate'])->name('bansos.download-template');
+        Route::delete('bansos/bulk-destroy', [\App\Http\Controllers\Admin\BansosController::class, 'bulkDestroy'])->name('bansos.bulk-destroy');
         Route::resource('bansos', \App\Http\Controllers\Admin\BansosController::class);
         Route::resource('stunting', \App\Http\Controllers\Admin\StuntingController::class);
+        Route::delete('stunting/bulk-destroy', [\App\Http\Controllers\Admin\StuntingController::class, 'bulkDestroy'])->name('stunting.bulk-destroy');
         Route::resource('ppid', \App\Http\Controllers\Admin\PpidController::class);
+        Route::delete('ppid/bulk-destroy', [\App\Http\Controllers\Admin\PpidController::class, 'bulkDestroy'])->name('ppid.bulk-destroy');
         Route::resource('pengaduan', \App\Http\Controllers\Admin\PengaduanController::class)->names('admin.pengaduan');
+        Route::delete('pengaduan/bulk-destroy', [\App\Http\Controllers\Admin\PengaduanController::class, 'bulkDestroy'])->name('admin.pengaduan.bulk-destroy');
     });
 
     // 2. AREA ANGGOTA (Bisa diakses 'admin' DAN 'anggota')

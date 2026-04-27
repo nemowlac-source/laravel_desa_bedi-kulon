@@ -4,8 +4,12 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Bansos;
+use App\Imports\BansosImport;
+use App\Exports\BansosTemplateExport;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\DB;
+use Maatwebsite\Excel\Facades\Excel;
 
 class BansosController extends Controller
 {
@@ -26,12 +30,11 @@ class BansosController extends Controller
             'nama_penerima' => 'required',
             'alamat' => 'required',
             'jenis_bantuan' => 'required',
-            'foto' => 'image|mimes:jpeg,png,jpg|max:2048', // Validasi foto
+            'foto' => 'image|mimes:jpeg,png,jpg|max:2048',
         ]);
 
         $data = $request->all();
 
-        // Proses Upload Foto
         if ($request->hasFile('foto')) {
             $data['foto'] = $request->file('foto')->store('bansos', 'public');
         }
@@ -60,9 +63,7 @@ class BansosController extends Controller
 
         $data = $request->all();
 
-        // Cek jika ada foto baru diupload
         if ($request->hasFile('foto')) {
-            // Hapus foto lama jika ada
             if ($bansos->foto) {
                 Storage::disk('public')->delete($bansos->foto);
             }
@@ -78,12 +79,64 @@ class BansosController extends Controller
     {
         $bansos = Bansos::findOrFail($id);
 
-        // Hapus foto dari storage saat data dihapus
         if ($bansos->foto) {
             Storage::disk('public')->delete($bansos->foto);
         }
 
         $bansos->delete();
         return redirect()->route('bansos.index')->with('success', 'Data dihapus');
+    }
+
+    public function bulkDestroy(Request $request)
+    {
+        $request->validate([
+            'ids' => 'required|array',
+            'ids.*' => 'integer|exists:bansos,id',
+        ]);
+
+        $items = Bansos::whereIn('id', $request->ids)->get();
+
+        foreach ($items as $item) {
+            if ($item->foto) {
+                Storage::disk('public')->delete($item->foto);
+            }
+            $item->delete();
+        }
+
+        return redirect()->route('bansos.index')
+            ->with('success', $items->count() . ' data bansos berhasil dihapus');
+    }
+
+    public function import()
+    {
+        return view('admin.bansos.import');
+    }
+
+    public function importStore(Request $request)
+    {
+        $request->validate([
+            'file' => 'required|file|mimes:xlsx,xls,csv'
+        ]);
+
+        try {
+            if ($request->has('clear_existing') && $request->has('clear_confirm')) {
+                DB::transaction(function () {
+                    Bansos::query()->delete();
+                });
+            }
+
+            Excel::import(new BansosImport, $request->file('file'));
+
+            return redirect()->route('bansos.index')
+                ->with('success', 'Data bansos berhasil diimport dari Excel');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Gagal mengimport file: ' . $e->getMessage());
+        }
+    }
+
+    public function downloadTemplate()
+    {
+        return Excel::download(new BansosTemplateExport, 'Template_Bansos.xlsx');
     }
 }

@@ -107,7 +107,7 @@
                 } else if (jenis === 'Belanja') {
                     optBelanja.disabled = false;
                     optBelanja.hidden = false;
-                } else if (jenis === 'Pembiayaan') { // Logika baru untuk Pembiayaan ⏺️
+                } else if (jenis === 'Pembiayaan') { // Logika baru untuk Pembiayaan 
                     optPembiayaan.disabled = false;
                     optPembiayaan.hidden = false;
                 }

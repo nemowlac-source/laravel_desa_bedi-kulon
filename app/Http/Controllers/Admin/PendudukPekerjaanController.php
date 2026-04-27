@@ -10,7 +10,6 @@ class PendudukPekerjaanController extends Controller
 {
     public function index()
     {
-        // Urutkan dari jumlah terbanyak
         $pekerjaan = PendudukPekerjaan::orderBy('jumlah', 'desc')->get();
         return view('admin.pekerjaan.index', compact('pekerjaan'));
     }
@@ -56,5 +55,18 @@ class PendudukPekerjaanController extends Controller
     {
         PendudukPekerjaan::findOrFail($id)->delete();
         return redirect()->route('pekerjaan.index')->with('success', 'Data dihapus');
+    }
+
+    public function bulkDestroy(Request $request)
+    {
+        $request->validate([
+            'ids' => 'required|array',
+            'ids.*' => 'integer|exists:penduduk_pekerjaans,id',
+        ]);
+
+        $count = PendudukPekerjaan::whereIn('id', $request->ids)->delete();
+
+        return redirect()->route('pekerjaan.index')
+            ->with('success', $count . ' data pekerjaan berhasil dihapus');
     }
 }

@@ -9,19 +9,29 @@
         <form action="{{ route('perangkat.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
 
+            @if ($errors->any())
+            <div class="alert alert-error mb-4 text-white">
+                <ul class="list-disc list-inside">
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
+
             <div class="form-control mb-4">
                 <label class="label font-bold">Nama Lengkap & Gelar</label>
-                <input type="text" name="nama" class="input input-bordered" placeholder="Contoh: Budi Santoso, S.Pd." required>
+                <input type="text" name="nama" value="{{ old('nama') }}" class="input input-bordered" placeholder="Contoh: Budi Santoso, S.Pd." required>
             </div>
 
             <div class="form-control mb-4">
                 <label class="label font-bold">Jabatan</label>
-                <input type="text" name="jabatan" class="input input-bordered" placeholder="Contoh: Kepala Desa" required>
+                <input type="text" name="jabatan" value="{{ old('jabatan') }}" class="input input-bordered" placeholder="Contoh: Kepala Desa" required>
             </div>
 
             <div class="form-control mb-4">
                 <label class="label font-bold">NIAP / NIP (Opsional)</label>
-                <input type="text" name="niap" class="input input-bordered" placeholder="Nomor Induk...">
+                <input type="text" name="niap" value="{{ old('niap') }}" class="input input-bordered" placeholder="Nomor Induk...">
             </div>
 
             <div class="form-control mb-6">

@@ -14,16 +14,16 @@ class TrackVisitor
         $ip = $request->ip();
         $date = now()->toDateString();
 
-        // Cek apakah IP ini sudah ada di tanggal hari ini ⏺️
+        // Cek apakah IP ini sudah ada di tanggal hari ini 
         $visitor = Visitor::where('ip_address', $ip)
             ->where('date', $date)
             ->first();
 
-        // Jika belum ada (sesuai kode lamamu), maka buat baru 🛠️
+        // Jika belum ada (sesuai kode lamamu), maka buat baru
         if (!$visitor) {
             Visitor::create([
                 'ip_address' => $ip,
-                'user_agent' => $request->userAgent(), // Menggunakan userAgent() kamu ⏺️
+                'user_agent' => $request->userAgent(), // Menggunakan userAgent() kamu 
                 'date'       => $date
             ]);
         }

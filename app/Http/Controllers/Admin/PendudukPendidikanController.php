@@ -10,7 +10,6 @@ class PendudukPendidikanController extends Controller
 {
     public function index()
     {
-        // Kita ambil semua data
         $pendidikan = PendudukPendidikan::all();
         return view('admin.pendidikan.index', compact('pendidikan'));
     }
@@ -56,5 +55,18 @@ class PendudukPendidikanController extends Controller
     {
         PendudukPendidikan::findOrFail($id)->delete();
         return redirect()->route('pendidikan.index')->with('success', 'Data dihapus');
+    }
+
+    public function bulkDestroy(Request $request)
+    {
+        $request->validate([
+            'ids' => 'required|array',
+            'ids.*' => 'integer|exists:penduduk_pendidikans,id',
+        ]);
+
+        $count = PendudukPendidikan::whereIn('id', $request->ids)->delete();
+
+        return redirect()->route('pendidikan.index')
+            ->with('success', $count . ' data pendidikan berhasil dihapus');
     }
 }

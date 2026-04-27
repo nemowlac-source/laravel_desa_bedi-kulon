@@ -159,7 +159,7 @@
         document.addEventListener('DOMContentLoaded', function() {
             // Pastikan library sudah terload dari app.js
             if (typeof window.Chart === 'undefined') {
-                console.error("❌ Chart.js tidak ditemukan! Pastikan 'window.Chart = Chart' ada di app.js");
+                console.error("Chart.js tidak ditemukan! Pastikan 'window.Chart = Chart' ada di app.js");
                 return;
             }
 

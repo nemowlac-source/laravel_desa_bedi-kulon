@@ -79,18 +79,18 @@
 
     <nav id="bottomNav" class="block md:hidden fixed !bottom-0 !top-auto left-4 right-4 !w-auto mb-[calc(1rem+env(safe-area-inset-bottom))] bg-white border border-gray-100 rounded-2xl px-5 py-3 flex justify-between items-center z-[10000] shadow-[0_10px_40px_rgba(0,0,0,0.15)]">
 
-        <a href="{{ route('frontend.dashboard') }}" class="flex flex-col items-center gap-1.5 text-[#2ac0b4] relative">
+        <a href="{{ route('frontend.dashboard') }}" class="flex flex-col items-center gap-1.5 {{ Route::is('frontend.dashboard') ? 'text-[#2ac0b4]' : 'text-gray-400 hover:text-[#2ac0b4]' }} transition-colors relative">
 
             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M5 12l-2 0l9 -9l9 9l-2 0"></path>
                 <path d="M5 12v7a2 2 0 0 0 2 2h10a2 2 0 0 0 2 -2v-7"></path>
                 <path d="M9 21v-6a2 2 0 0 1 2 -2h2a2 2 0 0 1 2 2v6"></path>
             </svg>
-            <span class="text-[10px] font-bold tracking-wide">Beranda</span>
+            <span class="text-[10px] {{ Route::is('frontend.dashboard') ? 'font-bold' : 'font-medium' }} tracking-wide">Beranda</span>
         </a>
 
 
-        <a href="{{ route('frontend.pengaduan') }}" class="flex flex-col items-center gap-1.5 text-gray-400 hover:text-[#2ac0b4] transition-colors relative">
+        <a href="{{ route('frontend.pengaduan') }}" class="flex flex-col items-center gap-1.5 {{ Route::is('frontend.pengaduan') ? 'text-[#2ac0b4]' : 'text-gray-400 hover:text-[#2ac0b4]' }} transition-colors relative">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M8 5h-2a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h5.697"></path>
                 <path d="M18 14v4h4"></path>
@@ -100,11 +100,11 @@
                 <path d="M8 11h4"></path>
                 <path d="M8 15h3"></path>
             </svg>
-            <span class="text-[10px] font-medium tracking-wide">Pengaduan</span>
+            <span class="text-[10px] {{ Route::is('frontend.pengaduan') ? 'font-bold' : 'font-medium' }} tracking-wide">Pengaduan</span>
         </a>
 
 
-        <a href="{{ route('frontend.berita') }}" class="flex flex-col items-center gap-1.5 text-gray-400 hover:text-[#2ac0b4] transition-colors relative">
+        <a href="{{ route('frontend.berita') }}" class="flex flex-col items-center gap-1.5 {{ Route::is('frontend.berita*') ? 'text-[#2ac0b4]' : 'text-gray-400 hover:text-[#2ac0b4]' }} transition-colors relative">
 
             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M16 6h3a1 1 0 0 1 1 1v11a2 2 0 0 1 -4 0v-13a1 1 0 0 0 -1 -1h-10a1 1 0 0 0 -1 1v12a3 3 0 0 0 3 3h11"></path>
@@ -112,16 +112,16 @@
                 <path d="M8 12l4 0"></path>
                 <path d="M8 16l4 0"></path>
             </svg>
-            <span class="text-[10px] font-medium tracking-wide">Berita</span>
+            <span class="text-[10px] {{ Route::is('frontend.berita*') ? 'font-bold' : 'font-medium' }} tracking-wide">Berita</span>
         </a>
 
 
-        <a href="{{ route('frontend.belanja') }}" class="flex flex-col items-center gap-1.5 text-gray-400 hover:text-[#2ac0b4] transition-colors relative">
+        <a href="{{ route('frontend.belanja') }}" class="flex flex-col items-center gap-1.5 {{ Route::is('frontend.belanja*') ? 'text-[#2ac0b4]' : 'text-gray-400 hover:text-[#2ac0b4]' }} transition-colors relative">
             <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                 <path d="M6.331 8h11.339a2 2 0 0 1 1.977 2.304l-1.255 8.152a3 3 0 0 1 -2.966 2.544h-6.852a3 3 0 0 1 -2.965 -2.544l-1.255 -8.152a2 2 0 0 1 1.977 -2.304z"></path>
                 <path d="M9 11v-5a3 3 0 0 1 6 0v5"></path>
             </svg>
-            <span class="text-[10px] font-medium tracking-wide">Belanja</span>
+            <span class="text-[10px] {{ Route::is('frontend.belanja*') ? 'font-bold' : 'font-medium' }} tracking-wide">Belanja</span>
         </a>
 
 
@@ -731,7 +731,7 @@
                     , timer: 4000
                     , timerProgressBar: true
                 }).then(() => {
-                    // Hapus elemen dari DOM agar benar-benar bersih ⏺️
+                    // Hapus elemen dari DOM agar benar-benar bersih 
                     successTrigger.remove();
                 });
             }
@@ -752,13 +752,13 @@
 
 
         document.addEventListener('DOMContentLoaded', function() {
-            // Ambil elemen input dan elemen teks ⏺️
+            // Ambil elemen input dan elemen teks 
             const inputFile = document.getElementById('input-file-aduan');
             const fileNameDisplay = document.getElementById('text-nama-file');
 
             if (inputFile && fileNameDisplay) {
                 inputFile.addEventListener('change', function() {
-                    // Cek apakah ada file yang dipilih 📂
+                    // Cek apakah ada file yang dipilih 
                     if (this.files && this.files.length > 0) {
                         const name = this.files[0].name;
 
@@ -767,7 +767,7 @@
                         fileNameDisplay.classList.remove('text-gray-500');
                         fileNameDisplay.classList.add('text-blue-600', 'font-bold');
                     } else {
-                        // Jika batal pilih file, kembalikan ke teks semula ⏺️
+                        // Jika batal pilih file, kembalikan ke teks semula 
                         fileNameDisplay.textContent = "Unggah foto/PDF jika ada";
                         fileNameDisplay.classList.remove('text-blue-600', 'font-bold');
                         fileNameDisplay.classList.add('text-gray-500');
@@ -834,7 +834,7 @@
             function bangunPeta(idElemen) {
                 var elemenPeta = document.getElementById(idElemen);
 
-                // Cek keberadaan elemen sebelum menjalankan logika peta ⏺️
+                // Cek keberadaan elemen sebelum menjalankan logika peta 
                 if (!elemenPeta) return null;
 
                 // Inisiasi peta dengan pengaturan anti-zoom bawaanmu 🛠️
@@ -851,7 +851,7 @@
                     , attribution: '© Google Maps'
                 }).addTo(map);
 
-                // Fitur interaksi: Zoom aktif hanya jika peta diklik 📂
+                // Fitur interaksi: Zoom aktif hanya jika peta diklik 
                 map.on('focus', function() {
                     map.scrollWheelZoom.enable();
                 });
