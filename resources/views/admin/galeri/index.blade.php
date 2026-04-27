@@ -52,7 +52,7 @@
                                 <td>
                                     <div class="avatar">
                                         <div class="mask mask-squircle w-20 h-20">
-                                            <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->judul }}" />
+                                            <img src="{{ asset('storage/' . $item->gambar_thumbnail) }}" alt="{{ $item->judul }}" onerror="this.src='{{ asset('storage/' . $item->gambar) }}'" />
                                         </div>
                                     </div>
                                 </td>

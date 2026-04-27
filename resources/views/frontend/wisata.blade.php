@@ -34,7 +34,7 @@
 
                 {{-- Gambar Wisata (Rasio Persegi/Square untuk Mobile) --}}
                 <div class="relative w-[100px] h-[100px] flex-shrink-0">
-                    <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->nama_wisata }}" class="w-full h-full object-cover rounded-md" onerror="this.src='https://placehold.co/200x200?text=No+Image'">
+                    <img src="{{ asset('storage/' . ($item->gambar_thumbnail ?? $item->gambar)) }}" alt="{{ $item->nama_wisata }}" class="w-full h-full object-cover rounded-md" onerror="this.src='https://placehold.co/200x200?text=No+Image'">
                 </div>
 
                 {{-- Konten Teks --}}
@@ -76,7 +76,7 @@
             <div class="group bg-white rounded-2xl border border-gray-100 shadow-sm hover:shadow-xl hover:-translate-y-1 transition-all duration-300 overflow-hidden flex flex-col">
 
                 <a href="{{ route('frontend.show', $item->id) }}" class="block relative aspect-[4/3] overflow-hidden bg-gray-100">
-                    <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->nama_wisata }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onerror="this.src='https://placehold.co/400x300?text=No+Image'">
+                    <img src="{{ asset('storage/' . ($item->gambar_thumbnail ?? $item->gambar)) }}" alt="{{ $item->nama_wisata }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onerror="this.src='https://placehold.co/400x300?text=No+Image'">
                 </a>
 
                 <div class="p-5 flex flex-col flex-grow">

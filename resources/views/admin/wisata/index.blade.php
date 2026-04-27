@@ -29,7 +29,7 @@
                     <input type="checkbox" name="ids[]" value="{{ $item->id }}" class="row-checkbox checkbox checkbox-sm checkbox-primary">
                 </div>
                 <figure class="h-48 overflow-hidden">
-                    <img src="{{ asset('storage/' . $item->gambar) }}" class="w-full h-full object-cover" />
+                    <img src="{{ asset('storage/' . $item->gambar_thumbnail) }}" class="w-full h-full object-cover" onerror="this.src='{{ asset('storage/' . $item->gambar) }}'" />
                 </figure>
                 <div class="card-body p-4">
                     <h2 class="card-title text-lg">{{ $item->nama_wisata }}</h2>

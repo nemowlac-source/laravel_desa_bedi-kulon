@@ -3,12 +3,18 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Ppid; // Sesuaikan dengan nama Model Anda
+use App\Models\Ppid;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\Cache;
 use App\Models\PermohonanInformasi;
 
 class PpidController extends Controller
 {
+    /**
+     * Cache duration in seconds (30 minutes for PPID)
+     */
+    private const CACHE_TTL = 1800;
+
     public function lihatDokumen($id)
     {
         $doc = Ppid::findOrFail($id);
@@ -17,7 +23,6 @@ class PpidController extends Controller
         $doc->increment('jumlah_unduh');
 
         // 2. Path Final sesuai gambar struktur folder
-        // Mengarahkan ke: public/storage/ppid_docs/namafile.pdf
         $path = public_path('storage/' . $doc->file);
 
         // 3. Cek file
@@ -25,7 +30,7 @@ class PpidController extends Controller
             abort(404, 'Maaf, file dokumen tidak ditemukan di folder public/storage.');
         }
 
-        // 4. Tampilkan PDF (Bebas dari error 403 Forbidden)
+        // 4. Tampilkan PDF
         return response()->file($path);
     }
 
@@ -33,23 +38,21 @@ class PpidController extends Controller
     {
         return view('frontend.dasar-hukum');
     }
+
     public function index(Request $request)
     {
-        // 1. Cek Update Terakhir (Untuk teks "Update terakhir ...")
-        // Saya menggunakan Model 'Ppid' sesuai kode asli Anda
-        $last_update_data = Ppid::latest('updated_at')->first();
-        $last_update_text = $last_update_data
-            ? $last_update_data->updated_at->diffForHumans()
-            : 'Belum ada data';
+        // 1. Cek Update Terakhir (dari cache)
+        $last_update_text = Cache::remember('ppid_last_update', self::CACHE_TTL, function () {
+            $last = Ppid::latest('updated_at')->first();
+            return $last ? $last->updated_at->diffForHumans() : 'Belum ada data';
+        });
 
         // ==========================================================
-        // CABANG A: Jika User Mengklik Salah Satu Kategori (Berkala, Serta Merta, dsb)
+        // CABANG A: Jika User Mengklik Salah Satu Kategori
         // ==========================================================
         if ($request->has('kategori')) {
-
             $kategori = $request->kategori;
 
-            // Menentukan subjudul otomatis
             $subtitles = [
                 'Berkala' => 'Informasi yang wajib disediakan dan diumumkan secara berkala.',
                 'Serta Merta' => 'Informasi yang dapat mengancam hajat hidup orang banyak dan ketertiban umum.',
@@ -57,25 +60,27 @@ class PpidController extends Controller
             ];
             $subtitle = $subtitles[$kategori] ?? 'Daftar informasi publik desa.';
 
-            // Ambil data tanpa paginate, lalu KELOMPOKKAN berdasarkan sub_kategori
-            // Pastikan Anda memiliki kolom 'sub_kategori' di tabel ppid database Anda
-            $documents = Ppid::where('kategori', $kategori)
-                ->orderBy('tanggal_upload', 'desc')
-                ->get()
-                ->groupBy('sub_kategori');
+            // Cache dokumen per kategori
+            $cacheKey = 'ppid_kategori_' . $kategori;
+            $documents = Cache::remember($cacheKey, self::CACHE_TTL, function () use ($kategori) {
+                return Ppid::where('kategori', $kategori)
+                    ->orderBy('tanggal_upload', 'desc')
+                    ->get()
+                    ->groupBy('sub_kategori');
+            });
 
-            // Arahkan ke file view ACCORDION yang baru saja kita buat
             return view('frontend.ppid-kategori', compact('documents', 'last_update_text', 'kategori', 'subtitle'));
         }
 
         // ==========================================================
-        // CABANG B: Jika Membuka Halaman Utama PPID (Tidak ada kategori yang dipilih)
+        // CABANG B: Halaman Utama PPID
         // ==========================================================
         else {
-            // Ambil Data Terbaru dengan pagination (seperti kode asli Anda)
-            $documents = Ppid::orderBy('tanggal_upload', 'desc')->paginate(10);
+            // Cache dokumen utama dengan pagination
+            $documents = Cache::remember('ppid_main_page', self::CACHE_TTL, function () {
+                return Ppid::orderBy('tanggal_upload', 'desc')->paginate(10);
+            });
 
-            // Arahkan ke file view UTAMA (yang berisi 3 kotak kategori di atas)
             return view('frontend.ppid', compact('documents', 'last_update_text'));
         }
     }
@@ -88,7 +93,7 @@ class PpidController extends Controller
         // 1. Tambah angka jumlah unduhan di database
         $doc->increment('jumlah_unduh');
 
-        // 2. Gunakan jalur path yang terbukti berhasil tadi!
+        // 2. Gunakan jalur path yang terbukti berhasil
         $path = public_path('storage/' . $doc->file);
 
         // 3. Pengecekan keamanan

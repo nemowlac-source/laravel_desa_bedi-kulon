@@ -1,11 +1,10 @@
-# TODO: Bansos Excel Import + Perangkat Desa Fixes
+# TODO: Perbaikan Layout Header Infografis
 
-- [x] Create `app/Imports/BansosImport.php`
-- [x] Create `app/Exports/BansosTemplateExport.php`
-- [x] Create `resources/views/admin/bansos/import.blade.php`
-- [x] Modify `app/Http/Controllers/Admin/BansosController.php` — add import methods
-- [x] Modify `routes/web.php` — add bansos import routes
-- [x] Modify `resources/views/admin/bansos/index.blade.php` — add import button
-- [x] Modify `resources/views/admin/perangkat/create.blade.php` — validation errors + old()
-- [x] Modify `resources/views/admin/perangkat/edit.blade.php` — validation errors
-- [x] Clear view cache & verify routes
+## Progress
+
+- [x] Analisis file infografis.blade.php & app.css
+- [x] Susun rencana perbaikan
+- [x] Dapatkan approval dari user
+- [x] Edit `resources/views/frontend/infografis.blade.php`
+- [x] Edit `resources/css/app.css`
+- [x] Verifikasi hasil

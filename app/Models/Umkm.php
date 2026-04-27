@@ -15,6 +15,7 @@ class Umkm extends Model
         'penjual',
         'no_hp',
         'deskripsi',
-        'gambar',
+        'gambar_thumbnail',
+        'gambar_master',
     ];
 }

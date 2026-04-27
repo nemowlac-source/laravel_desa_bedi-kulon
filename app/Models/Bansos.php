@@ -16,6 +16,7 @@ class Bansos extends Model
         'nik',
         'alamat',
         'jenis_bantuan',
-        'foto',
+        'foto_thumbnail',
+        'foto_master',
     ];
 }

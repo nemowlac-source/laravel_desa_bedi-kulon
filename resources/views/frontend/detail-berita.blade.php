@@ -45,7 +45,7 @@
                 </div>
 
                 <div class="berita-featured-image">
-                    <img src="{{ asset('storage/' . ($berita->gambar ?? '')) }}" alt="{{ $berita->judul ?? 'Gambar Berita' }}" onerror="this.src='https://placehold.co/800x400?text=Gambar+Berita'">
+                    <img src="{{ asset('storage/' . ($berita->gambar_thumbnail ?? $berita->gambar ?? '')) }}" alt="{{ $berita->judul ?? 'Gambar Berita' }}" onerror="this.src='https://placehold.co/800x400?text=Gambar+Berita'">
                 </div>
 
                 <div class="berita-body-text">
@@ -79,7 +79,7 @@
                     <div class="latest-news-list">
                         @forelse($berita_terbaru ?? [] as $terbaru)
                         <a href="{{ route('frontend.berita.detail', $terbaru->id) }}" class="latest-news-item">
-                            <img src="{{ asset('storage/' . $terbaru->gambar) }}" class="latest-news-img" alt="{{ $terbaru->judul }}" onerror="this.src='https://placehold.co/100x100?text=News'">
+                            <img src="{{ asset('storage/' . ($terbaru->gambar_thumbnail ?? $terbaru->gambar)) }}" class="latest-news-img" alt="{{ $terbaru->judul }}" onerror="this.src='https://placehold.co/100x100?text=News'">
 
                             <div class="latest-news-details">
                                 <h4 class="latest-news-title">{{ Str::limit($terbaru->judul, 45) }}</h4>

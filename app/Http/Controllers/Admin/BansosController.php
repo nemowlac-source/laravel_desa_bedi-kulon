@@ -6,13 +6,20 @@ use App\Http\Controllers\Controller;
 use App\Models\Bansos;
 use App\Imports\BansosImport;
 use App\Exports\BansosTemplateExport;
+use App\Services\ImageService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\DB;
 use Maatwebsite\Excel\Facades\Excel;
 
 class BansosController extends Controller
 {
+    protected ImageService $imageService;
+
+    public function __construct(ImageService $imageService)
+    {
+        $this->imageService = $imageService;
+    }
+
     public function index()
     {
         $bansos = Bansos::latest()->get();
@@ -30,13 +37,26 @@ class BansosController extends Controller
             'nama_penerima' => 'required',
             'alamat' => 'required',
             'jenis_bantuan' => 'required',
-            'foto' => 'image|mimes:jpeg,png,jpg|max:2048',
+            'foto' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:64000|dimensions:min_width=100,min_height=100',
+        ], [
+            'foto.image' => 'File yang diunggah harus berupa gambar.',
+            'foto.mimes' => 'Format gambar harus JPEG, PNG, atau WebP.',
+            'foto.max' => 'Ukuran foto terlalu besar, maksimal adalah 64MB.',
+            'foto.dimensions' => 'Ukuran gambar minimal 100x100 pixel.',
         ]);
 
         $data = $request->all();
 
         if ($request->hasFile('foto')) {
-            $data['foto'] = $request->file('foto')->store('bansos', 'public');
+            $result = $this->imageService->storeWithThumbnail(
+                $request->file('foto'),
+                'bansos',
+                'bansos'
+            );
+
+            $data['foto_thumbnail'] = $result['thumbnail_path'];
+            $data['foto_master'] = $result['master_path'];
+            unset($data['foto']);
         }
 
         Bansos::create($data);
@@ -58,16 +78,28 @@ class BansosController extends Controller
             'nama_penerima' => 'required',
             'alamat' => 'required',
             'jenis_bantuan' => 'required',
-            'foto' => 'image|mimes:jpeg,png,jpg|max:2048',
+            'foto' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:64000|dimensions:min_width=100,min_height=100',
+        ], [
+            'foto.image' => 'File yang diunggah harus berupa gambar.',
+            'foto.mimes' => 'Format gambar harus JPEG, PNG, atau WebP.',
+            'foto.max' => 'Ukuran foto terlalu besar, maksimal adalah 64MB.',
+            'foto.dimensions' => 'Ukuran gambar minimal 100x100 pixel.',
         ]);
 
         $data = $request->all();
 
         if ($request->hasFile('foto')) {
-            if ($bansos->foto) {
-                Storage::disk('public')->delete($bansos->foto);
-            }
-            $data['foto'] = $request->file('foto')->store('bansos', 'public');
+            $this->imageService->deleteFromModel($bansos, 'foto_thumbnail', 'foto_master');
+
+            $result = $this->imageService->storeWithThumbnail(
+                $request->file('foto'),
+                'bansos',
+                'bansos'
+            );
+
+            $data['foto_thumbnail'] = $result['thumbnail_path'];
+            $data['foto_master'] = $result['master_path'];
+            unset($data['foto']);
         }
 
         $bansos->update($data);
@@ -79,9 +111,7 @@ class BansosController extends Controller
     {
         $bansos = Bansos::findOrFail($id);
 
-        if ($bansos->foto) {
-            Storage::disk('public')->delete($bansos->foto);
-        }
+        $this->imageService->deleteFromModel($bansos, 'foto_thumbnail', 'foto_master');
 
         $bansos->delete();
         return redirect()->route('bansos.index')->with('success', 'Data dihapus');
@@ -97,9 +127,7 @@ class BansosController extends Controller
         $items = Bansos::whereIn('id', $request->ids)->get();
 
         foreach ($items as $item) {
-            if ($item->foto) {
-                Storage::disk('public')->delete($item->foto);
-            }
+            $this->imageService->deleteFromModel($item, 'foto_thumbnail', 'foto_master');
             $item->delete();
         }
 

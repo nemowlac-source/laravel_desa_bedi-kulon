@@ -4,11 +4,18 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Wisata;
+use App\Services\ImageService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class WisataController extends Controller
 {
+    protected ImageService $imageService;
+
+    public function __construct(ImageService $imageService)
+    {
+        $this->imageService = $imageService;
+    }
+
     public function index()
     {
         $wisatas = Wisata::latest()->get();
@@ -26,10 +33,20 @@ class WisataController extends Controller
             'nama_wisata' => 'required',
             'deskripsi' => 'required',
             'alamat' => 'required',
-            'gambar' => 'required|image|max:2048',
+            'gambar' => 'required|image|mimes:jpeg,jpg,png,webp|max:64000|dimensions:min_width=100,min_height=100',
+        ], [
+            'gambar.required' => 'Gambar wisata harus dipilih.',
+            'gambar.image' => 'File yang diunggah harus berupa gambar.',
+            'gambar.mimes' => 'Format gambar harus JPEG, PNG, atau WebP.',
+            'gambar.max' => 'Ukuran foto terlalu besar, maksimal adalah 64MB.',
+            'gambar.dimensions' => 'Ukuran gambar minimal 100x100 pixel.',
         ]);
 
-        $path = $request->file('gambar')->store('wisata', 'public');
+        $result = $this->imageService->storeWithThumbnail(
+            $request->file('gambar'),
+            'wisata',
+            'wisata'
+        );
 
         Wisata::create([
             'nama_wisata' => $request->nama_wisata,
@@ -37,7 +54,8 @@ class WisataController extends Controller
             'alamat' => $request->alamat,
             'harga_tiket' => $request->harga_tiket,
             'jam_buka' => $request->jam_buka,
-            'gambar' => $path,
+            'gambar_thumbnail' => $result['thumbnail_path'],
+            'gambar_master' => $result['master_path'],
         ]);
 
         return redirect()->route('wisata.index')->with('success', 'Destinasi wisata berhasil ditambahkan!');
@@ -57,16 +75,27 @@ class WisataController extends Controller
             'nama_wisata' => 'required',
             'deskripsi' => 'required',
             'alamat' => 'required',
-            'gambar' => 'nullable|image|max:2048',
+            'gambar' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:64000|dimensions:min_width=100,min_height=100',
+        ], [
+            'gambar.image' => 'File yang diunggah harus berupa gambar.',
+            'gambar.mimes' => 'Format gambar harus JPEG, PNG, atau WebP.',
+            'gambar.max' => 'Ukuran foto terlalu besar, maksimal adalah 64MB.',
+            'gambar.dimensions' => 'Ukuran gambar minimal 100x100 pixel.',
         ]);
 
         $data = $request->except('gambar');
 
         if ($request->hasFile('gambar')) {
-            if (Storage::disk('public')->exists($wisata->gambar)) {
-                Storage::disk('public')->delete($wisata->gambar);
-            }
-            $data['gambar'] = $request->file('gambar')->store('wisata', 'public');
+            $this->imageService->deleteFromModel($wisata, 'gambar_thumbnail', 'gambar_master');
+
+            $result = $this->imageService->storeWithThumbnail(
+                $request->file('gambar'),
+                'wisata',
+                'wisata'
+            );
+
+            $data['gambar_thumbnail'] = $result['thumbnail_path'];
+            $data['gambar_master'] = $result['master_path'];
         }
 
         $wisata->update($data);
@@ -78,9 +107,7 @@ class WisataController extends Controller
     {
         $wisata = Wisata::findOrFail($id);
 
-        if (Storage::disk('public')->exists($wisata->gambar)) {
-            Storage::disk('public')->delete($wisata->gambar);
-        }
+        $this->imageService->deleteFromModel($wisata, 'gambar_thumbnail', 'gambar_master');
 
         $wisata->delete();
 
@@ -97,9 +124,7 @@ class WisataController extends Controller
         $items = Wisata::whereIn('id', $request->ids)->get();
 
         foreach ($items as $item) {
-            if (Storage::disk('public')->exists($item->gambar)) {
-                Storage::disk('public')->delete($item->gambar);
-            }
+            $this->imageService->deleteFromModel($item, 'gambar_thumbnail', 'gambar_master');
             $item->delete();
         }
 

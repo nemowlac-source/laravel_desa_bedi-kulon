@@ -312,7 +312,7 @@
                 <div class="relative bg-white rounded-2xl shadow-[0_4px_15px_rgba(0,0,0,0.05)] overflow-hidden border border-gray-100 transition-all active:scale-[0.98]">
 
                     <div class="w-full h-52">
-                        <img src="{{ asset('storage/' . $item->gambar) }}" class="w-full h-full object-cover" alt="{{ $item->judul }}" onerror="this.src='https://placehold.co/600x400?text=Berita+Desa'">
+                        <img src="{{ asset('storage/' . ($item->gambar_thumbnail ?? $item->gambar)) }}" class="w-full h-full object-cover" alt="{{ $item->judul }}" onerror="this.src='https://placehold.co/600x400?text=Berita+Desa'">
                     </div>
 
                     <div class="p-5">
@@ -400,7 +400,7 @@
                     <a href="{{ route('frontend.berita.detail', $item->id) }}" style="text-decoration: none; color: inherit; display: flex; flex-direction: column; height: 100%;">
 
                         <div class="news-thumb-baru">
-                            <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->judul }}" onerror="this.src='https://placehold.co/600x400?text=Berita'">
+                            <img src="{{ asset('storage/' . ($item->gambar_thumbnail ?? $item->gambar)) }}" alt="{{ $item->judul }}" onerror="this.src='https://placehold.co/600x400?text=Berita'">
                         </div>
 
                         <div class="news-content-baru">

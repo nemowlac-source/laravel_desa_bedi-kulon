@@ -27,7 +27,7 @@
                 @forelse($perangkats as $item)
                 <div class="aparat-card">
                     <div class="aparat-thumb">
-                        <img src="{{ asset('storage/' . $item->foto) }}" alt="{{ $item->nama }}" onerror="this.src='https://placehold.co/400x500?text=No+Photo'">
+                        <img src="{{ asset('storage/' . ($item->foto_thumbnail ?? $item->foto)) }}" alt="{{ $item->nama }}" onerror="this.src='https://placehold.co/400x500?text=No+Photo'">
                     </div>
 
                     <div class="aparat-info">
@@ -65,7 +65,7 @@
                 {{-- Aspect-[3/4] memastikan rasio foto pas untuk pasfoto standar --}}
                 {{-- bg-red-600 ditambahkan sebagai fallback jika foto yg diupload formatnya PNG transparan --}}
                 <div class="w-full aspect-[3/4] bg-red-600 overflow-hidden relative">
-                    <img src="{{ asset('storage/' . $item->foto) }}" alt="{{ $item->nama }}" class="w-full h-full object-cover absolute inset-0" onerror="this.src='https://placehold.co/300x400?text=No+Photo'">
+                    <img src="{{ asset('storage/' . ($item->foto_thumbnail ?? $item->foto)) }}" alt="{{ $item->nama }}" class="w-full h-full object-cover absolute inset-0" onerror="this.src='https://placehold.co/300x400?text=No+Photo'">
                 </div>
 
                 {{-- Area Info (Background Hijau Terang sesuai gambar) --}}

@@ -44,7 +44,7 @@
                 </div>
 
                 <div class="berita-featured-image" style="position: relative;">
-                    <img src="{{ asset('storage/' . ($potensi->gambar ?? '')) }}" alt="{{ $potensi->nama_wisata ?? 'Gambar Potensi' }}" onerror="this.src='https://placehold.co/800x400?text=Gambar+Potensi'">
+                    <img src="{{ asset('storage/' . ($potensi->gambar_thumbnail ?? $potensi->gambar ?? '')) }}" alt="{{ $potensi->nama_wisata ?? 'Gambar Potensi' }}" onerror="this.src='https://placehold.co/800x400?text=Gambar+Potensi'">
                 </div>
 
                 <div class="berita-body-text">
@@ -75,7 +75,7 @@
                     <div class="latest-news-list">
                         @forelse($potensi_lain ?? [] as $lain)
                         <a href="{{ route('frontend.potensi.detail', $lain->id) }}" class="latest-news-item">
-                            <img src="{{ asset('storage/' . $lain->gambar) }}" class="latest-news-img" alt="{{ $lain->nama_wisata }}" onerror="this.src='https://placehold.co/100x100?text=Potensi'">
+                            <img src="{{ asset('storage/' . ($lain->gambar_thumbnail ?? $lain->gambar)) }}" class="latest-news-img" alt="{{ $lain->nama_wisata }}" onerror="this.src='https://placehold.co/100x100?text=Potensi'">
 
                             <div class="latest-news-details">
                                 <h4 class="latest-news-title">{{ Str::limit($lain->nama_wisata, 45) }}</h4>

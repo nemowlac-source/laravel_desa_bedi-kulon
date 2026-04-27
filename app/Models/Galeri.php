@@ -20,7 +20,8 @@ class Galeri extends Model
     // BAGIAN PENTING: Mencegah error Mass Assignment
     protected $fillable = [
         'judul',
-        'gambar',
+        'gambar_thumbnail',
+        'gambar_master',
         'deskripsi',
         'tanggal',
     ];

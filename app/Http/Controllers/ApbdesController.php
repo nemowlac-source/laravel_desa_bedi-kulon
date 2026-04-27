@@ -3,154 +3,168 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Apbd; // Pastikan Model Apbd di-import
+use App\Models\Apbd;
+use Illuminate\Support\Facades\Cache;
 
 class ApbdesController extends Controller
 {
     /**
-     * Menampilkan halaman Transparansi APBDes
+     * Cache duration in seconds (1 hour)
+     */
+    private const CACHE_TTL = 3600;
+
+    /**
+     * Menampilkan halaman Transparansi APBDes dengan caching
      */
     public function index(Request $request)
     {
-        // 1. Cek Tahun yang dipilih user (Default: Tahun saat ini atau tahun terbaru di DB)
-        // Kita cari tahun terbaru di database dulu untuk default-nya
-        $tahun_terbaru = Apbd::max('tahun') ?? date('Y');
-        $tahun_pilih   = $request->get('tahun', $tahun_terbaru);
+        $tahun_pilih = $request->get('tahun');
+
+        // Cache key berdasarkan tahun yang dipilih
+        $cacheKey = 'apbdes_data_' . ($tahun_pilih ?: 'default');
+
+        // Cek apakah data sudah ada di cache
+        if (Cache::has($cacheKey)) {
+            return view('frontend.apbdes', Cache::get($cacheKey));
+        }
+
+        // 1. Cek Tahun yang dipilih user
+        $tahun_terbaru = Cache::remember('apbd_tahun_terbaru', self::CACHE_TTL, function () {
+            return Apbd::max('tahun') ?? date('Y');
+        });
+        $tahun_pilih = $tahun_pilih ?? $tahun_terbaru;
 
         // 2. Ambil daftar tahun yang ada di database (untuk dropdown)
-        $list_tahun = Apbd::select('tahun')
-            ->distinct()
-            ->orderBy('tahun', 'desc')
-            ->pluck('tahun');
+        $list_tahun = Cache::remember('apbd_list_tahun', self::CACHE_TTL, function () {
+            return Apbd::select('tahun')
+                ->distinct()
+                ->orderBy('tahun', 'desc')
+                ->pluck('tahun');
+        });
 
-        // 3. QUERY DATA BERDASARKAN TAHUN PILIHAN
+        // 3. QUERY DATA BERDASARKAN TAHUN PILIHAN - dengan cache
+        $cacheYearKey = 'apbd_year_' . $tahun_pilih;
 
-        // A. PENDAPATAN
-        $pendapatan = Apbd::where('tahun', $tahun_pilih)
-            ->where('jenis', 'Pendapatan')
-            ->sum('anggaran');
+        $apbdData = Cache::remember($cacheYearKey, self::CACHE_TTL, function () use ($tahun_pilih) {
+            // A. PENDAPATAN
+            $pendapatan = Apbd::where('tahun', $tahun_pilih)
+                ->where('jenis', 'Pendapatan')
+                ->sum('anggaran');
 
-        // B. BELANJA
-        $belanja = Apbd::where('tahun', $tahun_pilih)
-            ->where('jenis', 'Belanja')
-            ->sum('anggaran');
+            // B. BELANJA
+            $belanja = Apbd::where('tahun', $tahun_pilih)
+                ->where('jenis', 'Belanja')
+                ->sum('anggaran');
 
-        // C. PEMBIAYAAN (Pemisahan Penerimaan & Pengeluaran)
-        // Logika: Jika kategori mengandung kata "Pengeluaran", masuk ke Pengeluaran Pembiayaan.
+            // C. PEMBIAYAAN
+            $pembiayaan_pengeluaran = Apbd::where('tahun', $tahun_pilih)
+                ->where('jenis', 'Pembiayaan')
+                ->where('kategori', 'LIKE', '%Pengeluaran%')
+                ->sum('anggaran');
 
-        $pembiayaan_pengeluaran = Apbd::where('tahun', $tahun_pilih)
-            ->where('jenis', 'Pembiayaan')
-            ->where('kategori', 'LIKE', '%Pengeluaran%')
-            ->sum('anggaran');
+            $pembiayaan_penerimaan = Apbd::where('tahun', $tahun_pilih)
+                ->where('jenis', 'Pembiayaan')
+                ->where('kategori', 'NOT LIKE', '%Pengeluaran%')
+                ->sum('anggaran');
 
-        $pembiayaan_penerimaan = Apbd::where('tahun', $tahun_pilih)
-            ->where('jenis', 'Pembiayaan')
-            ->where('kategori', 'NOT LIKE', '%Pengeluaran%')
-            ->sum('anggaran');
+            return compact('pendapatan', 'belanja', 'pembiayaan_pengeluaran', 'pembiayaan_penerimaan');
+        });
+
+        extract($apbdData);
 
         // 4. HITUNG SURPLUS / DEFISIT
-        // Rumus: (Pendapatan + Penerimaan Pembiayaan) - (Belanja + Pengeluaran Pembiayaan)
         $total_masuk  = $pendapatan + $pembiayaan_penerimaan;
         $total_keluar = $belanja + $pembiayaan_pengeluaran;
-
         $surplus_defisit = $total_masuk - $total_keluar;
 
-        // --- TAMBAHAN: DATA UNTUK CHART ---
-        // Mengambil rekap Pendapatan & Belanja seluruh tahun yang ada
-        $history_apbd = Apbd::selectRaw('
-            tahun,
-            SUM(CASE WHEN jenis = "Pendapatan" THEN anggaran ELSE 0 END) as total_pendapatan,
-            SUM(CASE WHEN jenis = "Belanja" THEN anggaran ELSE 0 END) as total_belanja
-        ')
-            ->groupBy('tahun')
-            ->orderBy('tahun', 'asc') // Urutkan dari tahun terlama ke terbaru
-            ->get();
+        // --- CHART DATA - Cache seluruh tahun ---
+        $history_apbd = Cache::remember('apbd_history_chart', self::CACHE_TTL, function () {
+            return Apbd::selectRaw('
+                tahun,
+                SUM(CASE WHEN jenis = "Pendapatan" THEN anggaran ELSE 0 END) as total_pendapatan,
+                SUM(CASE WHEN jenis = "Belanja" THEN anggaran ELSE 0 END) as total_belanja
+            ')
+                ->groupBy('tahun')
+                ->orderBy('tahun', 'asc')
+                ->get();
+        });
 
-        // Pisahkan menjadi array agar mudah dibaca Chart.js
         $chart_labels     = $history_apbd->pluck('tahun');
         $chart_pendapatan = $history_apbd->pluck('total_pendapatan');
         $chart_belanja    = $history_apbd->pluck('total_belanja');
 
-        // --- TAMBAHAN: DATA RINCIAN PENDAPATAN ---
-        // Diubah agar langsung mengambil berdasarkan kategori tetap (PAD, Transfer, Lain-lain)
-        // Hal ini agar datanya akurat untuk ditampilkan di grafik pendapatan.
-        // --- DATA RINCIAN PENDAPATAN (FIXED) ---
+        // --- RINCIAN PENDAPATAN - Cache per tahun ---
+        $pendapatanDetail = Cache::remember('apbd_pendapatan_' . $tahun_pilih, self::CACHE_TTL, function () use ($tahun_pilih) {
+            $pad_items = Apbd::where('tahun', $tahun_pilih)
+                ->where('jenis', 'Pendapatan')
+                ->where('kategori', 'Pendapatan Asli Desa')
+                ->get();
 
-        // 1. Pendapatan Asli Desa (PADes)
-        $pad_items = Apbd::where('tahun', $tahun_pilih)
-            ->where('jenis', 'Pendapatan')
-            ->where('kategori', 'Pendapatan Asli Desa')
-            ->get();
-        $total_pad = $pad_items->sum('anggaran');
+            $transfer_items = Apbd::where('tahun', $tahun_pilih)
+                ->where('jenis', 'Pendapatan')
+                ->where(function ($q) {
+                    $q->where('kategori', 'Pendapatan Transfer')
+                        ->orWhere('kategori', 'Dana desa');
+                })->get();
 
-        // 2. Pendapatan Transfer (Ditambah orWhere agar data "Dana desa" terbaca)
-        $transfer_items = Apbd::where('tahun', $tahun_pilih)
-            ->where('jenis', 'Pendapatan')
-            ->where(function ($q) {
-                $q->where('kategori', 'Pendapatan Transfer')
-                    ->orWhere('kategori', 'Dana desa'); // Sesuaikan dengan hasil dd() kamu tadi
-            })->get();
-        $total_transfer = $transfer_items->sum('anggaran');
+            $lain_items = Apbd::where('tahun', $tahun_pilih)
+                ->where('jenis', 'Pendapatan')
+                ->where('kategori', 'Pendapatan Lain-lain')
+                ->get();
 
-        // 3. Pendapatan Lain-lain
-        $lain_items = Apbd::where('tahun', $tahun_pilih)
-            ->where('jenis', 'Pendapatan')
-            ->where('kategori', 'Pendapatan Lain-lain')
-            ->get();
-        $total_lain = $lain_items->sum('anggaran');
+            return [
+                'pad_items' => $pad_items,
+                'total_pad' => $pad_items->sum('anggaran'),
+                'transfer_items' => $transfer_items,
+                'total_transfer' => $transfer_items->sum('anggaran'),
+                'lain_items' => $lain_items,
+                'total_lain' => $lain_items->sum('anggaran'),
+            ];
+        });
 
-        // --- TAMBAHAN: DATA RINCIAN BELANJA (5 BIDANG) ---
-        // Pastikan saat input di Admin, sertakan kata kunci Bidang di kolom Kategori
-        // Contoh: "Bidang Pemerintahan: Siltap", "Pembangunan Jalan", dll.
+        extract($pendapatanDetail);
 
-        // 1. Bidang Pemerintahan
-        $belanja_pemerintahan = Apbd::where('tahun', $tahun_pilih)
-            ->where('jenis', 'Belanja')
-            ->where('kategori', 'LIKE', '%Pemerintahan%')
-            ->get();
-        $total_pemerintahan = $belanja_pemerintahan->sum('anggaran');
+        // --- RINCIAN BELANJA (5 BIDANG) - Cache per tahun ---
+        $belanjaDetail = Cache::remember('apbd_belanja_' . $tahun_pilih, self::CACHE_TTL, function () use ($tahun_pilih) {
+            $queries = [
+                'pemerintahan' => ['query' => fn($q) => $q->where('kategori', 'LIKE', '%Pemerintahan%')],
+                'pembangunan' => ['query' => fn($q) => $q->where('kategori', 'LIKE', '%Pembangunan%')],
+                'pembinaan' => ['query' => fn($q) => $q->where('kategori', 'LIKE', '%Pembinaan%')],
+                'pemberdayaan' => ['query' => fn($q) => $q->where('kategori', 'LIKE', '%Pemberdayaan%')],
+                'bencana' => ['query' => fn($q) => $q->where(function ($sq) {
+                    $sq->where('kategori', 'LIKE', '%Bencana%')
+                        ->orWhere('kategori', 'LIKE', '%Darurat%')
+                        ->orWhere('kategori', 'LIKE', '%Mendesak%')
+                        ->orWhere('kategori', 'LIKE', '%BLT%');
+                })],
+            ];
 
-        // 2. Bidang Pembangunan
-        $belanja_pembangunan = Apbd::where('tahun', $tahun_pilih)
-            ->where('jenis', 'Belanja')
-            ->where('kategori', 'LIKE', '%Pembangunan%')
-            ->get();
-        $total_pembangunan = $belanja_pembangunan->sum('anggaran');
+            $result = [];
+            foreach ($queries as $key => $config) {
+                $items = Apbd::where('tahun', $tahun_pilih)
+                    ->where('jenis', 'Belanja')
+                    ->when(true, $config['query'])
+                    ->get();
+                $result['belanja_' . $key] = $items;
+                $result['total_' . $key] = $items->sum('anggaran');
+            }
 
-        // 3. Bidang Pembinaan Kemasyarakatan
-        $belanja_pembinaan = Apbd::where('tahun', $tahun_pilih)
-            ->where('jenis', 'Belanja')
-            ->where('kategori', 'LIKE', '%Pembinaan%')
-            ->get();
-        $total_pembinaan = $belanja_pembinaan->sum('anggaran');
+            return $result;
+        });
 
-        // 4. Bidang Pemberdayaan Masyarakat
-        $belanja_pemberdayaan = Apbd::where('tahun', $tahun_pilih)
-            ->where('jenis', 'Belanja')
-            ->where('kategori', 'LIKE', '%Pemberdayaan%')
-            ->get();
-        $total_pemberdayaan = $belanja_pemberdayaan->sum('anggaran');
+        extract($belanjaDetail);
 
-        // 5. Bidang Penanggulangan Bencana / Darurat
-        $belanja_bencana = Apbd::where('tahun', $tahun_pilih)
-            ->where('jenis', 'Belanja')
-            ->where(function ($q) {
-                $q->where('kategori', 'LIKE', '%Bencana%')
-                    ->orWhere('kategori', 'LIKE', '%Darurat%')
-                    ->orWhere('kategori', 'LIKE', '%Mendesak%')
-                    ->orWhere('kategori', 'LIKE', '%BLT%');
-            })->get();
-        $total_bencana = $belanja_bencana->sum('anggaran');
+        $total_pemerintahan = $total_pemerintahan ?? 0;
+        $total_pembangunan = $total_pembangunan ?? 0;
+        $total_pembinaan = $total_pembinaan ?? 0;
+        $total_pemberdayaan = $total_pemberdayaan ?? 0;
+        $total_bencana = $total_bencana ?? 0;
 
-        // Hitung Total Belanja Keseluruhan (untuk Persentase)
         $grand_total_belanja = $total_pemerintahan + $total_pembangunan + $total_pembinaan + $total_pemberdayaan + $total_bencana;
-        // Hindari pembagian dengan nol
         $grand_total_belanja = $grand_total_belanja == 0 ? 1 : $grand_total_belanja;
 
-
-
-        // 5. Kirim data ke View Frontend
-        return view('frontend.apbdes', compact(
+        // Compile all data for view
+        $viewData = compact(
             'list_tahun',
             'tahun_pilih',
             'pendapatan',
@@ -158,18 +172,15 @@ class ApbdesController extends Controller
             'pembiayaan_penerimaan',
             'pembiayaan_pengeluaran',
             'surplus_defisit',
-            // ... variabel lama ...
             'chart_labels',
             'chart_pendapatan',
             'chart_belanja',
-            // ... variabel sebelumnya ...
             'pad_items',
             'total_pad',
             'transfer_items',
             'total_transfer',
             'lain_items',
             'total_lain',
-            // ... variabel lama ...
             'belanja_pemerintahan',
             'total_pemerintahan',
             'belanja_pembangunan',
@@ -181,6 +192,11 @@ class ApbdesController extends Controller
             'belanja_bencana',
             'total_bencana',
             'grand_total_belanja'
-        ));
+        );
+
+        // Simpan ke cache
+        Cache::put($cacheKey, $viewData, self::CACHE_TTL);
+
+        return view('frontend.apbdes', $viewData);
     }
 }

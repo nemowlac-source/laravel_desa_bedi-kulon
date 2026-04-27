@@ -2,98 +2,131 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Penduduk; // <--- Import Model Penduduk
+use App\Models\Penduduk;
 use App\Models\PendudukUsia;
 use App\Models\PendudukPendidikan;
 use App\Models\PendudukPekerjaan;
 use App\Models\PendudukWajibPilih;
 use App\Models\PendudukKawin;
 use App\Models\PendudukAgama;
+use Illuminate\Support\Facades\Cache;
 
 class InfografisController extends Controller
 {
+    /**
+     * Cache duration in seconds (2 hours for infografis)
+     */
+    private const CACHE_TTL = 7200;
     public function index()
     {
-        // ... (Kode Penduduk & APBD sebelumnya tetap ada) ...
-        $total_laki = Penduduk::sum('laki_laki');
-        $total_perempuan = Penduduk::sum('perempuan');
-        $total_penduduk = $total_laki + $total_perempuan;
-        $total_kk = Penduduk::sum('kk');
+        // Cache key untuk seluruh halaman infografis
+        $cacheKey = 'infografis_data';
 
-        // --- LOGIKA PIRAMIDA ---
-        $usia_data = PendudukUsia::all();
+        if (Cache::has($cacheKey)) {
+            return view('frontend.infografis', Cache::get($cacheKey));
+        }
 
-        // 1. Siapkan Data Chart (Array)
-        $categories = $usia_data->pluck('kelompok_umur');
-        $data_laki = $usia_data->pluck('laki_laki');
-        $data_perempuan = $usia_data->pluck('perempuan');
-
-        // 2. Hitung Narasi (Tertinggi & Terendah)
-        // Simpan total sum ke dalam variabel agar tidak dipanggil berkali-kali
-        $sum_laki = $usia_data->sum('laki_laki');
-        $sum_cewe = $usia_data->sum('perempuan');
-
-        // Analisa Laki-laki
-        $max_laki = $usia_data->sortByDesc('laki_laki')->first();
-        $min_laki = $usia_data->sortBy('laki_laki')->first();
-
-        // Analisa Perempuan
-        $max_cewe = $usia_data->sortByDesc('perempuan')->first();
-        $min_cewe = $usia_data->sortBy('perempuan')->first();
-
-        // Helper hitung persentase (DENGAN PENANGANAN ERROR)
-        // Cek apakah $max_laki ada (tidak null) DAN $sum_laki lebih dari 0 untuk menghindari Division by Zero
-        $persen_max_laki = ($max_laki && $sum_laki > 0) ? ($max_laki->laki_laki / $sum_laki) * 100 : 0;
-        $persen_min_laki = ($min_laki && $sum_laki > 0) ? ($min_laki->laki_laki / $sum_laki) * 100 : 0;
-
-        $persen_max_cewe = ($max_cewe && $sum_cewe > 0) ? ($max_cewe->perempuan / $sum_cewe) * 100 : 0;
-        $persen_min_cewe = ($min_cewe && $sum_cewe > 0) ? ($min_cewe->perempuan / $sum_cewe) * 100 : 0;
-
-        // --- LOGIKA CHART DUSUN (BARU) ---
-        $dusun_list = Penduduk::all(); // Mengambil semua data wilayah
-
-        // Siapkan array untuk Chart.js
-        $dusun_labels = $dusun_list->pluck('nama_wilayah');
-
-        // Hitung total jiwa (L+P) per dusun
-        $dusun_totals = $dusun_list->map(function ($item) {
-            return $item->laki_laki + $item->perempuan;
+        // --- DATA PENDUDUK (Cache aggregate) ---
+        $pendudukStats = Cache::remember('infografis_penduduk_stats', self::CACHE_TTL, function () {
+            $total_laki = Penduduk::sum('laki_laki');
+            $total_perempuan = Penduduk::sum('perempuan');
+            return [
+                'total_laki' => $total_laki,
+                'total_perempuan' => $total_perempuan,
+                'total_penduduk' => $total_laki + $total_perempuan,
+                'total_kk' => Penduduk::sum('kk'),
+            ];
         });
 
-        // Warna-warni untuk Chart (Siapkan 8 warna cantik)
-        $chart_colors = [
-            '#4e73df',
-            '#1cc88a',
-            '#36b9cc',
-            '#f6c23e',
-            '#e74a3b',
-            '#858796',
-            '#5a5c69',
-            '#2c9faf'
-        ];
+        extract($pendudukStats);
 
-        // --- LOGIKA CHART PENDIDIKAN (BARU) ---
-        $pendidikan_data = PendudukPendidikan::all();
-        $pendidikan_labels = $pendidikan_data->pluck('tingkat_pendidikan');
-        $pendidikan_values = $pendidikan_data->pluck('jumlah');
+        // --- DATA USIA PIRAMIDA ---
+        $usiaData = Cache::remember('infografis_usia', self::CACHE_TTL, function () {
+            $usia_data = PendudukUsia::all();
+            $sum_laki = $usia_data->sum('laki_laki');
+            $sum_cewe = $usia_data->sum('perempuan');
 
-        // --- LOGIKA PEKERJAAN (BARU) ---
-        $pekerjaan_all = PendudukPekerjaan::orderBy('jumlah', 'desc')->get();
-        $pekerjaan_top = $pekerjaan_all->take(6);
-        $pekerjaan_sisanya = $pekerjaan_all->skip(6);
+            $max_laki = $usia_data->sortByDesc('laki_laki')->first();
+            $min_laki = $usia_data->sortBy('laki_laki')->first();
+            $max_cewe = $usia_data->sortByDesc('perempuan')->first();
+            $min_cewe = $usia_data->sortBy('perempuan')->first();
 
-        // --- LOGIKA WAJIB PILIH (BARU) ---
-        $wajib_pilih_data = PendudukWajibPilih::orderBy('tahun')->get();
-        $wp_labels = $wajib_pilih_data->pluck('tahun');
-        $wp_values = $wajib_pilih_data->pluck('jumlah_pemilih');
+            return [
+                'categories' => $usia_data->pluck('kelompok_umur'),
+                'data_laki' => $usia_data->pluck('laki_laki'),
+                'data_perempuan' => $usia_data->pluck('perempuan'),
+                'max_laki' => $max_laki,
+                'min_laki' => $min_laki,
+                'max_cewe' => $max_cewe,
+                'min_cewe' => $min_cewe,
+                'persen_max_laki' => ($max_laki && $sum_laki > 0) ? ($max_laki->laki_laki / $sum_laki) * 100 : 0,
+                'persen_min_laki' => ($min_laki && $sum_laki > 0) ? ($min_laki->laki_laki / $sum_laki) * 100 : 0,
+                'persen_max_cewe' => ($max_cewe && $sum_cewe > 0) ? ($max_cewe->perempuan / $sum_cewe) * 100 : 0,
+                'persen_min_cewe' => ($min_cewe && $sum_cewe > 0) ? ($min_cewe->perempuan / $sum_cewe) * 100 : 0,
+            ];
+        });
 
-        // --- LOGIKA PERKAWINAN (BARU) ---
-        $kawin_data = PendudukKawin::all();
+        extract($usiaData);
 
-        // --- LOGIKA AGAMA (BARU) ---
-        $agama_data = PendudukAgama::all();
+        // --- DATA DUSUN ---
+        $dusunData = Cache::remember('infografis_dusun', self::CACHE_TTL, function () {
+            $dusun_list = Penduduk::all();
+            return [
+                'dusun_list' => $dusun_list,
+                'dusun_labels' => $dusun_list->pluck('nama_wilayah'),
+                'dusun_totals' => $dusun_list->map(fn($item) => $item->laki_laki + $item->perempuan),
+            ];
+        });
 
-        return view('frontend.infografis', compact(
+        extract($dusunData);
+
+        // Warna chart (static)
+        $chart_colors = ['#4e73df', '#1cc88a', '#36b9cc', '#f6c23e', '#e74a3b', '#858796', '#5a5c69', '#2c9faf'];
+
+        // --- DATA PENDIDIKAN ---
+        $pendidikanData = Cache::remember('infografis_pendidikan', self::CACHE_TTL, function () {
+            $data = PendudukPendidikan::all();
+            return [
+                'pendidikan_labels' => $data->pluck('tingkat_pendidikan'),
+                'pendidikan_values' => $data->pluck('jumlah'),
+            ];
+        });
+
+        extract($pendidikanData);
+
+        // --- DATA PEKERJAAN ---
+        $pekerjaanData = Cache::remember('infografis_pekerjaan', self::CACHE_TTL, function () {
+            $all = PendudukPekerjaan::orderBy('jumlah', 'desc')->get();
+            return [
+                'pekerjaan_top' => $all->take(6),
+                'pekerjaan_sisanya' => $all->skip(6),
+            ];
+        });
+
+        extract($pekerjaanData);
+
+        // --- DATA WAJIB PILIH ---
+        $wajibPilihData = Cache::remember('infografis_wajib_pilih', self::CACHE_TTL, function () {
+            $data = PendudukWajibPilih::orderBy('tahun')->get();
+            return [
+                'wp_labels' => $data->pluck('tahun'),
+                'wp_values' => $data->pluck('jumlah_pemilih'),
+            ];
+        });
+
+        extract($wajibPilihData);
+
+        // --- DATA PERKAWINAN ---
+        $kawin_data = Cache::remember('infografis_kawin', self::CACHE_TTL, function () {
+            return PendudukKawin::all();
+        });
+
+        // --- DATA AGAMA ---
+        $agama_data = Cache::remember('infografis_agama', self::CACHE_TTL, function () {
+            return PendudukAgama::all();
+        });
+
+        $viewData = compact(
             'total_penduduk',
             'total_laki',
             'total_perempuan',
@@ -121,6 +154,10 @@ class InfografisController extends Controller
             'wp_values',
             'kawin_data',
             'agama_data'
-        ));
+        );
+
+        Cache::put($cacheKey, $viewData, self::CACHE_TTL);
+
+        return view('frontend.infografis', $viewData);
     }
 }

@@ -46,7 +46,9 @@
                             <input type="checkbox" name="ids[]" value="{{ $item->id }}" class="row-checkbox checkbox checkbox-sm checkbox-primary">
                         </td>
                         <td>
-                            @if($item->foto)
+                            @if($item->foto_thumbnail)
+                            <img src="{{ asset('storage/' . $item->foto_thumbnail) }}" alt="Foto" class="w-12 h-12 rounded object-cover" onerror="this.src='{{ asset('storage/' . $item->foto) }}'">
+                            @elseif($item->foto)
                             <img src="{{ asset('storage/' . $item->foto) }}" alt="Foto" class="w-12 h-12 rounded object-cover">
                             @else
                             <span class="text-gray-400 text-xs">No Img</span>

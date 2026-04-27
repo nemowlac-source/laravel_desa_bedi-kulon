@@ -4,11 +4,18 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Umkm;
+use App\Services\ImageService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Storage;
 
 class UmkmController extends Controller
 {
+    protected ImageService $imageService;
+
+    public function __construct(ImageService $imageService)
+    {
+        $this->imageService = $imageService;
+    }
+
     public function index()
     {
         $products = Umkm::latest()->get();
@@ -27,10 +34,20 @@ class UmkmController extends Controller
             'harga' => 'required|numeric',
             'penjual' => 'required',
             'no_hp' => 'required|numeric',
-            'gambar' => 'required|image|max:2048',
+            'gambar' => 'required|image|mimes:jpeg,jpg,png,webp|max:64000|dimensions:min_width=100,min_height=100',
+        ], [
+            'gambar.required' => 'Gambar produk harus dipilih.',
+            'gambar.image' => 'File yang diunggah harus berupa gambar.',
+            'gambar.mimes' => 'Format gambar harus JPEG, PNG, atau WebP.',
+            'gambar.max' => 'Ukuran foto terlalu besar, maksimal adalah 64MB.',
+            'gambar.dimensions' => 'Ukuran gambar minimal 100x100 pixel.',
         ]);
 
-        $path = $request->file('gambar')->store('umkm', 'public');
+        $result = $this->imageService->storeWithThumbnail(
+            $request->file('gambar'),
+            'umkm',
+            'umkm'
+        );
 
         Umkm::create([
             'nama_produk' => $request->nama_produk,
@@ -38,7 +55,8 @@ class UmkmController extends Controller
             'penjual' => $request->penjual,
             'no_hp' => $request->no_hp,
             'deskripsi' => $request->deskripsi,
-            'gambar' => $path,
+            'gambar_thumbnail' => $result['thumbnail_path'],
+            'gambar_master' => $result['master_path'],
         ]);
 
         return redirect()->route('umkm.index')->with('success', 'Produk berhasil ditambahkan');
@@ -57,16 +75,27 @@ class UmkmController extends Controller
         $request->validate([
             'nama_produk' => 'required',
             'harga' => 'required|numeric',
-            'gambar' => 'nullable|image|max:2048',
+            'gambar' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:64000|dimensions:min_width=100,min_height=100',
+        ], [
+            'gambar.image' => 'File yang diunggah harus berupa gambar.',
+            'gambar.mimes' => 'Format gambar harus JPEG, PNG, atau WebP.',
+            'gambar.max' => 'Ukuran foto terlalu besar, maksimal adalah 64MB.',
+            'gambar.dimensions' => 'Ukuran gambar minimal 100x100 pixel.',
         ]);
 
         $data = $request->except('gambar');
 
         if ($request->hasFile('gambar')) {
-            if (Storage::disk('public')->exists($product->gambar)) {
-                Storage::disk('public')->delete($product->gambar);
-            }
-            $data['gambar'] = $request->file('gambar')->store('umkm', 'public');
+            $this->imageService->deleteFromModel($product, 'gambar_thumbnail', 'gambar_master');
+
+            $result = $this->imageService->storeWithThumbnail(
+                $request->file('gambar'),
+                'umkm',
+                'umkm'
+            );
+
+            $data['gambar_thumbnail'] = $result['thumbnail_path'];
+            $data['gambar_master'] = $result['master_path'];
         }
 
         $product->update($data);
@@ -78,9 +107,7 @@ class UmkmController extends Controller
     {
         $product = Umkm::findOrFail($id);
 
-        if (Storage::disk('public')->exists($product->gambar)) {
-            Storage::disk('public')->delete($product->gambar);
-        }
+        $this->imageService->deleteFromModel($product, 'gambar_thumbnail', 'gambar_master');
 
         $product->delete();
 
@@ -97,9 +124,7 @@ class UmkmController extends Controller
         $items = Umkm::whereIn('id', $request->ids)->get();
 
         foreach ($items as $item) {
-            if (Storage::disk('public')->exists($item->gambar)) {
-                Storage::disk('public')->delete($item->gambar);
-            }
+            $this->imageService->deleteFromModel($item, 'gambar_thumbnail', 'gambar_master');
             $item->delete();
         }
 

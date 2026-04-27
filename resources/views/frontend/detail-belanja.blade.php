@@ -12,12 +12,12 @@
 
                 <div class="produk-gallery">
                     <div class="main-image-box">
-                        <img src="{{ asset('storage/' . ($produk->gambar ?? '')) }}" alt="{{ $produk->nama_produk }}" onerror="this.src='https://placehold.co/600x600?text=Foto+Produk'">
+                        <img src="{{ asset('storage/' . ($produk->gambar_thumbnail ?? $produk->gambar ?? '')) }}" alt="{{ $produk->nama_produk }}" onerror="this.src='https://placehold.co/600x600?text=Foto+Produk'">
                     </div>
 
                     <div class="thumbnail-list">
                         <div class="thumb-box active">
-                            <img src="{{ asset('storage/' . ($produk->gambar ?? '')) }}" alt="Thumbnail" onerror="this.src='https://placehold.co/100x100?text=Foto'">
+                            <img src="{{ asset('storage/' . ($produk->gambar_thumbnail ?? $produk->gambar ?? '')) }}" alt="Thumbnail" onerror="this.src='https://placehold.co/100x100?text=Foto'">
                         </div>
                     </div>
                 </div>

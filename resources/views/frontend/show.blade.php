@@ -44,7 +44,7 @@
                 </div>
 
                 <div class="berita-featured-image">
-                    <img src="{{ asset('storage/' . ($wisata->gambar ?? '')) }}" alt="{{ $wisata->nama_wisata ?? 'Gambar Wisata' }}" onerror="this.src='https://placehold.co/800x400?text=Gambar+Wisata'">
+                    <img src="{{ asset('storage/' . ($wisata->gambar_thumbnail ?? $wisata->gambar ?? '')) }}" alt="{{ $wisata->nama_wisata ?? 'Gambar Wisata' }}" onerror="this.src='https://placehold.co/800x400?text=Gambar+Wisata'">
                 </div>
 
                 <div class="berita-body-text">

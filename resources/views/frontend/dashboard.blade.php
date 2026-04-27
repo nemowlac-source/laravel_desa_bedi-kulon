@@ -946,7 +946,7 @@
                             {{-- ERROR HANDLING 3: Backend fallback untuk gambar --}}
                             @php
                             $gambarFallback = 'https://placehold.co/600x400?text=Berita';
-                            $gambarUrl = !empty($berita->gambar) ? asset('storage/' . $berita->gambar) : $gambarFallback;
+                            $gambarUrl = !empty($berita->gambar_thumbnail) ? asset('storage/' . $berita->gambar_thumbnail) : (!empty($berita->gambar) ? asset('storage/' . $berita->gambar) : $gambarFallback);
                             @endphp
                             <img src="{{ $gambarUrl }}" alt="{{ $berita->judul ?? 'Berita Desa' }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='{{ $gambarFallback }}'" />
                         </div>
@@ -1074,7 +1074,7 @@
                     <div class="h-[180px] w-full bg-gray-200 relative overflow-hidden">
                         @php
                         $gambarFallback = 'https://placehold.co/600x400?text=Berita+Desa';
-                        $gambarUrl = !empty($berita->gambar) ? asset('storage/' . $berita->gambar) : $gambarFallback;
+                        $gambarUrl = !empty($berita->gambar_thumbnail) ? asset('storage/' . $berita->gambar_thumbnail) : (!empty($berita->gambar) ? asset('storage/' . $berita->gambar) : $gambarFallback);
                         @endphp
                         <img src="{{ $gambarUrl }}" alt="{{ $berita->judul ?? 'Gambar Berita' }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110 group-active:scale-110" onerror="this.src='{{ $gambarFallback }}'" />
                     </div>
@@ -1193,7 +1193,7 @@
                                 {{-- Gambar Potensi dengan Handling Backend & Frontend --}}
                                 @php
                                 $gambarFallback = 'https://placehold.co/300x300?text=Potensi+Desa';
-                                $gambarUrl = !empty($item->gambar) ? asset('storage/' . $item->gambar) : $gambarFallback;
+                                $gambarUrl = !empty($item->gambar_thumbnail) ? asset('storage/' . $item->gambar_thumbnail) : (!empty($item->gambar) ? asset('storage/' . $item->gambar) : $gambarFallback);
                                 @endphp
 
                                 <img src="{{ $gambarUrl }}" alt="{{ $item->judul ?? 'Potensi Desa' }}" class="w-full h-full object-cover" onerror="this.src='{{ $gambarFallback }}'">
@@ -1287,7 +1287,7 @@
                     {{-- Foto background-dengan Error Handling --}}
                     @php
                     $gambarFallback = 'https://placehold.co/400x600?text=Potensi+Desa';
-                    $gambarUrl = !empty($item->gambar) ? asset('storage/' . $item->gambar) : $gambarFallback;
+                    $gambarUrl = !empty($item->gambar_thumbnail) ? asset('storage/' . $item->gambar_thumbnail) : (!empty($item->gambar) ? asset('storage/' . $item->gambar) : $gambarFallback);
                     @endphp
                     <img src="{{ $gambarUrl }}" alt="{{ $item->judul ?? 'Gambar Potensi' }}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" onerror="this.src='{{ $gambarFallback }}'">
 
@@ -1470,7 +1470,7 @@
                     {{-- Foto background-dengan Error Handling --}}
                     @php
                     $gambarFallback = 'https://placehold.co/400x600?text=Wisata+Desa';
-                    $gambarUrl = !empty($item->gambar) ? asset('storage/' . $item->gambar) : $gambarFallback;
+                    $gambarUrl = !empty($item->gambar_thumbnail) ? asset('storage/' . $item->gambar_thumbnail) : (!empty($item->gambar) ? asset('storage/' . $item->gambar) : $gambarFallback);
                     @endphp
                     <img src="{{ $gambarUrl }}" alt="{{ $item->nama_wisata ?? 'Gambar Wisata' }}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" onerror="this.src='{{ $gambarFallback }}'">
 
@@ -1555,7 +1555,7 @@
                                 {{-- Handling Gambar (Backend & Frontend) --}}
                                 @php
                                 $gambarFallback = 'https://placehold.co/400x300?text=Produk+UMKM';
-                                $gambarUrl = !empty($produk->gambar) ? asset('storage/' . $produk->gambar) : $gambarFallback;
+                                $gambarUrl = !empty($produk->gambar_thumbnail) ? asset('storage/' . $produk->gambar_thumbnail) : (!empty($produk->gambar) ? asset('storage/' . $produk->gambar) : $gambarFallback);
                                 @endphp
 
                                 <img src="{{ $gambarUrl }}" alt="{{ $produk->nama_produk ?? 'Gambar Produk' }}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" onerror="this.src='{{ $gambarFallback }}'" />
@@ -1677,7 +1677,7 @@
                         <div class="h-[180px] w-full bg-gray-200 relative overflow-hidden">
                             @php
                             $gambarFallback = 'https://placehold.co/400x400?text=Produk+UMKM';
-                            $gambarUrl = !empty($produk->gambar) ? asset('storage/' . $produk->gambar) : $gambarFallback;
+                            $gambarUrl = !empty($produk->gambar_thumbnail) ? asset('storage/' . $produk->gambar_thumbnail) : (!empty($produk->gambar) ? asset('storage/' . $produk->gambar) : $gambarFallback);
                             @endphp
                             <img src="{{ $gambarUrl }}" alt="{{ $produk->nama_produk ?? 'Gambar Produk' }}" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" onerror="this.src='{{ $gambarFallback }}'" />
                         </div>
@@ -1764,7 +1764,7 @@
                     {{-- Penyiapan Data Fallback Gambar --}}
                     @php
                     $gambarFallback = 'https://placehold.co/600x400?text=Galeri+Desa';
-                    $gambarUrl = !empty($foto->gambar) ? asset('storage/' . $foto->gambar) : $gambarFallback;
+                    $gambarUrl = !empty($foto->gambar_thumbnail) ? asset('storage/' . $foto->gambar_thumbnail) : (!empty($foto->gambar) ? asset('storage/' . $foto->gambar) : $gambarFallback);
                     $judulFoto = $foto->judul ?? 'Foto Kegiatan';
                     @endphp
 
@@ -1897,7 +1897,7 @@
                 {{-- Penyiapan Data Fallback untuk Mencegah Error --}}
                 @php
                 $gambarFallback = 'https://placehold.co/600x450?text=Galeri+Desa';
-                $gambarUrl = !empty($foto->gambar) ? asset('storage/' . $foto->gambar) : $gambarFallback;
+                $gambarUrl = !empty($foto->gambar_thumbnail) ? asset('storage/' . $foto->gambar_thumbnail) : (!empty($foto->gambar) ? asset('storage/' . $foto->gambar) : $gambarFallback);
                 $judulFoto = $foto->judul ?? 'Foto Kegiatan';
                 @endphp
 

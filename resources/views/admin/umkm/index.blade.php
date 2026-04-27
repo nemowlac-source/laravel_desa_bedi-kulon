@@ -42,7 +42,7 @@
                             <input type="checkbox" name="ids[]" value="{{ $item->id }}" class="row-checkbox checkbox checkbox-sm checkbox-primary">
                         </td>
                         <td>
-                            <img src="{{ asset('storage/' . $item->gambar) }}" class="w-16 h-16 object-cover rounded">
+                            <img src="{{ asset('storage/' . $item->gambar_thumbnail) }}" class="w-16 h-16 object-cover rounded" onerror="this.src='{{ asset('storage/' . $item->gambar) }}'">
                         </td>
                         <td class="font-bold">{{ $item->nama_produk }}</td>
                         <td>Rp {{ number_format($item->harga, 0, ',', '.') }}</td>

@@ -13,48 +13,42 @@ use App\Models\Apbd;
 use App\Models\Visitor;
 
 
+use Illuminate\Support\Facades\Cache;
+
 class HomeController extends Controller
 {
+    private const CACHE_TTL = 3600;
+
     public function index()
     {
-        // RECORD VISITOR
         Visitor::recordVisit();
-
-        // GET VISITOR STATS
         $visitor_stats = Visitor::getStats();
+        $cacheKey = 'homepage_data';
 
-        // 2. Ambil 6 foto terbaru dari database
+        if (Cache::has($cacheKey)) {
+            $cached = Cache::get($cacheKey);
+            $cached['visitor_stats'] = $visitor_stats;
+            return view('frontend.dashboard', $cached);
+        }
+
         $galeri_terbaru = Galeri::latest()->take(6)->get();
-        // 2. AMBIL 4 PRODUK UMKM TERBARU
         $produk_umkm = Umkm::latest()->take(4)->get();
-        // 3. BERITA (3 artikel terbaru)
         $berita_terbaru = Berita::latest()->take(6)->get();
-        // 4. PERANGKAT DESA (Ambil 4 orang)
         $perangkat_desa = PerangkatDesa::take(4)->get();
-        // 5. AMBIL DATA POTENSI (Ambil 6 terbaru)
         $potensi_desa = Potensi::latest()->take(6)->get();
-        // 6. AMBIL DATA WISATA (Ambil 5 untuk slider)
         $wisata_desa = Wisata::latest()->take(5)->get();
         $potensis = Potensi::latest()->take(6)->get();
-        // 7. HITUNG STATISTIK PENDUDUK
         $total_laki = Penduduk::sum('laki_laki');
         $total_perempuan = Penduduk::sum('perempuan');
         $total_penduduk = $total_laki + $total_perempuan;
         $total_kk = Penduduk::sum('kk');
         $total_sementara = Penduduk::sum('penduduk_sementara');
         $total_mutasi = Penduduk::sum('kelahiran');
-
-        // 8. DATA APBD (Tahun Ini)
         $tahun_ini = date('Y');
-        $apbd_pendapatan = Apbd::where('tahun', $tahun_ini)
-            ->where('jenis', 'Pendapatan')
-            ->sum('anggaran');
-        $apbd_belanja = Apbd::where('tahun', $tahun_ini)
-            ->where('jenis', 'Belanja')
-            ->sum('anggaran');
+        $apbd_pendapatan = Apbd::where('tahun', $tahun_ini)->where('jenis', 'Pendapatan')->sum('anggaran');
+        $apbd_belanja = Apbd::where('tahun', $tahun_ini)->where('jenis', 'Belanja')->sum('anggaran');
 
-        // 3. Kirim data ke view
-        return view('frontend.dashboard', [
+        $viewData = [
             'galeri_terbaru' => $galeri_terbaru,
             'produk_umkm' => $produk_umkm,
             'berita_terbaru' => $berita_terbaru,
@@ -72,7 +66,13 @@ class HomeController extends Controller
             'apbd_belanja' => $apbd_belanja,
             'tahun_ini' => $tahun_ini,
             'visitor_stats' => $visitor_stats,
-        ]);
+        ];
+
+        $cacheData = $viewData;
+        unset($cacheData['visitor_stats']);
+        Cache::put($cacheKey, $cacheData, self::CACHE_TTL);
+
+        return view('frontend.dashboard', $viewData);
     }
 
     public function galeri()

@@ -4,12 +4,19 @@ namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
 use App\Models\Berita;
+use App\Services\ImageService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Str;
-use Illuminate\Support\Facades\Storage;
 
 class BeritaController extends Controller
 {
+    protected ImageService $imageService;
+
+    public function __construct(ImageService $imageService)
+    {
+        $this->imageService = $imageService;
+    }
+
     public function index()
     {
         $beritas = Berita::latest()->get();
@@ -26,16 +33,27 @@ class BeritaController extends Controller
         $request->validate([
             'judul' => 'required|max:255',
             'isi' => 'required',
-            'gambar' => 'required|image|max:2048',
+            'gambar' => 'required|image|mimes:jpeg,jpg,png,webp|max:64000|dimensions:min_width=100,min_height=100',
+        ], [
+            'gambar.required' => 'Gambar utama harus dipilih.',
+            'gambar.image' => 'File yang diunggah harus berupa gambar.',
+            'gambar.mimes' => 'Format gambar harus JPEG, PNG, atau WebP.',
+            'gambar.max' => 'Ukuran foto terlalu besar, maksimal adalah 64MB.',
+            'gambar.dimensions' => 'Ukuran gambar minimal 100x100 pixel.',
         ]);
 
-        $path = $request->file('gambar')->store('berita', 'public');
+        $result = $this->imageService->storeWithThumbnail(
+            $request->file('gambar'),
+            'berita',
+            'berita'
+        );
 
         Berita::create([
             'judul' => $request->judul,
             'slug' => Str::slug($request->judul),
             'isi' => $request->isi,
-            'gambar' => $path,
+            'gambar_thumbnail' => $result['thumbnail_path'],
+            'gambar_master' => $result['master_path'],
             'penulis' => 'Admin',
         ]);
 
@@ -55,7 +73,12 @@ class BeritaController extends Controller
         $request->validate([
             'judul' => 'required|max:255',
             'isi' => 'required',
-            'gambar' => 'nullable|image|max:2048',
+            'gambar' => 'nullable|image|mimes:jpeg,jpg,png,webp|max:64000|dimensions:min_width=100,min_height=100',
+        ], [
+            'gambar.image' => 'File yang diunggah harus berupa gambar.',
+            'gambar.mimes' => 'Format gambar harus JPEG, PNG, atau WebP.',
+            'gambar.max' => 'Ukuran foto terlalu besar, maksimal adalah 64MB.',
+            'gambar.dimensions' => 'Ukuran gambar minimal 100x100 pixel.',
         ]);
 
         $data = [
@@ -65,10 +88,16 @@ class BeritaController extends Controller
         ];
 
         if ($request->hasFile('gambar')) {
-            if (Storage::disk('public')->exists($berita->gambar)) {
-                Storage::disk('public')->delete($berita->gambar);
-            }
-            $data['gambar'] = $request->file('gambar')->store('berita', 'public');
+            $this->imageService->deleteFromModel($berita, 'gambar_thumbnail', 'gambar_master');
+
+            $result = $this->imageService->storeWithThumbnail(
+                $request->file('gambar'),
+                'berita',
+                'berita'
+            );
+
+            $data['gambar_thumbnail'] = $result['thumbnail_path'];
+            $data['gambar_master'] = $result['master_path'];
         }
 
         $berita->update($data);
@@ -80,9 +109,7 @@ class BeritaController extends Controller
     {
         $berita = Berita::findOrFail($id);
 
-        if (Storage::disk('public')->exists($berita->gambar)) {
-            Storage::disk('public')->delete($berita->gambar);
-        }
+        $this->imageService->deleteFromModel($berita, 'gambar_thumbnail', 'gambar_master');
 
         $berita->delete();
 
@@ -99,9 +126,7 @@ class BeritaController extends Controller
         $items = Berita::whereIn('id', $request->ids)->get();
 
         foreach ($items as $item) {
-            if (Storage::disk('public')->exists($item->gambar)) {
-                Storage::disk('public')->delete($item->gambar);
-            }
+            $this->imageService->deleteFromModel($item, 'gambar_thumbnail', 'gambar_master');
             $item->delete();
         }
 

@@ -13,8 +13,8 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
 
                 @forelse($galeris as $item)
-                <div onclick="openLightbox('{{ asset('storage/' . $item->gambar) }}', '{{ $item->judul }}')" class="cursor-pointer overflow-hidden relative group aspect-[4/3] rounded-xl shadow-sm transition-all duration-300 hover:shadow-lg border border-gray-100 bg-gray-100">
-                    <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->judul }}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" onerror="this.src='https://placehold.co/600x400?text=No+Image'">
+                <div onclick="openLightbox('{{ asset('storage/' . ($item->gambar_thumbnail ?? $item->gambar)) }}', '{{ $item->judul }}')" class="cursor-pointer overflow-hidden relative group aspect-[4/3] rounded-xl shadow-sm transition-all duration-300 hover:shadow-lg border border-gray-100 bg-gray-100">
+                    <img src="{{ asset('storage/' . ($item->gambar_thumbnail ?? $item->gambar)) }}" alt="{{ $item->judul }}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" onerror="this.src='https://placehold.co/600x400?text=No+Image'">
 
                     <div class="absolute top-4 left-4 bg-white/95 backdrop-blur-sm text-gray-800 px-3 py-1.5 rounded-lg text-xs font-bold shadow-sm flex items-center gap-1">
                         <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

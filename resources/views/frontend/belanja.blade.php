@@ -17,7 +17,7 @@
                     {{-- rounded-lg membuat sudut tidak terlalu bulat seperti sebelumnya --}}
 
                     <div class="relative w-[90px] h-[90px] flex-shrink-0">
-                        <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->nama_produk }}" class="w-full h-full object-cover rounded-md" onerror="this.src='https://placehold.co/200x200?text=No+Image'">
+                        <img src="{{ asset('storage/' . ($item->gambar_thumbnail ?? $item->gambar)) }}" alt="{{ $item->nama_produk }}" class="w-full h-full object-cover rounded-md" onerror="this.src='https://placehold.co/200x200?text=No+Image'">
                     </div>
 
                     <div class="flex-1 ml-3 flex flex-col justify-between py-0.5">
@@ -104,7 +104,7 @@
 
                         {{-- Foto Produk --}}
                         <div class="relative aspect-[4/3] overflow-hidden bg-gray-100">
-                            <img src="{{ asset('storage/' . $item->gambar) }}" alt="{{ $item->nama_produk }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onerror="this.src='https://placehold.co/400x300?text=No+Image'">
+                            <img src="{{ asset('storage/' . ($item->gambar_thumbnail ?? $item->gambar)) }}" alt="{{ $item->nama_produk }}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" onerror="this.src='https://placehold.co/400x300?text=No+Image'">
                         </div>
 
                         {{-- Konten Detail --}}
