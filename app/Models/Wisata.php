@@ -16,6 +16,7 @@ class Wisata extends Model
         'harga_tiket',
         'jam_buka',
         'views',
+        'tampil_dashboard',
         'gambar_thumbnail',
         'gambar_master',
     ];

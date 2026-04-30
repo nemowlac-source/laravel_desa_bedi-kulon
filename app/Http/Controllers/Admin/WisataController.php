@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Wisata;
 use App\Services\ImageService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 
 class WisataController extends Controller
 {
@@ -24,7 +25,8 @@ class WisataController extends Controller
 
     public function create()
     {
-        return view('admin.wisata.create');
+        $existingDashboardWisata = Wisata::where('tampil_dashboard', true)->first();
+        return view('admin.wisata.create', compact('existingDashboardWisata'));
     }
 
     public function store(Request $request)
@@ -42,6 +44,16 @@ class WisataController extends Controller
             'gambar.dimensions' => 'Ukuran gambar minimal 100x100 pixel.',
         ]);
 
+        // Validasi: hanya boleh 1 wisata yang tampil di dashboard
+        if ($request->boolean('tampil_dashboard')) {
+            $existing = Wisata::where('tampil_dashboard', true)->first();
+            if ($existing) {
+                return back()
+                    ->withInput()
+                    ->with('error', "Wisata '{$existing->nama_wisata}' sudah ditampilkan di dashboard. Matikan terlebih dahulu jika ingin mengganti.");
+            }
+        }
+
         $result = $this->imageService->storeWithThumbnail(
             $request->file('gambar'),
             'wisata',
@@ -54,9 +66,12 @@ class WisataController extends Controller
             'alamat' => $request->alamat,
             'harga_tiket' => $request->harga_tiket,
             'jam_buka' => $request->jam_buka,
+            'tampil_dashboard' => $request->boolean('tampil_dashboard'),
             'gambar_thumbnail' => $result['thumbnail_path'],
             'gambar_master' => $result['master_path'],
         ]);
+
+        Cache::forget('homepage_data');
 
         return redirect()->route('wisata.index')->with('success', 'Destinasi wisata berhasil ditambahkan!');
     }
@@ -64,7 +79,10 @@ class WisataController extends Controller
     public function edit($id)
     {
         $wisata = Wisata::findOrFail($id);
-        return view('admin.wisata.edit', compact('wisata'));
+        $existingDashboardWisata = Wisata::where('tampil_dashboard', true)
+            ->where('id', '!=', $id)
+            ->first();
+        return view('admin.wisata.edit', compact('wisata', 'existingDashboardWisata'));
     }
 
     public function update(Request $request, $id)
@@ -84,6 +102,19 @@ class WisataController extends Controller
         ]);
 
         $data = $request->except('gambar');
+        $data['tampil_dashboard'] = $request->boolean('tampil_dashboard');
+
+        // Validasi: hanya boleh 1 wisata yang tampil di dashboard
+        if ($data['tampil_dashboard']) {
+            $existing = Wisata::where('tampil_dashboard', true)
+                ->where('id', '!=', $id)
+                ->first();
+            if ($existing) {
+                return back()
+                    ->withInput()
+                    ->with('error', "Wisata '{$existing->nama_wisata}' sudah ditampilkan di dashboard. Matikan terlebih dahulu jika ingin mengganti.");
+            }
+        }
 
         if ($request->hasFile('gambar')) {
             $this->imageService->deleteFromModel($wisata, 'gambar_thumbnail', 'gambar_master');
@@ -100,6 +131,8 @@ class WisataController extends Controller
 
         $wisata->update($data);
 
+        Cache::forget('homepage_data');
+
         return redirect()->route('wisata.index')->with('success', 'Data wisata diperbarui!');
     }
 
@@ -110,6 +143,8 @@ class WisataController extends Controller
         $this->imageService->deleteFromModel($wisata, 'gambar_thumbnail', 'gambar_master');
 
         $wisata->delete();
+
+        Cache::forget('homepage_data');
 
         return redirect()->route('wisata.index')->with('success', 'Data dihapus!');
     }
@@ -127,6 +162,8 @@ class WisataController extends Controller
             $this->imageService->deleteFromModel($item, 'gambar_thumbnail', 'gambar_master');
             $item->delete();
         }
+
+        Cache::forget('homepage_data');
 
         return redirect()->route('wisata.index')
             ->with('success', $items->count() . ' data wisata berhasil dihapus');

@@ -32,7 +32,12 @@
                     <img src="{{ asset('storage/' . $item->gambar_thumbnail) }}" class="w-full h-full object-cover" onerror="this.src='{{ asset('storage/' . $item->gambar) }}'" />
                 </figure>
                 <div class="card-body p-4">
-                    <h2 class="card-title text-lg">{{ $item->nama_wisata }}</h2>
+                    <div class="flex items-start justify-between gap-2 mb-1">
+                        <h2 class="card-title text-lg">{{ $item->nama_wisata }}</h2>
+                        @if($item->tampil_dashboard)
+                        <span class="badge badge-primary badge-sm text-white">🏠 Dashboard</span>
+                        @endif
+                    </div>
                     <div class="text-sm text-gray-500 mb-2">
                         <i class="ph ph-map-pin"></i> {{ $item->alamat }}
                     </div>
@@ -47,10 +52,7 @@
 
                     <div class="card-actions justify-end">
                         <a href="{{ route('wisata.edit', $item->id) }}" class="btn btn-sm btn-warning">Edit</a>
-                        <form action="{{ route('wisata.destroy', $item->id) }}" method="POST" onsubmit="return confirm('Hapus wisata ini?');">
-                            @csrf @method('DELETE')
-                            <button class="btn btn-sm btn-error text-white">Hapus</button>
-                        </form>
+                        <button type="button" class="btn btn-sm btn-error text-white" data-delete-url="{{ route('wisata.destroy', $item->id) }}" onclick="handleSingleDelete(this)">Hapus</button>
                     </div>
                 </div>
             </div>
@@ -58,6 +60,11 @@
             <div class="col-span-full text-center p-10 text-gray-500">Belum ada data wisata.</div>
             @endforelse
         </div>
+    </form>
+
+    <form id="single-delete-form" method="POST" style="display:none;">
+        @csrf
+        @method('DELETE')
     </form>
 
     <script>
@@ -85,6 +92,14 @@
             rowCheckboxes.forEach(cb => {
                 cb.addEventListener('change', updateSelectedCount);
             });
+
+            window.handleSingleDelete = function(button) {
+                if (!confirm('Hapus wisata ini?')) return;
+                const url = button.getAttribute('data-delete-url');
+                const form = document.getElementById('single-delete-form');
+                form.action = url;
+                form.submit();
+            };
         });
 
     </script>

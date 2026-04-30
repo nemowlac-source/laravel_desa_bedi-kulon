@@ -41,13 +41,17 @@ class DatabaseSeeder extends Seeder
 
         // --- 2. PANGGIL SEEDER LAINNYA ---
         // Masukkan semua Class Seeder yang sudah kita buat di sini
-        // $this->call([         // Data Agregat per Dusun
-        // PendudukAgamaSeeder::class,     // Statistik Agama
-        // PendudukKawinSeeder::class,     // Statistik Perkawinan
-        // PendudukPekerjaanSeeder::class, // Statistik Pekerjaan
-        // PendudukPendidikanSeeder::class, // Statistik Pendidikan
-        // PendudukUsiaSeeder::class,      // Statistik Umur (Piramida)
-        // PendudukWajibPilihSeeder::class, // Statistik Wajib Pilih
-        // ]);
+        $this->call([
+            AdminTesterSeeder::class,
+            FrontendTesterSeeder::class,
+            PendudukTesterSeeder::class,
+            PerangkatDesaSeeder::class,
+            // PendudukAgamaSeeder::class,     // Statistik Agama
+            // PendudukKawinSeeder::class,     // Statistik Perkawinan
+            // PendudukPekerjaanSeeder::class, // Statistik Pekerjaan
+            // PendudukPendidikanSeeder::class, // Statistik Pendidikan
+            // PendudukUsiaSeeder::class,      // Statistik Umur (Piramida)
+            // PendudukWajibPilihSeeder::class, // Statistik Wajib Pilih
+        ]);
     }
 }

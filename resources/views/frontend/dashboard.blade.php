@@ -1356,15 +1356,14 @@
                 $wisata_unggulan = $wisata_desa->firstWhere('id', 1) ?? $wisata_desa->first();
                 }
                 @endphp
-
                 @if($wisata_unggulan)
                 {{-- Wrapper slider HANYA dirender jika data wisata ADA --}}
                 <div class="wisata-wrapper-utama relative">
 
-                    {{-- Fallback gambar background---}}
+                    {{-- Fallback gambar background --}}
                     @php
                     $gambarBgFallback = 'https://placehold.co/1920x1080?text=Wisata+Desa';
-                    $gambarBgUrl = !empty($wisata_unggulan->gambar) ? asset('storage/' . $wisata_unggulan->gambar) : $gambarBgFallback;
+                    $gambarBgUrl = !empty($wisata_unggulan->gambar_thumbnail) ? asset('storage/' . $wisata_unggulan->gambar_thumbnail) : (!empty($wisata_unggulan->gambar) ? asset('storage/' . $wisata_unggulan->gambar) : $gambarBgFallback);
                     @endphp
 
                     {{-- background-Luar mengambil dari gambar wisata unggulan --}}
@@ -1382,15 +1381,15 @@
 
                         <div class="wisata-inner-slider">
                             {{-- Cek Route sebelum merender link --}}
-                            <a href="{{ Route::has('frontend.show') ? route('frontend.show', $wisata_unggulan->id) : '#' }}" class="wisata-slide fade group block relative" style="display: block;">
+                            <a href="{{ Route::has('frontend.show') ? route('frontend.show', $wisata_unggulan->id) : '#' }}" class="wisata-slide fade block relative" style="display: block;">
 
                                 {{-- Fallback Gambar Inner --}}
                                 @php
                                 $gambarInnerFallback = 'https://placehold.co/800x600?text=Wisata';
-                                $gambarInnerUrl = !empty($wisata_unggulan->gambar) ? asset('storage/' . $wisata_unggulan->gambar) : $gambarInnerFallback;
+                                $gambarInnerUrl = !empty($wisata_unggulan->gambar_thumbnail) ? asset('storage/' . $wisata_unggulan->gambar_thumbnail) : (!empty($wisata_unggulan->gambar) ? asset('storage/' . $wisata_unggulan->gambar) : $gambarInnerFallback);
                                 @endphp
 
-                                <img src="{{ $gambarInnerUrl }}" class="inner-image w-full h-full object-cover transition-transform duration-500 group-hover:scale-105" alt="{{ $wisata_unggulan->nama_wisata ?? 'Wisata Desa' }}" onerror="this.src='{{ $gambarInnerFallback }}'">
+                                <img src="{{ $gambarInnerUrl }}" class="inner-image w-full h-full object-cover" alt="{{ $wisata_unggulan->nama_wisata ?? 'Wisata Desa' }}" onerror="this.src='{{ $gambarInnerFallback }}'">
 
                                 <div class="inner-box-gradient absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
 
@@ -1465,14 +1464,14 @@
                 @foreach($wisata_desa as $item)
                 {{-- Card Individual: Dibuat tinggi (h-[400px]) untuk menonjolkan foto --}}
                 {{-- PERBAIKAN: Menggunakan route('frontend.show') sesuai standar detail Wisata Desktop --}}
-                <a href="{{ Route::has('frontend.show') ? route('frontend.show', $item->id) : '#' }}" class="snap-start shrink-0 relative w-[85%] h-[400px] rounded-[1.5rem] overflow-hidden shadow-[0_8px_25px_rgba(0,0,0,0.1)] block group bg-gray-200">
+                <a href="{{ Route::has('frontend.show') ? route('frontend.show', $item->id) : '#' }}" class="snap-start shrink-0 relative w-[85%] h-[400px] rounded-[1.5rem] overflow-hidden shadow-[0_8px_25px_rgba(0,0,0,0.1)] block bg-gray-200">
 
                     {{-- Foto background-dengan Error Handling --}}
                     @php
                     $gambarFallback = 'https://placehold.co/400x600?text=Wisata+Desa';
                     $gambarUrl = !empty($item->gambar_thumbnail) ? asset('storage/' . $item->gambar_thumbnail) : (!empty($item->gambar) ? asset('storage/' . $item->gambar) : $gambarFallback);
                     @endphp
-                    <img src="{{ $gambarUrl }}" alt="{{ $item->nama_wisata ?? 'Gambar Wisata' }}" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" onerror="this.src='{{ $gambarFallback }}'">
+                    <img src="{{ $gambarUrl }}" alt="{{ $item->nama_wisata ?? 'Gambar Wisata' }}" class="absolute inset-0 w-full h-full object-cover" onerror="this.src='{{ $gambarFallback }}'">
 
                     {{-- Gradient Overlay (Hitam pekat di bawah, pudar ke atas) --}}
                     <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"></div>

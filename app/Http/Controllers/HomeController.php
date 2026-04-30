@@ -36,7 +36,7 @@ class HomeController extends Controller
         $berita_terbaru = Berita::latest()->take(6)->get();
         $perangkat_desa = PerangkatDesa::take(4)->get();
         $potensi_desa = Potensi::latest()->take(6)->get();
-        $wisata_desa = Wisata::latest()->take(5)->get();
+        $wisata_desa = Wisata::where('tampil_dashboard', true)->latest()->take(5)->get();
         $potensis = Potensi::latest()->take(6)->get();
         $total_laki = Penduduk::sum('laki_laki');
         $total_perempuan = Penduduk::sum('perempuan');

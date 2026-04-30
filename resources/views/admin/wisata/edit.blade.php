@@ -72,6 +72,26 @@
                 <input type="text" name="alamat" value="{{ $wisata->alamat }}" class="input input-bordered" required>
             </div>
 
+            @if(session('error'))
+            <div class="alert alert-error mb-4 text-white">
+                {{ session('error') }}
+            </div>
+            @endif
+
+            <div class="form-control mb-4">
+                <label class="label cursor-pointer justify-start gap-3">
+                    <input type="checkbox" name="tampil_dashboard" class="checkbox checkbox-primary" value="1" {{ $wisata->tampil_dashboard ? 'checked' : '' }} {{ $existingDashboardWisata ? 'disabled' : '' }}>
+                    <span class="label-text font-bold {{ $existingDashboardWisata ? 'text-gray-400' : '' }}">Tampilkan di Dashboard Pengunjung</span>
+                </label>
+                <label class="label">
+                    @if($existingDashboardWisata)
+                    <span class="label-text-alt text-red-500 font-semibold">Wisata "{{ $existingDashboardWisata->nama_wisata }}" sudah ditampilkan di dashboard. Matikan terlebih dahulu jika ingin mengganti.</span>
+                    @else
+                    <span class="label-text-alt text-gray-500">Centang agar wisata ini muncul di halaman utama website.</span>
+                    @endif
+                </label>
+            </div>
+
             <div class="form-control mb-4">
                 <label class="label font-bold">Ganti Foto (Opsional)</label>
                 <input type="file" name="gambar" id="file-input" class="file-input file-input-bordered" accept="image/jpeg,image/jpg,image/png,image/webp">

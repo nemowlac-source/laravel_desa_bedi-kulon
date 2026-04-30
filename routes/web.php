@@ -76,8 +76,8 @@ Route::middleware('auth')->group(function () {
         Route::delete('perangkat/bulk-destroy', [PerangkatDesaController::class, 'bulkDestroy'])->name('perangkat.bulk-destroy');
         Route::resource('potensi', PotensiController::class);
         Route::delete('potensi/bulk-destroy', [PotensiController::class, 'bulkDestroy'])->name('potensi.bulk-destroy');
-        Route::resource('wisata', WisataController::class);
         Route::delete('wisata/bulk-destroy', [WisataController::class, 'bulkDestroy'])->name('wisata.bulk-destroy');
+        Route::resource('wisata', WisataController::class)->except(['show']);
 
         // Penduduk routes dengan import
         Route::get('penduduk/import', [PendudukController::class, 'import'])->name('penduduk.import');

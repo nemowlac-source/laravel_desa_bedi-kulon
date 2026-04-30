@@ -48,23 +48,6 @@
                 </select>
             </div>
 
-            <div class="form-control mb-6">
-                <label class="label font-bold">Foto Dokumentasi (Opsional)</label>
-                <input type="file" name="foto" id="file-input" class="file-input file-input-bordered w-full" accept="image/jpeg,image/jpg,image/png,image/webp">
-                <label class="label">
-                    <span class="label-text-alt text-gray-500">Bukti penyerahan bantuan. Maksimal 64MB (JPEG, PNG, WebP)</span>
-                </label>
-                <div id="file-info" class="hidden mt-2 p-3 rounded-lg bg-blue-50 text-sm">
-                    <div class="flex justify-between">
-                        <span id="file-name" class="font-medium text-blue-800"></span>
-                        <span id="file-size" class="font-bold text-blue-600"></span>
-                    </div>
-                    <div id="file-warning" class="hidden mt-1 text-red-600 font-semibold text-xs">
-                        ⚠️ Ukuran file melebihi 64MB!
-                    </div>
-                </div>
-            </div>
-
             <!-- Loading State -->
             <div id="loading-state" class="hidden mb-4">
                 <div class="flex items-center gap-3 p-4 bg-blue-50 rounded-lg">

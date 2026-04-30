@@ -10,7 +10,7 @@ class PengaduanController extends Controller
 {
     public function index()
     {
-        $pengaduans = Pengaduan::latest()->get();
+        $pengaduans = Pengaduan::latest()->paginate(10);
         return view('admin.pengaduan.index', compact('pengaduans'));
     }
 
