@@ -122,7 +122,6 @@
                         <span class="nav-text text-[10px] md:text-sm font-bold text-gray-500">Bansos</span>
                     </a>
                 </div>
-
             </div>
         </div>
 
