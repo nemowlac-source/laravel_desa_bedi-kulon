@@ -69,11 +69,7 @@
                     </h1>
                 </div>
 
-                {{-- PERBAIKAN DI SINI: --}}
-                {{-- Kita hapus gap-12 di mobile, ganti jadi gap-1 saja --}}
-                {{-- Kita ganti justify-end menjadi justify-around agar 4 item tersebar rata --}}
-                <div class="nav-menu flex flex-row flex-nowrap w-full md:w-auto justify-around md:justify-end items-end gap-1 md:gap-10">
-
+                <div class="nav-menu flex flex-row flex-nowrap w-full md:w-auto justify-around md:justify-end items-end gap-10">
                     <!-- Item 1: Penduduk -->
                     <a href="{{ route('frontend.infografis') }}" class="nav-item flex flex-col items-center justify-center text-center flex-1 md:flex-none md:px-4 pb-2 {{ Route::is('frontend.infografis') ? 'active' : '' }}">
                         <div class="icon-box w-7 h-7 md:w-10 md:h-10 flex items-center justify-center mb-1">
@@ -125,8 +121,8 @@
                         </div>
                         <span class="nav-text text-[10px] md:text-sm font-bold text-gray-500">Bansos</span>
                     </a>
-
                 </div>
+
             </div>
         </div>
 
