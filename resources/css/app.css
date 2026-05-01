@@ -4089,7 +4089,6 @@ nav.scrolled {
 /* Styling Menu Kanan - Responsif */
 .nav-menu {
     display: flex;
-    gap: 80px;
     width: auto;
     max-width: 100%;
 }
