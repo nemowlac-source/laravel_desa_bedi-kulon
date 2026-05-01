@@ -60,8 +60,8 @@
         {{-- ========================================== --}}
         {{-- 1. VERSI MOBILE & DESKTOP (Header)         --}}
         {{-- ========================================== --}}
-        <div class="w-full max-w-7xl mx-auto mt-16 mb-8 px-2"> {{-- Tambah sedikit padding horizontal agar tidak mepet layar --}}
-            <div class="header-infografis flex flex-col md:flex-row md:justify-between md:items-end w-full gap-4 md:gap-6 pb-3 border-b border-gray-200/60">
+        <div class="w-full max-w-7xl mx-auto mt-16 mb-8 px-2">
+            <div class="header-infografis flex flex-col md:flex-row md:justify-between md:items-end w-full pb-3 border-b border-gray-200/60">
 
                 <div class="hidden md:block brand-title">
                     <h1 class="text-3xl lg:text-4xl font-extrabold text-[#2ac0b4] uppercase leading-tight tracking-tight">
@@ -69,11 +69,13 @@
                     </h1>
                 </div>
 
-                {{-- Nav Menu: Pastikan grid-cols-4 dan gap diperkecil untuk mobile --}}
-                <div class="nav-menu grid grid-cols-4 md:flex w-full md:w-auto justify-items-center md:justify-end gap-1 md:gap-6 lg:gap-10">
+                {{-- PERBAIKAN DI SINI: --}}
+                {{-- Kita hapus gap-12 di mobile, ganti jadi gap-1 saja --}}
+                {{-- Kita ganti justify-end menjadi justify-around agar 4 item tersebar rata --}}
+                <div class="nav-menu flex flex-row flex-nowrap w-full md:w-auto justify-around md:justify-end items-end gap-1 md:gap-10">
 
-                    {{-- Item 1: Penduduk --}}
-                    <a href="{{ route('frontend.infografis') }}" class="nav-item flex flex-col items-center justify-center text-center w-full md:w-auto pb-2 md:pb-3 {{ Route::is('frontend.infografis') ? 'active' : '' }}">
+                    <!-- Item 1: Penduduk -->
+                    <a href="{{ route('frontend.infografis') }}" class="nav-item flex flex-col items-center justify-center text-center flex-1 md:flex-none md:px-4 pb-2 {{ Route::is('frontend.infografis') ? 'active' : '' }}">
                         <div class="icon-box w-7 h-7 md:w-10 md:h-10 flex items-center justify-center mb-1">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M9 7m-4 0a4 4 0 1 0 8 0a4 4 0 1 0 -8 0"></path>
@@ -82,11 +84,11 @@
                                 <path d="M21 21v-2a4 4 0 0 0 -3 -3.85"></path>
                             </svg>
                         </div>
-                        <span class="nav-text text-[10px] md:text-sm font-bold text-gray-500 truncate w-full">Penduduk</span>
+                        <span class="nav-text text-[10px] md:text-sm font-bold text-gray-500">Penduduk</span>
                     </a>
 
-                    {{-- Item 2: APBDes --}}
-                    <a href="{{ route('frontend.apbdes') }}" class="nav-item flex flex-col items-center justify-center text-center w-full md:w-auto pb-2 md:pb-3 {{ Route::is('frontend.apbdes') ? 'active' : '' }}">
+                    <!-- Item 2: APBDes -->
+                    <a href="{{ route('frontend.apbdes') }}" class="nav-item flex flex-col items-center justify-center text-center flex-1 md:flex-none md:px-4 pb-2 {{ Route::is('frontend.apbdes') ? 'active' : '' }}">
                         <div class="icon-box w-7 h-7 md:w-10 md:h-10 flex items-center justify-center mb-1">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M7 9m0 2a2 2 0 0 1 2 -2h10a2 2 0 0 1 2 2v6a2 2 0 0 1 -2 2h-10a2 2 0 0 1 -2 -2z"></path>
@@ -94,11 +96,11 @@
                                 <path d="M17 9v-2a2 2 0 0 0 -2 -2h-10a2 2 0 0 0 -2 2v6a2 2 0 0 0 2 2h2"></path>
                             </svg>
                         </div>
-                        <span class="nav-text text-[10px] md:text-sm font-bold text-gray-500 truncate w-full">APBDes</span>
+                        <span class="nav-text text-[10px] md:text-sm font-bold text-gray-500">APBDes</span>
                     </a>
 
-                    {{-- Item 3: Stunting --}}
-                    <a href="{{ route('frontend.stunting') }}" class="nav-item flex flex-col items-center justify-center text-center w-full md:w-auto pb-2 md:pb-3 {{ Route::is('frontend.stunting') ? 'active' : '' }}">
+                    <!-- Item 3: Stunting -->
+                    <a href="{{ route('frontend.stunting') }}" class="nav-item flex flex-col items-center justify-center text-center flex-1 md:flex-none md:px-4 pb-2 {{ Route::is('frontend.stunting') ? 'active' : '' }}">
                         <div class="icon-box w-7 h-7 md:w-10 md:h-10 flex items-center justify-center mb-1">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M3 12m0 1a1 1 0 0 1 1 -1h4a1 1 0 0 1 1 1v6a1 1 0 0 1 -1 1h-4a1 1 0 0 1 -1 -1z"></path>
@@ -107,11 +109,11 @@
                                 <path d="M4 20l14 0"></path>
                             </svg>
                         </div>
-                        <span class="nav-text text-[10px] md:text-sm font-bold text-gray-500 truncate w-full">Stunting</span>
+                        <span class="nav-text text-[10px] md:text-sm font-bold text-gray-500">Stunting</span>
                     </a>
 
-                    {{-- Item 4: Bansos --}}
-                    <a href="{{ route('frontend.bansos') }}" class="nav-item flex flex-col items-center justify-center text-center w-full md:w-auto pb-2 md:pb-3 {{ Route::is('frontend.bansos') ? 'active' : '' }}">
+                    <!-- Item 4: Bansos -->
+                    <a href="{{ route('frontend.bansos') }}" class="nav-item flex flex-col items-center justify-center text-center flex-1 md:flex-none md:px-4 pb-2 {{ Route::is('frontend.bansos') ? 'active' : '' }}">
                         <div class="icon-box w-7 h-7 md:w-10 md:h-10 flex items-center justify-center mb-1">
                             <svg xmlns="http://www.w3.org/2000/svg" class="w-full h-full" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M12 3l8 4.5v9l-8 4.5l-8 -4.5v-9l8 -4.5"></path>
@@ -121,7 +123,7 @@
                                 <path d="M16 5.25l-8 4.5"></path>
                             </svg>
                         </div>
-                        <span class="nav-text text-[10px] md:text-sm font-bold text-gray-500 truncate w-full">Bansos</span>
+                        <span class="nav-text text-[10px] md:text-sm font-bold text-gray-500">Bansos</span>
                     </a>
 
                 </div>
